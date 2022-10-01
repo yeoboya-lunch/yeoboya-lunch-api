@@ -1,0 +1,24 @@
+server:
+  port: 463
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    context-path: /api
+
+
+logging:
+  config: classpath:log/logback-real.xml
+
+spring:
+  profiles:
+    active: "local"
+
+mybatis:
+  mapper-locations: mapper/*.xml
+  configuration:
+    default-fetch-size: '100'
+    default-statement-timeout: '30'
+    map-underscore-to-camel-case: 'true'
+

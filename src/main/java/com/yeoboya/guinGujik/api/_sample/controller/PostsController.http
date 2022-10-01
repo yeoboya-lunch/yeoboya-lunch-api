@@ -1,0 +1,8 @@
+
+POST http://localhost:463/api/posts
+Content-Type: application/json
+
+{
+    "title":"타이틀 입력",
+    "content":"컨텐츠입니다."
+}

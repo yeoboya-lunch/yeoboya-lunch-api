@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <property name="CONSOLE_LOG_COLOR" value="%clr(%d{yyyy/MM/dd HH:mm:ss.SSS}){faint} %clr(|){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(|){faint} %clr(%-30F){cyan}%clr(:%-4L){magenta} %clr(|){faint} %m%n"/>
+
+    <appender name="STDOUT_COMMON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_COLOR}</pattern>
+        </encoder>
+    </appender>
+
+    <springProfile name="real">
+        <root level="warn">
+            <appender-ref ref="STDOUT_COMMON"/>
+        </root>
+    </springProfile>
+
+</configuration>
