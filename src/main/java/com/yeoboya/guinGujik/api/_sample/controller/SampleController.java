@@ -3,7 +3,6 @@ package com.yeoboya.guinGujik.api._sample.controller;
 import com.yeoboya.guinGujik.annotation.TimeLogging;
 import com.yeoboya.guinGujik.api._sample.service.SampleService;
 import com.yeoboya.guinGujik.common.BasicResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +14,16 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class SampleController {
 
+//    private static SampleService sampleService;
+
     private final SampleService sampleService;
+
+    public SampleController(SampleService sampleService) {
+        this.sampleService = sampleService;
+    }
 
     @TimeLogging
     @GetMapping("/sample")
