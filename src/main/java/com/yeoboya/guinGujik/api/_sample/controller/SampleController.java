@@ -14,10 +14,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-//@RequiredArgsConstructor
 public class SampleController {
-
-//    private static SampleService sampleService;
 
     private final SampleService sampleService;
 
@@ -34,7 +31,7 @@ public class SampleController {
         BasicResponse basicResponse = BasicResponse.builder()
                 .code(HttpStatus.OK.value())
                 .httpStatus(HttpStatus.OK)
-                .message("경험치 조회 성공~ㅋ")
+                .message("TimeLogging 기록입니다")
                 .result(responseData)
                 .build();
 

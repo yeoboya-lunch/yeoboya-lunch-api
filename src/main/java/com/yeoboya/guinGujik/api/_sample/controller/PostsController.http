@@ -1,8 +1,0 @@
-
-POST http://localhost:463/api/posts
-Content-Type: application/json
-
-{
-    "title":"",
-    "content":"컨텐츠입니다."
-}

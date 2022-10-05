@@ -1,0 +1,23 @@
+
+POST http://localhost:463/api/posts
+Content-Type: application/json
+
+{
+    "title":"",
+    "content":"컨텐츠입니다."
+}
+
+### 최초 실행 10초 그 이후 캐시 적용 (5분 동안)
+GET http://localhost:463/api/caffeine/greet
+
+### 1분동안 같은 숫자 캐싱 (id=hyinjin)
+GET http://localhost:463/api/caffeine/random?id=hyunjin
+
+### id=yeoboya
+GET http://localhost:463/api/caffeine/random?id=yeoboya
+
+### 특정 아이디에 해당하는 캐시 삭제
+GET http://localhost:463/api/caffeine/delete-cache?id=hyunjin
+
+### 캐시 전부 삭제
+GET http://localhost:463/api/caffeine/delete-all-cache

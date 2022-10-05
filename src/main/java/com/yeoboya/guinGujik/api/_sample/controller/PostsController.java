@@ -16,7 +16,7 @@ public class PostsController {
         this.service = service;
     }
 
-    // test/../PostsControllerTest.java or ./PostsController.http 테스트
+    // test/../PostsControllerTest.java or ./client.http 테스트
     @PostMapping("/posts")
     public String post(@RequestBody @Valid PostsCreateDto postsCreateDto){
         log.info("in /posts {}", postsCreateDto);
