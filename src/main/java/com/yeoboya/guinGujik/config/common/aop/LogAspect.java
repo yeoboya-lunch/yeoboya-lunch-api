@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.common.aop;
+package com.yeoboya.guinGujik.config.common.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,7 +16,7 @@ public class LogAspect {
 //    @Pointcut("execution(* *..*Controller.*(..)))")
 //    private void allController(){}
 
-    @Around("@annotation(com.yeoboya.guinGujik.annotation.TimeLogging)")
+    @Around("@annotation(com.yeoboya.guinGujik.config.annotation.TimeLogging)")
     public Object calcPerformanceAdvice(ProceedingJoinPoint pjp) throws Throwable {
         String proceedName = pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName();
         log.info("[" + proceedName + "] 시작");

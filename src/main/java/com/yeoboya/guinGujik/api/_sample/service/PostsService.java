@@ -1,8 +1,8 @@
 package com.yeoboya.guinGujik.api._sample.service;
 
-import com.yeoboya.guinGujik.annotation.Retry;
-import com.yeoboya.guinGujik.annotation.Trace;
 import com.yeoboya.guinGujik.api._sample.repository.PostsRepository;
+import com.yeoboya.guinGujik.config.annotation.Retry;
+import com.yeoboya.guinGujik.config.annotation.Trace;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.common;
+package com.yeoboya.guinGujik.config.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

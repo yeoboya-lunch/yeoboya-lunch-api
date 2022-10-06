@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.annotation;
+package com.yeoboya.guinGujik.config.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

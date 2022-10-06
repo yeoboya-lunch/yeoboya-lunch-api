@@ -1,8 +1,8 @@
 package com.yeoboya.guinGujik.api._sample.controller;
 
-import com.yeoboya.guinGujik.annotation.TimeLogging;
 import com.yeoboya.guinGujik.api._sample.service.SampleService;
-import com.yeoboya.guinGujik.common.BasicResponse;
+import com.yeoboya.guinGujik.config.annotation.TimeLogging;
+import com.yeoboya.guinGujik.config.common.BasicResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

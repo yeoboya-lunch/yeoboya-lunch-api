@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.exception;
+package com.yeoboya.guinGujik.config.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

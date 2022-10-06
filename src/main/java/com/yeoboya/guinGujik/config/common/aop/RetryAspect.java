@@ -1,6 +1,6 @@
-package com.yeoboya.guinGujik.common.aop;
+package com.yeoboya.guinGujik.config.common.aop;
 
-import com.yeoboya.guinGujik.annotation.Retry;
+import com.yeoboya.guinGujik.config.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -40,7 +40,7 @@ public class RetryAspect {
     @Component
     @Order(2)
     public static class Trace{
-        @Before("@annotation(com.yeoboya.guinGujik.annotation.Trace)")
+        @Before("@annotation(com.yeoboya.guinGujik.config.annotation.Trace)")
         public void doTrace(JoinPoint joinPoint) {
             Object[] args = joinPoint.getArgs();
             log.info("[trace] {} args={}", joinPoint.getSignature(), args);

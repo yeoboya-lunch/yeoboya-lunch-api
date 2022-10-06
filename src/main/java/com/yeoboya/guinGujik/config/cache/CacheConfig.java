@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.cache;
+package com.yeoboya.guinGujik.config.cache;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
