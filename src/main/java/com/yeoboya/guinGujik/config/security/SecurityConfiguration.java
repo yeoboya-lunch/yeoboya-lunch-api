@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -19,8 +18,8 @@ public class SecurityConfiguration {
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtExceptionFilter jwtExceptionFilter;
+//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final JwtExceptionFilter jwtExceptionFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -55,8 +54,8 @@ public class SecurityConfiguration {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
+//        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
         http.apply(new JwtSecurityConfig(jwtTokenProvider));
 
 

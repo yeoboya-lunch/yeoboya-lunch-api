@@ -1,6 +1,9 @@
 package com.yeoboya.guinGujik.config.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * AuthenticationEntryPoint
@@ -21,8 +25,22 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public JwtAuthenticationEntryPoint(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
-        log.warn("fixme");
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+
+        try (OutputStream os = httpServletResponse.getOutputStream()) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writeValue(os, "인증실패");
+            os.flush();
+        }
     }
 }

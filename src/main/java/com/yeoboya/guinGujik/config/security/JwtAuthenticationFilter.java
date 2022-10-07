@@ -1,9 +1,5 @@
 package com.yeoboya.guinGujik.config.security;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -26,27 +22,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try {
-            String token = jwtTokenProvider.resolveToken(request);
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
-            throw new JwtException("JWT claims string is empty");
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
-            throw new JwtException("Expired JWT Token");
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-            throw new JwtException("Invalid JWT Token");
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
-            throw new JwtException("Unsupported JWT Token");
-        }
+        // 1. Request Header 에서 JWT 토큰 추출
+        String token = jwtTokenProvider.resolveToken(request);
 
+        // 2. validateToken 으로 토큰 유효성 검사
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
         filterChain.doFilter(request, response);
     }
+
+
+
 
 }
