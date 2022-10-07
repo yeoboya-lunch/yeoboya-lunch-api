@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.config.common.aop;
+package com.yeoboya.guinGujik.config.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

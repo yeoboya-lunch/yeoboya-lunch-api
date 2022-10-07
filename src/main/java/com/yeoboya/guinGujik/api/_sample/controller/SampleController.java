@@ -2,54 +2,40 @@ package com.yeoboya.guinGujik.api._sample.controller;
 
 import com.yeoboya.guinGujik.api._sample.service.SampleService;
 import com.yeoboya.guinGujik.config.annotation.TimeLogging;
-import com.yeoboya.guinGujik.config.common.BasicResponse;
+import com.yeoboya.guinGujik.config.common.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Slf4j
 @RestController
+@RequestMapping("/sample")
 public class SampleController {
 
     private final SampleService sampleService;
+    private final Response response;
 
-    public SampleController(SampleService sampleService) {
+    public SampleController(SampleService sampleService, Response response) {
         this.sampleService = sampleService;
+        this.response = response;
     }
 
     @TimeLogging
-    @GetMapping("/sample")
-    public BasicResponse sampleAction(HttpServletRequest request, HttpServletResponse response){
-
+    @GetMapping("/time-log")
+    public ResponseEntity<?> sampleAction(){
         Map<String, Object> responseData = sampleService.sampleBiz();
-
-        BasicResponse basicResponse = BasicResponse.builder()
-                .code(HttpStatus.OK.value())
-                .httpStatus(HttpStatus.OK)
-                .message("TimeLogging 기록입니다")
-                .result(responseData)
-                .build();
-
-        return basicResponse;
+        return response.success(responseData, "타임로깅");
     }
 
-    @GetMapping("/time-no-logging")
-    public BasicResponse noLogging(HttpServletRequest request, HttpServletResponse response){
+    @GetMapping("/time-no-log")
+    public ResponseEntity<?> noLogging(){
         log.warn("no logging");
+        return response.success("타임로깅 안찍힙니다.");
 
-        BasicResponse basicResponse = BasicResponse.builder()
-                .code(HttpStatus.OK.value())
-                .httpStatus(HttpStatus.OK)
-                .message("TimeLogging 어노테이션 없으면 노깅 안찍혀요~")
-                .result(null)
-                .build();
-
-        return basicResponse;
     }
 
 

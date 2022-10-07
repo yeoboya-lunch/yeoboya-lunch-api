@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.config.common.aop;
+package com.yeoboya.guinGujik.config.aspect;
 
 import com.yeoboya.guinGujik.config.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;

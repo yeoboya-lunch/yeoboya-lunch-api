@@ -16,11 +16,11 @@ public class ExceptionController {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e){
+    public ExceptionResponse invalidRequestHandler(MethodArgumentNotValidException e){
         if(e.hasErrors()){
             log.error("메서드 인수가 유효하지 않는 예외 발생");
-            ErrorResponse response = new ErrorResponse("400", "잘못된 요청입니다.");
-//            ErrorResponse response = ErrorResponse.getInstance("400", "잘못된 요청입니다.");
+            ExceptionResponse response = new ExceptionResponse(400, "잘못된 요청입니다.");
+//            ErrorResponse response = ErrorResponse.getInstance(400, "잘못된 요청입니다.");
             for (FieldError fieldError : e.getFieldErrors()){
                 response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
             }

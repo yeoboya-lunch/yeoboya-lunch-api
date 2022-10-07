@@ -16,7 +16,6 @@ public class Response {
     @Getter
     @Builder
     private static class Body {
-
         private int state;
         private String result;
         private String massage;
@@ -33,6 +32,25 @@ public class Response {
                 .error(Collections.emptyList())
                 .build();
         return ResponseEntity.ok(body);
+    }
+
+    /**
+     * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
+     * <pre>
+     *     {
+     *         "state" : 200,
+     *         "result" : success,
+     *         "message" : null,
+     *         "data" : [{data1}, {data2}...],
+     *         "error" : []
+     *     }
+     * </pre>
+     *
+     * @param msg 응답 바디 message 필드에 포함될 정보
+     * @return 응답 객체
+     */
+    public ResponseEntity<?> success(Object data, String msg) {
+        return success(data, msg, HttpStatus.OK);
     }
 
     /**

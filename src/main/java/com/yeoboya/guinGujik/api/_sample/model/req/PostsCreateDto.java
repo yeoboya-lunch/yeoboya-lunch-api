@@ -24,11 +24,10 @@ public class PostsCreateDto {
     @NotBlank(message = "콘텐츠를 입력해주세요.")
     private String content;
 
-
-    public String getTitle(){
-        // 아래와 같은 코드 서비스의 정책을 넣지마세요!!! 절대!!!
-        return this.title.substring(0,10);
-    }
+    //아래와 같은 서비스 정책을 setter 에 넣지마세요!!! 절대!!~
+//    public String getTitle(){
+//        return this.title.substring(0,10);
+//    }
 
     public PostsCreateDto changeTitle(String title){
         return PostsCreateDto.builder()

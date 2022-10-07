@@ -25,6 +25,10 @@ public class UsersRepository {
         log.warn("회원가입 성공 : {}", user);
     }
 
+    public void update(Users user){
+        log.warn("회원업데이트 성공 : {}", user);
+    }
+
     public Optional<Users> findByEmail(String email) {
         List<String> role = new ArrayList<>();
         role.add(Authority.ROLE_USER.name());

@@ -18,9 +18,9 @@ import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
-public class ErrorResponse {
+public class ExceptionResponse {
 
-    private final String code;
+    private final Integer code;
     private final String message;
     private final Map<String, String> validation = new HashMap<>();
 

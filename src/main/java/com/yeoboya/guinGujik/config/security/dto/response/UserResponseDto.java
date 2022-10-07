@@ -10,10 +10,15 @@ public class UserResponseDto {
     @Getter
     @AllArgsConstructor
     public static class TokenInfo {
-        private String grantType;
+        private String subject;
+        private String id;
+        private String issuer;
+        private String issueDAt;
         private String accessToken;
+        private String tokenExpirationTime;           //토큰유효기간
         private String refreshToken;
-        private Long refreshTokenExpirationTime;
+        private String refreshTokenExpirationTime;    //refresh 토큰유효기간
+        private String grantType;
     }
 
 }

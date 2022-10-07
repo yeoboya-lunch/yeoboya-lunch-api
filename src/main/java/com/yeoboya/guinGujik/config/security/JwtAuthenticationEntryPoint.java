@@ -20,9 +20,9 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
-        log.error("UnAuthorized : {} message : {}", request.getRequestURI(), e.getMessage());
-        response.sendRedirect("/auth/signIn");
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
+        log.warn("fixme");
     }
 }
