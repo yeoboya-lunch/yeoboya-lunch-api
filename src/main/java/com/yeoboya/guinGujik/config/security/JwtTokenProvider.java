@@ -1,6 +1,6 @@
 package com.yeoboya.guinGujik.config.security;
 
-import com.yeoboya.guinGujik.config.security.dto.response.UserResponseDto;
+import com.yeoboya.guinGujik.config.security.dto.Token;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -24,14 +25,6 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
-/**
- * JWT 토큰을 발행하고,
- * Payload 에 들어간 클레임을 통해 User 객체를 생성하여 Authentication 객체를 반환하고,
- * HTTP Request  Header 로부터 토큰을 가져오고,
- * 토큰을 검증하는 모든 기능을 JwtTokenProvider 에 구현해주었다.
- */
-
 @Component
 @Slf4j
 public class JwtTokenProvider {
@@ -39,10 +32,10 @@ public class JwtTokenProvider {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_TYPE = "Bearer";
     private static final String AUTHORITIES_KEY = "auth";
-    //    private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;              // 30분
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 20 * 1000L;    //20s
-    //    private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 1000L;   //1m
+            private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;              // 30분
+//    private static final long ACCESS_TOKEN_EXPIRE_TIME = 20 * 1000L;    //20s
+        private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
+//    private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 1000L;   //1m
 
 
     private final Key key;
@@ -53,7 +46,7 @@ public class JwtTokenProvider {
     }
 
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
-    public UserResponseDto.TokenInfo generateToken(Authentication authentication) {
+    public Token generateToken(Authentication authentication) {
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -71,6 +64,7 @@ public class JwtTokenProvider {
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+
         // Refresh Token 생성
         Date refreshAccessTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
         String refreshToken = Jwts.builder()
@@ -78,28 +72,27 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        Claims claims = parseClaims(accessToken);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
+        Claims claims = this.parseClaims(accessToken);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String accessTokenExpiresInStr = sdf.format(accessTokenExpiresIn);
         String refreshAccessTokenExpiresInStr = sdf.format(refreshAccessTokenExpiresIn);
 
-        return UserResponseDto.TokenInfo.builder()
+        return Token.builder()
                 .subject(claims.getSubject())
                 .id(claims.getId())
                 .issuer(claims.getIssuer())
                 .issueDAt(String.valueOf(claims.getIssuedAt()))
                 .accessToken(accessToken)
                 .tokenExpirationTime(accessTokenExpiresInStr)
-                .grantType("Bearer")
                 .refreshToken(refreshToken)
                 .refreshTokenExpirationTime(refreshAccessTokenExpiresInStr)
                 .build();
     }
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
-    public Authentication getAuthentication(String accessToken) {
+    public Authentication getAuthentication(String token) {
         // 토큰 복호화
-        Claims claims = parseClaims(accessToken);
+        Claims claims = this.parseClaims(token);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
@@ -107,7 +100,7 @@ public class JwtTokenProvider {
 
         // 클레임에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                Arrays.stream(String.valueOf(claims.get(AUTHORITIES_KEY)).split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
@@ -116,35 +109,44 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+
+    //토큰 유효성검사
     public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
-        }
-        return false;
+        return this.parseClaims(token) != null;
     }
 
-    // accessToken 남은 유효시간
+    //토큰 parse
+    private Claims parseClaims(String accessToken) {
+        try {
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+        } catch (SecurityException e) {
+            throw new JwtException("SecurityException");
+        } catch (MalformedJwtException e) {
+            throw new JwtException("MalformedJwtException");
+        } catch (UnsupportedJwtException e) {
+            throw new JwtException("UnsupportedJwtException");
+        } catch (ExpiredJwtException e) {
+            throw new JwtException("ExpiredJwtException");
+        } catch (SignatureException e) {
+            throw new JwtException("SignatureException");
+        } catch (IllegalArgumentException e) {
+            throw new JwtException("IllegalArgumentException");
+        }
+    }
+
+    // 발행된 토큰 가져오기
+    public Token.IssuedToken getToken(HttpServletRequest request) {
+        String accessToken = this.resolveToken(request);
+        Claims claims = this.parseClaims(accessToken);
+        return Token.IssuedToken.getToken(claims.getSubject(), claims.getId(), claims.getIssuer(),
+                String.valueOf(claims.getIssuedAt()), accessToken, String.valueOf(claims.getExpiration()), String.valueOf(claims.get("auth")));
+    }
+
+    // 토큰 유효기간 확인
     public Long getExpiration(String accessToken) throws ExpiredJwtException {
         Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
         Long now = new Date().getTime();
         return (expiration.getTime() - now);
-    }
-
-    private Claims parseClaims(String accessToken) {
-        try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims();
-        }
     }
 
     // Request Header 에서 토큰 정보 추출
@@ -155,5 +157,15 @@ public class JwtTokenProvider {
         }
         return null;
     }
+
+    // SecurityContext 에 담겨 있는 authentication userEmail 정보
+    public static String getCurrentUserEmail() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getName() == null) {
+            throw new RuntimeException("No authentication information.");
+        }
+        return authentication.getName();
+    }
+
 
 }

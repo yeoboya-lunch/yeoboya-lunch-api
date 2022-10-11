@@ -43,7 +43,7 @@ public class Caffeine {
 
     @Test
     public void addList(){
-        TestVO testVO = new TestVO("asd", "123", Collections.singletonList(Authority.ROLE_USER.name()));
+        TestVO testVO = new TestVO("asd", "123", Collections.singletonList(Authority.ROLE_ADMIN.name()));
 
         testVO.getRoles().add("123");
         log.warn("{}", testVO);

@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.config.security;
+package com.yeoboya.guinGujik.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
@@ -13,7 +13,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -22,7 +23,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         try {
-            chain.doFilter(req, res); // go to 'JwtAuthenticationFilter'
+            chain.doFilter(req, res); // JwtAuthenticationFilter
         } catch (JwtException ex) {
             setErrorResponse(HttpStatus.UNAUTHORIZED, res, ex);
         }
@@ -31,10 +32,13 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     public void setErrorResponse(HttpStatus status, HttpServletResponse httpServletResponse, Throwable ex) throws IOException {
         httpServletResponse.setStatus(status.value());
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        try (OutputStream os = httpServletResponse.getOutputStream()) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writeValue(os, ex.getMessage());
-            os.flush();
-        }
+
+        final Map<String, Object> body = new HashMap<>();
+        body.put("message", ex.getMessage());
+        body.put("status", status.value());
+
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(httpServletResponse.getOutputStream(), body);
+
     }
 }

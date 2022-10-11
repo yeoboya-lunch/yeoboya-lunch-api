@@ -1,18 +1,16 @@
-package com.yeoboya.guinGujik.api.member.service;
+package com.yeoboya.guinGujik.config.security.service;
 
-import com.yeoboya.guinGujik.api.member.dto.Users;
-import com.yeoboya.guinGujik.api.member.repository.UsersRepository;
 import com.yeoboya.guinGujik.config.common.Response;
 import com.yeoboya.guinGujik.config.constants.Authority;
 import com.yeoboya.guinGujik.config.security.JwtTokenProvider;
-import com.yeoboya.guinGujik.config.security.dto.reqeust.UserRequestDto;
-import com.yeoboya.guinGujik.config.security.dto.response.UserResponseDto;
-import com.yeoboya.guinGujik.config.security.service.SecurityUtil;
+import com.yeoboya.guinGujik.config.security.dto.Token;
+import com.yeoboya.guinGujik.config.security.dto.Users;
+import com.yeoboya.guinGujik.config.security.dto.reqeust.UserRequest;
+import com.yeoboya.guinGujik.config.security.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,7 +31,7 @@ public class UsersService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public ResponseEntity<?> signUp(UserRequestDto.SignUp signUp) {
+    public ResponseEntity<?> signUp(UserRequest.SignUp signUp) {
         if (usersRepository.existsByEmail(signUp.getEmail())) {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
@@ -41,47 +39,43 @@ public class UsersService {
         Users user = Users.builder()
                 .email(signUp.getEmail())
                 .password(passwordEncoder.encode(signUp.getPassword()))
-                .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+                .roles(Collections.singletonList(Authority.ROLE_USER.getAuthority()))
                 .build();
+
         usersRepository.save(user);
 
         return response.success("회원가입에 성공했습니다.");
     }
 
-    public ResponseEntity<?> login(UserRequestDto.Login login) {
+    public ResponseEntity<?> login(UserRequest.Login login) {
 
         if (usersRepository.findByEmail(login.getEmail()).orElse(null) == null) {
             return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
-        // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
-        // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
-        UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
+        // loadUserByUsername 메서드 실행
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(login.toAuthentication());
 
-        // 2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
-        // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        // 인증 정보를 기반으로 JWT 토큰 생성
+        Token token = jwtTokenProvider.generateToken(authentication);
 
-        // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        UserResponseDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
-
-        // 4. DB에 refreshToken 저장
+        // DB에 refreshToken 저장
 
 
-        return response.success(tokenInfo, "로그인에 성공했습니다.", HttpStatus.OK);
+        return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> reissue(UserRequestDto.Reissue reissue) {
-        // 1. Refresh Token 검증
+    public ResponseEntity<?> reissue(UserRequest.Reissue reissue) {
+
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
             return response.fail("Refresh Token 정보가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
-        // 2. Access Token 에서 User email 을 가져옵니다.
         Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
 
-        // 3. DB 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져옵니다.
+        // fixme DB 에서 user 의 Refresh Token 값을 가져와야함
         String refreshToken = reissue.getRefreshToken();
+
         // (추가) 로그아웃되어 DB 에 RefreshToken 이 존재하지 않는 경우 처리
         if(ObjectUtils.isEmpty(refreshToken)) {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
@@ -91,21 +85,21 @@ public class UsersService {
         }
 
         // 4. 새로운 토큰 생성
-        UserResponseDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+        Token token = jwtTokenProvider.generateToken(authentication);
 
-        return response.success(tokenInfo, "Token 정보가 갱신되었습니다.", HttpStatus.OK);
+        return response.success(token, "Token 정보가 갱신되었습니다.", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> logout(UserRequestDto.Logout logout) {
-        // 1. Access Token 검증
+    public ResponseEntity<?> logout(UserRequest.Logout logout) {
+
         if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        // 2. Access Token 에서 User email 을 가져옵니다.
+        // Access Token 에서 User email 을 가져옵니다.
         Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
 
-        // 3. DB 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
+        // fixme DB 에서 email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제
 
 
         // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
@@ -117,12 +111,11 @@ public class UsersService {
 
     public ResponseEntity<?> authority() {
         // SecurityContext에 담겨 있는 authentication userEamil 정보
-        String userEmail = SecurityUtil.getCurrentUserEmail();
+        String userEmail = jwtTokenProvider.getCurrentUserEmail();
 
         Users user = usersRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("No authentication information."));
 
         // add ROLE_ADMIN
-        user.getRoles().add(Authority.ROLE_ADMIN.name());
         usersRepository.update(user);
 
         return response.success();

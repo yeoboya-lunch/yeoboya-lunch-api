@@ -8,16 +8,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Slf4j
 @SpringBootTest
-class PostsServiceTest {
+class RetryServiceTest {
 
     @Autowired
-    PostsService postsService;
+    RetryService retryService;
 
     @Test
     void test() {
         for (int i = 0; i < 5; i++) {
             log.info("client request={}", i);
-            postsService.read("data"+ i);
+            retryService.read("data"+ i);
         }
     }
 }

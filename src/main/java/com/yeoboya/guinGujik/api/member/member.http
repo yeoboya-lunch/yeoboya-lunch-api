@@ -1,8 +1,0 @@
-###
-POST http://localhost:463/api/member/sign-up
-Content-Type: application/json
-
-{
-  "email":"inforex@gmail.com",
-  "password":"qwer1234"
-}

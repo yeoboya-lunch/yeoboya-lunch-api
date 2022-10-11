@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.api.member.dto;
+package com.yeoboya.guinGujik.config.security.dto;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @ToString
 public class Users implements UserDetails {
 
+    private static final long serialVersionUID = 1L;
     private String email;
     private String password;
 
@@ -33,7 +34,12 @@ public class Users implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return this.email;
+    }
+
+    @Override
+    public String getPassword(){
+        return this.password;
     }
 
     @Override

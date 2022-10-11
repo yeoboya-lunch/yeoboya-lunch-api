@@ -1,8 +1,12 @@
-package com.yeoboya.guinGujik.api.member.service;
+package com.yeoboya.guinGujik.config.security.service;
 
-import com.yeoboya.guinGujik.api.member.dto.Users;
-import com.yeoboya.guinGujik.api.member.repository.UsersRepository;
+import com.yeoboya.guinGujik.config.constants.Authority;
+import com.yeoboya.guinGujik.config.security.dto.Users;
+import com.yeoboya.guinGujik.config.security.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,9 +14,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
+@Slf4j
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
@@ -25,8 +34,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    // 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 리턴
     private UserDetails createUserDetails(Users users) {
         return new User(users.getUsername(), passwordEncoder.encode(users.getPassword()), users.getAuthorities());
     }
+
+    private Collection<? extends GrantedAuthority> authorities(Set<Authority> roles) {
+        return roles.stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.name())).collect(Collectors.toSet());
+    }
+
 }

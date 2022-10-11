@@ -24,13 +24,6 @@ public class ExceptionResponse {
     private final String message;
     private final Map<String, String> validation = new HashMap<>();
 
-//    public static ErrorResponse getInstance(String code, String message) {
-//        ErrorResponse response = new ErrorResponse();
-//        response.code = code;
-//        response.message = message;
-//        return response;
-//    }
-
     public void addValidation(String fieldName, String errorMessage) {
         this.validation.put(fieldName, errorMessage);
     }

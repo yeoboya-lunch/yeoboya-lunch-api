@@ -20,7 +20,6 @@ public class ExceptionController {
         if(e.hasErrors()){
             log.error("메서드 인수가 유효하지 않는 예외 발생");
             ExceptionResponse response = new ExceptionResponse(400, "잘못된 요청입니다.");
-//            ErrorResponse response = ErrorResponse.getInstance(400, "잘못된 요청입니다.");
             for (FieldError fieldError : e.getFieldErrors()){
                 response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
             }

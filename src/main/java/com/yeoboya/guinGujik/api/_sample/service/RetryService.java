@@ -1,18 +1,18 @@
 package com.yeoboya.guinGujik.api._sample.service;
 
-import com.yeoboya.guinGujik.api._sample.repository.PostsRepository;
+import com.yeoboya.guinGujik.api._sample.repository.RetryRepository;
 import com.yeoboya.guinGujik.config.annotation.Retry;
 import com.yeoboya.guinGujik.config.annotation.Trace;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PostsService {
+public class RetryService {
 
     private static int seq = 0;
 
-    private final PostsRepository repository;
+    private final RetryRepository repository;
 
-    public PostsService(PostsRepository repository) {
+    public RetryService(RetryRepository repository) {
         this.repository = repository;
     }
 

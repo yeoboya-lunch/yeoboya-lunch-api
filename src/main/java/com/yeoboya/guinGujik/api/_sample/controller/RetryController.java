@@ -1,7 +1,7 @@
 package com.yeoboya.guinGujik.api._sample.controller;
 
 import com.yeoboya.guinGujik.api._sample.model.req.PostsCreateDto;
-import com.yeoboya.guinGujik.api._sample.service.PostsService;
+import com.yeoboya.guinGujik.api._sample.service.RetryService;
 import com.yeoboya.guinGujik.config.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 @Slf4j
 @RestController
-public class PostsController {
+public class RetryController {
 
-    private final PostsService service;
+    private final RetryService service;
     private final Response response;
 
-    public PostsController(PostsService service, Response response) {
+    public RetryController(RetryService service, Response response) {
         this.service = service;
         this.response = response;
     }
