@@ -4,6 +4,7 @@ import com.yeoboya.guinGujik.config.security.filter.AuthenticationEntryPointImpl
 import com.yeoboya.guinGujik.config.security.filter.JwtAuthenticationFilter;
 import com.yeoboya.guinGujik.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.guinGujik.config.security.handler.AccessDeniedHandlerImpl;
+import com.yeoboya.guinGujik.config.security.handler.LogoutHandlerImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -25,12 +26,21 @@ public class SecurityConfiguration {
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
+    private final LogoutHandlerImpl logoutHandler;
 
+    //PasswordEncoder 구현 (BCryptPasswordEncoder)
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Test Source
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return NoOpPasswordEncoder.getInstance();
+//    }
+
+    //인증구현
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -44,6 +54,15 @@ public class SecurityConfiguration {
         );
     }
 
+    // Test Source
+//    @Bean
+//    public UserDetailsService userDetailsService(){
+//        var manager = new InMemoryUserDetailsManager();
+//        var user1 = User.withUsername("hyunjin@outlook.kr").password("12345").roles("ADMIN").build();
+//        manager.createUser(user1);
+//        return manager;
+//    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -52,9 +71,9 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/member/login").permitAll()
-                .antMatchers("/user").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
+                .mvcMatchers("/member/login").permitAll()
+                .mvcMatchers("/user").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+                .mvcMatchers("/admin").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -64,6 +83,9 @@ public class SecurityConfiguration {
                 .accessDeniedHandler(accessDeniedHandlerImpl)
                 .authenticationEntryPoint(authenticationEntryPointImpl);
 
+        http.logout()
+                .logoutUrl("/member/logout")
+                .addLogoutHandler(logoutHandler);
 
         return http.build();
     }

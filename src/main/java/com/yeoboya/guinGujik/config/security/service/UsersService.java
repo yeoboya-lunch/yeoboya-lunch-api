@@ -96,13 +96,10 @@ public class UsersService {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        // Access Token 에서 User email 을 가져옵니다.
+//         Access Token 에서 User email 을 가져옵니다.
         Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
 
         // fixme DB 에서 email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제
-
-
-        // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
         Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
 
 
