@@ -11,6 +11,7 @@ import com.yeoboya.guinGujik.config.security.repository.UsersJpaRepository;
 import com.yeoboya.guinGujik.config.security.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +20,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class UsersService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final RedisTemplate<String, String> redisTemplate;
 
     public ResponseEntity<?> signUp(UserRequest.SignUp signUp) {
         if (usersJpaRepository.findByEmail(signUp.getEmail()).isPresent()) {
@@ -48,20 +53,20 @@ public class UsersService {
         if (!usersJpaRepository.findByEmail(login.getEmail()).isPresent()) {
             return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
-
-        // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
+        // loadUserByUsername
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(login.toAuthentication());
-
-        // 인증 정보를 기반으로 JWT 토큰 생성
         Token token = jwtTokenProvider.generateToken(authentication);
 
         // redis
+        redisTemplate.opsForValue().set("RT:" + authentication.getName(),
+                token.getRefreshToken(),
+                token.getRefreshTokenExpirationTime() - new Date().getTime(),
+                TimeUnit.MILLISECONDS);
 
         return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 
     public ResponseEntity<?> reissue(UserRequest.Reissue reissue) {
-
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
             return response.fail("Refresh Token 정보가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
@@ -72,10 +77,10 @@ public class UsersService {
         String refreshToken = reissue.getRefreshToken();
 
         // (추가) 로그아웃되어 DB 에 RefreshToken 이 존재하지 않는 경우 처리
-        if(ObjectUtils.isEmpty(refreshToken)) {
+        if (ObjectUtils.isEmpty(refreshToken)) {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
-        if(!refreshToken.equals(reissue.getRefreshToken())) {
+        if (!refreshToken.equals(reissue.getRefreshToken())) {
             return response.fail("Refresh Token 정보가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
@@ -86,17 +91,21 @@ public class UsersService {
     }
 
     public ResponseEntity<?> logout(UserRequest.Logout logout) {
-
         if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
 
-//         Access Token 에서 User email 을 가져옵니다.
         Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
 
-        // fixme DB 에서 email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제
-        Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
+        if (!redisTemplate.opsForValue().get("RT:" + authentication.getName()).isEmpty()) {
+            redisTemplate.delete("RT:" + authentication.getName());
+        }
 
+        Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
+        redisTemplate.opsForValue().set(logout.getAccessToken(),
+                "logout",
+                expiration,
+                TimeUnit.MILLISECONDS);
 
         return response.success("로그아웃 되었습니다.");
     }

@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Component
+@Deprecated
 public class LogoutHandlerImpl implements LogoutHandler {
+
     @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-      log.error("로그아웃");
+    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
+        log.error("logout");
     }
 }

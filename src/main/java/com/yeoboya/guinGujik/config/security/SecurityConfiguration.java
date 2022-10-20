@@ -4,7 +4,6 @@ import com.yeoboya.guinGujik.config.security.filter.AuthenticationEntryPointImpl
 import com.yeoboya.guinGujik.config.security.filter.JwtAuthenticationFilter;
 import com.yeoboya.guinGujik.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.guinGujik.config.security.handler.AccessDeniedHandlerImpl;
-import com.yeoboya.guinGujik.config.security.handler.LogoutHandlerImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -26,7 +25,6 @@ public class SecurityConfiguration {
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
-    private final LogoutHandlerImpl logoutHandler;
 
     //PasswordEncoder 구현 (BCryptPasswordEncoder)
     @Bean
@@ -34,11 +32,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    // Test Source
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return NoOpPasswordEncoder.getInstance();
-//    }
 
     //인증구현
     @Bean
@@ -50,18 +43,11 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().mvcMatchers(
                 "/member/sign-up",
-                "/member/login"
+                "/member/login",
+                "/member/logout"
+
         );
     }
-
-    // Test Source
-//    @Bean
-//    public UserDetailsService userDetailsService(){
-//        var manager = new InMemoryUserDetailsManager();
-//        var user1 = User.withUsername("hyunjin@outlook.kr").password("12345").roles("ADMIN").build();
-//        manager.createUser(user1);
-//        return manager;
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -72,7 +58,7 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .mvcMatchers("/member/login").permitAll()
+                .antMatchers("/member/sign-up", "/member/login", "/member/authority", "/member/reissue", "/member/logout").permitAll()
                 .mvcMatchers("/user").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
                 .mvcMatchers("/admin").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
@@ -83,10 +69,6 @@ public class SecurityConfiguration {
         http.exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandlerImpl)
                 .authenticationEntryPoint(authenticationEntryPointImpl);
-
-        http.logout()
-                .logoutUrl("/member/logout")
-                .addLogoutHandler(logoutHandler);
 
         return http.build();
     }

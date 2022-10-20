@@ -3,9 +3,11 @@ package com.yeoboya.guinGujik.config.security.filter;
 import com.yeoboya.guinGujik.config.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -20,6 +22,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -28,12 +31,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = jwtTokenProvider.resolveToken(request);
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
-                Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                log.info("=================================  토큰 컨텍스트에서 통과 정보  ============================================");
-                log.info(authentication.getPrincipal() + " : " + authentication);
-                log.info(token);
-                log.info("=====================================================================================================");
+                String isLogout = (String) redisTemplate.opsForValue().get(token);
+                log.error("isLogout : {}", isLogout);
+                if (ObjectUtils.isEmpty(isLogout)) {
+                    Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    log.info("=================================  토큰 컨텍스트에서 통과 정보  ============================================");
+                    log.info(authentication.getPrincipal() + " : " + authentication);
+                    log.info(token);
+                    log.info("=====================================================================================================");
+                }
             }
             filterChain.doFilter(request, response);
         }
