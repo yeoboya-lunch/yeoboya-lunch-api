@@ -3,9 +3,11 @@ package com.yeoboya.guinGujik.config.security.service;
 import com.yeoboya.guinGujik.config.common.Response;
 import com.yeoboya.guinGujik.config.constants.Authority;
 import com.yeoboya.guinGujik.config.security.JwtTokenProvider;
+import com.yeoboya.guinGujik.config.security.domain.Member;
 import com.yeoboya.guinGujik.config.security.dto.Token;
 import com.yeoboya.guinGujik.config.security.dto.Users;
 import com.yeoboya.guinGujik.config.security.dto.reqeust.UserRequest;
+import com.yeoboya.guinGujik.config.security.repository.UsersJpaRepository;
 import com.yeoboya.guinGujik.config.security.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,48 +20,42 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class UsersService {
 
     private final UsersRepository usersRepository;
+    private final UsersJpaRepository usersJpaRepository;
     private final Response response;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     public ResponseEntity<?> signUp(UserRequest.SignUp signUp) {
-        if (usersRepository.existsByEmail(signUp.getEmail())) {
+        if (usersJpaRepository.findByEmail(signUp.getEmail()).isPresent()) {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        Users user = Users.builder()
-                .email(signUp.getEmail())
-                .password(passwordEncoder.encode(signUp.getPassword()))
-                .roles(Collections.singletonList(Authority.ROLE_USER.getAuthority()))
-                .build();
-
-        usersRepository.save(user);
-
-        return response.success("회원가입에 성공했습니다.");
+        Member member = Member.builder().
+                email(signUp.getEmail()).
+                password(passwordEncoder.encode(signUp.getPassword())).
+                role(Authority.ROLE_USER).build();
+        return response.success(usersJpaRepository.save(member), "회원가입에 성공했습니다.");
     }
 
     public ResponseEntity<?> login(UserRequest.Login login) {
-
-        if (usersRepository.findByEmail(login.getEmail()).orElse(null) == null) {
+        if (!usersJpaRepository.findByEmail(login.getEmail()).isPresent()) {
             return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
-        // loadUserByUsername 메서드 실행
+        // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(login.toAuthentication());
 
         // 인증 정보를 기반으로 JWT 토큰 생성
         Token token = jwtTokenProvider.generateToken(authentication);
 
-        // DB에 refreshToken 저장
+        // redis
 
         return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
     }

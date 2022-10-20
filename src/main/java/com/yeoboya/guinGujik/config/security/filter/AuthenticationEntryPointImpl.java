@@ -26,7 +26,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "인증실패");
         body.put("message", e.getMessage());
-        body.put("path", httpServletRequest.getServletPath());
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(httpServletResponse.getOutputStream(), body);
