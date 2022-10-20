@@ -3,7 +3,7 @@ package com.yeoboya.guinGujik.config.security.controller;
 import com.yeoboya.guinGujik.config.common.Response;
 import com.yeoboya.guinGujik.config.security.dto.reqeust.UserRequest;
 import com.yeoboya.guinGujik.config.security.service.UsersService;
-import com.yeoboya.guinGujik.util.Helper;
+import com.yeoboya.guinGujik.config.util.Helper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -10,6 +10,4 @@ public class Member {
     private Integer id;
     private String email;
     private String password;
-
-
 }

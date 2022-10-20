@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.util;
+package com.yeoboya.guinGujik.config.util;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;

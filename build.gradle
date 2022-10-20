@@ -48,9 +48,13 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.30'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
-	//for local test H2, JPA
+	//for local test H2, JPA, Querydsl
 	runtimeOnly 'com.h2database:h2'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.4'
+	implementation 'com.querydsl:querydsl-jpa'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 	//테스트에서 lombok 사용
 	testCompileOnly 'org.projectlombok:lombok'
@@ -62,3 +66,9 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 targetCompatibility = JavaVersion.VERSION_1_8
+
+
+//for local Querydsl
+clean {
+	delete file('src/main/generated')
+}

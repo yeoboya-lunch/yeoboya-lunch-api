@@ -61,7 +61,6 @@ public class UsersService {
 
         // DB에 refreshToken 저장
 
-
         return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 

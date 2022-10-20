@@ -13,11 +13,6 @@ import java.util.Optional;
 @Slf4j
 public class UsersRepository {
 
-
-    public void login(){
-
-    }
-
     public boolean existsByEmail(String email) {
         return email.equals("inforex@gmail.com");
     }
