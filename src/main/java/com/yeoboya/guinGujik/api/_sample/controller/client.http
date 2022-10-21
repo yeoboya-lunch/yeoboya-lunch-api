@@ -21,3 +21,9 @@ DELETE http://localhost:463/api/sample/caffeine/cache?id=hyunjin
 
 ### 캐시 전부 삭제
 DELETE http://localhost:463/api/sample/caffeine/all-cache
+
+### 다국어처리 (한국어)
+http://localhost:463/api/sample/message?lang=ko
+
+### 다국어처리 (영어)
+http://localhost:463/api/sample/message?lang=en
