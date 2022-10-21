@@ -13,7 +13,7 @@ public interface SampleRepository {
     @Select("CALL c_radio.p_radio_fan_club_mem_exp_list()")
     List<FanClubMemExpVO> pRadioFanClubMemExpListM();
 
-    @Transactional(readOnly = true) // slave db
+    @Transactional(readOnly = true) // slave db 에서 조회
     @Select("CALL c_radio.p_radio_fan_club_mem_exp_list()")
     List<FanClubMemExpVO> pRadioFanClubMemExpList();
 

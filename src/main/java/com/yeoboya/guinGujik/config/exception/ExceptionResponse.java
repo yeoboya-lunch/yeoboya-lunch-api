@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * {
  * "code" : "400",
- * "message": "잘못된 요청입니다.",
+ * "message": "Invalid request.",
  * "validation": {
  * "title" : "값을 입력해주세요"
  * }

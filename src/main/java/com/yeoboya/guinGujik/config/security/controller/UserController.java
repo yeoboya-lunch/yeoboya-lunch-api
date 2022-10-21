@@ -22,7 +22,6 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@Validated @RequestBody UserRequest.SignUp signUp, Errors errors) {
-        log.warn("{}", signUp);
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }
@@ -31,7 +30,6 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody UserRequest.Login login, Errors errors) {
-        log.warn("{}", login);
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }

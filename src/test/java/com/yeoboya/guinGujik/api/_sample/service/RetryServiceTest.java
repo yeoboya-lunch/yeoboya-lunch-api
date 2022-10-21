@@ -14,7 +14,7 @@ class RetryServiceTest {
     RetryService retryService;
 
     @Test
-    void test() {
+    void retryTest() {
         for (int i = 0; i < 5; i++) {
             log.info("client request={}", i);
             retryService.read("data"+ i);

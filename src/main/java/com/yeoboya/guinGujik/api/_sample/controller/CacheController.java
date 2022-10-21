@@ -3,6 +3,7 @@ package com.yeoboya.guinGujik.api._sample.controller;
 import com.yeoboya.guinGujik.api._sample.model.vo.GreetVO;
 import com.yeoboya.guinGujik.api._sample.service.CacheService;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/caffeine")
+@RequestMapping("/sample/caffeine")
 public class CacheController {
 
     private final CacheService cacheService;
@@ -49,7 +50,6 @@ public class CacheController {
         greetVOMap.put(koreaGreet.getId(), koreaGreet);
         greetVOMap.put(chinaGreet.getId(), chinaGreet);
         greetVOMap.put(japanGreet.getId(), japanGreet);
-
     }
 
     @Cacheable(cacheNames = "greet")
@@ -69,12 +69,12 @@ public class CacheController {
         return id + "의 캐시값 = " + (Math.random() * 100);
     }
 
-    @GetMapping("/delete-cache")
+    @DeleteMapping("/delete-cache")
     public String deleteCache(String id) {
         return cacheService.removeCache(id);
     }
 
-    @GetMapping("/delete-all-cache")
+    @DeleteMapping("/all-cache")
     public String deleteAllCache() {
         return cacheService.removeAllCache();
     }

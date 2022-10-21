@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/items")
@@ -28,7 +29,7 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ResponseEntity<?> item(@PathVariable long itemId) {
-        Item item = itemService.findById(itemId).get();
+        Optional<Item> item = itemService.findById(itemId);
         return response.success(item, "아이템 개별 조회");
     }
 

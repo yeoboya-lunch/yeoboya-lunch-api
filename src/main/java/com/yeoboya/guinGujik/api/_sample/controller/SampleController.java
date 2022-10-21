@@ -24,20 +24,18 @@ public class SampleController {
         this.response = response;
     }
 
+
     @TimeLogging
     @GetMapping("/time-log")
-    public ResponseEntity<?> sampleAction(){
+    public ResponseEntity<?> sampleAction() {
         Map<String, Object> responseData = sampleService.sampleBiz();
         return response.success(responseData, "타임로깅");
     }
 
     @GetMapping("/time-no-log")
-    public ResponseEntity<?> noLogging(){
+    public ResponseEntity<?> noLogging() {
         log.warn("no logging");
         return response.success("타임로깅 안찍힙니다.");
-
     }
-
-
 
 }

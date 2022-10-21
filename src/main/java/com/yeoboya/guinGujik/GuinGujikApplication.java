@@ -11,14 +11,11 @@ import org.springframework.context.annotation.FilterType;
 @SpringBootApplication
 @ComponentScan(
         excludeFilters = {
-                @ComponentScan.Filter(
-                        type = FilterType.REGEX,
-                        pattern = {"com.yeoboya.guinGujik.api._sample.*"}
-                ),
-				@ComponentScan.Filter(
-                        type = FilterType.ANNOTATION,
-                        classes = {ExcludeScan.class}
-                )
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = {
+                        "com.yeoboya.guinGujik.api._sample.*",
+                        "com.yeoboya.guinGujik.api.sms.*"
+                }),
+                @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {ExcludeScan.class})
         }
 )
 public class GuinGujikApplication {

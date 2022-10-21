@@ -7,15 +7,12 @@ server:
       force: true
     context-path: /api
 
-
 logging:
   config: classpath:log/logback-real.xml
 
 spring:
   profiles:
     active: "local"
-  messages:
-    basename: messages
 
 mybatis:
   mapper-locations: mapper/*.xml

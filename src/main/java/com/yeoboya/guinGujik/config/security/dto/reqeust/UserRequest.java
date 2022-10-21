@@ -56,10 +56,10 @@ public class UserRequest {
     @Getter
     @Setter
     public static class Logout {
-        @NotEmpty(message = "잘못된 요청입니다.")
+        @NotEmpty(message = "Invalid request.")
         private String accessToken;
 
-        @NotEmpty(message = "잘못된 요청입니다.")
+        @NotEmpty(message = "Invalid request.")
         private String refreshToken;
     }
 }

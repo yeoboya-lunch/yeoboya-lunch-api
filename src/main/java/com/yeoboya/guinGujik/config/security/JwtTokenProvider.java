@@ -29,16 +29,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtTokenProvider {
 
+    private final Key key;
+
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_TYPE = "Bearer";
     private static final String AUTHORITIES_KEY = "auth";
-            private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;              // 30분
-//    private static final long ACCESS_TOKEN_EXPIRE_TIME = 20 * 1000L;    //20s
-        private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
-//    private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 1000L;   //1m
-
-
-    private final Key key;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;              // 30분
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
 
     public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -75,7 +72,6 @@ public class JwtTokenProvider {
         Claims claims = this.parseClaims(accessToken);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String accessTokenExpiresInStr = sdf.format(accessTokenExpiresIn);
-        String refreshAccessTokenExpiresInStr = sdf.format(refreshAccessTokenExpiresIn);
 
         return Token.builder()
                 .subject(claims.getSubject())
@@ -134,14 +130,6 @@ public class JwtTokenProvider {
         }
     }
 
-    // 발행된 토큰 가져오기
-    public Token.IssuedToken getToken(HttpServletRequest request) {
-        String accessToken = this.resolveToken(request);
-        Claims claims = this.parseClaims(accessToken);
-        return Token.IssuedToken.getToken(claims.getSubject(), claims.getId(), claims.getIssuer(),
-                String.valueOf(claims.getIssuedAt()), accessToken, String.valueOf(claims.getExpiration()), String.valueOf(claims.get("auth")));
-    }
-
     // 토큰 유효기간 확인
     public Long getExpiration(String accessToken) throws ExpiredJwtException {
         Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
@@ -166,6 +154,5 @@ public class JwtTokenProvider {
         }
         return authentication.getName();
     }
-
 
 }

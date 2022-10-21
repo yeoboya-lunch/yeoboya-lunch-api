@@ -17,17 +17,15 @@ public class ItemQueryRepository {
 
     private final JPAQueryFactory query;
 
-    public ItemQueryRepository(EntityManager em){
+    public ItemQueryRepository(EntityManager em) {
         this.query = new JPAQueryFactory(em);
     }
 
     public List<Item> findAll(ItemSearchCond cond) {
-        return query.select(item)
-                .from(item)
-                .where(
-                        maxPrice(cond.getMaxPrice()),
-                        likeItemName(cond.getItemName()))
-                .fetch();
+        return query.select(item).
+                from(item).
+                where(maxPrice(cond.getMaxPrice()), likeItemName(cond.getItemName())).
+                fetch();
     }
 
     private BooleanExpression likeItemName(String itemName) {

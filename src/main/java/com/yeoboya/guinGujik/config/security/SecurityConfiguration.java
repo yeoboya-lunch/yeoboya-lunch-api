@@ -39,13 +39,9 @@ public class SecurityConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
+    @Deprecated
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().mvcMatchers(
-                "/member/sign-up",
-                "/member/login",
-                "/member/logout"
-
         );
     }
 
@@ -58,9 +54,14 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/member/sign-up", "/member/login", "/member/authority", "/member/reissue", "/member/logout").permitAll()
+                .mvcMatchers("/member/sign-up", "/member/login", "/member/reissue", "/member/logout").permitAll()
                 .mvcMatchers("/user").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-                .mvcMatchers("/admin").hasAuthority("ROLE_ADMIN")
+                .mvcMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+
+                //test
+                .mvcMatchers("/sample/**").permitAll()
+                .mvcMatchers("/items/**").permitAll()
+
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

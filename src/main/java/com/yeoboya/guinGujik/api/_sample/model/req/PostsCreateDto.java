@@ -1,15 +1,13 @@
 package com.yeoboya.guinGujik.api._sample.model.req;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
 public class PostsCreateDto {
 
     @Builder

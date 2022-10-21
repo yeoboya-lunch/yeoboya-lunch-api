@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.config.constants;
+package com.yeoboya.guinGujik.config.security.constants;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -22,7 +22,7 @@ public class RetryService {
     public String read(String phoneNum) {
         seq++;
         if (seq % 5 == 0) {
-            throw new IllegalStateException("에외발생");
+            throw new IllegalStateException("예외발생");
         }else{
             repository.read(phoneNum);
         }

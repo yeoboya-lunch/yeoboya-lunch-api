@@ -22,7 +22,9 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @EnableTransactionManagement
-@MapperScan(basePackages = {"com/yeoboya/guinGujik/api/*/repository"})
+@MapperScan(
+        basePackages = {"com/yeoboya/guinGujik/api/*/repository"}
+)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class ReplicationDataSourceConfig {
     private final DataSourceKey dataSourceKey;

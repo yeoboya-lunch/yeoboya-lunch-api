@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.config.cache;
+package com.yeoboya.guinGujik.config.cache.constants;
 
 import lombok.Getter;
 

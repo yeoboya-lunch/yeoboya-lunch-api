@@ -1,7 +1,7 @@
 package com.yeoboya.guinGujik.config.security.service;
 
 import com.yeoboya.guinGujik.config.common.Response;
-import com.yeoboya.guinGujik.config.constants.Authority;
+import com.yeoboya.guinGujik.config.security.constants.Authority;
 import com.yeoboya.guinGujik.config.security.JwtTokenProvider;
 import com.yeoboya.guinGujik.config.security.domain.Member;
 import com.yeoboya.guinGujik.config.security.dto.Token;
@@ -57,7 +57,6 @@ public class UsersService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(login.toAuthentication());
         Token token = jwtTokenProvider.generateToken(authentication);
 
-        // redis
         redisTemplate.opsForValue().set("RT:" + authentication.getName(),
                 token.getRefreshToken(),
                 token.getRefreshTokenExpirationTime() - new Date().getTime(),
@@ -68,31 +67,34 @@ public class UsersService {
 
     public ResponseEntity<?> reissue(UserRequest.Reissue reissue) {
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
-            return response.fail("Refresh Token 정보가 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+            return response.fail("Refresh Token is not.", HttpStatus.BAD_REQUEST);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
 
-        // fixme DB 에서 user 의 Refresh Token 값을 가져와야함
-        String refreshToken = reissue.getRefreshToken();
+        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
-        // (추가) 로그아웃되어 DB 에 RefreshToken 이 존재하지 않는 경우 처리
-        if (ObjectUtils.isEmpty(refreshToken)) {
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-        }
-        if (!refreshToken.equals(reissue.getRefreshToken())) {
-            return response.fail("Refresh Token 정보가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+        if (ObjectUtils.isEmpty(redisRT)) {
+            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
         }
 
-        // 4. 새로운 토큰 생성
+        if (!redisRT.equals(reissue.getRefreshToken())) {
+            return response.fail("refresh token does not match.", HttpStatus.BAD_REQUEST);
+        }
+
         Token token = jwtTokenProvider.generateToken(authentication);
 
-        return response.success(token, "Token 정보가 갱신되었습니다.", HttpStatus.OK);
+        redisTemplate.opsForValue().set("RT:" + authentication.getName(),
+                token.getRefreshToken(),
+                token.getRefreshTokenExpirationTime(),
+                TimeUnit.MILLISECONDS);
+
+        return response.success(token, "Token has benn updated.", HttpStatus.OK);
     }
 
     public ResponseEntity<?> logout(UserRequest.Logout logout) {
         if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
-            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
+            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
@@ -101,6 +103,8 @@ public class UsersService {
             redisTemplate.delete("RT:" + authentication.getName());
         }
 
+
+        //add redis blacklist
         Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
         redisTemplate.opsForValue().set(logout.getAccessToken(),
                 "logout",
@@ -112,7 +116,7 @@ public class UsersService {
 
     public ResponseEntity<?> authority() {
         // SecurityContext에 담겨 있는 authentication userEamil 정보
-        String userEmail = jwtTokenProvider.getCurrentUserEmail();
+        String userEmail = JwtTokenProvider.getCurrentUserEmail();
 
         Users user = usersRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("No authentication information."));
 
@@ -121,4 +125,5 @@ public class UsersService {
 
         return response.success();
     }
+
 }

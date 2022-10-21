@@ -1,8 +1,10 @@
 package com.yeoboya.guinGujik.config.util;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -18,5 +20,13 @@ public class Helper {
             errorList.push(error);
         });
         return errorList;
+    }
+
+
+    public static void printBeanNames(ApplicationContext context){
+        String[] beanNames = context.getBeanDefinitionNames();
+        Arrays.stream(beanNames)
+                .filter(n -> !n.contains("springframework"))
+                .forEach(System.out::println);
     }
 }

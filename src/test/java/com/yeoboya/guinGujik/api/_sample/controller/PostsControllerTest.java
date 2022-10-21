@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @AutoConfigureMockMvc
 @SpringBootTest
 class PostsControllerTest {
@@ -24,31 +23,15 @@ class PostsControllerTest {
     @Test
     @DisplayName("/posts 요청시 title 값은 필수다")
     void test_1() throws Exception {
-        mockMvc.perform(post("/posts")
+        mockMvc.perform(post("/sample/posts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"title\" : null, \"content\": \"내용입니다.\"}")
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+                .andExpect(jsonPath("$.message").value("Invalid request."))
                 .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세요."))
                 .andDo(print());
     }
-
-    @Test
-    @DisplayName("/posts 요청시 title 값은 필수다")
-    void test_2() throws Exception {
-
-        mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\" : null, \"content\": \"내용입니다.\"}")
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("400"))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세요."))
-                .andDo(print());
-    }
-
 
 }
