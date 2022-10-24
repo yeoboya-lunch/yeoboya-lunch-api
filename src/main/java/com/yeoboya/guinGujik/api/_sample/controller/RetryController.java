@@ -1,6 +1,6 @@
 package com.yeoboya.guinGujik.api._sample.controller;
 
-import com.yeoboya.guinGujik.api.sms.dto.SmsRequestDto;
+import com.yeoboya.guinGujik.api.sms.model.SmsRequestDto;
 import com.yeoboya.guinGujik.api.sms.service.SmsService;
 import com.yeoboya.guinGujik.config.annotation.TimeLogging;
 import com.yeoboya.guinGujik.config.common.Response;

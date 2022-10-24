@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.api.jpa.domain;
+package com.yeoboya.guinGujik.jpa.domain;
 
 import lombok.Data;
 

@@ -27,3 +27,6 @@ http://localhost:463/api/sample/message?lang=ko
 
 ### 다국어처리 (영어)
 http://localhost:463/api/sample/message?lang=en
+
+### 다국어처리 (일본어)
+http://localhost:463/api/sample/message?lang=jp

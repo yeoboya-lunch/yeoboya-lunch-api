@@ -1,9 +1,9 @@
-package com.yeoboya.guinGujik.api.jpa.controller;
+package com.yeoboya.guinGujik.jpa.controller;
 
-import com.yeoboya.guinGujik.api.jpa.domain.Item;
-import com.yeoboya.guinGujik.api.jpa.dto.ItemSearchCond;
-import com.yeoboya.guinGujik.api.jpa.dto.ItemUpdateDto;
-import com.yeoboya.guinGujik.api.jpa.service.ItemService;
+import com.yeoboya.guinGujik.jpa.domain.Item;
+import com.yeoboya.guinGujik.jpa.dto.ItemSearchCond;
+import com.yeoboya.guinGujik.jpa.dto.ItemUpdateDto;
+import com.yeoboya.guinGujik.jpa.service.ItemService;
 import com.yeoboya.guinGujik.config.common.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

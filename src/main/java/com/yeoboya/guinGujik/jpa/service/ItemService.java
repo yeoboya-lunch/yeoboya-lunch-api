@@ -1,8 +1,8 @@
-package com.yeoboya.guinGujik.api.jpa.service;
+package com.yeoboya.guinGujik.jpa.service;
 
-import com.yeoboya.guinGujik.api.jpa.domain.Item;
-import com.yeoboya.guinGujik.api.jpa.dto.ItemSearchCond;
-import com.yeoboya.guinGujik.api.jpa.dto.ItemUpdateDto;
+import com.yeoboya.guinGujik.jpa.domain.Item;
+import com.yeoboya.guinGujik.jpa.dto.ItemSearchCond;
+import com.yeoboya.guinGujik.jpa.dto.ItemUpdateDto;
 
 import java.util.List;
 import java.util.Optional;

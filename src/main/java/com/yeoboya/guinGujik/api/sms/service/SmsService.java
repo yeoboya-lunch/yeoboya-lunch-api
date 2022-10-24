@@ -1,7 +1,7 @@
 package com.yeoboya.guinGujik.api.sms.service;
 
 import com.yeoboya.guinGujik.api.sms.repository.SmsRepository;
-import com.yeoboya.guinGujik.api.sms.dto.SmsRequestDto;
+import com.yeoboya.guinGujik.api.sms.model.SmsRequestDto;
 import com.yeoboya.guinGujik.config.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

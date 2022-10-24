@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.api.sms.dto;
+package com.yeoboya.guinGujik.api.sms.model;
 
 import lombok.Builder;
 import lombok.Setter;

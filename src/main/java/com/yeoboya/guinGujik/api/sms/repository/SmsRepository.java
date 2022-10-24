@@ -1,6 +1,6 @@
 package com.yeoboya.guinGujik.api.sms.repository;
 
-import com.yeoboya.guinGujik.api.sms.dto.SmsRequestDto;
+import com.yeoboya.guinGujik.api.sms.model.SmsRequestDto;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 

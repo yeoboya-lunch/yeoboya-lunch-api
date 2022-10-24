@@ -1,16 +1,17 @@
-package com.yeoboya.guinGujik.api.jpa.repository;
+package com.yeoboya.guinGujik.jpa.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.yeoboya.guinGujik.api.jpa.domain.Item;
-import com.yeoboya.guinGujik.api.jpa.dto.ItemSearchCond;
+import com.yeoboya.guinGujik.jpa.domain.Item;
+import com.yeoboya.guinGujik.jpa.dto.ItemSearchCond;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.yeoboya.guinGujik.api.jpa.domain.QItem.item;
+import static com.yeoboya.guinGujik.jpa.domain.QItem.item;
+
 
 @Repository
 public class ItemQueryRepository {

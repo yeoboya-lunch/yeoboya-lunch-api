@@ -53,6 +53,7 @@ public class Response {
         return success(data, msg, HttpStatus.OK);
     }
 
+
     /**
      * <p> 메세지만 가진 성공 응답을 반환한다.</p>
      * <pre>

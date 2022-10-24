@@ -13,14 +13,6 @@ import java.util.Optional;
 @Slf4j
 public class UsersRepository {
 
-    public boolean existsByEmail(String email) {
-        return email.equals("inforex@gmail.com");
-    }
-
-    public void save(Users user) {
-        log.warn("회원가입 성공 : {}", user);
-    }
-
     public void update(Users user){
         user.getRoles().add(Authority.ROLE_ADMIN.name());
         log.warn("회원업데이트 성공 : {}", user);

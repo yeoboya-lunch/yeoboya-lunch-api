@@ -58,7 +58,7 @@ public class SecurityConfiguration {
                 .mvcMatchers("/user").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
                 .mvcMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
 
-                //test
+                //test pass
                 .mvcMatchers("/sample/**").permitAll()
                 .mvcMatchers("/items/**").permitAll()
 

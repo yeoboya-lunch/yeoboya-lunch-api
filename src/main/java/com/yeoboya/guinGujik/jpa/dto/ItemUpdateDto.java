@@ -1,4 +1,4 @@
-package com.yeoboya.guinGujik.api.jpa.dto;
+package com.yeoboya.guinGujik.jpa.dto;
 
 import lombok.Data;
 

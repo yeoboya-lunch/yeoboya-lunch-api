@@ -4,6 +4,7 @@ import com.yeoboya.guinGujik.api._sample.service.SampleService;
 import com.yeoboya.guinGujik.config.annotation.TimeLogging;
 import com.yeoboya.guinGujik.config.common.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class SampleController {
     @GetMapping("/time-log")
     public ResponseEntity<?> sampleAction() {
         Map<String, Object> responseData = sampleService.sampleBiz();
-        return response.success(responseData, "타임로깅");
+        return response.success(responseData, "타임로깅", HttpStatus.OK);
     }
 
     @GetMapping("/time-no-log")
