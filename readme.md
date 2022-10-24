@@ -26,7 +26,7 @@
 | resource 하나의 내용을 표시 | GET        | /resource/:id |
 | resource 를 생성       | POST       | /resource     |
 | resource 를 수정       | PUT        | /resource/:id |
-| resource 하 삭제       | DELETE     | /resource/:id |
+| resource 를 삭제       | DELETE     | /resource/:id |
 
 
 ------------------------------------------------------------------------------------
