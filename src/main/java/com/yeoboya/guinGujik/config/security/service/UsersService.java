@@ -89,7 +89,7 @@ public class UsersService {
                 token.getRefreshTokenExpirationTime(),
                 TimeUnit.MILLISECONDS);
 
-        return response.success(token, "Token has benn updated.", HttpStatus.OK);
+        return response.success(token, "Token has been updated.", HttpStatus.OK);
     }
 
     public ResponseEntity<?> logout(UserRequest.Logout logout) {
