@@ -28,7 +28,3 @@ management:
     web:
       exposure:
         include: prometheus
-  metrics:
-    tags:
-      application: guingujik
-
