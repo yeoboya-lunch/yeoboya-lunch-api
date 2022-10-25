@@ -116,16 +116,22 @@ public class JwtTokenProvider {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (SecurityException e) {
+            log.error("SecurityException");
             throw new JwtException("SecurityException");
         } catch (MalformedJwtException e) {
+            log.error("MalformedJwtException");
             throw new JwtException("MalformedJwtException");
         } catch (UnsupportedJwtException e) {
+            log.error("UnsupportedJwtException");
             throw new JwtException("UnsupportedJwtException");
         } catch (ExpiredJwtException e) {
+            log.error("ExpiredJwtException");
             throw new JwtException("ExpiredJwtException");
         } catch (SignatureException e) {
+            log.error("SignatureException");
             throw new JwtException("SignatureException");
         } catch (IllegalArgumentException e) {
+            log.error("IllegalArgumentException");
             throw new JwtException("IllegalArgumentException");
         }
     }

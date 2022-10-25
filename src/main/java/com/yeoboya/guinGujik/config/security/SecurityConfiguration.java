@@ -54,6 +54,7 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .mvcMatchers("/actuator/**").permitAll()
                 .mvcMatchers("/member/sign-up", "/member/login", "/member/reissue", "/member/logout").permitAll()
                 .mvcMatchers("/user").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
                 .mvcMatchers("/admin/**").hasAuthority("ROLE_ADMIN")

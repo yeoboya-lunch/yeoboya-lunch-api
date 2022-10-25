@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: "local"
+    active: "local2"
 
 server:
   port: 463
@@ -20,4 +20,15 @@ mybatis:
     default-fetch-size: '100'
     default-statement-timeout: '30'
     map-underscore-to-camel-case: 'true'
+
+management:
+  endpoints:
+    prometheus:
+      enabled: true
+    web:
+      exposure:
+        include: prometheus
+  metrics:
+    tags:
+      application: guingujik
 

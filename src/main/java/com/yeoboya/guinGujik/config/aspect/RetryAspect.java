@@ -26,7 +26,7 @@ public class RetryAspect {
             Exception exceptionHolder = null;
             for (int retryCount = 0; retryCount <= maxRetry; retryCount++) {
                 try {
-                    log.info("[retry] 재시도 {} / 최대 재시도 {}", retryCount, maxRetry);
+                    log.error("[retry] 재시도 {} / 최대 재시도 {}", retryCount, maxRetry);
                     return joinPoint.proceed();
                 } catch (Exception e) {
                     exceptionHolder = e;
