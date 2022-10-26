@@ -19,13 +19,14 @@ public class RedisConfig {
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+        LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder()
                 .readFrom(ReadFrom.REPLICA_PREFERRED)
                 .build();
-        RedisStaticMasterReplicaConfiguration slaveConfig = new RedisStaticMasterReplicaConfiguration(redis.getMaster().getHost(), redis.getMaster().getPort());
-        redis.getSlaves().forEach(slave -> slaveConfig.addNode(slave.getHost(), slave.getPort()));
-        slaveConfig.setPassword(redis.getPassword());
-        return new LettuceConnectionFactory(slaveConfig, clientConfig);
+        RedisStaticMasterReplicaConfiguration staticMasterReplicaConfiguration = new RedisStaticMasterReplicaConfiguration(redis.getMaster().getHost(), redis.getMaster().getPort());
+        redis.getSlaves().forEach(slave -> staticMasterReplicaConfiguration.addNode(slave.getHost(), slave.getPort()));
+        staticMasterReplicaConfiguration.setDatabase(redis.getDatabase());
+        staticMasterReplicaConfiguration.setPassword(redis.getPassword());
+        return new LettuceConnectionFactory(staticMasterReplicaConfiguration, lettuceClientConfiguration);
     }
 
 

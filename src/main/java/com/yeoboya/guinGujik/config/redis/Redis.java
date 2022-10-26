@@ -17,6 +17,7 @@ public class Redis {
     private String host;
     private int port;
     private String password;
+    private int database;
     private Redis master;
     private List<Redis> slaves;
 }
