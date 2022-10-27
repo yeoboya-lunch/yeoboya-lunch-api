@@ -31,12 +31,12 @@ public class NegotiationController {
     }
 
 
-//    @GetMapping(value= "/{id}")
-//    public ResponseEntity<?> getPostByIdWeb(@PathVariable(name= "id") long id){
-//        log.info("{}", "application/pc");
-//        return response.success("성공");
-//    }
-//
+    @GetMapping(value= "/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable(name= "id") long id){
+        log.info("{}", "*/*");
+        return response.success("성공");
+    }
+
     @GetMapping(value= "/{id}", produces= "application/vnd.yeoboya.web+json")
     public ResponseEntity<?> getPostByIdWeb(@PathVariable(name= "id") long id){
         log.info("{}", "application/vnd.yeoboya.web+json");

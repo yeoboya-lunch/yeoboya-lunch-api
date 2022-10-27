@@ -94,10 +94,34 @@ fail 시 500 에러 말고 400 에러 사용하자.
 
 ------------------------------------------------------------------------------------
 
-### Swagger UI (문서관련)
+### Swagger UI
+스프링 부트 실행 후
+[swagger](http://localhost:463/swagger-ui/index.html) 문서 확인
+
+고민해야 할 점은 서비스 코드에 어노테이션을 추가해야 해서 코드가 더러워진다.
 
 ------------------------------------------------------------------------------------
 
 ### Versioning (버전관리)
+
+#### URI versioning 
+~~~
+curl -X 'GET' \
+  'http://localhost:463/v1/message' \
+  -H 'accept: application/json'
+~~~
+
+#### MIME type versioning
+web, ios, android 구분이 필요 할 경우 Headers 에 application/vnd.yeoboya.${platform}+json 세팅
+
+platform
+ - web
+ - iod
+ - android
+~~~
+curl -X 'GET' \
+  'http://localhost:463/v1/nego/1' \
+  -H 'accept: application/vnd.yeoboya.ios+json'
+~~~
 
 ------------------------------------------------------------------------------------
