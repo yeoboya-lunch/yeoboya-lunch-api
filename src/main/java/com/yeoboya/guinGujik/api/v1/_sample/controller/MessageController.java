@@ -2,6 +2,8 @@ package com.yeoboya.guinGujik.api.v1._sample.controller;
 
 
 import com.yeoboya.guinGujik.config.common.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Locale;
 
+@Tag(name = "다국어", description = "다국어 예제")
 @Slf4j
 @RestController
 @RequestMapping("/v1/message")
@@ -24,11 +27,7 @@ public class MessageController {
         this.response = response;
     }
 
-//    @Operation(summary = "다국어 테스트 메서드", description = "파파고 메서드입니다.")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = Response.class))),
-//            @ApiResponse(responseCode = "400", description = "bad request operation", content = @Content(schema = @Schema(implementation = Response.class)))
-//    })
+    @Operation(summary = "다국어 테스트 메서드", description = "파파고 메서드입니다.")
     @GetMapping
     public ResponseEntity<?> papago(Locale locale){
         String welcome = messageSource.getMessage("welcome", null, locale);
