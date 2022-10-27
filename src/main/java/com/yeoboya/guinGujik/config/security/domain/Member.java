@@ -1,6 +1,6 @@
 package com.yeoboya.guinGujik.config.security.domain;
 
-import com.yeoboya.guinGujik.config.security.constants.Authority;
+import com.yeoboya.guinGujik.config.constants.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

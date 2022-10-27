@@ -1,6 +1,5 @@
 package com.yeoboya.guinGujik.config.datasources;
 
-import com.yeoboya.guinGujik.config.annotation.ExcludeScan;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,12 +17,12 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-@ExcludeScan
+//@ExcludeScan
 @Configuration
 @RequiredArgsConstructor
 @EnableTransactionManagement
 @MapperScan(
-        basePackages = {"com/yeoboya/guinGujik/api/*/repository"}
+        basePackages = {"com/yeoboya/guinGujik/api/*/*/repository"}
 )
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class ReplicationDataSourceConfig {

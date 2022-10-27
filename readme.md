@@ -11,14 +11,14 @@
 1. 소문자
 2. 동사보다는 명사 사용
 3. 언더바(_) 대신 하이픈(-)
-    - `GET /noLogging` x
-    - `GET /no_nogging` x
-    - `GET /no-loging` o
+    - `GET /v1/noLogging` x
+    - `GET /v1/no_nogging` x
+    - `GET /v1/no-loging` o
 4. 마지막에 슬래시(/) 포함하지 말 것
 5. 도메인 이름은 복수 명사를 사용
-   - `GET /member/1` -> `GET /members/1`
+   - `GET /v1/member/1` -> `GET /v1/members/1`
 6. 행위는 URL 대신 `http Method` 를 사용 (get/post/delete/put)
-   - `GET /posts/delete/1` -> `DELETE /posts/1`
+   - `GET /v1/posts/delete/1` -> `DELETE /v1/posts/1`
 
 | CRUD                | HTTP verbs | Mapping       |
 |---------------------|------------|---------------|
@@ -34,8 +34,6 @@
 ### security
 여보야 글로벌 API 는 Bearer JWT 토큰 인증을 사용 한다.    
 http 요청시 header 에  `Authorization: Bearer ${access token}` 작성   
-토큰 없이 테스트 하고싶으면
-`SecurityConfiguration.java` 파일에 test pass 밑에 RequestMatcher 작성
 
 ------------------------------------------------------------------------------------
 
@@ -93,5 +91,13 @@ fail 시 500 에러 말고 400 에러 사용하자.
 ------------------------------------------------------------------------------------
 
 ### cache (caffeine)
+
+------------------------------------------------------------------------------------
+
+### Swagger UI (문서관련)
+
+------------------------------------------------------------------------------------
+
+### Versioning (버전관리)
 
 ------------------------------------------------------------------------------------

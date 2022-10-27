@@ -53,6 +53,9 @@ dependencies {
 	//monitor
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
+	//swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+
 	//for local test H2, JPA, Querydsl
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	runtimeOnly 'com.h2database:h2'

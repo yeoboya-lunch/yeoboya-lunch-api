@@ -1,7 +1,7 @@
 package com.yeoboya.guinGujik.config.cache;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.yeoboya.guinGujik.config.cache.constants.CacheType;
+import com.yeoboya.guinGujik.config.constants.CacheType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;

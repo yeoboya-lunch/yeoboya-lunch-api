@@ -1,9 +1,8 @@
 package com.yeoboya.guinGujik.config.datasources;
 
-import com.yeoboya.guinGujik.config.annotation.ExcludeScan;
 import org.springframework.stereotype.Component;
 
-@ExcludeScan
+//@ExcludeScan
 @Component
 class DataSourceKey {
     private static final String MASTER_KEY = "master";

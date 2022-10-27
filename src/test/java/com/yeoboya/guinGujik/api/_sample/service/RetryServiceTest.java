@@ -1,5 +1,6 @@
 package com.yeoboya.guinGujik.api._sample.service;
 
+import com.yeoboya.guinGujik.api.v1._sample.service.RetryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

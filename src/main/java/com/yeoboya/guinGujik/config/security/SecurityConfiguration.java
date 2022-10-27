@@ -26,6 +26,22 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
 
+    private static final String[] PERMIT_URL_ARRAY = {
+            /* swagger v3 */
+            "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**",
+
+            /* member */
+            "/member/sign-up", "/member/login", "/member/reissue", "/member/logout",
+
+            /* monitor */
+            "/actuator/**"
+    };
+
+    private static final String[] TEMP_URL_ARRAY = {
+            "/v1/**", "/item/**"
+    };
+
+
     //PasswordEncoder 구현 (BCryptPasswordEncoder)
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -54,15 +70,8 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .mvcMatchers("/actuator/**").permitAll()
-                .mvcMatchers("/member/sign-up", "/member/login", "/member/reissue", "/member/logout").permitAll()
-                .mvcMatchers("/user").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-                .mvcMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-
-                //test pass
-                .mvcMatchers("/sample/**").permitAll()
-                .mvcMatchers("/items/**").permitAll()
-
+                .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
+                .mvcMatchers(TEMP_URL_ARRAY).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -2,7 +2,7 @@ package com.yeoboya.guinGujik.config.security.service;
 
 import com.yeoboya.guinGujik.config.common.Response;
 import com.yeoboya.guinGujik.config.security.JwtTokenProvider;
-import com.yeoboya.guinGujik.config.security.constants.Authority;
+import com.yeoboya.guinGujik.config.constants.Authority;
 import com.yeoboya.guinGujik.config.security.domain.Member;
 import com.yeoboya.guinGujik.config.security.dto.Token;
 import com.yeoboya.guinGujik.config.security.dto.Users;
