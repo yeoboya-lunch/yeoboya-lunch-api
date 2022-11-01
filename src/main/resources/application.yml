@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: "local"
+    active: "local2"
 
 server:
   port: 463
