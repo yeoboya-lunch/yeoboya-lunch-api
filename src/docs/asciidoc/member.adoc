@@ -1,0 +1,21 @@
+= 여보야 점심 API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 1
+:sectlinks:
+
+== 회원가입
+
+=== curl-request
+include::{snippets}/member/curl-request.adoc[]
+
+=== http-request
+include::{snippets}/member/http-request.adoc[]
+
+=== http-response
+include::{snippets}/member/http-response.adoc[]
+
+=== request-fields
+include::{snippets}/member/request-fields.adoc[]

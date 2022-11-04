@@ -32,7 +32,7 @@ public class LogScheduler {
 	private final TaskletJob taskletJob;
 	private final TaskletJob2 taskletJo2;
 
-	@Scheduled(fixedDelay = 30000)
+//	@Scheduled(fixedDelay = 30000)
 	public void startJob() {
 		JobParameters parameters = getJobParameters();
 
@@ -58,7 +58,7 @@ public class LogScheduler {
 		}
 	}
 
-	@Scheduled(fixedDelay = 30000)
+//	@Scheduled(fixedDelay = 30000)
 	public void startJob2() {
 		JobParameters parameters = getJobParameters();
 

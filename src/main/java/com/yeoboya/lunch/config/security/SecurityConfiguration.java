@@ -27,8 +27,6 @@ public class SecurityConfiguration {
     private final JwtExceptionFilter jwtExceptionFilter;
 
     private static final String[] PERMIT_URL_ARRAY = {
-            /* swagger v3 */
-            "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**",
 
             /* member */
             "/member/sign-up", "/member/login", "/member/reissue", "/member/logout",
@@ -38,7 +36,7 @@ public class SecurityConfiguration {
     };
 
     private static final String[] TEMP_URL_ARRAY = {
-            "/v1/**", "/item/**"
+            "/v1/**", "/item/**", "/order/**"
     };
 
 

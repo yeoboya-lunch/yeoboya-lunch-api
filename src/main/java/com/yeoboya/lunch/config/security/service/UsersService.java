@@ -44,6 +44,7 @@ public class UsersService {
 
         Member member = Member.builder().
                 email(signUp.getEmail()).
+                name(signUp.getName()).
                 password(passwordEncoder.encode(signUp.getPassword())).
                 role(Authority.ROLE_USER).build();
         return response.success(usersJpaRepository.save(member), "회원가입에 성공했습니다.");

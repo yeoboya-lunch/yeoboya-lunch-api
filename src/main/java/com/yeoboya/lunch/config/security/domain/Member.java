@@ -1,56 +1,33 @@
 package com.yeoboya.lunch.config.security.domain;
 
+import com.yeoboya.lunch.api.v1.domain.BaseEntity;
+import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.config.constants.Authority;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
+@Getter
+@Setter
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
     private String email;
+    private String name;
     private String password;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<Order>();
 
     @Enumerated(EnumType.STRING)
     private Authority role;
 
-    public Long id() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Authority getRole() {
-        return role;
-    }
-
-    public void setRole(Authority role) {
-        this.role = role;
-    }
 }

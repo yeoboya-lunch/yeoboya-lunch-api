@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 	id 'java'
 }
 
@@ -12,10 +13,17 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
+	asciidoctorExt
 }
 
 repositories {
 	mavenCentral()
+}
+
+ext {
+	asciidocVersion = "2.0.6.RELEASE"
+	snippetsDir = file('build/generated-snippets')
 }
 
 dependencies {
@@ -27,15 +35,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'org.springframework.boot:spring-boot-starter-quartz'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.4'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.4'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 
 	//JSON Web Token
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
 
-	//cache
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	//caffeine cache
 	implementation 'com.github.ben-manes.caffeine:caffeine'
 
 	//redis
@@ -45,22 +56,21 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	//Database
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.4'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
-	implementation 'mysql:mysql-connector-java:8.0.30'
+	//Database(mariadb/log4j)
+	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.8'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
 	//monitor
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
-	//swagger
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+
+	//docs
+	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"
+	testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${asciidocVersion}"
 
 	//for local test H2, JPA, Querydsl
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	runtimeOnly 'com.h2database:h2'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.4'
+	implementation 'com.querydsl:querydsl-core'
 	implementation 'com.querydsl:querydsl-jpa'
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
@@ -77,8 +87,30 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-targetCompatibility = JavaVersion.VERSION_1_8
 
+targetCompatibility = JavaVersion.VERSION_11
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+	dependsOn test
+}
+
+asciidoctor.doFirst {
+	delete file("src/main/resources/static/docs")
+}
+
+bootJar {
+	dependsOn asciidoctor
+	copy {
+		from asciidoctor.outputDir
+		into "src/main/resources/static/docs"
+	}
+}
 
 //for local Querydsl
 clean {

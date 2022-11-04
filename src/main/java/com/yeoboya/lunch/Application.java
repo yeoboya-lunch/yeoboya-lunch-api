@@ -7,16 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableCaching
 @EnableBatchProcessing
+@EnableJpaAuditing
+@ComponentScan(excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {ExcludeScan.class})})
 @SpringBootApplication
-@ComponentScan(
-        excludeFilters = {
-                @ComponentScan.Filter(type = FilterType.REGEX, pattern = {"com.yeoboya.lunch.api.*.*",}),
-                @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {ExcludeScan.class})
-        }
-)
 public class Application {
 
     public static void main(String[] args) {
