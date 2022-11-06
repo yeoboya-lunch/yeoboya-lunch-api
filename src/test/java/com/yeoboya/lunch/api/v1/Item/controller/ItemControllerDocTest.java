@@ -14,9 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,7 +56,9 @@ class ItemControllerDocTest {
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("item",
+                .andDo(document("create",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("name").description("메뉴이름")
                                         .attributes(key("constraint").value("메뉴 입력해주세요.")),
@@ -63,7 +68,25 @@ class ItemControllerDocTest {
     }
 
     @Test
-    void get() {
+    void getItem() throws Exception {
+
+        mockMvc.perform(get("/item/{itemId}",13)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("get",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("itemId").description("아이템 번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("아이템 번호"),
+                                fieldWithPath("name").description("아이템 제목"),
+                                fieldWithPath("price").description("아이템 가격")
+                        )
+                ));
+
     }
 
     @Test
@@ -71,6 +94,19 @@ class ItemControllerDocTest {
     }
 
     @Test
-    void getList() {
+    void getList() throws Exception {
+        mockMvc.perform(get("/item?page=1&size=10")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("getList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("[].id").description("아이템 번호"),
+                                fieldWithPath("[].name").description("아이템 제목"),
+                                fieldWithPath("[].price").description("아이템 가격")
+                        )
+                ));
     }
 }

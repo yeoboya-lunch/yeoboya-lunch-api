@@ -127,9 +127,6 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             log.error("ExpiredJwtException");
             throw new JwtException("ExpiredJwtException");
-        } catch (SignatureException e) {
-            log.error("SignatureException");
-            throw new JwtException("SignatureException");
         } catch (IllegalArgumentException e) {
             log.error("IllegalArgumentException");
             throw new JwtException("IllegalArgumentException");

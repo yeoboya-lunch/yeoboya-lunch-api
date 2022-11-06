@@ -1,8 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4'
-	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
-	id "org.asciidoctor.jvm.convert" version "3.3.2"
-	id 'java'
+    id 'org.springframework.boot' version '2.7.4'
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+    id 'java'
 }
 
 group = 'com.yeoboya'
@@ -10,109 +10,111 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = "1.8"
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 
-	asciidoctorExt
+    asciidoctorExt
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	asciidocVersion = "2.0.6.RELEASE"
-	snippetsDir = file('build/generated-snippets')
+    asciidocVersion = "2.0.6.RELEASE"
+    snippetsDir = file('build/generated-snippets')
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	compileOnly "org.springframework.boot:spring-boot-configuration-processor"
-	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-batch'
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation 'org.springframework.boot:spring-boot-starter-quartz'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.4'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.4'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.4'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.4'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 
-	//JSON Web Token
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
+    //JSON Web Token
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
 
-	//caffeine cache
-	implementation 'com.github.ben-manes.caffeine:caffeine'
+    //caffeine cache
+    implementation 'com.github.ben-manes.caffeine:caffeine'
 
-	//redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
 
-	//lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+    //lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	//Database(mariadb/log4j)
-	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.8'
-	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    //Database(mariadb/log4j)
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.8'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
-	//monitor
-	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    //monitor
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
+    //docs
+    asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${asciidocVersion}"
 
-	//docs
-	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"
-	testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${asciidocVersion}"
+    //for local test H2, JPA, Querydsl
+    runtimeOnly 'com.h2database:h2'
+    implementation 'com.querydsl:querydsl-core'
+    implementation 'com.querydsl:querydsl-jpa'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-	//for local test H2, JPA, Querydsl
-	runtimeOnly 'com.h2database:h2'
-	implementation 'com.querydsl:querydsl-core'
-	implementation 'com.querydsl:querydsl-jpa'
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
-	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
-	//테스트
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.batch:spring-batch-test'
+    //테스트
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
 
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 targetCompatibility = JavaVersion.VERSION_11
 
+
+//for spring docs
 test {
-	outputs.dir snippetsDir
+    outputs.dir snippetsDir
 }
 
 asciidoctor {
-	inputs.dir snippetsDir
-	configurations 'asciidoctorExt'
-	dependsOn test
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
 }
 
 asciidoctor.doFirst {
-	delete file("src/main/resources/static/docs")
+    delete file("src/main/resources/static/docs")
 }
 
 bootJar {
-	dependsOn asciidoctor
-	copy {
-		from asciidoctor.outputDir
-		into "src/main/resources/static/docs"
-	}
+    dependsOn asciidoctor
+    copy {
+        from asciidoctor.outputDir
+        into "src/main/resources/static/docs"
+    }
 }
+// end spring docs
 
 //for local Querydsl
 clean {
-	delete file('src/main/generated')
+    delete file('src/main/generated')
 }

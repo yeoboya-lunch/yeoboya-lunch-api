@@ -25,6 +25,7 @@ public class Member extends BaseEntity {
     private String password;
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Order> orders = new ArrayList<Order>();
 
     @Enumerated(EnumType.STRING)

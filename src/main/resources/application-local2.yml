@@ -1,0 +1,53 @@
+logging:
+  config: classpath:log/logback-local.xml
+
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/lunch
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: 'true'
+        show_sql: 'true'
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  redis:
+    master:
+      host: 127.0.0.1
+      port: 6379
+    slaves:
+      - host: 127.0.0.1
+        port: 6380
+    password: redistestpassword
+    database: 0
+  cache:
+    type: CAFFEINE
+  batch:
+    job:
+      enabled: false
+      names: ${job.name:NONE}
+    jdbc:
+      initialize-schema: never
+
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+jwt:
+  token:
+    secretKey: yeoboyaglobalradiodallaclub567yeoboyaglobalradiodallaclub56788
+

@@ -37,5 +37,4 @@ out/
 .vscode/
 
 application-local.yml
-application-local2.yml
 src/main/generated/
