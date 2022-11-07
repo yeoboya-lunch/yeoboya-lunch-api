@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
@@ -15,10 +16,10 @@ public class OrderEdit {
     @NotBlank(message = "상품을 입력해주세요.")
     private String itemName;
 
-    @NotBlank(message = "가격을 입력해주세요.")
+    @NotNull(message = "가격을 입력해주세요.")
     private int price;
 
-    @NotBlank(message = "수량을 입력해주세요.")
+    @NotNull(message = "수량을 입력해주세요.")
     private int stockQuantity;
 
     @Builder

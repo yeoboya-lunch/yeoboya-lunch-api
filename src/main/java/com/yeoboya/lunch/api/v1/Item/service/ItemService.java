@@ -36,8 +36,7 @@ public class ItemService {
 
     @Transactional
     public void edit(Long id, ItemEdit itemEdit) {
-        Item item = itemRepository.findById(id)
-                .orElseThrow(ItemNotFound::new);
+        Item item = itemRepository.findById(id).orElseThrow(ItemNotFound::new);
 
         ItemEditor.ItemEditorBuilder editorBuilder = item.toEditor();
 

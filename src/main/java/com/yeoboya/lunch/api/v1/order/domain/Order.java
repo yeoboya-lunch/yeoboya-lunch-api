@@ -1,6 +1,9 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yeoboya.lunch.config.security.domain.Member;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 
+@Setter
+@Getter
 @Entity
 @Table(name = "ORDERS")
 public class Order {
@@ -17,10 +22,12 @@ public class Order {
     @Column(name = "ORDER_ID")
     private Long id;
 
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;      //주문 회원
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
@@ -42,8 +49,6 @@ public class Order {
         return order;
     }
 
-    //==조회 로직==//
-    /** 전체 주문 가격 조회 */
     public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {
@@ -52,10 +57,9 @@ public class Order {
         return totalPrice;
     }
 
-    //==연관관계 메서드==//
     public void setMember(Member member) {
         this.member = member;
-        member.getOrders().add(this);
+//        member.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -63,43 +67,6 @@ public class Order {
         orderItem.setOrder(this);
     }
 
-
-    //==Getter, Setter==//
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
 
     @Override
     public String toString() {

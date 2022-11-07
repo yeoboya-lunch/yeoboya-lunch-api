@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.order.controller;
 
 
+import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
@@ -21,18 +22,18 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public OrderResponse order(@RequestParam("email") String email, @RequestParam("itemId") Long itemId, @RequestParam("count") int count) {
-        return orderService.order(email, itemId, count);
+    public OrderResponse order(@RequestBody @Valid OrderCreate orderCreate){
+        return orderService.order(orderCreate);
     }
 
-    @GetMapping("/{orderId}")
-    public OrderResponse get(@PathVariable String orderId) {
-        return null;
+    @GetMapping
+    public void get(@ModelAttribute OrderSearch orderSearch) {
     }
 
     @GetMapping("/list")
     public List<OrderResponse> getList(@ModelAttribute OrderSearch search) {
-        return null;
+        List<OrderResponse> items = orderService.findItems(search);
+        return items;
     }
 
     @PatchMapping("/{postId}")

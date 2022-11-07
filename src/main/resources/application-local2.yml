@@ -20,15 +20,18 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+    show-sql: true
+
   redis:
     master:
-      host: 127.0.0.1
-      port: 6379
+      host: 125.141.223.94
+      port: 6380
     slaves:
-      - host: 127.0.0.1
-        port: 6380
-    password: redistestpassword
-    database: 0
+      - host: 125.141.223.94
+        port: 6381
+    password: inforex((.(
+    database: 12
+
   cache:
     type: CAFFEINE
   batch:

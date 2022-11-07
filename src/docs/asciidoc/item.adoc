@@ -22,6 +22,14 @@ include::{snippets}/get/http-request.adoc[]
 === 응답
 include::{snippets}/get/http-response.adoc[]
 
+== 아이템 수정
+
+=== 요청
+include::{snippets}/updateItem/http-request.adoc[]
+
+=== 응답
+include::{snippets}/updateItem/http-response.adoc[]
+
 == 아이템 리스트 조회
 
 === 요청

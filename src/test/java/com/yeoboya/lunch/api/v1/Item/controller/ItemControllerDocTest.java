@@ -1,8 +1,8 @@
 package com.yeoboya.lunch.api.v1.Item.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
+import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -32,9 +32,6 @@ class ItemControllerDocTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ItemRepository itemRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -62,7 +59,7 @@ class ItemControllerDocTest {
                         requestFields(
                                 fieldWithPath("name").description("메뉴이름")
                                         .attributes(key("constraint").value("메뉴 입력해주세요.")),
-                                fieldWithPath("price").description("내용").optional()
+                                fieldWithPath("price").description("가격")
                         )
                 ));
     }
@@ -70,7 +67,7 @@ class ItemControllerDocTest {
     @Test
     void getItem() throws Exception {
 
-        mockMvc.perform(get("/item/{itemId}",13)
+        mockMvc.perform(get("/item/{itemId}", 13)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -90,7 +87,31 @@ class ItemControllerDocTest {
     }
 
     @Test
-    void updateItem() {
+    @Transactional
+    void updateItem() throws Exception {
+        //given
+        ItemEdit request = ItemEdit.builder().name("수정밥").price(1234).build();
+
+        String json = objectMapper.writeValueAsString(request);
+
+        //expected
+        mockMvc.perform(patch("/item/{itemId}", 32)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andDo(document("updateItem",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("itemId").description("수정할 아이템 번호")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").description("수정할 메뉴 이름")
+                                        .attributes(key("constraint").value("메뉴 입력해주세요.")),
+                                fieldWithPath("price").description("수정할 가격")
+                        )
+                ));
     }
 
     @Test

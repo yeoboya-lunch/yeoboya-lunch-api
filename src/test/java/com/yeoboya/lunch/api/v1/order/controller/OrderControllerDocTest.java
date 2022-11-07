@@ -1,8 +1,7 @@
-package com.yeoboya.lunch.config.security.controller;
+package com.yeoboya.lunch.api.v1.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.config.security.dto.reqeust.UserRequest;
-import com.yeoboya.lunch.config.security.repository.UsersRepository;
+import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,59 +23,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-class UserControllerTest {
+class OrderControllerDocTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private UsersRepository usersRepository;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
-
     @Test
-    void signUp() throws Exception {
+    void order() throws Exception {
         //given
-        UserRequest.SignUp signUp = new UserRequest.SignUp();
-        signUp.setEmail("kkkkkk@gmail.com");
-        signUp.setName("김현진");
-        signUp.setPassword("1234qwer@@");
-
-        String json = objectMapper.writeValueAsString(signUp);
+        OrderCreate order = OrderCreate.builder().email("khjzzm@gmail.com").itemId(2).orderQuantity(1).build();
+        String json = objectMapper.writeValueAsString(order);
 
         //expected
-        mockMvc.perform(post("/member/sign-up")
+        mockMvc.perform(post("/order")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("member",
+                .andDo(document("order",
                         requestFields(
-                                fieldWithPath("id").description("아이디"),
-                                fieldWithPath("email").description("이메일")
-                                        .attributes(key("constraint").value("메뉴 입력해주세요.")),
-                                fieldWithPath("name").description("이름"),
-                                fieldWithPath("password").description("비밀번호").optional()
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("itemId").description("아이템 번호"),
+                                fieldWithPath("orderQuantity").description("주문수량")
                         )
                 ));
     }
 
     @Test
-    void login() {
+    void get() {
     }
 
     @Test
-    void reissue() {
+    void getList() {
     }
 
     @Test
-    void logout() {
+    void edit() {
     }
 
     @Test
-    void authority() {
+    void delete() {
     }
 }
