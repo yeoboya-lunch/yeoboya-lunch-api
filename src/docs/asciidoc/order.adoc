@@ -1,0 +1,15 @@
+= 여보야 점심 API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: right
+:toclevels: 2
+:sectlinks:
+
+== 주문 등록
+
+=== 요청
+include::{snippets}/order/http-request.adoc[]
+
+=== 응답
+include::{snippets}/order/http-response.adoc[]

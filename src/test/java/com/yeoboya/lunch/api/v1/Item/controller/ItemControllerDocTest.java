@@ -95,7 +95,7 @@ class ItemControllerDocTest {
         String json = objectMapper.writeValueAsString(request);
 
         //expected
-        mockMvc.perform(patch("/item/{itemId}", 32)
+        mockMvc.perform(patch("/item/{itemId}", 2)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(json))
