@@ -4,6 +4,7 @@ package com.yeoboya.lunch.api.v1.order.controller;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.response.OrderItemResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public void get(@ModelAttribute OrderSearch orderSearch) {
+    public void getCond() {
     }
 
     @GetMapping("/list")
     public List<OrderResponse> getList(@ModelAttribute OrderSearch search) {
-        List<OrderResponse> items = orderService.findItems(search);
-        return items;
+        return orderService.orderList(search);
     }
 
     @PatchMapping("/{postId}")
@@ -43,6 +43,12 @@ public class OrderController {
 
     @DeleteMapping("/posts/{postId}")
     public void delete(@PathVariable Long postId) {
+    }
+
+    @GetMapping("/item")
+    public List<OrderItemResponse> getOrderItem(@ModelAttribute OrderSearch search){
+        List<OrderItemResponse> orderItems = orderService.orderItemList(search);
+        return orderItems;
     }
 
 

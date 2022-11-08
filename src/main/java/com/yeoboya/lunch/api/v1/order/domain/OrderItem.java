@@ -16,12 +16,12 @@ public class OrderItem {
     @Column(name = "ORDER_ITEM_ID")
     private Long id;
 
-    @JsonBackReference
+    @JsonBackReference // ByteBuddyInterceptor
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
     private Item item;      //주문 상품
 
-    @JsonBackReference
+    @JsonBackReference //순환참조
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;    //주문

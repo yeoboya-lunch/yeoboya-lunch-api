@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.config.persistence;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -14,6 +15,11 @@ public class JpaConfig {
     @Bean
     public AuditorAware<String> auditorProvider() {
         return () -> Optional.of(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    @Bean
+    Hibernate5Module hibernate5Module(){
+        return new Hibernate5Module();
     }
 
 }
