@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
+import com.yeoboya.lunch.api.v1.order.repository.OrderQueryRepository;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderEdit;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-//    private final OrderQueryRepositoryImpl orderQueryRepositoryImpl;
+    private final OrderQueryRepository orderQueryRepository;
     private final UsersJpaRepository usersJpaRepository;
     private final ItemRepository itemRepository;
 
@@ -43,12 +44,11 @@ public class OrderServiceImpl implements OrderService {
         Order order = Order.createOrder(member, orderItem);
         Order save = orderRepository.save(order);
 
-        OrderResponse build = OrderResponse.builder().
+        return OrderResponse.builder().
                 id(save.getId()).
-                memberId(save.getMember().getName()).
+                email(save.getMember().getEmail()).
                 price(save.getTotalPrice()).
                 build();
-        return build;
     }
 
     @Override
@@ -63,10 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponse> findItems(OrderSearch orderSearch) {
-
-//        PageRequest pageRequest = PageRequest.of(0, 5);
-
-        return orderRepository.findAll().stream()
+        return orderQueryRepository.findAllByQueryDsl().stream()
                 .map(OrderResponse::new)
                 .collect(Collectors.toList());
     }

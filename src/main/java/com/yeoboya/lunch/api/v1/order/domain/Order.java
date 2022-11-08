@@ -22,23 +22,21 @@ public class Order {
     @Column(name = "ORDER_ID")
     private Long id;
 
-//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-    private Member member;      //주문 회원
+    private Member member;  //주문 회원
 
     @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+    private List<OrderItem> orderItems = new ArrayList<>();    //주문아이템
 
     private Date orderDate;     //주문시간
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;//주문상태
+    private OrderStatus status; //주문상태
 
     //==생성 메서드==//
     public static Order createOrder(Member member, OrderItem... orderItems) {
-
         Order order = new Order();
         order.setMember(member);
         for (OrderItem orderItem : orderItems) {
@@ -59,7 +57,6 @@ public class Order {
 
     public void setMember(Member member) {
         this.member = member;
-//        member.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -67,13 +64,8 @@ public class Order {
         orderItem.setOrder(this);
     }
 
-
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", orderDate=" + orderDate +
-                ", status=" + status +
-                '}';
+        return "Order{" + "id=" + id + ", orderDate=" + orderDate + ", status=" + status + '}';
     }
 }

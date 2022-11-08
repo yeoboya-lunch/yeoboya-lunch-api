@@ -11,22 +11,22 @@ import java.util.List;
 public class OrderResponse {
 
     private final Long id;
-    private final String memberId;
+    private final String email;
     private final int price;
     private List<OrderItem> orderItemList;
 
     // 생성자 오버로딩
     public OrderResponse(Order order) {
         this.id = order.getId();
-        this.memberId = order.getMember().getName();
+        this.email = order.getMember().getEmail();    //LAZY 초기화
         this.price = order.getTotalPrice();
         this.orderItemList = order.getOrderItems();
     }
 
     @Builder
-    public OrderResponse(Long id, String memberId, int price) {
+    public OrderResponse(Long id, String email, int price) {
         this.id = id;
-        this.memberId = memberId;
+        this.email = email;
         this.price = price;
     }
 }
