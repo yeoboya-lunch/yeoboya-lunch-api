@@ -6,7 +6,7 @@ import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
 import com.yeoboya.lunch.api.v1.exception.OrderNotFound;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
-import com.yeoboya.lunch.api.v1.order.domain.OrderStatus;
+import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderEdit;
@@ -73,8 +73,8 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderItemResponse> orderItemList(OrderSearch search) {
-        return orderRepository.orderItemList(search).stream()
+    public List<OrderItemResponse> orderItemList(OrderSearch search, Pageable pageable) {
+        return orderRepository.orderItemList(search, pageable).stream()
                 .map(OrderItemResponse::new)
                 .collect(Collectors.toList());
     }

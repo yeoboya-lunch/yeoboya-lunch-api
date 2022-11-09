@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
+import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderSearch;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,6 @@ import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
 import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
 import static com.yeoboya.lunch.config.security.domain.QMember.member;
 
-
 @Repository
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
@@ -24,39 +24,45 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         this.query = query;
     }
 
-    public List<OrderItem> orderItemList(OrderSearch orderSearch){
-        return query.selectFrom(orderItem)
-                .leftJoin(orderItem.order, order)
-                .fetchJoin()
-                .where(maxPrice(orderSearch.getOrderPrice()))
-                .distinct()
-                .fetch();
-    }
-
     @Override
     public List<Order> orderList(OrderSearch orderSearch, Pageable pageable){
         return query.selectFrom(order)
                 .leftJoin(order.orderItems, orderItem)
-                .fetchJoin()
                 .leftJoin(order.member, member)
-                .fetchJoin()
-                .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(order.id.desc())
+                .where(
+                        isStatus(orderSearch.getOrderStatus())
+                )
+                .distinct()
+                .fetch();
+    }
+
+    @Override
+    public List<OrderItem> orderItemList(OrderSearch orderSearch, Pageable pageable){
+        return query.selectFrom(orderItem)
+                .leftJoin(orderItem.order, order).fetchJoin()
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+//                .where(maxPrice(orderSearch.getOrderPrice()))
                 .fetch();
     }
 
 
-//    @Override
-//    public BooleanExpression likeItemName(String itemName) {
+    private BooleanExpression isStatus(OrderStatus status){
+        return status != null ? order.status.eq(status) : null;
+    }
+
+
+    private BooleanExpression likeItemName(String itemName) {
 //        if (StringUtils.hasText(itemName)) {
 //            return item.name.like("%" + itemName + "%");
 //        }
-//        return null;
-//    }
+        return null;
+    }
 
-    @Override
-    public BooleanExpression maxPrice(Integer maxPrice) {
+    private BooleanExpression maxPrice(Integer maxPrice) {
         if (maxPrice != null) {
             return orderItem.orderPrice.goe(maxPrice);
         }

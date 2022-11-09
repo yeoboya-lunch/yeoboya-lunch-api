@@ -2,7 +2,7 @@ package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.config.common.Response;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
-import com.yeoboya.lunch.config.constants.Authority;
+import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.Member;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.dto.Users;

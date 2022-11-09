@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.config.constants;
+package com.yeoboya.lunch.config.security.constants;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -32,13 +32,11 @@ public class OrderController {
     public void getCond() {
     }
 
-//    @GetMapping("/list")
-//    public List<OrderResponse> getList(@ModelAttribute @Valid OrderSearch search) {
-//        return orderService.orderList(search);
-//    }
 
     @GetMapping("/list")
     public List<OrderResponse> getList(OrderSearch search, Pageable pageable) {
+        System.out.println("search = " + search);
+        System.out.println("pageable = " + pageable);
         return orderService.orderList(search, pageable);
     }
 
@@ -53,8 +51,8 @@ public class OrderController {
     }
 
     @GetMapping("/item")
-    public List<OrderItemResponse> getOrderItem(@ModelAttribute OrderSearch search){
-        List<OrderItemResponse> orderItems = orderService.orderItemList(search);
+    public List<OrderItemResponse> getOrderItem(OrderSearch search, Pageable pageable){
+        List<OrderItemResponse> orderItems = orderService.orderItemList(search, pageable);
         return orderItems;
     }
 

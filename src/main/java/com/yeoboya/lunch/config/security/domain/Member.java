@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.config.security.domain;
 
 import com.yeoboya.lunch.api.v1.domain.BaseTimeEntity;
-import com.yeoboya.lunch.config.constants.Authority;
+import com.yeoboya.lunch.config.security.constants.Authority;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,10 +20,6 @@ public class Member extends BaseTimeEntity {
     private String email;
     private String name;
     private String password;
-
-//    @OneToMany(mappedBy = "member")
-//    @Builder.Default
-//    private List<Order> orders = new ArrayList<Order>();
 
     @Enumerated(EnumType.STRING)
     private Authority role;

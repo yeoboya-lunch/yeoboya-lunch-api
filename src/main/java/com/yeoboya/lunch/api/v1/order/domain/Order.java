@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.config.security.domain.Member;
 import lombok.Getter;
 import lombok.Setter;

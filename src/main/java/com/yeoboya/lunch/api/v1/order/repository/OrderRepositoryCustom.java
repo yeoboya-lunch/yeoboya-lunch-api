@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.order.repository;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderSearch;
@@ -12,9 +11,7 @@ public interface OrderRepositoryCustom {
 
     List<Order> orderList(OrderSearch orderSearch, Pageable pageable);
 
-//    BooleanExpression likeItemName(String itemName);
+    List<OrderItem> orderItemList(OrderSearch search, Pageable pageable);
 
-    BooleanExpression maxPrice(Integer maxPrice);
 
-    List<OrderItem> orderItemList(OrderSearch search);
 }

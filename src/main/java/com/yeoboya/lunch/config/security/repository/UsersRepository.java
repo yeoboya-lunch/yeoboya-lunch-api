@@ -1,6 +1,6 @@
 package com.yeoboya.lunch.config.security.repository;
 
-import com.yeoboya.lunch.config.constants.Authority;
+import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.dto.Users;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
