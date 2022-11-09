@@ -13,14 +13,14 @@ public class OrderResponse {
     private final Long id;
     private final String email;
     private final int price;
-    private List<OrderItem> orderItemList;
+    private List<OrderItem> orderItems;
 
     // 생성자 오버로딩
     public OrderResponse(Order order) {
         this.id = order.getId();
         this.email = order.getMember().getEmail();    //LAZY 초기화
         this.price = order.getTotalPrice();
-        this.orderItemList = order.getOrderItems();
+        this.orderItems = order.getOrderItems();
     }
 
     @Builder
@@ -29,4 +29,5 @@ public class OrderResponse {
         this.email = email;
         this.price = price;
     }
+
 }

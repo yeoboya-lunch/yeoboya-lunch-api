@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderSearch;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,15 +34,15 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     }
 
     @Override
-    public List<Order> orderList(OrderSearch orderSearch){
+    public List<Order> orderList(OrderSearch orderSearch, Pageable pageable){
         return query.selectFrom(order)
                 .leftJoin(order.orderItems, orderItem)
                 .fetchJoin()
                 .leftJoin(order.member, member)
                 .fetchJoin()
                 .distinct()
-                .limit(orderSearch.getSize())
-                .offset(orderSearch.getOffset())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 

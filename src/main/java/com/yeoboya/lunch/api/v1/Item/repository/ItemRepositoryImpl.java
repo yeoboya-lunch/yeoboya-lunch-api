@@ -2,8 +2,8 @@ package com.yeoboya.lunch.api.v1.Item.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
-import com.yeoboya.lunch.api.v1.Item.request.ItemSearch;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,10 +15,10 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Item> getList(ItemSearch itemSearch) {
+    public List<Item> getList(Pageable pageable) {
         return jpaQueryFactory.selectFrom(item)
-                .limit(itemSearch.getSize())
-                .offset(itemSearch.getOffset())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
                 .orderBy(item.id.desc())
                 .fetch();
     }

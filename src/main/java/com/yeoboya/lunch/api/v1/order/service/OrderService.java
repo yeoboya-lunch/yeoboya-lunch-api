@@ -3,8 +3,10 @@ package com.yeoboya.lunch.api.v1.order.service;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
+import com.yeoboya.lunch.api.v1.exception.OrderNotFound;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
+import com.yeoboya.lunch.api.v1.order.domain.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.reqeust.OrderEdit;
@@ -15,8 +17,10 @@ import com.yeoboya.lunch.config.security.domain.Member;
 import com.yeoboya.lunch.config.security.repository.UsersJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +53,12 @@ public class OrderService {
                 build();
     }
 
+    @Transactional
+    public void cancelOrder(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
+        order.setStatus(OrderStatus.CANCEL);
+    }
+
     public void update(Long itemId, OrderEdit orderEdit) {
 
     }
@@ -57,8 +67,8 @@ public class OrderService {
         return Optional.empty();
     }
 
-    public List<OrderResponse> orderList(OrderSearch orderSearch) {
-        return orderRepository.orderList(orderSearch).stream()
+    public List<OrderResponse> orderList(OrderSearch orderSearch, Pageable pageable) {
+        return orderRepository.orderList(orderSearch, pageable).stream()
                 .map(OrderResponse::new)
                 .collect(Collectors.toList());
     }

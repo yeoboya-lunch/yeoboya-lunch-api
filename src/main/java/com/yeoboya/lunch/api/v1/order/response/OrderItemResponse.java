@@ -7,12 +7,14 @@ import lombok.Getter;
 public class OrderItemResponse {
 
     private final Long id;
+    private final Long orderNo;
     private final String itemName;
     private final int orderPrice;  //주문 가격
     private final int orderQuantity; //주문 수량
 
     public OrderItemResponse(OrderItem orderItem) {
         this.id = orderItem.getId();
+        this.orderNo = orderItem.getId();
         this.itemName = orderItem.getItem().getName();
         this.orderPrice = orderItem.getOrderPrice();
         this.orderQuantity = orderItem.getOrderQuantity();

@@ -9,6 +9,7 @@ import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,18 +32,24 @@ public class OrderController {
     public void getCond() {
     }
 
+//    @GetMapping("/list")
+//    public List<OrderResponse> getList(@ModelAttribute @Valid OrderSearch search) {
+//        return orderService.orderList(search);
+//    }
+
     @GetMapping("/list")
-    public List<OrderResponse> getList(@ModelAttribute OrderSearch search) {
-        return orderService.orderList(search);
+    public List<OrderResponse> getList(OrderSearch search, Pageable pageable) {
+        return orderService.orderList(search, pageable);
     }
 
-    @PatchMapping("/{postId}")
+    @PatchMapping("/{orderId}")
     public OrderResponse edit(@RequestBody @Valid OrderEdit edit) {
         return null;
     }
 
-    @DeleteMapping("/posts/{postId}")
-    public void delete(@PathVariable Long postId) {
+    @PatchMapping("/cancel/{orderId}")
+    public void cancel(@PathVariable Long orderId) {
+        orderService.cancelOrder(orderId);
     }
 
     @GetMapping("/item")

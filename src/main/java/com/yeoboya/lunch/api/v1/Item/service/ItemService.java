@@ -5,9 +5,9 @@ import com.yeoboya.lunch.api.v1.Item.domain.ItemEditor;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
-import com.yeoboya.lunch.api.v1.Item.request.ItemSearch;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,8 +56,8 @@ public class ItemService {
 
 
 
-    public List<ItemResponse> getList(ItemSearch itemSearch) {
-        return itemRepository.getList(itemSearch).stream()
+    public List<ItemResponse> getList(Pageable pageable) {
+        return itemRepository.getList(pageable).stream()
                 .map(ItemResponse::new)
                 .collect(Collectors.toList());
     }

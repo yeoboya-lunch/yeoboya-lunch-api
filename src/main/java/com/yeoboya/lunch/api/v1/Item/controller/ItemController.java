@@ -6,6 +6,7 @@ import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.request.ItemSearch;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.Item.service.ItemService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,8 +38,8 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemResponse> getList(@ModelAttribute ItemSearch itemSearch) {
-        return itemService.getList(itemSearch);
+    public List<ItemResponse> getList(Pageable pageable) {
+        return itemService.getList(pageable);
     }
 
 }
