@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.api.v1.order.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
+import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

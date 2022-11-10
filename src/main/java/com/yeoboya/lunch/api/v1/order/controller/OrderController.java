@@ -1,9 +1,9 @@
 package com.yeoboya.lunch.api.v1.order.controller;
 
 
-import com.yeoboya.lunch.api.v1.order.reqeust.OrderCreate;
-import com.yeoboya.lunch.api.v1.order.reqeust.OrderEdit;
-import com.yeoboya.lunch.api.v1.order.reqeust.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
+import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
+import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderItemResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
@@ -33,10 +33,9 @@ public class OrderController {
     }
 
 
+    // 1:N
     @GetMapping("/list")
     public List<OrderResponse> getList(OrderSearch search, Pageable pageable) {
-        System.out.println("search = " + search);
-        System.out.println("pageable = " + pageable);
         return orderService.orderList(search, pageable);
     }
 
@@ -50,10 +49,11 @@ public class OrderController {
         orderService.cancelOrder(orderId);
     }
 
+
+    // N:1
     @GetMapping("/item")
     public List<OrderItemResponse> getOrderItem(OrderSearch search, Pageable pageable){
-        List<OrderItemResponse> orderItems = orderService.orderItemList(search, pageable);
-        return orderItems;
+        return orderService.orderItemList(search, pageable);
     }
 
 

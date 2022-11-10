@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
-import com.yeoboya.lunch.api.v1.order.reqeust.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -45,7 +45,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .leftJoin(orderItem.order, order).fetchJoin()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-//                .where(maxPrice(orderSearch.getOrderPrice()))
                 .fetch();
     }
 
@@ -54,13 +53,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         return status != null ? order.status.eq(status) : null;
     }
 
-
-    private BooleanExpression likeItemName(String itemName) {
-//        if (StringUtils.hasText(itemName)) {
-//            return item.name.like("%" + itemName + "%");
-//        }
-        return null;
-    }
 
     private BooleanExpression maxPrice(Integer maxPrice) {
         if (maxPrice != null) {

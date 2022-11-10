@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @ControllerAdvice
@@ -31,6 +34,16 @@ public class ExceptionController {
     }
 
     @ResponseBody
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT) // 409
+    protected ErrorResponse userEmailConstraintException(HttpServletRequest request, DataIntegrityViolationException e) {
+        return ErrorResponse.builder()
+                .code("409")
+                .message("데이터가 이미 존재합니다.")
+                .build();
+    }
+
+    @ResponseBody
     @ExceptionHandler(LunchException.class)
     public ResponseEntity<ErrorResponse> lunchException(LunchException e) {
         int statusCode = e.getStatusCode();
@@ -43,4 +56,5 @@ public class ExceptionController {
 
         return ResponseEntity.status(statusCode).body(body);
     }
+
 }

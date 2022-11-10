@@ -1,17 +1,14 @@
 package com.yeoboya.lunch.api.v1.Item.domain;
 
+import com.yeoboya.lunch.api.v1.Item.request.ItemEditor;
 import com.yeoboya.lunch.api.v1.domain.BaseEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.yeoboya.lunch.api.v1.shop.domain.Shop;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Item extends BaseEntity {
@@ -24,8 +21,13 @@ public class Item extends BaseEntity {
     private String name;
     private int price;
 
+    @ManyToOne
+    @JoinColumn(name = "SHOP_ID")
+    private Shop shop;
+
     @Builder
-    public Item(String name, int price) {
+    public Item(Shop shop, String name, int price) {
+        this.shop = shop;
         this.name = name;
         this.price = price;
     }
@@ -41,4 +43,12 @@ public class Item extends BaseEntity {
         price = itemEditor.getPrice();
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

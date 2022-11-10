@@ -3,7 +3,6 @@ package com.yeoboya.lunch.api.v1.Item.controller;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
-import com.yeoboya.lunch.api.v1.Item.request.ItemSearch;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.Item.service.ItemService;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v1.order.reqeust;
+package com.yeoboya.lunch.api.v1.order.request;
 
 import lombok.Builder;
 import lombok.Getter;

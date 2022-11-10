@@ -1,12 +1,16 @@
 package com.yeoboya.lunch.api.v1.Item.service;
 
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
-import com.yeoboya.lunch.api.v1.Item.domain.ItemEditor;
+import com.yeoboya.lunch.api.v1.Item.request.ItemEditor;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
+import com.yeoboya.lunch.api.v1.exception.ShopNotFound;
+import com.yeoboya.lunch.api.v1.shop.domain.Shop;
+import com.yeoboya.lunch.api.v1.shop.repository.ShopRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,20 +21,23 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final ShopRepository shopRepository;
 
-    public ItemService(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
 
     public Item saveItem(ItemCreate create) {
-        Item createItem = Item.builder().
-                name(create.getName()).
-                price(create.getPrice()).
 
+        Shop findShop = shopRepository.findByName(create.getShopName()).orElseThrow(ShopNotFound::new);
+
+        Item createItem = Item.builder().
+                shop(findShop).
+                name(create.getItemName()).
+                price(create.getPrice()).
                 build();
+
         return itemRepository.save(createItem);
     }
 

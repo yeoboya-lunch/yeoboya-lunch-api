@@ -36,7 +36,7 @@ public class SecurityConfiguration {
     };
 
     private static final String[] TEMP_URL_ARRAY = {
-            "/v1/**", "/item/**", "/order/**"
+            "/item/**", "/order/**", "/shop/**"
     };
 
 

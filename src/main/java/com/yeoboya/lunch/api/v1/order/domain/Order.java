@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.config.security.domain.Member;
 import lombok.Getter;
@@ -27,7 +26,6 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;  //주문 회원
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();    //주문아이템
 
@@ -36,7 +34,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status; //주문상태
 
-    //==생성 메서드==//
+    //연관관계 편의 메소드
     public static Order createOrder(Member member, OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);

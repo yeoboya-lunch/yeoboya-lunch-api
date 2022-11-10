@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v1.Item.domain;
+package com.yeoboya.lunch.api.v1.Item.request;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -41,7 +41,7 @@ class ItemControllerDocTest {
     void create() throws Exception {
         //given
         ItemCreate request = ItemCreate.builder().
-                name("챙길밥").
+                itemName("챙길밥").
                 price(6300).
                 build();
         String json = objectMapper.writeValueAsString(request);

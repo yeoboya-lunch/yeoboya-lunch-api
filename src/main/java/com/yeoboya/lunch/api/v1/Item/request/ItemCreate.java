@@ -11,15 +11,19 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class ItemCreate {
 
+    @NotBlank(message = "상호를 입력해주세요.")
+    private String shopName;
+
     @NotBlank(message = "상품을 입력해주세요.")
-    private String name;
+    private String itemName;
 
     @NotNull(message = "가격을 입력해주세요.")
     private int price;
 
     @Builder
-    public ItemCreate(String name, int price) {
-        this.name = name;
+    public ItemCreate(String shopName, String itemName, int price) {
+        this.shopName = shopName;
+        this.itemName = itemName;
         this.price = price;
     }
 }

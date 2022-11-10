@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +15,10 @@ public class OrderItem {
     @Column(name = "ORDER_ITEM_ID")
     private Long id;
 
-    @JsonBackReference // ByteBuddyInterceptor
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
     private Item item;      //주문 상품
 
-    @JsonBackReference //순환참조
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;    //주문
