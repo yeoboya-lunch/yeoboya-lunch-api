@@ -1,13 +1,19 @@
 package com.yeoboya.lunch.api.v1.Item.repository;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
+import com.yeoboya.lunch.config.persistence.QueryDslUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.yeoboya.lunch.api.v1.Item.domain.QItem.item;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @RequiredArgsConstructor
 public class ItemRepositoryImpl implements ItemRepositoryCustom {
@@ -19,8 +25,33 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         return jpaQueryFactory.selectFrom(item)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(item.id.desc())
+                .orderBy(this.sort(pageable).stream().toArray(OrderSpecifier[]::new))
                 .fetch();
     }
 
+
+    private List<OrderSpecifier> sort(Pageable pageable) {
+
+        List<OrderSpecifier> ORDERS = new ArrayList<>();
+
+        if (!isEmpty(pageable.getSort())) {
+            for (Sort.Order order : pageable.getSort()) {
+                Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
+                switch (order.getProperty()) {
+                    case "name":
+                        OrderSpecifier<?> shopId = QueryDslUtil.getSortedColumn(direction, item.name, "name");
+                        ORDERS.add(shopId);
+                        break;
+                    case "price":
+                        OrderSpecifier<?> shopName = QueryDslUtil.getSortedColumn(direction, item.price, "price");
+                        ORDERS.add(shopName);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        return ORDERS;
+    }
 }

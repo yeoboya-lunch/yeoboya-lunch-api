@@ -50,7 +50,6 @@ public class ShopRepositoryCustomImpl implements ShopRepositoryCustom {
     }
 
 
-
     //fixme
     private List<OrderSpecifier> sort(Pageable pageable) {
 

@@ -23,34 +23,34 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    /** 주문 */
     @PostMapping
     public OrderResponse order(@RequestBody @Valid OrderCreate orderCreate){
         return orderService.order(orderCreate);
     }
 
-    @GetMapping
-    public void getCond() {
-    }
-
-
-    // 1:N
+    /** 주문내역 */
     @GetMapping("/list")
     public List<OrderResponse> getList(OrderSearch search, Pageable pageable) {
+        System.out.println("search = " + search + ", pageable = " + pageable);
         return orderService.orderList(search, pageable);
     }
 
+    /** 주문수정 */
+    //todo 주문수정 기능
     @PatchMapping("/{orderId}")
-    public OrderResponse edit(@RequestBody @Valid OrderEdit edit) {
-        return null;
+    public void updateOrder(@PathVariable Long orderId, @RequestBody @Valid OrderEdit edit) {
+        orderService.updateOrder(orderId, edit);
     }
 
+    /** 주문취소 */
     @PatchMapping("/cancel/{orderId}")
     public void cancel(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
     }
 
-
     // N:1
+    @Deprecated
     @GetMapping("/item")
     public List<OrderItemResponse> getOrderItem(OrderSearch search, Pageable pageable){
         return orderService.orderItemList(search, pageable);

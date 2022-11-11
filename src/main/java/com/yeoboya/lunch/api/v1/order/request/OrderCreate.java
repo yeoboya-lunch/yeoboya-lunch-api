@@ -1,12 +1,12 @@
 package com.yeoboya.lunch.api.v1.order.request;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,18 +16,11 @@ public class OrderCreate {
     @NotBlank(message = "주문자를 입력해주세요.")
     private String email;
 
-    @NotNull(message = "아이템 번호를 입력해주세요.")
-    private int itemId;
+    @NotNull(message = "상점을 입력해주세요.")
+    private String shopName;
 
-    @NotNull(message = "주문 수량을 입력해주세요.")
-    @Builder.Default
-    private int orderQuantity = 1;
+    @NotNull(message = "상품정보를 입력해주세요.")
+    private List<OrderItemCreate> orderItems;
 
-    @Builder
-    public OrderCreate(String email, int itemId, int orderQuantity) {
-        this.email = email;
-        this.itemId = itemId;
-        this.orderQuantity = orderQuantity;
-    }
 
 }

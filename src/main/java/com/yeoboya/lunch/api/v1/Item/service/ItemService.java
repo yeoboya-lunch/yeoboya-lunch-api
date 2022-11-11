@@ -29,17 +29,33 @@ public class ItemService {
 
 
     public Item saveItem(ItemCreate create) {
-
         Shop findShop = shopRepository.findByName(create.getShopName()).orElseThrow(ShopNotFound::new);
-
         Item createItem = Item.builder().
                 shop(findShop).
                 name(create.getItemName()).
                 price(create.getPrice()).
                 build();
-
         return itemRepository.save(createItem);
     }
+
+
+
+    public ItemResponse get(Long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFound::new);
+        return ItemResponse.builder()
+                .id(itemId)
+                .shopName(item.getShop().getName())
+                .name(item.getName())
+                .price(item.getPrice())
+                .build();
+    }
+
+    public List<ItemResponse> getList(Pageable pageable) {
+        return itemRepository.getList(pageable).stream()
+                .map(ItemResponse::new)
+                .collect(Collectors.toList());
+    }
+
 
     @Transactional
     public void edit(Long id, ItemEdit itemEdit) {
@@ -54,18 +70,8 @@ public class ItemService {
         item.edit(itemEditor);
     }
 
-
-    public ItemResponse get(Long itemId) {
-        Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFound::new);
-
-        return ItemResponse.builder().id(itemId).name(item.getName()).price(item.getPrice()).build();
+    public void delete(Long id){
+        itemRepository.deleteById(id);
     }
 
-
-
-    public List<ItemResponse> getList(Pageable pageable) {
-        return itemRepository.getList(pageable).stream()
-                .map(ItemResponse::new)
-                .collect(Collectors.toList());
-    }
 }

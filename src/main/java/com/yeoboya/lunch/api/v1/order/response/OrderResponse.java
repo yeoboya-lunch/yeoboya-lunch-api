@@ -10,26 +10,29 @@ import java.util.stream.Collectors;
 @Getter
 public class OrderResponse {
 
-    private final Long id;
-    private final String email;
-    private final int price;
-    private List<OrderItemResponse> orderItems;
 
-    // 생성자 오버로딩
+    private final Long id;
+    private final String orderName;
+    private final int totalPrice;
+    private final List<OrderItemResponse> orderItems;
+
     public OrderResponse(Order order) {
         this.id = order.getId();
-        this.email = order.getMember().getEmail();    //LAZY 초기화
-        this.price = order.getTotalPrice();
+        this.orderName = order.getMember().getName();    //LAZY 초기화
+        this.totalPrice = order.getTotalPrice();
         this.orderItems = order.getOrderItems().stream()
                 .map(OrderItemResponse::new)
                 .collect(Collectors.toList());
     }
 
     @Builder
-    public OrderResponse(Long id, String email, int price) {
+    public OrderResponse(Long id, String orderName, int totalPrice, Order order) {
         this.id = id;
-        this.email = email;
-        this.price = price;
+        this.orderName = orderName;
+        this.totalPrice = totalPrice;
+        this.orderItems = order.getOrderItems().stream()
+                .map(OrderItemResponse::new)
+                .collect(Collectors.toList());
     }
 
 }

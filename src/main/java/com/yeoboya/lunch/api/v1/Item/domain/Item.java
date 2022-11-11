@@ -18,7 +18,9 @@ public class Item extends BaseEntity {
     @Column(name = "ITEM_ID")
     private Long id;
 
+    @Column(unique = true)
     private String name;
+
     private int price;
 
     @ManyToOne

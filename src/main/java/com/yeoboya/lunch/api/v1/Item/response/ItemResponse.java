@@ -8,20 +8,24 @@ import lombok.Getter;
 public class ItemResponse {
 
     private final Long id;
+    private final String shopName;
     private final String name;
     private final int price;
 
     // 생성자 오버로딩
     public ItemResponse(Item item) {
         this.id = item.getId();
+        this.shopName = item.getShop().getName();
         this.name = item.getName();
         this.price = item.getPrice();
     }
 
     @Builder
-    public ItemResponse(Long id, String name, int price) {
+    public ItemResponse(Long id, String shopName, String name, int price) {
         this.id = id;
+        this.shopName = shopName;
         this.name = name;
         this.price = price;
     }
+
 }

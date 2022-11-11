@@ -11,6 +11,9 @@ public interface OrderRepositoryCustom {
 
     List<Order> orderList(OrderSearch orderSearch, Pageable pageable);
 
+    List<OrderItem> orderItems(Long orderID);
+
+    @Deprecated
     List<OrderItem> orderItemList(OrderSearch search, Pageable pageable);
 
 

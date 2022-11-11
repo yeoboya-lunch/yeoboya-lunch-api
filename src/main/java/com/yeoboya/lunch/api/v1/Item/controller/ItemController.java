@@ -21,24 +21,45 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+    /**
+     * 아이템 등록
+     */
     @PostMapping
     public Item create(@RequestBody @Valid ItemCreate create) {
         return itemService.saveItem(create);
     }
 
+    /**
+     * 아이템 리스트
+     */
+    @GetMapping
+    public List<ItemResponse> getList(Pageable pageable) {
+        return itemService.getList(pageable);
+    }
+
+    /**
+     * 아이템 단건 조회
+     */
     @GetMapping("/{itemId}")
     public ItemResponse get(@PathVariable Long itemId) {
         return itemService.get(itemId);
     }
 
+    /**
+     * 아이템 수정
+     */
     @PatchMapping("/{itemId}")
     public void updateItem(@PathVariable Long itemId, @RequestBody @Valid ItemEdit edit) {
         itemService.edit(itemId, edit);
     }
 
-    @GetMapping
-    public List<ItemResponse> getList(Pageable pageable) {
-        return itemService.getList(pageable);
+    /**
+     * 아이템 삭제
+     */
+    @DeleteMapping("/{itemId}")
+    public void deleteItem(@PathVariable Long itemId){
+        itemService.delete(itemId);
     }
+
 
 }
