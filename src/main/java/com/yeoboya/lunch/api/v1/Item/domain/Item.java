@@ -10,6 +10,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "NAME_SHOP_ID_UNIQUE",
+                        columnNames = {"name", "shop_id"}
+                )
+        }
+)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Item extends BaseEntity {
 
@@ -18,7 +26,6 @@ public class Item extends BaseEntity {
     @Column(name = "ITEM_ID")
     private Long id;
 
-    @Column(unique = true)
     private String name;
 
     private int price;
@@ -35,9 +42,7 @@ public class Item extends BaseEntity {
     }
 
     public ItemEditor.ItemEditorBuilder toEditor() {
-        return ItemEditor.builder()
-                .itemName(name)
-                .price(price);
+        return ItemEditor.builder().itemName(name).price(price);
     }
 
     public void edit(ItemEditor itemEditor) {
@@ -47,10 +52,6 @@ public class Item extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                '}';
+        return "Item{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + '}';
     }
 }
