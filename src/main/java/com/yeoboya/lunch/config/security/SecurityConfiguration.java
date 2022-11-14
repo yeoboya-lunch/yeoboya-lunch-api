@@ -74,8 +74,8 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
                 .mvcMatchers(ADMIN_URL_ARRAY).hasRole("ADMIN")
-//                .mvcMatchers(TEMP_URL_ARRAY).hasAnyRole("USER", "ADMIN")
-                .mvcMatchers(TEMP_URL_ARRAY).permitAll()
+                .mvcMatchers(TEMP_URL_ARRAY).hasAnyRole("USER", "ADMIN")
+//                .mvcMatchers(TEMP_URL_ARRAY).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

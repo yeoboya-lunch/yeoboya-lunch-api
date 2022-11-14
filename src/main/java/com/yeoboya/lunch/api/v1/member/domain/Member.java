@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.api.v1.member.domain;
 
 import com.yeoboya.lunch.api.v1.domain.BaseTimeEntity;
-import com.yeoboya.lunch.config.security.dmain.MemberRole;
+import com.yeoboya.lunch.config.security.domain.MemberRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,7 +34,11 @@ public class Member extends BaseTimeEntity {
 
 
     //연관관계 편의 메소드
-    public static Member createMember(Member member, List<MemberRole> memberRoles){
+    public static Member createMember(Member pMember, List<MemberRole> memberRoles){
+        Member member = new Member();
+        member.setEmail(pMember.getEmail());
+        member.setName(pMember.getName());
+        member.setPassword(pMember.getPassword());
         for(MemberRole roles : memberRoles) {
             member.addMemberRole(roles);
         }
@@ -42,7 +46,6 @@ public class Member extends BaseTimeEntity {
     }
 
     public void addMemberRole(MemberRole memberRole) {
-        System.out.println("this.memberRoles" + this.memberRoles);
         this.memberRoles.add(memberRole);
         memberRole.setMember(this);
     }

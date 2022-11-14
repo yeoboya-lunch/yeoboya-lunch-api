@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.config.security.dmain;
+package com.yeoboya.lunch.config.security.domain;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.config.security.constants.Authority;
@@ -16,17 +16,11 @@ public class Roles {
     @Column(name = "ROLES_ID", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;  //주문 회원
-
     @Enumerated(EnumType.STRING)
     private Authority role;
 
-
     @Builder
-    public Roles(Member member, Authority role) {
-        this.member = member;
+    public Roles(Authority role) {
         this.role = role;
     }
 }

@@ -5,8 +5,8 @@ import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.common.Response;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
-import com.yeoboya.lunch.config.security.dmain.MemberRole;
-import com.yeoboya.lunch.config.security.dmain.Roles;
+import com.yeoboya.lunch.config.security.domain.MemberRole;
+import com.yeoboya.lunch.config.security.domain.Roles;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import lombok.RequiredArgsConstructor;
@@ -42,21 +42,27 @@ public class UsersService {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
 
+        // member
+        Member build = Member.builder()
+                .email(signUp.getEmail())
+                .name(signUp.getName())
+                .password(passwordEncoder.encode(signUp.getPassword()))
+                .build();
 
-        Member member = Member.builder().
-                email(signUp.getEmail()).
-                name(signUp.getName()).
-                password(passwordEncoder.encode(signUp.getPassword())).build();
-//                role(Authority.ROLE_USER).build();
+        // role
+        Roles roles = Roles.builder()
+                .role(Authority.ROLE_USER)
+                .build();
 
-        Roles roles = Roles.builder().member(member).role(Authority.ROLE_USER).build();
-
+        // member_roles
         List<MemberRole> memberRoles = new ArrayList<>();
         memberRoles.add(MemberRole.createMemberRoles(roles));
 
-        Member buildUp = Member.createMember(member, memberRoles);
+        //save member
+        Member saveMember = Member.createMember(build, memberRoles);
 
-        return response.success(memberRepository.save(buildUp), "회원가입에 성공했습니다.");
+        memberRepository.save(saveMember);
+        return response.success("회원가입에 성공했습니다.");
     }
 
     public ResponseEntity<?> login(UserRequest.Login login) {

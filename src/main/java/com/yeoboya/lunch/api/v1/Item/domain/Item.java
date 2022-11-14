@@ -30,7 +30,7 @@ public class Item extends BaseEntity {
 
     private int price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SHOP_ID")
     private Shop shop;
 

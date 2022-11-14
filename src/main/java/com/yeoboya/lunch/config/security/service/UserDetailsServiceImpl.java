@@ -28,6 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + username));
     }
 
+    //fixme get roles
     private UserDetails createUserDetails(Member member) {
         return Users.builder().
                 email(member.getEmail()).

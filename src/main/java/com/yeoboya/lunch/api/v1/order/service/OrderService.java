@@ -44,14 +44,15 @@ public class OrderService {
 
         List<OrderItemCreate> orderItemCreates = orderCreate.getOrderItems();
 
+        Order order;
         Item item;
         List<OrderItem> orderItems = new ArrayList<>();
-        Order order;
 
         for (OrderItemCreate orderItemCreate : orderItemCreates){
             item = itemRepository.getItemByShopNameAndName(orderCreate.getShopName(), orderItemCreate.getItemName()).orElseThrow(ItemNotFound::new);
             orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItemCreate.getOrderQuantity()));
         }
+
         order = Order.createOrder(member, orderItems);
         Order save = orderRepository.save(order);
 

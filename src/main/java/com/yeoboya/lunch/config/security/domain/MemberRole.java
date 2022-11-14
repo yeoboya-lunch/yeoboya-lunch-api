@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.config.security.dmain;
+package com.yeoboya.lunch.config.security.domain;
 
 import com.yeoboya.lunch.api.v1.domain.BaseEntity;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
-public class MemberRole extends BaseEntity {
+public class MemberRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,15 +21,14 @@ public class MemberRole extends BaseEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "ROLES_ID")
     private Roles roles;
-
 
     public static MemberRole createMemberRoles(Roles roles){
         MemberRole memberRole = new MemberRole();
         memberRole.setRoles(roles);
         return memberRole;
     }
-
 
 }
