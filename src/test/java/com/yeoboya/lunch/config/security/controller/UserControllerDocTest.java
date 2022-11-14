@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.config.security.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.config.security.dto.reqeust.UserRequest;
+import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

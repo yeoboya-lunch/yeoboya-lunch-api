@@ -4,6 +4,8 @@ import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
 import com.yeoboya.lunch.api.v1.exception.OrderNotFound;
+import com.yeoboya.lunch.api.v1.member.domain.Member;
+import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
@@ -14,8 +16,6 @@ import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderItemResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
-import com.yeoboya.lunch.config.security.domain.Member;
-import com.yeoboya.lunch.config.security.repository.UsersJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -33,13 +33,13 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final UsersJpaRepository usersJpaRepository;
+    private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
 
     public OrderResponse order(OrderCreate orderCreate) {
 
-        Member member = usersJpaRepository.findByEmail(orderCreate.getEmail()).
+        Member member = memberRepository.findByEmail(orderCreate.getEmail()).
                 orElseThrow(() -> new UsernameNotFoundException("Member not found - " + orderCreate.getEmail()));
 
         List<OrderItemCreate> orderItemCreates = orderCreate.getOrderItems();

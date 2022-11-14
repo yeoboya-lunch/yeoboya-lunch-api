@@ -16,9 +16,9 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
+import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
 import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
-import static com.yeoboya.lunch.config.security.domain.QMember.member;
 
 @Repository
 public class OrderRepositoryImpl implements OrderRepositoryCustom {

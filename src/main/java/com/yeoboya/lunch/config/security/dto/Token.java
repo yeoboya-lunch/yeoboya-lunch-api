@@ -8,6 +8,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class Token {
+
     private String subject;
     private String id;
     private String issuer;
@@ -16,4 +17,5 @@ public class Token {
     private String refreshToken;
     private String tokenExpirationTime;         //access token 유효기간
     private Long refreshTokenExpirationTime;    //refresh token 유효기간
+
 }

@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.config.security.dto.reqeust;
+package com.yeoboya.lunch.config.security.reqeust;
 
 import lombok.Getter;
 import lombok.Setter;

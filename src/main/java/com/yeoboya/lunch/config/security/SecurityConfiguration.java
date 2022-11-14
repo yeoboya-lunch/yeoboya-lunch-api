@@ -28,15 +28,15 @@ public class SecurityConfiguration {
 
     private static final String[] PERMIT_URL_ARRAY = {
 
-            /* member */
-            "/member/sign-up", "/member/login", "/member/reissue", "/member/logout",
+            /* user */
+            "/user/sign-up", "/user/login", "/user/reissue", "/user/logout",
 
             /* monitor */
             "/actuator/**"
     };
 
     private static final String[] TEMP_URL_ARRAY = {
-            "/item/**", "/order/**", "/shop/**"
+            "/item/**", "/order/**", "/shop/**", "/member/**"
     };
 
 

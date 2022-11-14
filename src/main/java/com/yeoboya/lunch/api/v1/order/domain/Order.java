@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
-import com.yeoboya.lunch.config.security.domain.Member;
+import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 

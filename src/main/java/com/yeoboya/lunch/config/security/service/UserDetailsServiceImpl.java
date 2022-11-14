@@ -1,8 +1,8 @@
 package com.yeoboya.lunch.config.security.service;
 
-import com.yeoboya.lunch.config.security.domain.Member;
+import com.yeoboya.lunch.api.v1.member.domain.Member;
+import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.security.dto.Users;
-import com.yeoboya.lunch.config.security.repository.UsersJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +18,12 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UsersJpaRepository usersJpaRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usersJpaRepository.findByEmail(username)
+        return memberRepository.findByEmail(username)
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + username));
     }

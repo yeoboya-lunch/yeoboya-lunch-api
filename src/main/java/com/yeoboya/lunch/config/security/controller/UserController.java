@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.config.common.Response;
-import com.yeoboya.lunch.config.security.dto.reqeust.UserRequest;
+import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import com.yeoboya.lunch.config.security.service.UsersService;
 import com.yeoboya.lunch.config.util.Helper;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/user")
 @RestController
 public class UserController {
 
