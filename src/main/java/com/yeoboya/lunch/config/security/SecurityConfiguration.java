@@ -36,7 +36,11 @@ public class SecurityConfiguration {
     };
 
     private static final String[] TEMP_URL_ARRAY = {
-            "/item/**", "/order/**", "/shop/**", "/member/**"
+            "/item/**", "/order/**", "/shop/**",
+    };
+
+    private static final String[] ADMIN_URL_ARRAY = {
+            "/member/**"
     };
 
 
@@ -69,6 +73,8 @@ public class SecurityConfiguration {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
+                .mvcMatchers(ADMIN_URL_ARRAY).hasRole("ADMIN")
+//                .mvcMatchers(TEMP_URL_ARRAY).hasAnyRole("USER", "ADMIN")
                 .mvcMatchers(TEMP_URL_ARRAY).permitAll()
                 .anyRequest().authenticated();
 

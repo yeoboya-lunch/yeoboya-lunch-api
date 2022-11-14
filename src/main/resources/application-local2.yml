@@ -21,18 +21,18 @@ spring:
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
 
   redis:
     master:
-      host:
-      port:
+      host: 125.141.223.94
+      port: 6380
     slaves:
-      - host:
-        port:
-    password:
-    database:
+      - host: 125.141.223.94
+        port: 6381
+    password: inforex((.(
+    database: 12
 
   cache:
     type: CAFFEINE

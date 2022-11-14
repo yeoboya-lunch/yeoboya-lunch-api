@@ -59,6 +59,7 @@ public class Order {
     }
 
     public void addOrderItem(OrderItem orderItem) {
+        System.out.println("this.orderItem" + this.orderItems);
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);
     }

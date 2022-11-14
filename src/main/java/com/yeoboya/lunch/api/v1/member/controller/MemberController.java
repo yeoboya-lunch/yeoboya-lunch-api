@@ -32,7 +32,6 @@ public class MemberController {
 
     @PatchMapping("/account/{memberName}")
     public void accountUpdate(@PathVariable String memberName, @RequestBody @Valid AccountEdit edit){
-        System.out.println("memberName = " + memberName + ", edit = " + edit);
         memberService.editAccount(memberName, edit);
     }
 }

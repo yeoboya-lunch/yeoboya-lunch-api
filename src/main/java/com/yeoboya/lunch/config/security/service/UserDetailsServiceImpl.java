@@ -32,7 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return Users.builder().
                 email(member.getEmail()).
                 password(member.getPassword()).
-                roles(Collections.singletonList(member.getRole().toString())).
+//                roles(Collections.singletonList(member.getRole().toString())).
+                roles(Collections.singletonList("ROLE_ADMIN")).
                 build();
     }
 
