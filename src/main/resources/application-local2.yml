@@ -26,13 +26,13 @@ spring:
 
   redis:
     master:
-      host: 125.141.223.94
-      port: 6380
+      host:
+      port:
     slaves:
-      - host: 125.141.223.94
-        port: 6381
-    password: inforex((.(
-    database: 12
+      - host:
+        port:
+    password:
+    database:
 
   cache:
     type: CAFFEINE
