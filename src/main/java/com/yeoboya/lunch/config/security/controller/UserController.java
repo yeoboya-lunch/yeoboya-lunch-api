@@ -6,10 +6,13 @@ import com.yeoboya.lunch.config.security.service.UsersService;
 import com.yeoboya.lunch.config.util.Helper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,9 +56,9 @@ public class UserController {
     }
 
     @GetMapping("/authority")
-    public ResponseEntity<?> authority() {
+    public ResponseEntity<?> authority(HttpServletRequest request) {
         log.info("ADD ROLE_ADMIN");
-        return usersService.authority();
+        return usersService.authority(request);
     }
 
 }

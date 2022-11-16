@@ -10,9 +10,10 @@ import javax.persistence.*;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Roles {
+public class Roles  {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROLES_ID", nullable = false)
     private Long id;
 

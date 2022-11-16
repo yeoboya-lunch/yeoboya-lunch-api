@@ -39,7 +39,6 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
 
-
     private BooleanExpression likeMemberEmail(String email) {
         if (StringUtils.hasText(email)) {
             return member.email.like("%" + email + "%");

@@ -2,12 +2,15 @@ package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
+import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.config.common.Response;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.Roles;
 import com.yeoboya.lunch.config.security.dto.Token;
+import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
+import com.yeoboya.lunch.config.security.repository.RolesRepository;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +19,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 public class UsersService {
 
     private final MemberRepository memberRepository;
+    private final RolesRepository rolesRepository;
+    private final MemberRolesRepository memberRolesRepository;
     private final Response response;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -50,24 +58,24 @@ public class UsersService {
                 .password(passwordEncoder.encode(signUp.getPassword()))
                 .build();
 
-        // role
-        Roles roles = Roles.builder()
-                .role(Authority.ROLE_USER)
-                .build();
+        // roles
+        Roles roles = rolesRepository.findByRole(Authority.ROLE_USER);
 
         // member_roles
         List<MemberRole> memberRoles = new ArrayList<>();
-        memberRoles.add(MemberRole.createMemberRoles(roles));
+        memberRoles.add(MemberRole.createMemberRoles(build, roles));
 
         //save member
         Member saveMember = Member.createMember(build, memberRoles);
 
-        memberRepository.save(saveMember);
-        return response.success("회원가입에 성공했습니다.");
+        Member save = memberRepository.save(saveMember);
+        MemberResponse memberResponse = new MemberResponse(save);
+
+        return response.success(memberResponse, "회원가입에 성공했습니다.");
     }
 
     public ResponseEntity<?> login(UserRequest.Login login) {
-        if (!memberRepository.findByEmail(login.getEmail()).isPresent()) {
+        if (memberRepository.findByEmail(login.getEmail()).isEmpty()) {
             return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
         // loadUserByUsername
@@ -120,7 +128,6 @@ public class UsersService {
             redisTemplate.delete("RT:" + authentication.getName());
         }
 
-
         //add redis blacklist
         Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
         redisTemplate.opsForValue().set(logout.getAccessToken(),
@@ -131,14 +138,24 @@ public class UsersService {
         return response.success("로그아웃 되었습니다.");
     }
 
-    public ResponseEntity<?> authority() {
+    @Transactional
+    //fixme parameter
+    public ResponseEntity<?> authority(HttpServletRequest request) {
         // SecurityContext에 담겨 있는 authentication userEamil 정보
         String userEmail = JwtTokenProvider.getCurrentUserEmail();
 
-//        Users user = usersRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("No authentication information."));
-//
-//        // add ROLE_ADMIN
-//        usersRepository.update(user);
+        Member member = memberRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("No authentication information."));
+        Roles roles = rolesRepository.findByRole(Authority.ROLE_ADMIN);
+
+        MemberRole saveMemberRole = MemberRole.createMemberRoles(member, roles);
+        memberRolesRepository.save(saveMemberRole);
+
+        // token 갱신
+        String token = jwtTokenProvider.resolveToken(request);
+        UserRequest.Reissue reissue = new UserRequest.Reissue();
+        reissue.setAccessToken(token);
+//        reissue.setRefreshToken();
+        this.reissue(reissue);
 
         return response.success();
     }

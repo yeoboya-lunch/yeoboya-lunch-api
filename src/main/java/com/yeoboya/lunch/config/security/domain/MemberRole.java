@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class MemberRole {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMBER_ROLES_ID", nullable = false)
     private Long id;
 
@@ -20,12 +20,13 @@ public class MemberRole {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLES_ID")
     private Roles roles;
 
-    public static MemberRole createMemberRoles(Roles roles){
+    public static MemberRole createMemberRoles(Member member, Roles roles){
         MemberRole memberRole = new MemberRole();
+        memberRole.setMember(member);
         memberRole.setRoles(roles);
         return memberRole;
     }
