@@ -1,14 +1,15 @@
 package com.yeoboya.lunch.api.v1.member.repository;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
+import com.yeoboya.lunch.config.security.domain.Roles;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MemberRepositoryCustom {
 
-    List<Member> getList(Pageable pageable);
+    List<Member> getMembers(Pageable pageable);
 
-    Optional<Member> authMember(String email);
+    List<Roles> getMemberRoles(Long id);
+
 }

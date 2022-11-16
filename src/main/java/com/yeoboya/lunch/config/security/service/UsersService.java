@@ -37,6 +37,7 @@ public class UsersService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate<String, String> redisTemplate;
 
+    //fixme
     public ResponseEntity<?> signUp(UserRequest.SignUp signUp) {
         if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);

@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.config.security.domain;
 
-import com.yeoboya.lunch.api.v1.domain.BaseEntity;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +20,7 @@ public class MemberRole {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ROLES_ID")
     private Roles roles;
 

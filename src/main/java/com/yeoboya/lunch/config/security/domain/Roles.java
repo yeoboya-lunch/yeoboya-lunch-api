@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.config.security.domain;
 
-import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import lombok.*;
 
@@ -9,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Roles {
     @Id
@@ -23,4 +23,5 @@ public class Roles {
     public Roles(Authority role) {
         this.role = role;
     }
+
 }

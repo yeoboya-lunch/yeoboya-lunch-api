@@ -29,7 +29,7 @@ public class MemberService {
     }
 
     public List<MemberResponse> memberList(Pageable pageable) {
-        return memberRepository.getList(pageable).stream()
+        return memberRepository.getMembers(pageable).stream()
                 .map(MemberResponse::new)
                 .collect(Collectors.toList());
     }
