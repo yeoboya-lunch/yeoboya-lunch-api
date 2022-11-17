@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.Item.controller;
 
-import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
@@ -25,7 +24,7 @@ public class ItemController {
      * 아이템 등록
      */
     @PostMapping
-    public Item create(@RequestBody @Valid ItemCreate create) {
+    public ItemResponse create(@RequestBody @Valid ItemCreate create) {
         return itemService.saveItem(create);
     }
 

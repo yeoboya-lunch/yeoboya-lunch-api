@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.config.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ public class Response {
 
     @Getter
     @Builder
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private static class Body {
         private int state;
         private String result;

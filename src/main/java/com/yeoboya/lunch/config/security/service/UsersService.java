@@ -45,7 +45,6 @@ public class UsersService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate<String, String> redisTemplate;
 
-    //fixme
     public ResponseEntity<?> signUp(UserRequest.SignUp signUp) {
         if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
             return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
@@ -65,7 +64,7 @@ public class UsersService {
         List<MemberRole> memberRoles = new ArrayList<>();
         memberRoles.add(MemberRole.createMemberRoles(build, roles));
 
-        //save member
+        // save member
         Member saveMember = Member.createMember(build, memberRoles);
 
         Member save = memberRepository.save(saveMember);
@@ -74,14 +73,16 @@ public class UsersService {
         return response.success(memberResponse, "회원가입에 성공했습니다.");
     }
 
-    public ResponseEntity<?> login(UserRequest.Login login) {
-        if (memberRepository.findByEmail(login.getEmail()).isEmpty()) {
+    public ResponseEntity<?> signIn(UserRequest.SignIn signIn) {
+        if (memberRepository.findByEmail(signIn.getEmail()).isEmpty()) {
             return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
+
         // loadUserByUsername
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(login.toAuthentication());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(signIn.toAuthentication());
         Token token = jwtTokenProvider.generateToken(authentication);
 
+        // save redis refreshToken
         redisTemplate.opsForValue().set("RT:" + authentication.getName(),
                 token.getRefreshToken(),
                 token.getRefreshTokenExpirationTime() - new Date().getTime(),
@@ -90,7 +91,28 @@ public class UsersService {
         return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> reissue(UserRequest.Reissue reissue) {
+    public ResponseEntity<?> signOut(UserRequest.SignOut signOut) {
+        if (!jwtTokenProvider.validateToken(signOut.getAccessToken())) {
+            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
+        }
+
+        Authentication authentication = jwtTokenProvider.getAuthentication(signOut.getAccessToken());
+
+        if (!redisTemplate.opsForValue().get("RT:" + authentication.getName()).isEmpty()) {
+            redisTemplate.delete("RT:" + authentication.getName());
+        }
+
+        //add redis blacklist
+        Long expiration = jwtTokenProvider.getExpiration(signOut.getAccessToken());
+        redisTemplate.opsForValue().set(signOut.getAccessToken(),
+                "logout",
+                expiration,
+                TimeUnit.MILLISECONDS);
+
+        return response.success("로그아웃 되었습니다.");
+    }
+
+    public ResponseEntity<?> reIssue(UserRequest.Reissue reissue) {
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
             return response.fail("Refresh Token is not.", HttpStatus.BAD_REQUEST);
         }
@@ -117,31 +139,9 @@ public class UsersService {
         return response.success(token, "Token has been updated.", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> logout(UserRequest.Logout logout) {
-        if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
-            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
-        }
-
-        Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
-
-        if (!redisTemplate.opsForValue().get("RT:" + authentication.getName()).isEmpty()) {
-            redisTemplate.delete("RT:" + authentication.getName());
-        }
-
-        //add redis blacklist
-        Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
-        redisTemplate.opsForValue().set(logout.getAccessToken(),
-                "logout",
-                expiration,
-                TimeUnit.MILLISECONDS);
-
-        return response.success("로그아웃 되었습니다.");
-    }
 
     @Transactional
-    //fixme parameter
     public ResponseEntity<?> authority(HttpServletRequest request) {
-        // SecurityContext에 담겨 있는 authentication userEamil 정보
         String userEmail = JwtTokenProvider.getCurrentUserEmail();
 
         Member member = memberRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("No authentication information."));
@@ -150,14 +150,11 @@ public class UsersService {
         MemberRole saveMemberRole = MemberRole.createMemberRoles(member, roles);
         memberRolesRepository.save(saveMemberRole);
 
-        // token 갱신
         String token = jwtTokenProvider.resolveToken(request);
-        UserRequest.Reissue reissue = new UserRequest.Reissue();
-        reissue.setAccessToken(token);
-//        reissue.setRefreshToken();
-        this.reissue(reissue);
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
-        return response.success();
+        return this.reIssue(new UserRequest.Reissue(token, redisRT));
     }
 
 }

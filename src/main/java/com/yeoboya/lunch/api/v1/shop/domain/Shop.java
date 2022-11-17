@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.api.v1.shop.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,6 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Shop {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "SHOP_ID", nullable = false)
@@ -24,7 +24,6 @@ public class Shop {
     @Column(nullable = false, unique = true, length = 10)
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private final List<Item> items = new ArrayList<>();
 
@@ -32,7 +31,6 @@ public class Shop {
     public Shop(String name) {
         this.name = name;
     }
-
 
     @Override
     public String toString() {
@@ -42,4 +40,5 @@ public class Shop {
                 ", items=" + items +
                 '}';
     }
+
 }

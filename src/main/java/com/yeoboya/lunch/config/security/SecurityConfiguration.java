@@ -29,18 +29,18 @@ public class SecurityConfiguration {
     private static final String[] PERMIT_URL_ARRAY = {
 
             /* user */
-            "/user/sign-up", "/user/login", "/user/reissue", "/user/logout", "/user/authority",
+            "/user/sign-up", "/user/sign-in", "/user/reissue", "/user/sign-out",
 
             /* monitor */
             "/actuator/**"
     };
 
-    private static final String[] TEMP_URL_ARRAY = {
+    private static final String[] USER_URL_ARRAY = {
             "/item/**", "/order/**", "/shop/**",
     };
 
     private static final String[] ADMIN_URL_ARRAY = {
-            "/member/**"
+            "/member/**",  "/user/authority"
     };
 
 
@@ -74,7 +74,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
                 .mvcMatchers(ADMIN_URL_ARRAY).hasRole("ADMIN")
-                .mvcMatchers(TEMP_URL_ARRAY).hasAnyRole("USER", "ADMIN")
+                .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

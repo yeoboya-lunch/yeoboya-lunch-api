@@ -20,11 +20,11 @@ public class ShopService {
         this.shopRepository = shopRepository;
     }
 
-    public Shop create(ShopCreate create) {
+    public ShopResponse create(ShopCreate create) {
         Shop shop = Shop.builder().
                 name(create.getShopName()).
                 build();
-        return shopRepository.save(shop);
+        return new ShopResponse(shopRepository.save(shop));
     }
 
     public List<ShopResponse> shop(ShopSearch search, Pageable pageable) {

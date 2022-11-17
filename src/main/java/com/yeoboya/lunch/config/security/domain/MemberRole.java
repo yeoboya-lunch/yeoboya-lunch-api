@@ -9,6 +9,14 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "MEMBER_ROLE_UNIQUE",
+                        columnNames = {"MEMBER_ID", "ROLES_ID"}
+                )
+        }
+)
 public class MemberRole {
 
     @Id
@@ -24,7 +32,7 @@ public class MemberRole {
     @JoinColumn(name = "ROLES_ID")
     private Roles roles;
 
-    public static MemberRole createMemberRoles(Member member, Roles roles){
+    public static MemberRole createMemberRoles(Member member, Roles roles) {
         MemberRole memberRole = new MemberRole();
         memberRole.setMember(member);
         memberRole.setRoles(roles);

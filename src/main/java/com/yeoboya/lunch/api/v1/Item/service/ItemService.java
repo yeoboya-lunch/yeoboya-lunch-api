@@ -28,14 +28,14 @@ public class ItemService {
     private final ShopRepository shopRepository;
 
 
-    public Item saveItem(ItemCreate create) {
+    public ItemResponse saveItem(ItemCreate create) {
         Shop findShop = shopRepository.findByName(create.getShopName()).orElseThrow(ShopNotFound::new);
         Item createItem = Item.builder().
                 shop(findShop).
                 name(create.getItemName()).
                 price(create.getPrice()).
                 build();
-        return itemRepository.save(createItem);
+        return new ItemResponse(itemRepository.save(createItem));
     }
 
 

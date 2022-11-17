@@ -6,7 +6,6 @@ import com.yeoboya.lunch.config.security.service.UsersService;
 import com.yeoboya.lunch.config.util.Helper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RequiredArgsConstructor
-@RequestMapping("/user")
 @RestController
+@RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UsersService usersService;
@@ -31,12 +30,20 @@ public class UserController {
         return usersService.signUp(signUp);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Validated @RequestBody UserRequest.Login login, Errors errors) {
+    @PostMapping("/sign-in")
+    public ResponseEntity<?> signIn(@Validated @RequestBody UserRequest.SignIn signIn, Errors errors) {
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }
-        return usersService.login(login);
+        return usersService.signIn(signIn);
+    }
+
+    @PostMapping("/sign-out")
+    public ResponseEntity<?> signOut(@Validated @RequestBody UserRequest.SignOut signOut, Errors errors) {
+        if (errors.hasErrors()) {
+            return response.invalidFields(Helper.refineErrors(errors));
+        }
+        return usersService.signOut(signOut);
     }
 
     @PostMapping("/reissue")
@@ -44,20 +51,11 @@ public class UserController {
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }
-        return usersService.reissue(reissue);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(@Validated @RequestBody UserRequest.Logout logout, Errors errors) {
-        if (errors.hasErrors()) {
-            return response.invalidFields(Helper.refineErrors(errors));
-        }
-        return usersService.logout(logout);
+        return usersService.reIssue(reissue);
     }
 
     @GetMapping("/authority")
     public ResponseEntity<?> authority(HttpServletRequest request) {
-        log.info("ADD ROLE_ADMIN");
         return usersService.authority(request);
     }
 

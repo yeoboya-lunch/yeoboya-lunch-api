@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.config.security.reqeust;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,8 +16,6 @@ public class UserRequest {
     @Setter
     @ToString
     public static class SignUp {
-
-        private Integer id;
 
         @NotEmpty(message = "이메일은 필수 입력값입니다.")
         @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
@@ -33,7 +32,7 @@ public class UserRequest {
     @Getter
     @Setter
     @ToString
-    public static class Login {
+    public static class SignIn {
         @NotEmpty(message = "이메일은 필수 입력값입니다.")
         @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
         private String email;
@@ -48,21 +47,29 @@ public class UserRequest {
 
     @Getter
     @Setter
+    public static class SignOut {
+        @NotEmpty(message = "Invalid request.")
+        private String accessToken;
+
+        @NotEmpty(message = "Invalid request.")
+        private String refreshToken;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
     public static class Reissue {
         @NotEmpty(message = "accessToken 을 입력해주세요.")
         private String accessToken;
 
         @NotEmpty(message = "refreshToken 을 입력해주세요.")
         private String refreshToken;
+
+        public Reissue(String accessToken, String refreshToken) {
+            this.accessToken = accessToken;
+            this.refreshToken = refreshToken;
+        }
     }
 
-    @Getter
-    @Setter
-    public static class Logout {
-        @NotEmpty(message = "Invalid request.")
-        private String accessToken;
 
-        @NotEmpty(message = "Invalid request.")
-        private String refreshToken;
-    }
 }

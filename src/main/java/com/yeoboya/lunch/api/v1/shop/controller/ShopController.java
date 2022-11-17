@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.shop.controller;
 
-import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopSearch;
 import com.yeoboya.lunch.api.v1.shop.response.ShopResponse;
@@ -25,7 +24,7 @@ public class ShopController {
      * 상점생성
      */
     @PostMapping
-    public Shop creat(@RequestBody @Valid ShopCreate create) {
+    public ShopResponse creat(@RequestBody @Valid ShopCreate create) {
         return service.create(create);
     }
 

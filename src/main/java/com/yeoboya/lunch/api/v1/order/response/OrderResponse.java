@@ -18,7 +18,7 @@ public class OrderResponse {
 
     public OrderResponse(Order order) {
         this.id = order.getId();
-        this.orderName = order.getMember().getName();    //LAZY 초기화
+        this.orderName = order.getMember().getName();
         this.totalPrice = order.getTotalPrice();
         this.orderItems = order.getOrderItems().stream()
                 .map(OrderItemResponse::new)

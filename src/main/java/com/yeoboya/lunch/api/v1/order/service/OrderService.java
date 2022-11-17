@@ -14,7 +14,6 @@ import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
-import com.yeoboya.lunch.api.v1.order.response.OrderItemResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,19 +76,12 @@ public class OrderService {
     }
 
     @Transactional
+    //fixme
     public void updateOrder(Long orderId, OrderEdit edit) {
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
 
         List<OrderItem> orderItems = orderRepository.orderItems(orderId);
 
     }
-
-    @Deprecated
-    public List<OrderItemResponse> orderItemList(OrderSearch search, Pageable pageable) {
-        return orderRepository.orderItemList(search, pageable).stream()
-                .map(OrderItemResponse::new)
-                .collect(Collectors.toList());
-    }
-
 
 }

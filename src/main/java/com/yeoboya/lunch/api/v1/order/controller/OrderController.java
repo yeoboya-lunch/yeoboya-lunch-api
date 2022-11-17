@@ -4,7 +4,6 @@ package com.yeoboya.lunch.api.v1.order.controller;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
-import com.yeoboya.lunch.api.v1.order.response.OrderItemResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +47,5 @@ public class OrderController {
     public void cancel(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
     }
-
-    // N:1
-    @Deprecated
-    @GetMapping("/item")
-    public List<OrderItemResponse> getOrderItem(OrderSearch search, Pageable pageable){
-        return orderService.orderItemList(search, pageable);
-    }
-
 
 }

@@ -51,17 +51,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         return null;
     }
 
-    @Deprecated
-    @Override
-    public List<OrderItem> orderItemList(OrderSearch orderSearch, Pageable pageable){
-        return query.selectFrom(orderItem)
-                .leftJoin(orderItem.order, order).fetchJoin()
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-    }
-
-
     private BooleanExpression isStatus(OrderStatus status){
         return status != null ? order.status.eq(status) : null;
     }
