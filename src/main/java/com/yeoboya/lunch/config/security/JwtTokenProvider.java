@@ -34,7 +34,7 @@ public class JwtTokenProvider {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_TYPE = "Bearer";
     private static final String AUTHORITIES_KEY = "auth";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;              // 30분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 60 * 60 * 1000L;              // 60분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
 
     public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey) {
@@ -136,7 +136,7 @@ public class JwtTokenProvider {
     // 토큰 유효기간 확인
     public Long getExpiration(String accessToken) throws ExpiredJwtException {
         Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
-        Long now = new Date().getTime();
+        long now = new Date().getTime();
         return (expiration.getTime() - now);
     }
 

@@ -31,7 +31,6 @@ public class OrderController {
     /** 주문내역 */
     @GetMapping("/list")
     public List<OrderResponse> getList(OrderSearch search, Pageable pageable) {
-        System.out.println("search = " + search + ", pageable = " + pageable);
         return orderService.orderList(search, pageable);
     }
 

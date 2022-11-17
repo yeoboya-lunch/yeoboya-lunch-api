@@ -29,10 +29,11 @@ public class ItemController {
     }
 
     /**
-     * 아이템 리스트
+     * 아이템 리스트 조회
      */
     @GetMapping
     public List<ItemResponse> getList(Pageable pageable) {
+        System.out.println("pageable = " + pageable);
         return itemService.getList(pageable);
     }
 
@@ -59,6 +60,5 @@ public class ItemController {
     public void deleteItem(@PathVariable Long itemId){
         itemService.delete(itemId);
     }
-
 
 }

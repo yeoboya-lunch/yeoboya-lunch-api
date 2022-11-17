@@ -25,7 +25,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
         return jpaQueryFactory.selectFrom(item)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(this.sort(pageable).stream().toArray(OrderSpecifier[]::new))
+                .orderBy(this.sort(pageable).toArray(OrderSpecifier[]::new))
                 .fetch();
     }
 
@@ -39,12 +39,12 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
                 switch (order.getProperty()) {
                     case "name":
-                        OrderSpecifier<?> shopId = QueryDslUtil.getSortedColumn(direction, item.name, "name");
-                        ORDERS.add(shopId);
+                        OrderSpecifier<?> itemName = QueryDslUtil.getSortedColumn(direction, item.name, "name");
+                        ORDERS.add(itemName);
                         break;
                     case "price":
-                        OrderSpecifier<?> shopName = QueryDslUtil.getSortedColumn(direction, item.price, "price");
-                        ORDERS.add(shopName);
+                        OrderSpecifier<?> itemPrice = QueryDslUtil.getSortedColumn(direction, item.price, "price");
+                        ORDERS.add(itemPrice);
                         break;
                     default:
                         break;
@@ -54,4 +54,5 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
         return ORDERS;
     }
+
 }

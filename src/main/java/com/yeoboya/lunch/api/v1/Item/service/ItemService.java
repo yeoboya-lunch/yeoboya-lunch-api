@@ -1,10 +1,10 @@
 package com.yeoboya.lunch.api.v1.Item.service;
 
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
-import com.yeoboya.lunch.api.v1.Item.request.ItemEditor;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
+import com.yeoboya.lunch.api.v1.Item.request.ItemEditor;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
 import com.yeoboya.lunch.api.v1.exception.ShopNotFound;
@@ -27,7 +27,6 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ShopRepository shopRepository;
 
-
     public ItemResponse saveItem(ItemCreate create) {
         Shop findShop = shopRepository.findByName(create.getShopName()).orElseThrow(ShopNotFound::new);
         Item createItem = Item.builder().
@@ -37,8 +36,6 @@ public class ItemService {
                 build();
         return new ItemResponse(itemRepository.save(createItem));
     }
-
-
 
     public ItemResponse get(Long itemId) {
         Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFound::new);

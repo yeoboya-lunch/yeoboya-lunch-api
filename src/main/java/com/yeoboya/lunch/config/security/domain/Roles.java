@@ -18,6 +18,7 @@ public class Roles  {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     private Authority role;
 
     @Builder

@@ -10,10 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
@@ -62,48 +63,22 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         return null;
     }
 
-
     //fixme 날짜 조회
-    private BooleanExpression eqDate(Date startDate, Date endDate) {
+    private BooleanExpression eqDate(LocalDate startDate, LocalDate endDate) {
 
+        System.out.println("startDate = " + startDate + ", endDate = " + endDate);
         if (startDate == null && endDate == null) { // 오늘날짜 Order
-            LocalDateTime currentStartDate = LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0,0));
-            LocalDateTime currentEndDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
-
-            System.out.println("currentStartDate = " + currentStartDate);
-            System.out.println("currentEndDate = " + currentEndDate);
-//            return order.orderDate.between(currentStartDate, currentEndDate);
+            Timestamp start = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
+            Timestamp end = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
+            return order.orderDate.between(start,end);
         }
 
         if (startDate != null && endDate != null) { // 시작~종료 order
-            return order.orderDate.between(startDate, endDate);
+            Date start = Date.valueOf(startDate);
+            Date end = Date.valueOf(endDate);
+            return order.orderDate.between(start, end);
         }
-
         return null;
     }
-
-//    private BooleanExpression searchDateQuery(LocalDateTime startDate, LocalDateTime endDate) {
-//        BooleanExpression searchQuery = null;
-//        if (startDate == null && endDate == null){
-//            LocalDateTime currentStartDate = LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0,0));
-//            LocalDateTime currentEndDate = LocalDateTime.of(LocalDate.now(),LocalTime.of(23,59,59));
-//            //날짜데이터 없으면 하루 시작과 끝
-//            searchQuery = order.orderDate.between(currentStartDate, currentEndDate);
-//        } else if (startDate != null && endDate == null) {
-//            LocalDateTime startDateTime = LocalDateTime.of(LocalDate.from(startDate),LocalTime.of(0,0,0));
-//            //시작 날짜만 있으면 있으면 시작날부터 쭉 뒤로
-//            searchQuery = order.orderDate.goe(startDateTime);
-//        } else if (startDate == null) {
-//            //시작날짜 없으면 해당하는 달 1일 부터 조회일 까지
-//            LocalDate firstMonthDate = LocalDate.from(endDate.with(TemporalAdjusters.firstDayOfMonth()));
-//            LocalDateTime startDateTime = LocalDateTime.of(firstMonthDate,LocalTime.of(0,0,0));
-//            searchQuery = order.orderDate.between(startDateTime,endDate);
-//        } else {
-//            searchQuery = order.orderDate.between(startDate,endDate);
-//        }
-//        return searchQuery;
-//    }
-
-
 
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,14 +14,12 @@ import java.util.Date;
 public class OrderSearch {
 
     @DateTimeFormat(pattern = "yyyyMMdd")
-    private Date startDate;
+    private LocalDate startDate;
 
     @DateTimeFormat(pattern = "yyyyMMdd")
-    private Date endDate;
+    private LocalDate endDate;
 
     private String orderName;
     private OrderStatus orderStatus;
-    private Integer orderQuantity;
-    private Integer orderPrice;
 
 }

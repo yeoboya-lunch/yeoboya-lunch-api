@@ -22,6 +22,9 @@ public class UserController {
     private final UsersService usersService;
     private final Response response;
 
+    /**
+     * 회원가입
+     */
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@Validated @RequestBody UserRequest.SignUp signUp, Errors errors) {
         if (errors.hasErrors()) {
@@ -30,6 +33,9 @@ public class UserController {
         return usersService.signUp(signUp);
     }
 
+    /**
+     * 로그인
+     */
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@Validated @RequestBody UserRequest.SignIn signIn, Errors errors) {
         if (errors.hasErrors()) {
@@ -38,6 +44,9 @@ public class UserController {
         return usersService.signIn(signIn);
     }
 
+    /**
+     * 로그아웃
+     */
     @PostMapping("/sign-out")
     public ResponseEntity<?> signOut(@Validated @RequestBody UserRequest.SignOut signOut, Errors errors) {
         if (errors.hasErrors()) {
@@ -46,6 +55,9 @@ public class UserController {
         return usersService.signOut(signOut);
     }
 
+    /**
+     * 토큰 재발급
+     */
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(@Validated @RequestBody UserRequest.Reissue reissue, Errors errors) {
         if (errors.hasErrors()) {
@@ -54,6 +66,9 @@ public class UserController {
         return usersService.reIssue(reissue);
     }
 
+    /**
+     * 권한추가
+     */
     @GetMapping("/authority")
     public ResponseEntity<?> authority(HttpServletRequest request) {
         return usersService.authority(request);

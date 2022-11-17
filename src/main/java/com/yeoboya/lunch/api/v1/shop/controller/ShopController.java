@@ -21,7 +21,7 @@ public class ShopController {
     }
 
     /**
-     * 상점생성
+     * 상점 생성
      */
     @PostMapping
     public ShopResponse creat(@RequestBody @Valid ShopCreate create) {
@@ -29,7 +29,7 @@ public class ShopController {
     }
 
     /**
-     * 상점조회
+     * 상점 조회
      */
     @GetMapping
     public List<ShopResponse> shop(ShopSearch search, Pageable pageable) {

@@ -1,12 +1,15 @@
 package com.yeoboya.lunch.api.v1.Item.request;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
+@ToString
 public class ItemSearch {
+
+    private String name;
+    private int price;
 
 }
