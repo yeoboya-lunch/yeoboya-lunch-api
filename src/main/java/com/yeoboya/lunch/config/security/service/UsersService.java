@@ -58,7 +58,7 @@ public class UsersService {
                 .build();
 
         // roles
-        Roles roles = rolesRepository.findByRole(Authority.ROLE_USER);
+        Roles roles = rolesRepository.findByRole(signUp.getAuthority());
 
         // member_roles
         List<MemberRole> memberRoles = new ArrayList<>();

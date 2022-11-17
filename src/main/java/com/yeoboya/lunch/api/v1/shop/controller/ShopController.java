@@ -24,7 +24,7 @@ public class ShopController {
      * 상점 생성
      */
     @PostMapping
-    public ShopResponse creat(@RequestBody @Valid ShopCreate create) {
+    public ShopResponse create(@RequestBody @Valid ShopCreate create) {
         return service.create(create);
     }
 

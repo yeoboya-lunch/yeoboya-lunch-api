@@ -32,15 +32,17 @@ public class SecurityConfiguration {
             "/user/sign-up", "/user/sign-in", "/user/reissue", "/user/sign-out",
 
             /* monitor */
-            "/actuator/**"
+            "/actuator/**",
+
+            "/member/**", "/item/**", "/order/**", "/shop/**",
     };
 
     private static final String[] USER_URL_ARRAY = {
-            "/item/**", "/order/**", "/shop/**",
+
     };
 
     private static final String[] ADMIN_URL_ARRAY = {
-            "/member/**",  "/user/authority"
+            "/user/authority"
     };
 
 
