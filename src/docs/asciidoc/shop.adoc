@@ -3,31 +3,26 @@
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 1
+:toclevels: 3
 :sectlinks:
 
 == 상점등록
 
-=== curl-request
-include::{snippets}/shop/post/curl-request.adoc[]
-
 === http-request
 include::{snippets}/shop/post/http-request.adoc[]
+include::{snippets}/shop/post/request-fields.adoc[]
 
 === http-response
 include::{snippets}/shop/post/http-response.adoc[]
-
-=== request-fields
-include::{snippets}/shop/post/request-fields.adoc[]
+include::{snippets}/shop/post/response-fields.adoc[]
 
 == 상점조회
 
-=== curl-request
-include::{snippets}/shop/get/curl-request.adoc[]
-
 === http-request
 include::{snippets}/shop/get/http-request.adoc[]
+include::{snippets}/shop/get/request-parameters.adoc[]
 
 === http-response
 include::{snippets}/shop/get/http-response.adoc[]
+include::{snippets}/shop/get/response-fields.adoc[]
 

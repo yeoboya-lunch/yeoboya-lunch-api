@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -18,8 +19,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-class ShopControllerTest {
+class ShopControllerDocTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +43,7 @@ class ShopControllerTest {
     void create() throws Exception {
         //given
         ShopCreate request = new ShopCreate();
-        request.setShopName("맥도날드");
+        request.setShopName("버거킹");
         String json = objectMapper.writeValueAsString(request);
 
         //expected
@@ -55,7 +57,16 @@ class ShopControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("shopName").description("가게 이름").attributes(key("constraint").value("가게이름을 입력해주세요."))
+                                fieldWithPath("shopName").description("가게 이름")
+                                        .attributes(key("note").value("중복 안됨"))
+                        ),
+                        responseFields(
+                                fieldWithPath("shopName")
+                                        .type(JsonFieldType.STRING)
+                                        .description("등록한 가게 이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중"))
+
                         )
                 ));
     }
@@ -64,7 +75,9 @@ class ShopControllerTest {
     void shop() throws Exception {
         //given
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
-        info.add("shopName", "맥도날드");
+//        info.add("shopName", "맥도날드");
+//        info.add("page", "0");
+//        info.add("size", "10");
 
         //expected
         mockMvc.perform(get("/shop")
@@ -74,10 +87,29 @@ class ShopControllerTest {
                 .andDo(document("shop/get",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("shopName").description("가게 이름").optional(),
-                                fieldWithPath("page").description("페이지").optional(),
-                                fieldWithPath("size").description("사이즈").optional()
+                        requestParameters(
+                                parameterWithName("shopName").description("검색할 가게이름").optional(),
+                                parameterWithName("page").description("페이지").optional(),
+                                parameterWithName("size").description("사이즈").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("[].shopName")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].items[].name")
+                                        .type(JsonFieldType.STRING)
+                                        .description("아이템이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("아이템이름"))
+                                        .optional(),
+                                fieldWithPath("[].items[].price")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가격")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가격"))
+                                        .optional()
                         )
                 ));
     }

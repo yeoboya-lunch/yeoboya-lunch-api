@@ -94,6 +94,7 @@ class UserControllerDocTest {
 
     }
 
+    //fixme
     @Disabled
     @Test
     void logout() throws Exception {
