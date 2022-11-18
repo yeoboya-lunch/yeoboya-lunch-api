@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
@@ -24,8 +25,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -86,6 +86,38 @@ class OrderControllerDocTest {
                                         .attributes(key("optional").value("N")),
                                 fieldWithPath("orderItems.[].orderQuantity").description("주문수량")
                                         .attributes(key("optional").value("N"))
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("아이템 번호")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("orderName").description("가게 이름")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("totalPrice").description("아이템 제목")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("orderItems.[].itemName").description("아이템 가격")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("orderItems.[].orderPrice").description("아이템 가격")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("orderItems.[].orderQuantity").description("아이템 가격")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중"))
                         )
                 ));
     }
@@ -95,8 +127,8 @@ class OrderControllerDocTest {
 
         //given
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
-        info.add("page", "0");
-        info.add("size", "10");
+//        info.add("page", "0");
+//        info.add("size", "10");
 
         mockMvc.perform(get("/order/list")
                         .params(info))
@@ -113,12 +145,36 @@ class OrderControllerDocTest {
                                 parameterWithName("size").description("사이즈").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[].id").description("주문 번호").attributes(key("constraint").value("가게이름을 입력해주세요.")),
-                                fieldWithPath("[].orderName").description("주문자 이름").attributes(key("constraint").value("가게이름을 입력해주세요.")),
-                                fieldWithPath("[].totalPrice").description("주문 총 가격").attributes(key("constraint").value("가게이름을 입력해주세요.")),
-                                fieldWithPath("[].orderItems.[].itemName").description("주문 아이템 이름").attributes(key("constraint").value("가게이름을 입력해주세요.")),
-                                fieldWithPath("[].orderItems.[].orderPrice").description("주문 아이템 가격").attributes(key("constraint").value("가게이름을 입력해주세요.")),
-                                fieldWithPath("[].orderItems.[].orderQuantity").description("주문 개수").attributes(key("constraint").value("가게이름을 입력해주세요."))
+                                fieldWithPath("[].id").description("아이템 번호")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].orderName").description("가게 이름")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].totalPrice").description("아이템 제목")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].orderItems.[].itemName").description("아이템 가격")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].orderItems.[].orderPrice").description("아이템 가격")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].orderItems.[].orderQuantity").description("아이템 가격")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중"))
                         )
                 ));
     }
@@ -133,6 +189,10 @@ class OrderControllerDocTest {
         //expected
         mockMvc.perform(patch("/order/cancel/{orderId}", 1))
                 .andExpect(status().isOk())
-                .andDo(document("order/cancel"));
+                .andDo(document("order/cancel",
+                        pathParameters(
+                                parameterWithName("orderId").description("주문 취소할 주문 번호")
+                        )
+                ));
     }
 }

@@ -6,15 +6,18 @@
 :toclevels: 2
 :sectlinks:
 
-== 주문 등록 (POST)
+== 주문 등록
 
 === http-request
 include::{snippets}/order/post/http-request.adoc[]
+include::{snippets}/order/post/request-fields.adoc[]
 
 === http-response
 include::{snippets}/order/post/http-response.adoc[]
+include::{snippets}/order/post/response-fields.adoc[]
 
-== 주문 조회 (GET)
+
+== 주문 조회
 
 === http-request
 include::{snippets}/order/get/list/http-request.adoc[]
@@ -29,6 +32,7 @@ include::{snippets}/order/get/list/response-fields.adoc[]
 
 === http-request
 include::{snippets}/order/cancel/http-request.adoc[]
+include::{snippets}/order/cancel/path-parameters.adoc[]
 
 === http-response
 include::{snippets}/order/cancel/http-response.adoc[]
