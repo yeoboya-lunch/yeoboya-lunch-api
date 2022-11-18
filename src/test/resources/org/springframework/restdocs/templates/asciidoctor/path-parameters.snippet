@@ -1,7 +1,10 @@
-`{{path}}`
 
-Parameter | Description
---------- | -----------
+|===
+|name|description|note
+
 {{#parameters}}
-`{{name}}` | {{description}}
+|{{name}}
+|{{description}}
+|{{#note}}{{.}}{{/note}}
 {{/parameters}}
+|===

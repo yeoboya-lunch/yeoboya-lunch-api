@@ -98,6 +98,18 @@ class ShopControllerDocTest {
                                         .description("가게이름")
                                         .attributes(key("length").value("20"))
                                         .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].items[].id") //fixme 001
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("아이템번호")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("아이템이름"))
+                                        .ignored(),
+                                fieldWithPath("[].items[].shopName") //fixme 001
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("아이템이름"))
+                                        .ignored(),
                                 fieldWithPath("[].items[].name")
                                         .type(JsonFieldType.STRING)
                                         .description("아이템이름")

@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -60,9 +61,32 @@ class ItemControllerDocTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("shopName").description("식당이름"),
-                                fieldWithPath("itemName").description("메뉴이름")
-                                        .attributes(key("constraint").value("메뉴 입력해주세요.")),
+                                fieldWithPath("itemName").description("메뉴이름").attributes(key("note").value("중복 안됨")),
                                 fieldWithPath("price").description("가격")
+                        ),
+                        responseFields(
+                                fieldWithPath("id") //fixme 001
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("아이템번호")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("아이템이름"))
+                                        .ignored(),
+                                fieldWithPath("shopName")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중"))
+                                        .ignored(),
+                                fieldWithPath("name")
+                                        .type(JsonFieldType.STRING)
+                                        .description("주문한 가게 이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("price")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("주문한 가게 이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중"))
                         )
                 ));
     }
@@ -81,13 +105,58 @@ class ItemControllerDocTest {
                                 parameterWithName("itemId").description("아이템 번호")
                         ),
                         responseFields(
-                                fieldWithPath("id").description("아이템 번호").ignored(),
+                                fieldWithPath("id").description("아이템 번호").ignored(), //fixme 001
                                 fieldWithPath("name").description("아이템 제목"),
                                 fieldWithPath("price").description("아이템 가격"),
                                 fieldWithPath("shopName").description("상점 이름")
                         )
                 ));
     }
+
+
+    @Test
+    void getList() throws Exception {
+
+        //given
+        MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
+//        info.add("page", "0");
+//        info.add("size", "10");
+
+        mockMvc.perform(get("/item")
+                        .params(info))
+                .andExpect(status().isOk())
+                .andDo(document("item/get/list",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("page").description("페이지").optional(),
+                                parameterWithName("size").description("사이즈").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").description("아이템 번호")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].shopName").description("가게 이름")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].name").description("아이템 제목")
+                                        .type(JsonFieldType.STRING)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중")),
+                                fieldWithPath("[].price").description("아이템 가격")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("가게이름")
+                                        .attributes(key("length").value("20"))
+                                        .attributes(key("note").value("가게 이름 작성중"))
+                        )
+                ));
+    }
+
 
     @Test
     @Transactional
@@ -111,35 +180,8 @@ class ItemControllerDocTest {
                         ),
                         requestFields(
                                 fieldWithPath("name").description("수정할 메뉴 이름")
-                                        .attributes(key("constraint").value("메뉴 입력해주세요.")),
+                                        .attributes(key("note").value("메뉴 입력해주세요.")),
                                 fieldWithPath("price").description("수정할 가격")
-                        )
-                ));
-    }
-
-    @Test
-    void getList() throws Exception {
-
-        //given
-        MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
-        info.add("page", "0");
-        info.add("size", "10");
-
-        mockMvc.perform(get("/item")
-                        .params(info))
-                .andExpect(status().isOk())
-                .andDo(document("item/get/list",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestParameters(
-                                parameterWithName("page").description("페이지").optional(),
-                                parameterWithName("size").description("사이즈").optional()
-                        ),
-                        responseFields(
-                                fieldWithPath("[].id").description("아이템 번호").ignored(),
-                                fieldWithPath("[].shopName").description("가게 이름").ignored(),
-                                fieldWithPath("[].name").description("아이템 제목").ignored(),
-                                fieldWithPath("[].price").description("아이템 가격").ignored()
                         )
                 ));
     }
@@ -150,6 +192,10 @@ class ItemControllerDocTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("item/delete"));
+                .andDo(document("item/delete",
+                        pathParameters(
+                                parameterWithName("itemId").description("삭제할 아이템 번호")
+                        )
+                ));
     }
 }

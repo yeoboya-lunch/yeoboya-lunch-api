@@ -40,6 +40,8 @@ public class ItemService {
     public ItemResponse get(Long itemId) {
         Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFound::new);
         return ItemResponse.builder()
+                .id(itemId)
+                .shopName(item.getShop().getName())
                 .name(item.getName())
                 .price(item.getPrice())
                 .build();

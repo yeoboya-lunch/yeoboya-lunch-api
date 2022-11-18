@@ -6,40 +6,46 @@
 :toclevels: 2
 :sectlinks:
 
-== 아이템 등록 [POST]
+== 아이템 등록
 
 === http-request
 include::{snippets}/item/post/http-request.adoc[]
+include::{snippets}/item/post/request-fields.adoc[]
 
 === http-response
 include::{snippets}/item/post/http-response.adoc[]
+include::{snippets}/item/post/response-fields.adoc[]
 
 == 아이템 단건 조회
 
 === http-request
 include::{snippets}/item/get/http-request.adoc[]
+include::{snippets}/item/get/path-parameters.adoc[]
 
 === http-response
 include::{snippets}/item/get/http-response.adoc[]
+include::{snippets}/item/get/response-fields.adoc[]
 
 == 아이템 리스트 조회
 
 === http-request
 include::{snippets}/item/get/list/http-request.adoc[]
-
-=== request-parameters
 include::{snippets}/item/get/list/request-parameters.adoc[]
 
 === http-response
 include::{snippets}/item/get/list/http-response.adoc[]
+include::{snippets}/item/get/list/response-fields.adoc[]
 
 == 아이템 수정
 
 === http-request
 include::{snippets}/item/patch/http-request.adoc[]
+include::{snippets}/item/patch/path-parameters.adoc[]
+include::{snippets}/item/patch/request-fields.adoc[]
 
 === http-response
 include::{snippets}/item/patch/http-response.adoc[]
+
 
 == 아이템 삭제
 
