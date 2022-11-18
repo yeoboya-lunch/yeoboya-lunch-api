@@ -103,12 +103,14 @@ class ShopControllerDocTest {
                                         .description("아이템번호")
                                         .attributes(key("length").value("20"))
                                         .attributes(key("note").value("아이템이름"))
+                                        .optional()
                                         .ignored(),
                                 fieldWithPath("[].items[].shopName") //fixme 001
                                         .type(JsonFieldType.STRING)
                                         .description("가게이름")
                                         .attributes(key("length").value("20"))
                                         .attributes(key("note").value("아이템이름"))
+                                        .optional()
                                         .ignored(),
                                 fieldWithPath("[].items[].name")
                                         .type(JsonFieldType.STRING)

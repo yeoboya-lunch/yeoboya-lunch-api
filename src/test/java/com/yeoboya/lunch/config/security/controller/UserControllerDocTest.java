@@ -55,11 +55,10 @@ class UserControllerDocTest {
                 .andExpect(status().isOk())
                 .andDo(document("user/sign-up",
                         requestFields(
-                                fieldWithPath("email").description("이메일")
-                                        .attributes(key("constraint").value("메뉴 입력해주세요.")),
+                                fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
                                 fieldWithPath("password").description("비밀번호")
-                                        .attributes(key("constraint").value("비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")),
+                                        .attributes(key("note").value("비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")),
                                 fieldWithPath("authority").description("권한").ignored()
                         )
                 ));

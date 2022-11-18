@@ -8,28 +8,22 @@
 
 == 회원가입
 
-=== curl-request
-include::{snippets}/user/sign-up/curl-request.adoc[]
-
 === http-request
 include::{snippets}/user/sign-up/http-request.adoc[]
+include::{snippets}/user/sign-up/request-fields.adoc[]
 
 === http-response
 include::{snippets}/user/sign-up/http-response.adoc[]
 
-=== request-fields
-include::{snippets}/user/sign-up/request-fields.adoc[]
 
 == 로그인
 
-=== curl-request
-include::{snippets}/user/sign-in/curl-request.adoc[]
-
 === http-request
 include::{snippets}/user/sign-in/http-request.adoc[]
+=== request-fields
+include::{snippets}/user/sign-in/request-fields.adoc[]
 
 === http-response
 include::{snippets}/user/sign-in/http-response.adoc[]
 
-=== request-fields
-include::{snippets}/user/sign-in/request-fields.adoc[]
+

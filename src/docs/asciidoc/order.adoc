@@ -4,6 +4,7 @@
 :source-highlighter: highlightjs
 :toc: right
 :toclevels: 2
+:sectnums:
 :sectlinks:
 
 == 주문 등록

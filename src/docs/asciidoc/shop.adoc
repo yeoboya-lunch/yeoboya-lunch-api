@@ -4,6 +4,7 @@
 :source-highlighter: highlightjs
 :toc: left
 :toclevels: 3
+:sectnums:
 :sectlinks:
 
 == 상점등록

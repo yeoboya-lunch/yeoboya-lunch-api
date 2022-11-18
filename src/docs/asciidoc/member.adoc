@@ -4,6 +4,7 @@
 :source-highlighter: highlightjs
 :toc: right
 :toclevels: 2
+:sectnums:
 :sectlinks:
 
 == 아이템 등록
