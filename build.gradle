@@ -10,7 +10,6 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -26,6 +25,14 @@ repositories {
 ext {
     asciidocVersion = "2.0.6.RELEASE"
     snippetsDir = file('build/generated-snippets')
+}
+
+bootJar {
+    dependsOn asciidoctor
+    copy {
+        from asciidoctor.outputDir
+        into "src/main/resources/static/docs"
+    }
 }
 
 dependencies {
@@ -87,13 +94,9 @@ dependencies {
 
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
 
-
-//for spring docs
 test {
+    useJUnitPlatform()
     outputs.dir snippetsDir
 }
 
@@ -104,17 +107,18 @@ asciidoctor {
 }
 
 asciidoctor.doFirst {
-    delete file("src/main/resources/static")
+    delete file("src/main/resources/static/docs")
 }
 
-bootJar {
+task copyDocument(type: Copy) {
     dependsOn asciidoctor
-    copy {
-        from asciidoctor.outputDir
-        into "src/main/resources/static"
-    }
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
 }
-// end spring docs
+
+build {
+    dependsOn copyDocument
+}
 
 //for local Querydsl
 clean {
