@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v1.order.controller;
+package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
@@ -61,7 +61,7 @@ class OrderControllerDocTest {
 
         //given
         OrderCreate order = OrderCreate.builder()
-                .email("tester@gmail.com")
+                .name("tester@gmail.com")
                 .shopName("맥도날드")
                 .orderItems(orderItemCreates)
                 .build();

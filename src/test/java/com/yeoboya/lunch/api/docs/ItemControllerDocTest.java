@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v1.Item.controller;
+package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;

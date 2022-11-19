@@ -1,37 +1,49 @@
 package com.yeoboya.lunch.api.v1.order.controller;
 
 
+import com.yeoboya.lunch.api.v1.common.response.Body;
+import com.yeoboya.lunch.api.v1.common.response.Code;
+import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@Slf4j
 @RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
 
+    private final Response response;
     private final OrderService orderService;
 
-    /** 주문 */
+
+    /**
+     * 주문
+     */
     @PostMapping
-    public OrderResponse order(@RequestBody @Valid OrderCreate orderCreate){
-        return orderService.order(orderCreate);
+    public ResponseEntity<Body> order(@RequestBody @Valid OrderCreate orderCreate){
+        OrderResponse orderResponse = orderService.order(orderCreate);
+        return response.success(orderResponse, Code.SAVE_SUCCESS.getMsg(), Code.SAVE_SUCCESS.getHttpStatus());
     }
 
-    /** 주문내역 */
+    /**
+     * 주문내역
+     */
     @GetMapping("/list")
-    public List<OrderResponse> getList(OrderSearch search, Pageable pageable) {
-        return orderService.orderList(search, pageable);
+    public ResponseEntity<Body> getList(OrderSearch search, Pageable pageable) {
+
+        List<OrderResponse> orderResponses = orderService.orderList(search, pageable);
+
+        return response.success(orderResponses, Code.SEARCH_SUCCESS.getMsg(), Code.SEARCH_SUCCESS.getHttpStatus());
     }
 
     /** 주문수정 */

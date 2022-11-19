@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.api.v1.member.service;
 
-import com.yeoboya.lunch.api.v1.exception.AccountNotFound;
-import com.yeoboya.lunch.api.v1.exception.MemberNotFound;
+import com.yeoboya.lunch.api.v1.common.exception.AccountNotFound;
+import com.yeoboya.lunch.api.v1.common.exception.MemberNotFound;
 import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.AccountRepository;

@@ -2,10 +2,12 @@ package com.yeoboya.lunch.api.v1.member.reqeust;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class AccountEdit {
 
     private String bankName;
@@ -16,6 +18,5 @@ public class AccountEdit {
         this.bankName = bankName;
         this.accountNumber = accountNumber;
     }
-
 
 }

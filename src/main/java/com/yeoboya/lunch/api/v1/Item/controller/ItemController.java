@@ -4,6 +4,7 @@ import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.Item.service.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/item")
+@RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
-
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
 
     /**
      * 아이템 등록

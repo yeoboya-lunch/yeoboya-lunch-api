@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v1.exception;
+package com.yeoboya.lunch.api.v1.common.exception;
 
 import lombok.Getter;
 

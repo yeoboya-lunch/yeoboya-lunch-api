@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v1.exception;
+package com.yeoboya.lunch.api.v1.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -6,18 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionController {
 
-    @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e) {
@@ -33,9 +31,8 @@ public class ExceptionController {
         return response;
     }
 
-    @ResponseBody
-    @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT) // 409
+    @ExceptionHandler(DataIntegrityViolationException.class)
     protected ErrorResponse userEmailConstraintException(HttpServletRequest request, DataIntegrityViolationException e) {
         return ErrorResponse.builder()
                 .code("409")
@@ -43,7 +40,9 @@ public class ExceptionController {
                 .build();
     }
 
-    @ResponseBody
+
+    //todo 권한
+
     @ExceptionHandler(LunchException.class)
     public ResponseEntity<ErrorResponse> lunchException(LunchException e) {
         int statusCode = e.getStatusCode();

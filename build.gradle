@@ -120,7 +120,7 @@ build {
     dependsOn copyDocument
 }
 
-//for local Querydsl
 clean {
+    delete file("src/main/resources/static/docs")
     delete file('src/main/generated')
 }

@@ -1,9 +1,10 @@
 package com.yeoboya.lunch.config.security.service;
 
+import com.yeoboya.lunch.api.v1.common.response.Code;
+import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
-import com.yeoboya.lunch.config.common.Response;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
@@ -15,7 +16,6 @@ import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -47,7 +47,7 @@ public class UsersService {
 
     public ResponseEntity<?> signUp(UserRequest.SignUp signUp) {
         if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
-            return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
+//            return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
         }
 
         // member
@@ -70,12 +70,12 @@ public class UsersService {
         Member save = memberRepository.save(saveMember);
         MemberResponse memberResponse = new MemberResponse(save);
 
-        return response.success(memberResponse, "회원가입에 성공했습니다.");
+        return response.success(memberResponse, Code.SAVE_SUCCESS.getMsg());
     }
 
     public ResponseEntity<?> signIn(UserRequest.SignIn signIn) {
         if (memberRepository.findByEmail(signIn.getEmail()).isEmpty()) {
-            return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+//            return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
         // loadUserByUsername
@@ -88,12 +88,12 @@ public class UsersService {
                 token.getRefreshTokenExpirationTime() - new Date().getTime(),
                 TimeUnit.MILLISECONDS);
 
-        return response.success(token, "로그인에 성공했습니다.", HttpStatus.OK);
+        return response.success(token, Code.SEARCH_SUCCESS.getMsg());
     }
 
     public ResponseEntity<?> signOut(UserRequest.SignOut signOut) {
         if (!jwtTokenProvider.validateToken(signOut.getAccessToken())) {
-            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
+//            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(signOut.getAccessToken());
@@ -114,7 +114,7 @@ public class UsersService {
 
     public ResponseEntity<?> reIssue(UserRequest.Reissue reissue) {
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
-            return response.fail("Refresh Token is not.", HttpStatus.BAD_REQUEST);
+//            return response.fail("Refresh Token is not.", HttpStatus.BAD_REQUEST);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
@@ -122,11 +122,11 @@ public class UsersService {
         String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
         if (ObjectUtils.isEmpty(redisRT)) {
-            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
+//            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
         }
 
         if (!redisRT.equals(reissue.getRefreshToken())) {
-            return response.fail("refresh token does not match.", HttpStatus.BAD_REQUEST);
+//            return response.fail("refresh token does not match.", HttpStatus.BAD_REQUEST);
         }
 
         Token token = jwtTokenProvider.generateToken(authentication);
@@ -136,7 +136,7 @@ public class UsersService {
                 token.getRefreshTokenExpirationTime(),
                 TimeUnit.MILLISECONDS);
 
-        return response.success(token, "Token has been updated.", HttpStatus.OK);
+        return response.success(token, Code.UPDATE_SUCCESS.getMsg());
     }
 
 

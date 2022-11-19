@@ -15,7 +15,6 @@ public class ShopResponse {
 
     private String shopName;
 
-    //fixme 001
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ItemResponse> items;
 
@@ -25,4 +24,5 @@ public class ShopResponse {
                 .map(ItemResponse::new)
                 .collect(Collectors.toList());
     }
+
 }

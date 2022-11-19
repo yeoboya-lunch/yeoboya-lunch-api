@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 @Getter
 public class OrderResponse {
 
-
     private final Long id;
     private final String orderName;
     private final int totalPrice;

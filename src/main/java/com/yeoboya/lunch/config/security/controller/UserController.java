@@ -1,6 +1,6 @@
 package com.yeoboya.lunch.config.security.controller;
 
-import com.yeoboya.lunch.config.common.Response;
+import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import com.yeoboya.lunch.config.security.service.UsersService;
 import com.yeoboya.lunch.config.util.Helper;

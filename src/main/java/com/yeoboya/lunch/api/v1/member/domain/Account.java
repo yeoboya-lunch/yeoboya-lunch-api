@@ -1,6 +1,6 @@
 package com.yeoboya.lunch.api.v1.member.domain;
 
-import com.yeoboya.lunch.api.v1.domain.BaseTimeEntity;
+import com.yeoboya.lunch.api.v1.common.domain.BaseTimeEntity;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEditor;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Account extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACCOUNT_ID")
     private Long id;
 

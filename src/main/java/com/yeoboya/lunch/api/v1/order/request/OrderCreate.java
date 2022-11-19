@@ -1,9 +1,6 @@
 package com.yeoboya.lunch.api.v1.order.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,11 +8,12 @@ import java.util.List;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @ToString
 public class OrderCreate {
 
     @NotBlank(message = "주문자를 입력해주세요.")
-    private String email;
+    private String name;
 
     @NotNull(message = "상점을 입력해주세요.")
     private String shopName;
@@ -24,8 +22,8 @@ public class OrderCreate {
     private List<OrderItemCreate> orderItems;
 
     @Builder
-    public OrderCreate(String email, String shopName, List<OrderItemCreate> orderItems) {
-        this.email = email;
+    public OrderCreate(String name, String shopName, List<OrderItemCreate> orderItems) {
+        this.name = name;
         this.shopName = shopName;
         this.orderItems = orderItems;
     }

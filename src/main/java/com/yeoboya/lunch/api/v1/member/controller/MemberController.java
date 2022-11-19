@@ -5,17 +5,16 @@ import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@Slf4j
-@RequiredArgsConstructor
-@RequestMapping("/member")
+
 @RestController
+@RequestMapping("/member")
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;

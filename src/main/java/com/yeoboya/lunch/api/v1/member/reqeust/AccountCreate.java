@@ -2,12 +2,14 @@ package com.yeoboya.lunch.api.v1.member.reqeust;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class AccountCreate {
 
     @NotBlank(message = "이름을 입력해주세요")
@@ -20,7 +22,8 @@ public class AccountCreate {
     private String accountNumber;
 
     @Builder
-    public AccountCreate(String bankName, String accountNumber) {
+    public AccountCreate(String name, String bankName, String accountNumber) {
+        this.name = name;
         this.bankName = bankName;
         this.accountNumber = accountNumber;
     }

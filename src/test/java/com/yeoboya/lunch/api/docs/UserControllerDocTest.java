@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.config.security.controller;
+package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.security.constants.Authority;
@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.snippet.Attributes.key;
@@ -54,6 +56,8 @@ class UserControllerDocTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("user/sign-up",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
@@ -81,6 +85,8 @@ class UserControllerDocTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("user/sign-in",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
@@ -112,6 +118,8 @@ class UserControllerDocTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("user/sign-out",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("accessToken").description("엑세스 토큰"),
                                 fieldWithPath("refreshToken").description("리프레쉬 토큰")

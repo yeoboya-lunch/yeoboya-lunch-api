@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v1.domain;
+package com.yeoboya.lunch.api.v1.common.domain;
 
 
 import org.springframework.data.annotation.CreatedBy;

@@ -5,8 +5,14 @@ INSERT INTO roles (role) VALUES ('ROLE_USER');
 INSERT INTO member (created_date, last_modified_date, email, name, password)
     values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'tester@gmail.com', '테스터', 'test5678((');
 
+INSERT INTO member (created_date, last_modified_date, email, name, password)
+    values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'tester2@daum.com', '테스터2', 'test5678((');
+
 INSERT INTO member_role (member_id, roles_id)
     values (1, 1);
+
+INSERT INTO account (created_date, last_modified_date, account_number, bank_name, member_id)
+    values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '3333-01-0630167', '카카오뱅크', 1);
 
 INSERT INTO shop (name) values ('맥도날드');
 INSERT INTO shop (name) values ('맘스터치');
@@ -22,7 +28,6 @@ INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by,
 
 INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
     values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '망한버거', '25300', '2');
-
 
 INSERT INTO ORDERS (order_date, status, member_id)
     values (CURRENT_TIMESTAMP, 'ORDER', 1);

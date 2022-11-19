@@ -2,8 +2,8 @@ package com.yeoboya.lunch.api.v1.order.service;
 
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
-import com.yeoboya.lunch.api.v1.exception.ItemNotFound;
-import com.yeoboya.lunch.api.v1.exception.OrderNotFound;
+import com.yeoboya.lunch.api.v1.common.exception.OrderNotFound;
+import com.yeoboya.lunch.api.v1.common.exception.ShopNotFound;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
@@ -38,8 +38,8 @@ public class OrderService {
 
     public OrderResponse order(OrderCreate orderCreate) {
 
-        Member member = memberRepository.findByEmail(orderCreate.getEmail()).
-                orElseThrow(() -> new UsernameNotFoundException("Member not found - " + orderCreate.getEmail()));
+        Member member = memberRepository.findByName(orderCreate.getName()).
+                orElseThrow(() -> new UsernameNotFoundException("Member not found - " + orderCreate.getName()));
 
         List<OrderItemCreate> orderItemCreates = orderCreate.getOrderItems();
 
@@ -48,7 +48,7 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (OrderItemCreate orderItemCreate : orderItemCreates){
-            item = itemRepository.getItemByShopNameAndName(orderCreate.getShopName(), orderItemCreate.getItemName()).orElseThrow(ItemNotFound::new);
+            item = itemRepository.getItemByShopNameAndName(orderCreate.getShopName(), orderItemCreate.getItemName()).orElseThrow(ShopNotFound::new);
             orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItemCreate.getOrderQuantity()));
         }
 

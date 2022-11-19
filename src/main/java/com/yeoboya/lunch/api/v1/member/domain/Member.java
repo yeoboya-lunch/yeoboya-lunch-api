@@ -1,6 +1,6 @@
 package com.yeoboya.lunch.api.v1.member.domain;
 
-import com.yeoboya.lunch.api.v1.domain.BaseTimeEntity;
+import com.yeoboya.lunch.api.v1.common.domain.BaseTimeEntity;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import lombok.*;
 
@@ -26,6 +26,7 @@ public class Member extends BaseTimeEntity {
     private String name;
     private String password;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MemberRole> memberRoles = new ArrayList<>(); //권한 목록
 

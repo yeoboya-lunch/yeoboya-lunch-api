@@ -1,0 +1,137 @@
+= 여보야 점심 API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectnums:
+:sectlinks:
+
+
+== User
+
+=== 회원가입
+==== http-request
+include::{snippets}/user/sign-up/http-request.adoc[]
+include::{snippets}/user/sign-up/request-fields.adoc[]
+==== http-response
+include::{snippets}/user/sign-up/http-response.adoc[]
+
+=== 로그인
+==== http-request
+include::{snippets}/user/sign-in/http-request.adoc[]
+include::{snippets}/user/sign-in/request-fields.adoc[]
+==== http-response
+include::{snippets}/user/sign-in/http-response.adoc[]
+
+
+== Member
+
+=== 회원 목록
+==== http-request
+include::{snippets}/member/get/list/http-request.adoc[]
+include::{snippets}/member/get/list/request-parameters.adoc[]
+==== http-response
+include::{snippets}/user/sign-up/http-response.adoc[]
+
+=== 계좌 등록
+==== http-request
+include::{snippets}/member/post/http-request.adoc[]
+include::{snippets}/member/post/request-fields.adoc[]
+
+==== http-response
+include::{snippets}/member/post/http-response.adoc[]
+
+=== 계좌 수정
+==== http-request
+include::{snippets}/member/account/patch/http-request.adoc[]
+include::{snippets}/member/account/patch/path-parameters.adoc[]
+include::{snippets}/member/account/patch/request-fields.adoc[]
+==== http-response
+include::{snippets}/member/account/patch/http-response.adoc[
+
+
+== Shop
+
+=== 상점등록
+==== http-request
+include::{snippets}/shop/post/http-request.adoc[]
+include::{snippets}/shop/post/request-fields.adoc[]
+==== http-response
+include::{snippets}/shop/post/http-response.adoc[]
+include::{snippets}/shop/post/response-fields.adoc[]
+
+=== 상점조회
+==== http-request
+include::{snippets}/shop/get/http-request.adoc[]
+include::{snippets}/shop/get/request-parameters.adoc[]
+==== http-response
+include::{snippets}/shop/get/http-response.adoc[]
+include::{snippets}/shop/get/response-fields.adoc[]
+
+
+== Item
+
+=== 아이템 등록
+==== http-request
+include::{snippets}/item/post/http-request.adoc[]
+include::{snippets}/item/post/request-fields.adoc[]
+==== http-response
+include::{snippets}/item/post/http-response.adoc[]
+include::{snippets}/item/post/response-fields.adoc[]
+
+=== 아이템 단건 조회
+==== http-request
+include::{snippets}/item/get/http-request.adoc[]
+include::{snippets}/item/get/path-parameters.adoc[]
+==== http-response
+include::{snippets}/item/get/http-response.adoc[]
+include::{snippets}/item/get/response-fields.adoc[]
+
+=== 아이템 리스트 조회
+==== http-request
+include::{snippets}/item/get/list/http-request.adoc[]
+include::{snippets}/item/get/list/request-parameters.adoc[]
+==== http-response
+include::{snippets}/item/get/list/http-response.adoc[]
+include::{snippets}/item/get/list/response-fields.adoc[]
+
+=== 아이템 수정
+==== http-request
+include::{snippets}/item/patch/http-request.adoc[]
+include::{snippets}/item/patch/path-parameters.adoc[]
+include::{snippets}/item/patch/request-fields.adoc[]
+==== http-response
+include::{snippets}/item/patch/http-response.adoc[]
+
+=== 아이템 삭제
+==== http-request
+include::{snippets}/item/delete/http-request.adoc[]
+==== http-response
+include::{snippets}/item/delete/http-response.adoc[]
+
+
+== Order
+
+=== 주문 등록
+==== http-request
+include::{snippets}/order/post/http-request.adoc[]
+include::{snippets}/order/post/request-fields.adoc[]
+==== http-response
+include::{snippets}/order/post/http-response.adoc[]
+include::{snippets}/order/post/response-fields.adoc[]
+
+=== 주문 조회
+==== http-request
+include::{snippets}/order/get/list/http-request.adoc[]
+include::{snippets}/order/get/list/request-parameters.adoc[]
+==== http-response
+include::{snippets}/order/get/list/http-response.adoc[]
+include::{snippets}/order/get/list/response-fields.adoc[]
+
+=== 주문 취소
+==== http-request
+include::{snippets}/order/cancel/http-request.adoc[]
+include::{snippets}/order/cancel/path-parameters.adoc[]
+==== http-response
+include::{snippets}/order/cancel/http-response.adoc[]

@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.api.v1.Item.domain;
 
 import com.yeoboya.lunch.api.v1.Item.request.ItemEditor;
-import com.yeoboya.lunch.api.v1.domain.BaseEntity;
+import com.yeoboya.lunch.api.v1.common.domain.BaseEntity;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import lombok.*;
 

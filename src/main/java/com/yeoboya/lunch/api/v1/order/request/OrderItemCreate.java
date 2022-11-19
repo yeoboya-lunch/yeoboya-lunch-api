@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.order.request;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +13,5 @@ public class OrderItemCreate {
     private String itemName;
 
     @NotNull(message = "주문 수량을 입력해주세요.")
-    @Builder.Default
     private int orderQuantity = 1;
 }
