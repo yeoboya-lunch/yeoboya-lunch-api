@@ -40,9 +40,7 @@ public class OrderController {
      */
     @GetMapping("/list")
     public ResponseEntity<Body> getList(OrderSearch search, Pageable pageable) {
-
         List<OrderResponse> orderResponses = orderService.orderList(search, pageable);
-
         return response.success(orderResponses, Code.SEARCH_SUCCESS.getMsg(), Code.SEARCH_SUCCESS.getHttpStatus());
     }
 
@@ -55,8 +53,9 @@ public class OrderController {
 
     /** 주문취소 */
     @PatchMapping("/cancel/{orderId}")
-    public void cancel(@PathVariable Long orderId) {
+    public ResponseEntity<Body> cancel(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
+        return response.success(Code.UPDATE_SUCCESS.getMsg());
     }
 
 }

@@ -9,6 +9,7 @@ import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEditor;
+import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,14 +35,15 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-    public void addAccount(AccountCreate accountCreate) {
+    public AccountResponse addAccount(AccountCreate accountCreate) {
         Member member = memberRepository.findByName(accountCreate.getName()).orElseThrow(MemberNotFound::new);
         Account createAccount = Account.builder()
                 .member(member)
                 .bankName(accountCreate.getBankName())
                 .accountNumber(accountCreate.getAccountNumber())
                 .build();
-        accountRepository.save(createAccount);
+        Account account = accountRepository.save(createAccount);
+        return new AccountResponse(account);
     }
 
     @Transactional

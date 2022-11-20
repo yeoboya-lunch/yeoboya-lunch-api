@@ -63,12 +63,6 @@ public class OrderService {
                 build();
     }
 
-    @Transactional
-    public void cancelOrder(Long orderId){
-        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
-        order.setStatus(OrderStatus.CANCEL);
-    }
-
     public List<OrderResponse> orderList(OrderSearch orderSearch, Pageable pageable) {
         return orderRepository.orderList(orderSearch, pageable).stream()
                 .map(OrderResponse::new)
@@ -79,9 +73,13 @@ public class OrderService {
     //fixme
     public void updateOrder(Long orderId, OrderEdit edit) {
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
-
         List<OrderItem> orderItems = orderRepository.orderItems(orderId);
+    }
 
+    @Transactional
+    public void cancelOrder(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
+        order.setStatus(OrderStatus.CANCEL);
     }
 
 }

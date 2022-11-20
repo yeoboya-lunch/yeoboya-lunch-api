@@ -34,7 +34,8 @@ public class ItemService {
                 name(create.getItemName()).
                 price(create.getPrice()).
                 build();
-        return new ItemResponse(itemRepository.save(createItem));
+        Item save = itemRepository.save(createItem);
+        return new ItemResponse(save);
     }
 
     public ItemResponse get(Long itemId) {

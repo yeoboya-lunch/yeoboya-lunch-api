@@ -1,6 +1,8 @@
 package com.yeoboya.lunch.config.security.controller;
 
+import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import com.yeoboya.lunch.config.security.service.UsersService;
 import com.yeoboya.lunch.config.util.Helper;
@@ -19,8 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UsersService usersService;
     private final Response response;
+    private final UsersService usersService;
 
     /**
      * 회원가입
@@ -30,7 +32,8 @@ public class UserController {
         if (errors.hasErrors()) {
             return response.invalidFields(Helper.refineErrors(errors));
         }
-        return usersService.signUp(signUp);
+        MemberResponse memberResponse = usersService.signUp(signUp);
+        return response.success(memberResponse, Code.SAVE_SUCCESS.getMsg());
     }
 
     /**

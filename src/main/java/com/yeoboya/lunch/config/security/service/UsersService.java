@@ -45,9 +45,9 @@ public class UsersService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate<String, String> redisTemplate;
 
-    public ResponseEntity<?> signUp(UserRequest.SignUp signUp) {
+    public MemberResponse signUp(UserRequest.SignUp signUp) {
         if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
-//            return response.fail("이미 회원가입된 이메일입니다.", HttpStatus.BAD_REQUEST);
+//            return response.fail(ErrorCode.DUPLICATE_RESOURCE.getMsg(), ErrorCode.DUPLICATE_RESOURCE.getHttpStatus());
         }
 
         // member
@@ -68,9 +68,7 @@ public class UsersService {
         Member saveMember = Member.createMember(build, memberRoles);
 
         Member save = memberRepository.save(saveMember);
-        MemberResponse memberResponse = new MemberResponse(save);
-
-        return response.success(memberResponse, Code.SAVE_SUCCESS.getMsg());
+        return new MemberResponse(save);
     }
 
     public ResponseEntity<?> signIn(UserRequest.SignIn signIn) {

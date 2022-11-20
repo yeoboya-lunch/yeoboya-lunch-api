@@ -9,18 +9,17 @@ import static org.springframework.http.HttpStatus.OK;
 @Getter
 public enum Code {
 
-
-
-    SEARCH_SUCCESS(OK,"조회"),
-    SAVE_SUCCESS(CREATED,"저장"),
-    UPDATE_SUCCESS(OK,"업데이트"),
-    DELETE_SUCCESS(OK,"삭제");
-
-    private final HttpStatus httpStatus;
+    SEARCH_SUCCESS("조회", OK),
+    SAVE_SUCCESS("저장", CREATED),
+    UPDATE_SUCCESS("업데이트", OK),
+    DELETE_SUCCESS("삭제", OK)
+    ;
     private final String msg;
+    private final HttpStatus httpStatus;
 
-    Code(HttpStatus httpStatus, String msg) {
-        this.httpStatus = httpStatus;
+
+    Code(String msg, HttpStatus httpStatus) {
         this.msg = msg;
+        this.httpStatus = httpStatus;
     }
 }

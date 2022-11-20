@@ -23,7 +23,7 @@ public class Response {
     }
 
     /** 실패 */
-    public ResponseEntity<?> fail(Object data, String msg, HttpStatus status) {
+    public ResponseEntity<Body> fail(Object data, String msg, HttpStatus status) {
         Body body = Body.builder()
                 .code(status.value())
                 .message(msg)
@@ -33,7 +33,7 @@ public class Response {
         return ResponseEntity.ok(body);
     }
 
-    public ResponseEntity<?> invalidFields(LinkedList<LinkedHashMap<String, String>> errors) {
+    public ResponseEntity<Body> invalidFields(LinkedList<LinkedHashMap<String, String>> errors) {
         Body body = Body.builder()
                 .code(HttpStatus.BAD_REQUEST.value())
                 .data(Collections.emptyList())
@@ -54,7 +54,7 @@ public class Response {
      *
      * @return 응답 객체
      */
-    public ResponseEntity<?> success() {
+    public ResponseEntity<Body> success() {
         return success(Collections.emptyList(), null, HttpStatus.OK);
     }
 
@@ -71,7 +71,7 @@ public class Response {
      * @param data 응답 바디 data 필드에 포함될 정보
      * @return 응답 객체
      */
-    public ResponseEntity<?> success(Object data) {
+    public ResponseEntity<Body> success(Object data) {
         return success(data, null, HttpStatus.OK);
     }
 
@@ -88,7 +88,7 @@ public class Response {
      * @param msg 응답 바디 message 필드에 포함될 정보
      * @return 응답 객체
      */
-    public ResponseEntity<?> success(String msg) {
+    public ResponseEntity<Body> success(String msg) {
         return success(Collections.emptyList(), msg, HttpStatus.OK);
     }
 
@@ -126,7 +126,7 @@ public class Response {
      * @param status 응답 바디 status 필드에 포함될 응답 상태 코드
      * @return 응답 객체
      */
-    public ResponseEntity<?> fail(String msg, HttpStatus status) {
+    public ResponseEntity<Body> fail(String msg, HttpStatus status) {
         return fail(Collections.emptyList(), msg, status);
     }
 
