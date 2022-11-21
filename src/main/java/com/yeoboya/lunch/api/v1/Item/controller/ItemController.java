@@ -30,7 +30,7 @@ public class ItemController {
     @PostMapping
     public ResponseEntity<Body> create(@RequestBody @Valid ItemCreate create) {
         ItemResponse itemResponse = itemService.saveItem(create);
-        return response.success(itemResponse, Code.SAVE_SUCCESS.getMsg(), Code.SAVE_SUCCESS.getHttpStatus());
+        return response.success(itemResponse, Code.SAVE_SUCCESS);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<Body> getList(Pageable pageable) {
         List<ItemResponse> itemResponses = itemService.getList(pageable);
-        return response.success(itemResponses, Code.SEARCH_SUCCESS.getMsg());
+        return response.success(itemResponses, Code.SEARCH_SUCCESS);
     }
 
     /**
@@ -48,7 +48,7 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public ResponseEntity<Body> get(@PathVariable Long itemId) {
         ItemResponse itemResponse = itemService.get(itemId);
-        return response.success(itemResponse, Code.SEARCH_SUCCESS.getMsg());
+        return response.success(itemResponse, Code.SEARCH_SUCCESS);
     }
 
     /**

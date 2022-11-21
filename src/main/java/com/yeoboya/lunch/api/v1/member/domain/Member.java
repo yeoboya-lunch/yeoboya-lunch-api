@@ -20,10 +20,11 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
     private String email;
 
-    @Column(unique = true)
     private String name;
+
     private String password;
 
     @Builder.Default
@@ -50,9 +51,5 @@ public class Member extends BaseTimeEntity {
         this.memberRoles.add(memberRole);
         memberRole.setMember(this);
     }
-
-
-
-
 
 }

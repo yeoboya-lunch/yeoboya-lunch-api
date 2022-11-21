@@ -1,6 +1,8 @@
 package com.yeoboya.lunch.config.security.service;
 
+import com.yeoboya.lunch.api.v1.common.response.Body;
 import com.yeoboya.lunch.api.v1.common.response.Code;
+import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
@@ -45,9 +47,9 @@ public class UsersService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate<String, String> redisTemplate;
 
-    public MemberResponse signUp(UserRequest.SignUp signUp) {
+    public ResponseEntity<Body> signUp(UserRequest.SignUp signUp) {
         if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
-//            return response.fail(ErrorCode.DUPLICATE_RESOURCE.getMsg(), ErrorCode.DUPLICATE_RESOURCE.getHttpStatus());
+            return response.fail(ErrorCode.USER_DUPLICATE_EMAIL);
         }
 
         // member
@@ -68,12 +70,13 @@ public class UsersService {
         Member saveMember = Member.createMember(build, memberRoles);
 
         Member save = memberRepository.save(saveMember);
-        return new MemberResponse(save);
+        MemberResponse memberResponse = new MemberResponse(save);
+        return response.success(memberResponse, Code.SAVE_SUCCESS);
     }
 
-    public ResponseEntity<?> signIn(UserRequest.SignIn signIn) {
+    public ResponseEntity<Body> signIn(UserRequest.SignIn signIn) {
         if (memberRepository.findByEmail(signIn.getEmail()).isEmpty()) {
-//            return response.fail("해당하는 유저가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+            return response.fail(ErrorCode.USER_NOT_FOUND);
         }
 
         // loadUserByUsername
@@ -86,12 +89,12 @@ public class UsersService {
                 token.getRefreshTokenExpirationTime() - new Date().getTime(),
                 TimeUnit.MILLISECONDS);
 
-        return response.success(token, Code.SEARCH_SUCCESS.getMsg());
+        return response.success(token, Code.SEARCH_SUCCESS);
     }
 
     public ResponseEntity<?> signOut(UserRequest.SignOut signOut) {
         if (!jwtTokenProvider.validateToken(signOut.getAccessToken())) {
-//            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
+            return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(signOut.getAccessToken());
@@ -110,9 +113,9 @@ public class UsersService {
         return response.success("로그아웃 되었습니다.");
     }
 
-    public ResponseEntity<?> reIssue(UserRequest.Reissue reissue) {
+    public ResponseEntity<Body> reIssue(UserRequest.Reissue reissue) {
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
-//            return response.fail("Refresh Token is not.", HttpStatus.BAD_REQUEST);
+            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
@@ -120,11 +123,11 @@ public class UsersService {
         String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
         if (ObjectUtils.isEmpty(redisRT)) {
-//            return response.fail("Invalid request.", HttpStatus.BAD_REQUEST);
+            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         if (!redisRT.equals(reissue.getRefreshToken())) {
-//            return response.fail("refresh token does not match.", HttpStatus.BAD_REQUEST);
+            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         Token token = jwtTokenProvider.generateToken(authentication);
@@ -134,15 +137,15 @@ public class UsersService {
                 token.getRefreshTokenExpirationTime(),
                 TimeUnit.MILLISECONDS);
 
-        return response.success(token, Code.UPDATE_SUCCESS.getMsg());
+        return response.success(token, Code.UPDATE_SUCCESS);
     }
 
 
     @Transactional
-    public ResponseEntity<?> authority(HttpServletRequest request) {
+    public ResponseEntity<Body> authority(HttpServletRequest request) {
         String userEmail = JwtTokenProvider.getCurrentUserEmail();
-
         Member member = memberRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("No authentication information."));
+
         Roles roles = rolesRepository.findByRole(Authority.ROLE_ADMIN);
 
         MemberRole saveMemberRole = MemberRole.createMemberRoles(member, roles);

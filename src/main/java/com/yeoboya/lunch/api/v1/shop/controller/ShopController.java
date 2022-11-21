@@ -38,7 +38,7 @@ public class ShopController {
     @GetMapping
     public ResponseEntity<Body> shop(ShopSearch search, Pageable pageable) {
         List<ShopResponse> shopResponses = service.shop(search, pageable);
-        return response.success(shopResponses, Code.SAVE_SUCCESS.getMsg(), Code.SAVE_SUCCESS.getHttpStatus());
+        return response.success(shopResponses, Code.SEARCH_SUCCESS);
     }
 
 }

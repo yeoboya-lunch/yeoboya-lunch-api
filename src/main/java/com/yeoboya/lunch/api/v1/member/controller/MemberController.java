@@ -31,7 +31,7 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<Body> member(Pageable pageable) {
         List<MemberResponse> memberResponses = memberService.memberList(pageable);
-        return response.success(memberResponses, Code.SEARCH_SUCCESS.getMsg());
+        return response.success(memberResponses, Code.SEARCH_SUCCESS);
     }
 
     /**
@@ -40,7 +40,7 @@ public class MemberController {
     @PostMapping("/account")
     public ResponseEntity<Body> account(@RequestBody @Valid AccountCreate accountCreate) {
         AccountResponse accountResponse = memberService.addAccount(accountCreate);
-        return response.success(accountResponse, Code.SAVE_SUCCESS.getMsg(), Code.SAVE_SUCCESS.getHttpStatus());
+        return response.success(accountResponse, Code.SAVE_SUCCESS);
     }
 
     /**

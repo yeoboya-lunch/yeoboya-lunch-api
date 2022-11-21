@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Slf4j
 @RestControllerAdvice
 public class ExceptionController {
@@ -33,7 +31,7 @@ public class ExceptionController {
 
     @ResponseStatus(HttpStatus.CONFLICT) // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ErrorResponse userEmailConstraintException(HttpServletRequest request, DataIntegrityViolationException e) {
+    protected ErrorResponse userEmailConstraintException() {
         return ErrorResponse.builder()
                 .code("409")
                 .message("데이터가 이미 존재합니다.")

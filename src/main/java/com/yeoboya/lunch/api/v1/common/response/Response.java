@@ -112,6 +112,26 @@ public class Response {
     }
 
     /**
+     * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
+     * <pre>
+     *     {
+     *         "statusCode" : 200,
+     *         "result" : success,
+     *         "message" : message,
+     *         "data" : [{data1}, {data2}...]
+     *     }
+     * </pre>
+     *
+     * @param data 응답 바디 data 필드에 포함될 정보
+     * @param code Code.java
+     * @return 응답 객체
+     */
+    public ResponseEntity<Body> success(Object data, Code code) {
+        return success(data, code.getMsg(), code.getHttpStatus());
+    }
+
+
+    /**
      * <p> 메세지를 가진 실패 응답을 반환한다. </p>
      * <pre>
      *     {
@@ -130,4 +150,21 @@ public class Response {
         return fail(Collections.emptyList(), msg, status);
     }
 
+    /**
+     * <p> 메세지를 가진 실패 응답을 반환한다. </p>
+     * <pre>
+     *     {
+     *         "statusCode" : HttpStatus Code,
+     *         "result" : fail,
+     *         "message" : message,
+     *         "error" : [{error1}, {error2}...]
+     *     }
+     * </pre>
+     *
+     * @param errorCode ErrorCode.java
+     * @return 응답 객체
+     */
+    public ResponseEntity<Body> fail(ErrorCode errorCode) {
+        return fail(errorCode.getMsg(), errorCode.getHttpStatus());
+    }
 }
