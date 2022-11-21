@@ -6,8 +6,7 @@ import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEditor;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
-import com.yeoboya.lunch.api.v1.common.exception.ItemNotFound;
-import com.yeoboya.lunch.api.v1.common.exception.ShopNotFound;
+import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import com.yeoboya.lunch.api.v1.shop.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,8 @@ public class ItemService {
     private final ShopRepository shopRepository;
 
     public ItemResponse saveItem(ItemCreate create) {
-        Shop findShop = shopRepository.findByName(create.getShopName()).orElseThrow(ShopNotFound::new);
+        Shop findShop = shopRepository.findByName(create.getShopName()).orElseThrow(
+                ()->new EntityNotFoundException("Shop not found - " + create.getShopName()));
         Item createItem = Item.builder().
                 shop(findShop).
                 name(create.getItemName()).
@@ -39,7 +39,8 @@ public class ItemService {
     }
 
     public ItemResponse get(Long itemId) {
-        Item item = itemRepository.findById(itemId).orElseThrow(ItemNotFound::new);
+        Item item = itemRepository.findById(itemId).orElseThrow(
+                ()->new EntityNotFoundException("Item not found - " + itemId));
         return ItemResponse.builder()
                 .id(itemId)
                 .shopName(item.getShop().getName())
@@ -56,8 +57,9 @@ public class ItemService {
 
 
     @Transactional
-    public void edit(Long id, ItemEdit itemEdit) {
-        Item item = itemRepository.findById(id).orElseThrow(ItemNotFound::new);
+    public void edit(Long itemId, ItemEdit itemEdit) {
+        Item item = itemRepository.findById(itemId).orElseThrow(
+                ()->new EntityNotFoundException("Item not found - " + itemId));
 
         ItemEditor.ItemEditorBuilder editorBuilder = item.toEditor();
 

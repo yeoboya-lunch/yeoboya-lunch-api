@@ -46,9 +46,9 @@ public class MemberController {
     /**
      * 멤버 계좌 수정
      */
-    @PatchMapping("/account/{memberName}")
-    public ResponseEntity<Body> accountUpdate(@PathVariable String memberName, @RequestBody @Valid AccountEdit edit){
-        memberService.editAccount(memberName, edit);
+    @PatchMapping("/account/{memberEmail}")
+    public ResponseEntity<Body> accountUpdate(@PathVariable String memberEmail, @RequestBody @Valid AccountEdit edit){
+        memberService.editAccount(memberEmail, edit);
         return response.success(Code.UPDATE_SUCCESS.getMsg());
     }
 }

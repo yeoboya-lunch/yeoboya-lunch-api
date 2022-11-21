@@ -7,9 +7,8 @@ import lombok.Getter;
 @Getter
 public class AccountResponse {
 
-    private String name;
-    private String bankName;
-    private String accountNumber;
+    private final String bankName;
+    private final String accountNumber;
 
     @Builder
     public AccountResponse(String bankName, String accountNumber) {
@@ -19,7 +18,6 @@ public class AccountResponse {
 
     @Builder
     public AccountResponse(Account account){
-        this.name = account.getMember().getName();
         this.bankName = account.getBankName();
         this.accountNumber = account.getAccountNumber();
     }

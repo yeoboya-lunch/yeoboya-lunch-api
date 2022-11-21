@@ -2,8 +2,7 @@ package com.yeoboya.lunch.api.v1.order.service;
 
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
-import com.yeoboya.lunch.api.v1.common.exception.OrderNotFound;
-import com.yeoboya.lunch.api.v1.common.exception.ShopNotFound;
+import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
@@ -18,7 +17,6 @@ import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,11 +33,10 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
-
     public OrderResponse order(OrderCreate orderCreate) {
 
-        Member member = memberRepository.findByName(orderCreate.getName()).
-                orElseThrow(() -> new UsernameNotFoundException("Member not found - " + orderCreate.getName()));
+        Member member = memberRepository.findByEmail(orderCreate.getEmail()).
+                orElseThrow(()->new EntityNotFoundException("Member not found - " + orderCreate.getEmail()));
 
         List<OrderItemCreate> orderItemCreates = orderCreate.getOrderItems();
 
@@ -48,7 +45,8 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (OrderItemCreate orderItemCreate : orderItemCreates){
-            item = itemRepository.getItemByShopNameAndName(orderCreate.getShopName(), orderItemCreate.getItemName()).orElseThrow(ShopNotFound::new);
+            item = itemRepository.getItemByShopNameAndName(orderCreate.getShopName(), orderItemCreate.getItemName())
+                    .orElseThrow(()->new EntityNotFoundException("item 404"));
             orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItemCreate.getOrderQuantity()));
         }
 
@@ -56,7 +54,6 @@ public class OrderService {
         Order save = orderRepository.save(order);
 
         return OrderResponse.builder().
-                id(save.getId()).
                 orderName(save.getMember().getName()).
                 totalPrice(save.getTotalPrice()).
                 order(order).
@@ -72,13 +69,13 @@ public class OrderService {
     @Transactional
     //fixme
     public void updateOrder(Long orderId, OrderEdit edit) {
-        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("주문 404"));
         List<OrderItem> orderItems = orderRepository.orderItems(orderId);
     }
 
     @Transactional
     public void cancelOrder(Long orderId){
-        Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("주문 404"));
         order.setStatus(OrderStatus.CANCEL);
     }
 

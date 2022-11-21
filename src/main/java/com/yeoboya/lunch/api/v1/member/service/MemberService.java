@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.api.v1.member.service;
 
-import com.yeoboya.lunch.api.v1.common.exception.AccountNotFound;
-import com.yeoboya.lunch.api.v1.common.exception.MemberNotFound;
+import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.AccountRepository;
@@ -36,7 +35,8 @@ public class MemberService {
     }
 
     public AccountResponse addAccount(AccountCreate accountCreate) {
-        Member member = memberRepository.findByName(accountCreate.getName()).orElseThrow(MemberNotFound::new);
+        Member member = memberRepository.findByEmail(accountCreate.getEmail()).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + accountCreate.getEmail()));
         Account createAccount = Account.builder()
                 .member(member)
                 .bankName(accountCreate.getBankName())
@@ -47,8 +47,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void editAccount(String memberName, AccountEdit edit) {
-        Account account = accountRepository.findByMemberName(memberName).orElseThrow(AccountNotFound::new);
+    public void editAccount(String memberEmail, AccountEdit edit) {
+        Account account = accountRepository.findByMemberEmail(memberEmail).orElseThrow(
+                () -> new EntityNotFoundException("Account not found - " + memberEmail));
 
         AccountEditor.AccountEditorBuilder editorBuilder = account.toEditor();
 

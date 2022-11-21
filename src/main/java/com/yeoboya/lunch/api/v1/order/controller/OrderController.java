@@ -32,7 +32,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Body> order(@RequestBody @Valid OrderCreate orderCreate){
         OrderResponse orderResponse = orderService.order(orderCreate);
-        return response.success(orderResponse, Code.SAVE_SUCCESS.getMsg(), Code.SAVE_SUCCESS.getHttpStatus());
+        return response.success(orderResponse, Code.SAVE_SUCCESS);
     }
 
     /**
@@ -41,7 +41,7 @@ public class OrderController {
     @GetMapping("/list")
     public ResponseEntity<Body> getList(OrderSearch search, Pageable pageable) {
         List<OrderResponse> orderResponses = orderService.orderList(search, pageable);
-        return response.success(orderResponses, Code.SEARCH_SUCCESS.getMsg(), Code.SEARCH_SUCCESS.getHttpStatus());
+        return response.success(orderResponses, Code.SEARCH_SUCCESS);
     }
 
     /** 주문수정 */

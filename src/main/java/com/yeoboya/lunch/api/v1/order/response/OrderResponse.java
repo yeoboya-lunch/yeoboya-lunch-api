@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.api.v1.order.response;
 
+import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,14 +11,14 @@ import java.util.stream.Collectors;
 @Getter
 public class OrderResponse {
 
-    private final Long id;
     private final String orderName;
+    private final OrderStatus orderStatus;
     private final int totalPrice;
     private final List<OrderItemResponse> orderItems;
 
     public OrderResponse(Order order) {
-        this.id = order.getId();
         this.orderName = order.getMember().getName();
+        this.orderStatus = order.getStatus();
         this.totalPrice = order.getTotalPrice();
         this.orderItems = order.getOrderItems().stream()
                 .map(OrderItemResponse::new)
@@ -25,9 +26,9 @@ public class OrderResponse {
     }
 
     @Builder
-    public OrderResponse(Long id, String orderName, int totalPrice, Order order) {
-        this.id = id;
+    public OrderResponse(String orderName, OrderStatus orderStatus, int totalPrice, Order order) {
         this.orderName = orderName;
+        this.orderStatus = orderStatus;
         this.totalPrice = totalPrice;
         this.orderItems = order.getOrderItems().stream()
                 .map(OrderItemResponse::new)

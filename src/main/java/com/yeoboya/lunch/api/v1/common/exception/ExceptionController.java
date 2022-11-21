@@ -2,24 +2,29 @@ package com.yeoboya.lunch.api.v1.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static org.springframework.http.HttpStatus.*;
+
 @Slf4j
 @RestControllerAdvice
 public class ExceptionController {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(BAD_REQUEST) // 404
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e) {
-        ErrorResponse response = ErrorResponse.builder()
-                .code("400")
-                .message("잘못된 요청입니다.")
+    protected ExceptionResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("MethodArgumentNotValidException", e);
+        ExceptionResponse response = ExceptionResponse.builder()
+                .code(BAD_REQUEST.value())
+                .message(BAD_REQUEST.getReasonPhrase())
                 .build();
 
         for (FieldError fieldError : e.getFieldErrors()) {
@@ -29,24 +34,42 @@ public class ExceptionController {
         return response;
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT) // 409
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ErrorResponse userEmailConstraintException() {
-        return ErrorResponse.builder()
-                .code("409")
-                .message("데이터가 이미 존재합니다.")
+    @ResponseStatus(NOT_FOUND) // 404
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    protected ExceptionResponse emptyResultDataAccessException(EmptyResultDataAccessException e){
+        log.error("DataIntegrityViolationException", e);
+        return ExceptionResponse.builder()
+                .code(NOT_FOUND.value())
+                .message(NOT_FOUND.getReasonPhrase())
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED) // 405
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    protected ExceptionResponse httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        log.error("handleHttpRequestMethodNotSupportedException", e);
+        return ExceptionResponse.builder()
+                .code(METHOD_NOT_ALLOWED.value())
+                .message(METHOD_NOT_ALLOWED.getReasonPhrase())
+                .build();
+    }
 
-    //todo 권한
+    @ResponseStatus(CONFLICT) // 409
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ExceptionResponse dataIntegrityViolationException(DataIntegrityViolationException e) {
+        log.error("DataIntegrityViolationException", e);
+        return ExceptionResponse.builder()
+                .code(CONFLICT.value())
+                .message(CONFLICT.getReasonPhrase())
+                .build();
+    }
 
     @ExceptionHandler(LunchException.class)
-    public ResponseEntity<ErrorResponse> lunchException(LunchException e) {
+    public ResponseEntity<ExceptionResponse> lunchException(LunchException e) {
         int statusCode = e.getStatusCode();
 
-        ErrorResponse body = ErrorResponse.builder()
-                .code(String.valueOf(statusCode))
+        ExceptionResponse body = ExceptionResponse.builder()
+                .code(statusCode)
                 .message(e.getMessage())
                 .validation(e.getValidation())
                 .build();

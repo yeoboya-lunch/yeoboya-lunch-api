@@ -13,7 +13,7 @@ import java.util.List;
 public class OrderCreate {
 
     @NotBlank(message = "주문자를 입력해주세요.")
-    private String name;
+    private String email;
 
     @NotNull(message = "상점을 입력해주세요.")
     private String shopName;
@@ -22,8 +22,8 @@ public class OrderCreate {
     private List<OrderItemCreate> orderItems;
 
     @Builder
-    public OrderCreate(String name, String shopName, List<OrderItemCreate> orderItems) {
-        this.name = name;
+    public OrderCreate(String email, String shopName, List<OrderItemCreate> orderItems) {
+        this.email = email;
         this.shopName = shopName;
         this.orderItems = orderItems;
     }

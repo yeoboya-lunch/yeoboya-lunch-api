@@ -21,14 +21,14 @@ import java.util.Map;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ErrorResponse {
+public class ExceptionResponse {
 
-    private final String code;
+    private final int code;
     private final String message;
     private final Map<String, String> validation;
 
     @Builder
-    public ErrorResponse(String code, String message, Map<String, String> validation) {
+    public ExceptionResponse(int code, String message, Map<String, String> validation) {
         this.code = code;
         this.message = message;
         this.validation = validation != null ? validation : new HashMap<>();
