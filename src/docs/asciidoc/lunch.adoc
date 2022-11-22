@@ -3,7 +3,7 @@
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectnums:
 :sectlinks:
 
@@ -16,6 +16,7 @@ include::{snippets}/user/sign-up/http-request.adoc[]
 include::{snippets}/user/sign-up/request-fields.adoc[]
 ==== http-response
 include::{snippets}/user/sign-up/http-response.adoc[]
+include::{snippets}/user/sign-up/response-fields.adoc[]
 
 === 로그인
 ==== http-request
@@ -23,6 +24,7 @@ include::{snippets}/user/sign-in/http-request.adoc[]
 include::{snippets}/user/sign-in/request-fields.adoc[]
 ==== http-response
 include::{snippets}/user/sign-in/http-response.adoc[]
+include::{snippets}/user/sign-in/response-fields.adoc[]
 
 
 == Member
@@ -32,7 +34,8 @@ include::{snippets}/user/sign-in/http-response.adoc[]
 include::{snippets}/member/get/list/http-request.adoc[]
 include::{snippets}/member/get/list/request-parameters.adoc[]
 ==== http-response
-include::{snippets}/user/sign-up/http-response.adoc[]
+include::{snippets}/member/get/list/http-response.adoc[]
+include::{snippets}/member/get/list/response-fields.adoc[]
 
 === 계좌 등록
 ==== http-request
@@ -41,6 +44,7 @@ include::{snippets}/member/post/request-fields.adoc[]
 
 ==== http-response
 include::{snippets}/member/post/http-response.adoc[]
+include::{snippets}/member/post/response-fields.adoc[]
 
 === 계좌 수정
 ==== http-request
@@ -48,7 +52,8 @@ include::{snippets}/member/account/patch/http-request.adoc[]
 include::{snippets}/member/account/patch/path-parameters.adoc[]
 include::{snippets}/member/account/patch/request-fields.adoc[]
 ==== http-response
-include::{snippets}/member/account/patch/http-response.adoc[
+include::{snippets}/member/account/patch/http-response.adoc[]
+include::{snippets}/member/account/patch/response-fields.adoc[]
 
 
 == Shop
@@ -135,3 +140,4 @@ include::{snippets}/order/cancel/http-request.adoc[]
 include::{snippets}/order/cancel/path-parameters.adoc[]
 ==== http-response
 include::{snippets}/order/cancel/http-response.adoc[]
+include::{snippets}/order/cancel/response-fields.adoc[]

@@ -22,7 +22,7 @@ public class ShopResponse {
 
     public static ShopResponse from(Shop shop) {
         return new ShopResponse(shop.getName(), shop.getItems().stream()
-                .map(ItemResponse::from)
+                .map((r)->ItemResponse.of(r.getName(), r.getPrice()))
                 .collect(Collectors.toList()));
     }
 

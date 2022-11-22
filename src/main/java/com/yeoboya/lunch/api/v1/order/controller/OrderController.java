@@ -44,18 +44,18 @@ public class OrderController {
         return response.success(orderResponses, Code.SEARCH_SUCCESS);
     }
 
-    /** 주문수정 */
-    //todo 주문수정 기능
-    @PatchMapping("/{orderId}")
-    public void updateOrder(@PathVariable Long orderId, @RequestBody @Valid OrderEdit edit) {
-        orderService.updateOrder(orderId, edit);
-    }
-
     /** 주문취소 */
     @PatchMapping("/cancel/{orderId}")
     public ResponseEntity<Body> cancel(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
         return response.success(Code.UPDATE_SUCCESS.getMsg());
+    }
+
+    /** 주문수정 */
+    //todo 주문수정 기능
+    @PatchMapping("/{orderId}")
+    public void updateOrder(@PathVariable Long orderId, @RequestBody @Valid OrderEdit edit) {
+        orderService.updateOrder(orderId, edit);
     }
 
 }

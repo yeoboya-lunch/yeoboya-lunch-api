@@ -61,7 +61,7 @@ class OrderControllerDocTest {
 
         //given
         OrderCreate order = OrderCreate.builder()
-                .name("tester@gmail.com")
+                .email("tester@gmail.com")
                 .shopName("맥도날드")
                 .orderItems(orderItemCreates)
                 .build();
@@ -79,45 +79,34 @@ class OrderControllerDocTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("email").description("이메일")
-                                        .attributes(key("optional").value("N")),
+                                        .type(JsonFieldType.STRING),
                                 fieldWithPath("shopName").description("맥도날드")
-                                        .attributes(key("optional").value("N")),
+                                        .type(JsonFieldType.STRING),
                                 fieldWithPath("orderItems.[].itemName").description("주문아이템")
-                                        .attributes(key("optional").value("N")),
+                                        .type(JsonFieldType.STRING),
                                 fieldWithPath("orderItems.[].orderQuantity").description("주문수량")
-                                        .attributes(key("optional").value("N"))
+                                        .type(JsonFieldType.NUMBER).optional()
                         ),
                         responseFields(
-                                fieldWithPath("id").description("아이템 번호")
-                                        .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("orderName").description("가게 이름")
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.orderName").description("주문자명")
                                         .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("totalPrice").description("아이템 제목")
-                                        .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("orderItems.[].itemName").description("아이템 가격")
+                                        .attributes(key("length").value("5")),
+                                fieldWithPath("data.orderStatus").description("주문상태")
                                         .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("orderItems.[].orderPrice").description("아이템 가격")
+                                        .attributes(key("length").value("5"))
+                                        .attributes(key("note").value("ORDER, CANCEL")),
+                                fieldWithPath("data.totalPrice").description("주문가격")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.orderItems.[].itemName").description("상품명")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.orderItems.[].orderPrice").description("상품가격")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.orderItems.[].orderQuantity").description("주문수량")
                                         .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("orderItems.[].orderQuantity").description("아이템 가격")
-                                        .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중"))
                         )
                 ));
     }
@@ -145,36 +134,25 @@ class OrderControllerDocTest {
                                 parameterWithName("size").description("사이즈").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[].id").description("아이템 번호")
-                                        .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].orderName").description("가게 이름")
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.[].orderName").description("주문자명")
                                         .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].totalPrice").description("아이템 제목")
-                                        .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].orderItems.[].itemName").description("아이템 가격")
+                                        .attributes(key("length").value("5")),
+                                fieldWithPath("data.[].orderStatus").description("주문상태")
                                         .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].orderItems.[].orderPrice").description("아이템 가격")
+                                        .attributes(key("length").value("5"))
+                                        .attributes(key("note").value("ORDER, CANCEL")),
+                                fieldWithPath("data.[].totalPrice").description("주문가격")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.[].orderItems.[].itemName").description("상품명")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.[].orderItems.[].orderPrice").description("상품가격")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.[].orderItems.[].orderQuantity").description("주문수량")
                                         .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].orderItems.[].orderQuantity").description("아이템 가격")
-                                        .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중"))
                         )
                 ));
     }
@@ -190,8 +168,16 @@ class OrderControllerDocTest {
         mockMvc.perform(patch("/order/cancel/{orderId}", 1))
                 .andExpect(status().isOk())
                 .andDo(document("order/cancel",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("orderId").description("주문 취소할 주문 번호")
+                                parameterWithName("orderId").description("주문번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
                         )
                 ));
     }

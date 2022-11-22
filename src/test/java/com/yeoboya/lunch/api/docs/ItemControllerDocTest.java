@@ -38,7 +38,6 @@ class ItemControllerDocTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     @Test
     void create() throws Exception {
         //given
@@ -65,28 +64,24 @@ class ItemControllerDocTest {
                                 fieldWithPath("price").description("가격")
                         ),
                         responseFields(
-                                fieldWithPath("id") //fixme 001
+                                fieldWithPath("code")
                                         .type(JsonFieldType.NUMBER)
-                                        .description("아이템번호")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("아이템이름"))
-                                        .ignored(),
-                                fieldWithPath("shopName")
+                                        .description("code"),
+                                fieldWithPath("message")
+                                        .type(JsonFieldType.STRING)
+                                        .description("message"),
+                                fieldWithPath("data.shopName")
                                         .type(JsonFieldType.STRING)
                                         .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중"))
-                                        .ignored(),
-                                fieldWithPath("name")
+                                        .attributes(key("length").value("20")),
+                                fieldWithPath("data.name")
                                         .type(JsonFieldType.STRING)
-                                        .description("주문한 가게 이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("price")
+                                        .description("상품이름")
+                                        .attributes(key("length").value("20")),
+                                fieldWithPath("data.price")
                                         .type(JsonFieldType.NUMBER)
-                                        .description("주문한 가게 이름")
+                                        .description("상품가격")
                                         .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중"))
                         )
                 ));
     }
@@ -102,13 +97,19 @@ class ItemControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("itemId").description("아이템 번호")
+                                parameterWithName("itemId").description("상품번호")
                         ),
                         responseFields(
-                                fieldWithPath("id").description("아이템 번호").ignored(), //fixme 001
-                                fieldWithPath("name").description("아이템 제목"),
-                                fieldWithPath("price").description("아이템 가격"),
-                                fieldWithPath("shopName").description("상점 이름")
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.shopName") .description("상점명")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.name") .description("상품명")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.price").description("상품가격")
+                                        .type(JsonFieldType.NUMBER)
                         )
                 ));
     }
@@ -133,26 +134,19 @@ class ItemControllerDocTest {
                                 parameterWithName("size").description("사이즈").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[].id").description("아이템 번호")
-                                        .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].shopName").description("가게 이름")
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.[].shopName").description("상점명")
                                         .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].name").description("아이템 제목")
+                                        .attributes(key("length").value("20")),
+                                fieldWithPath("data.[].name").description("상품명")
                                         .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].price").description("아이템 가격")
+                                        .attributes(key("length").value("20")),
+                                fieldWithPath("data.[].price").description("상품가격")
                                         .type(JsonFieldType.NUMBER)
-                                        .description("가게이름")
                                         .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중"))
                         )
                 ));
     }
@@ -176,13 +170,20 @@ class ItemControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("itemId").description("수정할 아이템 번호")
+                                parameterWithName("itemId").description("상품번호")
                         ),
                         requestFields(
-                                fieldWithPath("name").description("수정할 메뉴 이름")
-                                        .attributes(key("note").value("메뉴 입력해주세요.")),
-                                fieldWithPath("price").description("수정할 가격")
-                        )
+                                fieldWithPath("name").description("상품명")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("price").description("상품가격")
+                                        .type(JsonFieldType.NUMBER)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                                )
                 ));
     }
 
@@ -194,7 +195,13 @@ class ItemControllerDocTest {
                 .andExpect(status().isOk())
                 .andDo(document("item/delete",
                         pathParameters(
-                                parameterWithName("itemId").description("삭제할 아이템 번호")
+                                parameterWithName("itemId").description("상품번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
                         )
                 ));
     }

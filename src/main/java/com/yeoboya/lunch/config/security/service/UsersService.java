@@ -6,7 +6,6 @@ import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
-import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
@@ -60,7 +59,7 @@ public class UsersService {
                 .build();
 
         // roles
-        Roles roles = rolesRepository.findByRole(signUp.getAuthority());
+        Roles roles = rolesRepository.findByRole(Authority.ROLE_USER);
 
         // member_roles
         List<MemberRole> memberRoles = new ArrayList<>();
@@ -69,9 +68,8 @@ public class UsersService {
         // save member
         Member saveMember = Member.createMember(build, memberRoles);
 
-        Member save = memberRepository.save(saveMember);
-        MemberResponse memberResponse = new MemberResponse(save);
-        return response.success(memberResponse, Code.SAVE_SUCCESS);
+        memberRepository.save(saveMember);
+        return response.success("", Code.SAVE_SUCCESS);
     }
 
     public ResponseEntity<Body> signIn(UserRequest.SignIn signIn) {

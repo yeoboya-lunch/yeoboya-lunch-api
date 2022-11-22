@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -11,15 +10,14 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +42,6 @@ class UserControllerDocTest {
         signUp.setEmail("khjzzm@gmail.com");
         signUp.setName("김현진");
         signUp.setPassword("1234qwer!@#$");
-        signUp.setAuthority(Authority.ROLE_USER);
 
         String json = objectMapper.writeValueAsString(signUp);
 
@@ -62,8 +59,13 @@ class UserControllerDocTest {
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
                                 fieldWithPath("password").description("비밀번호")
-                                        .attributes(key("note").value("비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")),
-                                fieldWithPath("authority").description("권한").ignored()
+                                        .attributes(key("note").value("비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."))
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
                         )
                 ));
     }
@@ -90,11 +92,35 @@ class UserControllerDocTest {
                         requestFields(
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.subject").description("이메일")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.id").description("고유번호")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.issuer").description("발행자")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.issueDAt").description("발행일자")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.accessToken").description("토큰")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.refreshToken").description("리프레시 토큰")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.tokenExpirationTime").description("토큰 만료기간")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.refreshTokenExpirationTime").description("리프레시 토큰 만료기간")
+                                        .type(JsonFieldType.NUMBER)
+
                         )
                 ));
     }
 
     @Test
+    @Disabled
     void reissue() throws Exception {
 
     }
@@ -128,6 +154,7 @@ class UserControllerDocTest {
     }
 
     @Test
+    @Disabled
     void authority() throws Exception {
     }
 }

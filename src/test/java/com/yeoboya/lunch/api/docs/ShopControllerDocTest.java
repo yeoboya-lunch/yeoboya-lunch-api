@@ -38,7 +38,6 @@ class ShopControllerDocTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     @Test
     void create() throws Exception {
         //given
@@ -61,7 +60,13 @@ class ShopControllerDocTest {
                                         .attributes(key("note").value("중복 안됨"))
                         ),
                         responseFields(
-                                fieldWithPath("shopName")
+                                fieldWithPath("code")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("code"),
+                                fieldWithPath("message")
+                                        .type(JsonFieldType.STRING)
+                                        .description("message"),
+                                fieldWithPath("data.shopName")
                                         .type(JsonFieldType.STRING)
                                         .description("등록한 가게 이름")
                                         .attributes(key("length").value("20"))
@@ -93,36 +98,24 @@ class ShopControllerDocTest {
                                 parameterWithName("size").description("사이즈").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[].shopName")
-                                        .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].items[].id") //fixme 001
+                                fieldWithPath("code")
                                         .type(JsonFieldType.NUMBER)
-                                        .description("아이템번호")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("아이템이름"))
-                                        .optional()
-                                        .ignored(),
-                                fieldWithPath("[].items[].shopName") //fixme 001
+                                        .description("code"),
+                                fieldWithPath("message")
+                                        .type(JsonFieldType.STRING)
+                                        .description("message"),
+                                fieldWithPath("data.[].shopName")
                                         .type(JsonFieldType.STRING)
                                         .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("아이템이름"))
-                                        .optional()
-                                        .ignored(),
-                                fieldWithPath("[].items[].name")
+                                        .attributes(key("length").value("20")),
+                                fieldWithPath("data.[].items[].name")
                                         .type(JsonFieldType.STRING)
                                         .description("아이템이름")
                                         .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("아이템이름"))
                                         .optional(),
-                                fieldWithPath("[].items[].price")
+                                fieldWithPath("data.[].items[].price")
                                         .type(JsonFieldType.NUMBER)
                                         .description("가격")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가격"))
                                         .optional()
                         )
                 ));

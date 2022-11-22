@@ -49,26 +49,23 @@ class MemberControllerDocTest {
                                 parameterWithName("size").description("사이즈").optional()
                         ),
                         responseFields(
-                                fieldWithPath("[].email").description("아이템 번호")
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.[].email").description("이메일")
                                         .type(JsonFieldType.STRING)
-                                        .description("이메일")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].name").description("가게 이름")
+                                        .attributes(key("length").value("20")),
+                                fieldWithPath("data.[].name").description("이름")
                                         .type(JsonFieldType.STRING)
-                                        .description("가게이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")),
-                                fieldWithPath("[].account.bankName").description("아이템 번호")
+                                        .attributes(key("length").value("5")),
+                                fieldWithPath("data.[].account.bankName").description("은행명")
                                         .type(JsonFieldType.STRING)
-                                        .description("은행이름")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")).optional(),
-                                fieldWithPath("[]account.accountNumber").description("아이템 번호")
+                                        .optional(),
+                                fieldWithPath("data.[]account.accountNumber").description("계좌번호")
                                         .type(JsonFieldType.STRING)
-                                        .description("게좌번호")
-                                        .attributes(key("length").value("20"))
-                                        .attributes(key("note").value("가게 이름 작성중")).optional()
+                                        .attributes(key("length").value("30"))
+                                        .optional()
                         )
                 ));
 
@@ -78,7 +75,7 @@ class MemberControllerDocTest {
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
-                .name("테스터2")
+                .email("tester2@daum.com")
                 .bankName("터스")
                 .accountNumber("010-8349-0705")
                 .build();
@@ -96,9 +93,25 @@ class MemberControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("name").description("이름"),
-                                fieldWithPath("bankName").description("은행이름").attributes(key("note").value("중복 안됨")),
-                                fieldWithPath("accountNumber").description("은행계좌번호")
+                                fieldWithPath("email").description("이메일")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("bankName").description("은행명")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("accountNumber").description("계좌번호")
+                                        .type(JsonFieldType.STRING)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.bankName").description("은행명")
+                                        .type(JsonFieldType.STRING)
+                                        .optional(),
+                                fieldWithPath("data.accountNumber").description("계좌번호")
+                                        .type(JsonFieldType.STRING)
+                                        .attributes(key("length").value("30"))
+                                        .optional()
                         )
                 ));
     }
@@ -111,7 +124,7 @@ class MemberControllerDocTest {
         String json = objectMapper.writeValueAsString(request);
 
         //expected
-        mockMvc.perform(patch("/member/account/{memberName}", "테스터2")
+        mockMvc.perform(patch("/member/account/{memberEmail}", "tester2@daum.com")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(json))
@@ -120,12 +133,22 @@ class MemberControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("memberName").description("수정할 계좌주인 이름")
+                                parameterWithName("memberEmail").description("이메일")
                         ),
                         requestFields(
-                                fieldWithPath("bankName").description("수정할 은행 이름")
-                                        .attributes(key("note").value("메뉴 입력해주세요.")),
+                                fieldWithPath("bankName").description("은행명")
+                                        .type(JsonFieldType.STRING)
+                                        .optional(),
                                 fieldWithPath("accountNumber").description("수정할 계좌번호")
+                                        .type(JsonFieldType.STRING)
+                                        .attributes(key("length").value("30"))
+                                        .optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
                         )
                 ));
     }

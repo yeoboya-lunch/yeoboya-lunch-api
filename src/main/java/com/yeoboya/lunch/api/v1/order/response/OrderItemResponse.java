@@ -15,4 +15,8 @@ public class OrderItemResponse {
         this.orderPrice = orderItem.getOrderPrice();
         this.orderQuantity = orderItem.getOrderQuantity();
     }
+
+//    public static OrderItemResponse of(){
+//
+//    }
 }

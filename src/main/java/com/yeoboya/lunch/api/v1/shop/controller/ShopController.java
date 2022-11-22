@@ -29,7 +29,7 @@ public class ShopController {
     @PostMapping
     public ResponseEntity<Body> create(@RequestBody @Valid ShopCreate create) {
         ShopResponse shopResponse = service.create(create);
-        return response.success(shopResponse, Code.SAVE_SUCCESS.getMsg());
+        return response.success(shopResponse, Code.SAVE_SUCCESS);
     }
 
     /**

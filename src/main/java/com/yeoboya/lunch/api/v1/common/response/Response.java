@@ -11,7 +11,6 @@ import java.util.LinkedList;
 @Component
 public class Response {
 
-
     /** 성공 */
     public ResponseEntity<Body> success(Object data, String msg, HttpStatus status) {
         Body body = Body.builder()

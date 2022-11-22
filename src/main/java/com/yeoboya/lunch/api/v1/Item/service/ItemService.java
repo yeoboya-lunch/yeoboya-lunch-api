@@ -45,7 +45,6 @@ public class ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(
                 ()->new EntityNotFoundException("Item not found - " + itemId));
         return ItemResponse.builder()
-                .id(itemId)
                 .shopName(item.getShop().getName())
                 .name(item.getName())
                 .price(item.getPrice())

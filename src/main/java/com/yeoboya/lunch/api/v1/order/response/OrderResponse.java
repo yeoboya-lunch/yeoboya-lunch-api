@@ -18,6 +18,7 @@ public class OrderResponse {
     private final int totalPrice;
     private final List<OrderItemResponse> orderItems;
 
+
     public static OrderResponse from(Order order) {
         return new OrderResponse(order.getMember().getName(), order.getStatus(), order.getTotalPrice(),
                 order.getOrderItems().stream()

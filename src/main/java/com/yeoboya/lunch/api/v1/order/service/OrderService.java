@@ -44,7 +44,6 @@ public class OrderService {
 
         List<OrderItemCreate> orderItemCreates = orderCreate.getOrderItems();
 
-        Order order;
         Item item;
         List<OrderItem> orderItems = new ArrayList<>();
 
@@ -54,7 +53,7 @@ public class OrderService {
             orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItemCreate.getOrderQuantity()));
         }
 
-        order = Order.createOrder(member, orderItems);
+        Order order = Order.createOrder(member, orderItems);
         Order save = orderRepository.save(order);
 
         return OrderResponse.builder()
@@ -72,16 +71,16 @@ public class OrderService {
     }
 
     @Transactional
+    public void cancelOrder(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("Order not found - " + orderId));
+        order.setStatus(OrderStatus.CANCEL);
+    }
+
+    @Transactional
     //fixme
     public void updateOrder(Long orderId, OrderEdit edit) {
         Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("Order not found - " + orderId));
         List<OrderItem> orderItems = orderRepository.orderItems(orderId);
-    }
-
-    @Transactional
-    public void cancelOrder(Long orderId){
-        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("Order not found - " + orderId));
-        order.setStatus(OrderStatus.CANCEL);
     }
 
 }
