@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class ItemResponse {
 
     private final Long id;
@@ -12,20 +13,7 @@ public class ItemResponse {
     private final String name;
     private final int price;
 
-    // 생성자 오버로딩
-    public ItemResponse(Item item) {
-        this.id = item.getId();
-        this.shopName = item.getShop().getName();
-        this.name = item.getName();
-        this.price = item.getPrice();
+    public static ItemResponse from(Item item) {
+        return new ItemResponse(item.getId(), item.getShop().getName(), item.getName(), item.getPrice());
     }
-
-    @Builder
-    public ItemResponse(Long id, String shopName, String name, int price) {
-        this.id = id;
-        this.shopName = shopName;
-        this.name = name;
-        this.price = price;
-    }
-
 }

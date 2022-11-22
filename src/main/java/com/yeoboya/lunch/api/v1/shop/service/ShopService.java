@@ -24,12 +24,12 @@ public class ShopService {
         Shop shop = Shop.builder().
                 name(create.getShopName()).
                 build();
-        return new ShopResponse(shopRepository.save(shop));
+        return ShopResponse.from(shopRepository.save(shop));
     }
 
     public List<ShopResponse> shop(ShopSearch search, Pageable pageable) {
         return shopRepository.shopItem(search, pageable).stream()
-                .map(ShopResponse::new)
+                .map(ShopResponse::from)
                 .collect(Collectors.toList());
     }
 }

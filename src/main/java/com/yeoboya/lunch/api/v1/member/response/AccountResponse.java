@@ -1,24 +1,17 @@
 package com.yeoboya.lunch.api.v1.member.response;
 
 import com.yeoboya.lunch.api.v1.member.domain.Account;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class AccountResponse {
 
     private final String bankName;
     private final String accountNumber;
 
-    @Builder
-    public AccountResponse(String bankName, String accountNumber) {
-        this.bankName = bankName;
-        this.accountNumber = accountNumber;
-    }
-
-    @Builder
-    public AccountResponse(Account account){
-        this.bankName = account.getBankName();
-        this.accountNumber = account.getAccountNumber();
+    public static AccountResponse from(Account account) {
+        return new AccountResponse(account.getBankName(), account.getAccountNumber());
     }
 }

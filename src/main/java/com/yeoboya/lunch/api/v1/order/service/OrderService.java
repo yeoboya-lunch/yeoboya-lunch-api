@@ -14,7 +14,6 @@ import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,12 +25,17 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
+
+    public OrderService(OrderRepository orderRepository, MemberRepository memberRepository, ItemRepository itemRepository) {
+        this.orderRepository = orderRepository;
+        this.memberRepository = memberRepository;
+        this.itemRepository = itemRepository;
+    }
 
     public OrderResponse order(OrderCreate orderCreate) {
 
@@ -46,36 +50,37 @@ public class OrderService {
 
         for (OrderItemCreate orderItemCreate : orderItemCreates){
             item = itemRepository.getItemByShopNameAndName(orderCreate.getShopName(), orderItemCreate.getItemName())
-                    .orElseThrow(()->new EntityNotFoundException("item 404"));
+                    .orElseThrow(()->new EntityNotFoundException("Item not found - " + orderItemCreate.getItemName()));
             orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItemCreate.getOrderQuantity()));
         }
 
         order = Order.createOrder(member, orderItems);
         Order save = orderRepository.save(order);
 
-        return OrderResponse.builder().
-                orderName(save.getMember().getName()).
-                totalPrice(save.getTotalPrice()).
-                order(order).
-                build();
+        return OrderResponse.builder()
+                .orderStatus(save.getStatus())
+                .orderName(save.getMember().getName())
+                .totalPrice(save.getTotalPrice())
+                .orderItems(order)
+                .build();
     }
 
     public List<OrderResponse> orderList(OrderSearch orderSearch, Pageable pageable) {
         return orderRepository.orderList(orderSearch, pageable).stream()
-                .map(OrderResponse::new)
+                .map(OrderResponse::from)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     //fixme
     public void updateOrder(Long orderId, OrderEdit edit) {
-        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("주문 404"));
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("Order not found - " + orderId));
         List<OrderItem> orderItems = orderRepository.orderItems(orderId);
     }
 
     @Transactional
     public void cancelOrder(Long orderId){
-        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("주문 404"));
+        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("Order not found - " + orderId));
         order.setStatus(OrderStatus.CANCEL);
     }
 

@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.api.v1.member.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
 
@@ -17,15 +16,8 @@ public class MemberResponse {
     public MemberResponse(Member member) {
         this.email = member.getEmail();
         this.name = member.getName();
-        if(member.getAccount()!=null) {
-            this.account = toAccountResponse(member.getAccount());
+        if (member.getAccount() != null) {
+            this.account = AccountResponse.from(member.getAccount());
         }
-    }
-
-    public AccountResponse toAccountResponse(Account account){
-        return AccountResponse.builder()
-                .bankName(account.getBankName())
-                .accountNumber(account.getAccountNumber())
-                .build();
     }
 }

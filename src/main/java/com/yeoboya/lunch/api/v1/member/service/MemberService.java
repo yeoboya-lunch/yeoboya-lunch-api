@@ -43,7 +43,7 @@ public class MemberService {
                 .accountNumber(accountCreate.getAccountNumber())
                 .build();
         Account account = accountRepository.save(createAccount);
-        return new AccountResponse(account);
+        return AccountResponse.from(account);
     }
 
     @Transactional

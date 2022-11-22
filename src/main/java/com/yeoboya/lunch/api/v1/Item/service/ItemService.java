@@ -9,7 +9,6 @@ import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import com.yeoboya.lunch.api.v1.shop.repository.ShopRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +19,15 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ShopRepository shopRepository;
+
+    public ItemService(ItemRepository itemRepository, ShopRepository shopRepository) {
+        this.itemRepository = itemRepository;
+        this.shopRepository = shopRepository;
+    }
 
     public ItemResponse saveItem(ItemCreate create) {
         Shop findShop = shopRepository.findByName(create.getShopName()).orElseThrow(
@@ -34,8 +37,8 @@ public class ItemService {
                 name(create.getItemName()).
                 price(create.getPrice()).
                 build();
-        Item save = itemRepository.save(createItem);
-        return new ItemResponse(save);
+        Item item = itemRepository.save(createItem);
+        return ItemResponse.from(item);
     }
 
     public ItemResponse get(Long itemId) {
@@ -51,7 +54,7 @@ public class ItemService {
 
     public List<ItemResponse> getList(Pageable pageable) {
         return itemRepository.getList(pageable).stream()
-                .map(ItemResponse::new)
+                .map(ItemResponse::from)
                 .collect(Collectors.toList());
     }
 

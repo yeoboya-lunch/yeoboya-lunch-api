@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.shop.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ShopResponse {
 
     private String shopName;
@@ -18,11 +20,10 @@ public class ShopResponse {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ItemResponse> items;
 
-    public ShopResponse(Shop shop) {
-        this.shopName = shop.getName();
-        this.items = shop.getItems().stream()
-                .map(ItemResponse::new)
-                .collect(Collectors.toList());
+    public static ShopResponse from(Shop shop) {
+        return new ShopResponse(shop.getName(), shop.getItems().stream()
+                .map(ItemResponse::from)
+                .collect(Collectors.toList()));
     }
 
 }

@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,7 +19,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestControllerAdvice
 public class ExceptionController {
 
-    @ResponseStatus(BAD_REQUEST) // 404
+    @ResponseStatus(BAD_REQUEST) // 400
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ExceptionResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException", e);
@@ -32,6 +33,17 @@ public class ExceptionController {
         }
 
         return response;
+    }
+
+    @ResponseStatus(BAD_REQUEST) // 400
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ExceptionResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.error("MethodArgumentNotValidException", e);
+        return ExceptionResponse.builder()
+                .code(BAD_REQUEST.value())
+                .message(BAD_REQUEST.getReasonPhrase())
+                .note("JSON 확인")
+                .build();
     }
 
     @ResponseStatus(NOT_FOUND) // 404
@@ -71,7 +83,6 @@ public class ExceptionController {
         ExceptionResponse body = ExceptionResponse.builder()
                 .code(statusCode)
                 .message(e.getMessage())
-                .validation(e.getValidation())
                 .build();
 
         return ResponseEntity.status(statusCode).body(body);
