@@ -3,7 +3,7 @@ package com.yeoboya.lunch.api.v1.member.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
-import com.yeoboya.lunch.config.security.domain.Roles;
+import com.yeoboya.lunch.config.security.domain.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
@@ -31,11 +31,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public List<Roles> getMemberRoles(Long id){
-        return jpaQueryFactory.select(memberRole.roles)
-                .from(memberRole)
+    public List<MemberRole> getMemberRoles(Long id){
+        List<MemberRole> fetch = jpaQueryFactory.selectFrom(memberRole)
+                .leftJoin(memberRole.member, member)
                 .leftJoin(memberRole.roles, roles)
+                .where(memberRole.member.id.eq(id))
                 .fetch();
+        return fetch;
     }
 
 

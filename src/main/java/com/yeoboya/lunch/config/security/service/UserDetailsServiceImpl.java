@@ -31,7 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserDetails createUserDetails(Member member) {
         List<String> roles = new ArrayList<>();
-        memberRepository.getMemberRoles(member.getId()).forEach(role->roles.add(role.getRole().getAuthority()));
+        memberRepository.getMemberRoles(member.getId())
+                .forEach(memberRole->roles.add(memberRole.getRoles().getRole().getAuthority()));
 
         return Users.builder()
                 .email(member.getEmail())
