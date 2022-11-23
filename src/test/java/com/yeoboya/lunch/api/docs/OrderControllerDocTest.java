@@ -63,7 +63,7 @@ class OrderControllerDocTest {
 
         //given
         OrderCreate order = OrderCreate.builder()
-                .email("tester@gmail.com")
+                .email("user@gmail.com")
                 .shopName("맥도날드")
                 .orderItems(orderItemCreates)
                 .build();
