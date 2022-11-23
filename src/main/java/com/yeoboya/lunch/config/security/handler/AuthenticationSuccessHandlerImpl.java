@@ -15,5 +15,4 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         log.error("로그인 성공 ~~");
     }
-
 }

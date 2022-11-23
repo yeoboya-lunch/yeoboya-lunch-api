@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -13,7 +12,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Slf4j
+/**
+ * 인증예외
+ */
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
@@ -24,7 +25,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
         final Map<String, Object> body = new HashMap<>();
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "인증실패");
+        body.put("error", "엑세스 토큰이 없습니다.");
         body.put("message", e.getMessage());
 
         final ObjectMapper mapper = new ObjectMapper();

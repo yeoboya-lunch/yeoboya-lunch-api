@@ -32,12 +32,11 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     @Override
     public List<MemberRole> getMemberRoles(Long id){
-        List<MemberRole> fetch = jpaQueryFactory.selectFrom(memberRole)
+        return jpaQueryFactory.selectFrom(memberRole)
                 .leftJoin(memberRole.member, member)
                 .leftJoin(memberRole.roles, roles)
                 .where(memberRole.member.id.eq(id))
                 .fetch();
-        return fetch;
     }
 
 

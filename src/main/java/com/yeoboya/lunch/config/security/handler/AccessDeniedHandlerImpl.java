@@ -1,19 +1,34 @@
 package com.yeoboya.lunch.config.security.handler;
 
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * 인가예외
+ */
 @Component
-@Slf4j
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
-        log.error("엑세스 권한 없습니다.");
+    public void handle(HttpServletRequest request, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException {
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
+        final Map<String, Object> body = new HashMap<>();
+        body.put("status", HttpServletResponse.SC_FORBIDDEN);
+        body.put("error", "액세스 권한이 없습니다.");
+        body.put("message", e.getMessage());
+
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(httpServletResponse.getOutputStream(), body);
     }
 }

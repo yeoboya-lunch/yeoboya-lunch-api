@@ -21,8 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
+    private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
 
@@ -33,6 +34,7 @@ public class SecurityConfiguration {
 
             /* monitor */
             "/actuator/**",
+
     };
 
     private static final String[] USER_URL_ARRAY = {
@@ -82,8 +84,9 @@ public class SecurityConfiguration {
         http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
         http.exceptionHandling()
-                .accessDeniedHandler(accessDeniedHandlerImpl)
-                .authenticationEntryPoint(authenticationEntryPointImpl);
+                .authenticationEntryPoint(authenticationEntryPointImpl)
+                .accessDeniedHandler(accessDeniedHandlerImpl);
+
 
         return http.build();
     }
