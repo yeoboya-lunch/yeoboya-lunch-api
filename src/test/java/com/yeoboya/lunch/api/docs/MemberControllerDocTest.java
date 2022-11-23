@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
+import com.yeoboya.lunch.config.security.WithMockCustomUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
+@WithMockCustomUser(email = "admin@gmail.com")
 class MemberControllerDocTest {
 
     @Autowired
@@ -75,7 +77,7 @@ class MemberControllerDocTest {
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
-                .email("tester2@daum.com")
+                .email("manager@gmail.com")
                 .bankName("터스")
                 .accountNumber("010-8349-0705")
                 .build();
@@ -124,7 +126,7 @@ class MemberControllerDocTest {
         String json = objectMapper.writeValueAsString(request);
 
         //expected
-        mockMvc.perform(patch("/member/account/{memberEmail}", "tester2@daum.com")
+        mockMvc.perform(patch("/member/account/{memberEmail}", "manager@gmail.com")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(json))

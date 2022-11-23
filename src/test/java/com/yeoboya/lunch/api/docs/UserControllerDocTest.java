@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.config.security.WithMockCustomUser;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
+@WithMockCustomUser
 class UserControllerDocTest {
 
     @Autowired

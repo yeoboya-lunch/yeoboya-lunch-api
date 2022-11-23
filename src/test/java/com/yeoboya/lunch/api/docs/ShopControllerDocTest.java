@@ -2,6 +2,8 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
+import com.yeoboya.lunch.config.security.WithMockCustomUser;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
+@WithMockCustomUser
 class ShopControllerDocTest {
 
     @Autowired
@@ -39,6 +42,7 @@ class ShopControllerDocTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("상점등록")
     void create() throws Exception {
         //given
         ShopCreate request = new ShopCreate();
@@ -77,6 +81,7 @@ class ShopControllerDocTest {
     }
 
     @Test
+    @DisplayName("상점목록")
     void shop() throws Exception {
         //given
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
