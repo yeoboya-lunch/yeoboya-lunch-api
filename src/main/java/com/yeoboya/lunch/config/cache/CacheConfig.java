@@ -1,8 +1,7 @@
 package com.yeoboya.lunch.config.cache;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.yeoboya.lunch.config.constants.CacheType;
-import lombok.extern.slf4j.Slf4j;
+import com.yeoboya.lunch.config.cache.constants.CacheType;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Configuration
 public class CacheConfig {
 

@@ -8,6 +8,8 @@ import com.yeoboya.lunch.api.v1.shop.request.ShopSearch;
 import com.yeoboya.lunch.api.v1.shop.response.ShopResponse;
 import com.yeoboya.lunch.api.v1.shop.service.ShopService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/shop")
 @RequiredArgsConstructor
+@Slf4j
 public class ShopController {
 
     private final Response response;
@@ -35,10 +38,13 @@ public class ShopController {
     /**
      * 상점 조회
      */
+    @Cacheable(cacheNames = "cacheShop")
     @GetMapping
     public ResponseEntity<Body> shop(ShopSearch search, Pageable pageable) {
         List<ShopResponse> shopResponses = service.shop(search, pageable);
         return response.success(shopResponses, Code.SEARCH_SUCCESS);
     }
+
+
 
 }

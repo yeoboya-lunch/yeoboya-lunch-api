@@ -30,7 +30,6 @@ public class ShopRepositoryCustomImpl implements ShopRepositoryCustom {
 
     @Override
     public List<Shop> shopItem(ShopSearch search, Pageable pageable) {
-
         return query.selectFrom(shop)
                 .leftJoin(shop.items, item)
                 .offset(pageable.getOffset())
