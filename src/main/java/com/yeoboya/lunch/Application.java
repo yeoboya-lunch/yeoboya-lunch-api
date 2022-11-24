@@ -10,8 +10,8 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableCaching
-@EnableBatchProcessing
 @EnableJpaAuditing
+@EnableBatchProcessing
 @ComponentScan(excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {ExcludeScan.class})})
 @SpringBootApplication
 public class Application {

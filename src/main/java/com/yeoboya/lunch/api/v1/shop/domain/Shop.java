@@ -2,6 +2,7 @@ package com.yeoboya.lunch.api.v1.shop.domain;
 
 
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
+import com.yeoboya.lunch.api.v1.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Shop {
+public class Shop extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,8 @@ public class ShopSearch {
     private String shopName;
 
 
+
+    //fixme 상점 검색 ?shopName= 없을 경우  NullPointerException 처리
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

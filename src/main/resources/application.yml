@@ -2,6 +2,11 @@ spring:
   profiles:
     active: "local2"
 
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
 server:
   port: 463
   servlet:
