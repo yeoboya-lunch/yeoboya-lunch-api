@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.config.datasources;
 
-import com.yeoboya.lunch.config.annotation.ExcludeScan;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,7 +17,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-@ExcludeScan
 @Configuration
 @RequiredArgsConstructor
 @EnableTransactionManagement

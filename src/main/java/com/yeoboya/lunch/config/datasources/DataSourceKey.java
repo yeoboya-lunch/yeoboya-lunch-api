@@ -1,9 +1,7 @@
 package com.yeoboya.lunch.config.datasources;
 
-import com.yeoboya.lunch.config.annotation.ExcludeScan;
 import org.springframework.stereotype.Component;
 
-@ExcludeScan
 @Component
 class DataSourceKey {
     private static final String MASTER_KEY = "master";
