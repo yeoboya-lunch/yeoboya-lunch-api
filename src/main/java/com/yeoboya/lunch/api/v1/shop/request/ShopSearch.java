@@ -13,15 +13,15 @@ public class ShopSearch {
 
     private String shopName;
 
-
-
-    //fixme 상점 검색 ?shopName= 없을 경우  NullPointerException 처리
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ShopSearch that = (ShopSearch) o;
-        return getShopName().equals(that.getShopName());
+        if(getShopName() != null) {
+            return getShopName().equals(that.getShopName());
+        }
+        return false;
     }
 
     @Override
