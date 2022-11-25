@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum CacheType {
 
-    CACHE_SHOP("cacheShop", 2 * 60, 10000),
+    CACHE_SHOP("cacheShop", 60, 10000),
     CACHE_ITEM("cacheItem", 10, 10000),
     RANDOM("random", 60, 10000);
 

@@ -44,6 +44,7 @@ public class SecurityConfiguration {
     private static final String[] ADMIN_URL_ARRAY = {
             "/member/**",
             "/user/authority",
+
     };
 
 

@@ -63,22 +63,30 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         return null;
     }
 
-    //fixme 날짜 조회
+
+    // default 오늘 하루 주문만 조회
     private BooleanExpression eqDate(LocalDate startDate, LocalDate endDate) {
-
-        System.out.println("startDate = " + startDate + ", endDate = " + endDate);
-        if (startDate == null && endDate == null) { // 오늘날짜 Order
-            Timestamp start = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
-            Timestamp end = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
-            return order.orderDate.between(start,end);
-        }
-
-        if (startDate != null && endDate != null) { // 시작~종료 order
+        if (startDate != null && endDate != null) {
             Date start = Date.valueOf(startDate);
-            Date end = Date.valueOf(endDate);
+            Date end = Date.valueOf(endDate.plusDays(1));
             return order.orderDate.between(start, end);
         }
-        return null;
+
+        if (startDate != null){
+            Date start = Date.valueOf(startDate);
+            Date end = Date.valueOf(startDate.plusDays(1));
+            return order.orderDate.between(start, end);
+        }
+
+        if (endDate != null){
+            Date start = Date.valueOf(endDate);
+            Date end = Date.valueOf(endDate.plusDays(1));
+            return order.orderDate.between(start, end);
+        }
+
+        Timestamp start = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
+        Timestamp end = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
+        return order.orderDate.between(start,end);
     }
 
 }

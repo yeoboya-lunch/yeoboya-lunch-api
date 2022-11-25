@@ -58,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private final String[] IGNORE_URLS = {
-            "/docs/lunch.html",
             "/favicon.ico",
             "/splash"
     };

@@ -3,10 +3,9 @@
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 3
+:toclevels: 2
 :sectnums:
 :sectlinks:
-
 
 == User
 

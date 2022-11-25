@@ -63,6 +63,7 @@ public class ItemController {
     /**
      * 아이템 삭제
      */
+    //fixme OrderItem cascade
     @DeleteMapping("/{itemId}")
     public ResponseEntity<Body> deleteItem(@PathVariable Long itemId){
         itemService.delete(itemId);

@@ -27,7 +27,7 @@ public class RedisUtil {
     }
 
     public String getStringOps(String key){
-        return (String) stringRedisTemplate.opsForValue().get(key);
+        return stringRedisTemplate.opsForValue().get(key);
     }
 
     // list (opsForList)
@@ -46,7 +46,7 @@ public class RedisUtil {
     }
 
     public String getHashOps(String key, String hashKey){
-        return stringRedisTemplate.opsForHash().hasKey(key, hashKey) ? (String) stringRedisTemplate.opsForHash().get(key, hashKey) : new String();
+        return stringRedisTemplate.opsForHash().hasKey(key, hashKey) ? (String) stringRedisTemplate.opsForHash().get(key, hashKey) : "";
     }
 
     // set (opsForSet)
