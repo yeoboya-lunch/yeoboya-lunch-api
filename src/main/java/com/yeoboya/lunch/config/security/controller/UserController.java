@@ -56,6 +56,14 @@ public class UserController {
     }
 
     /**
+     * 비밀번호 변경
+     */
+    @PostMapping("/setting/security")
+    public ResponseEntity<?> changePassword(@Validated @RequestBody UserRequest.PassWord passWord, Errors errors){
+        return null;
+    }
+
+    /**
      * 토큰 재발급
      */
     @PostMapping("/reissue")

@@ -139,6 +139,10 @@ public class UsersService {
     }
 
 
+    public ResponseEntity<Body> changePassword(UserRequest.PassWord passWord) {
+        return null;
+    }
+
     @Transactional
     public ResponseEntity<Body> authority(HttpServletRequest request) {
         String userEmail = JwtTokenProvider.getCurrentUserEmail();
