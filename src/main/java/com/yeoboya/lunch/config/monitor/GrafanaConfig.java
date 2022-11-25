@@ -10,7 +10,7 @@ public class GrafanaConfig {
 
     @Bean
     MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
-        return registry -> registry.config().commonTags("application", "guingujik");
+        return registry -> registry.config().commonTags("application", "lunch");
     }
 
 }
