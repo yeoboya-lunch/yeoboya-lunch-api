@@ -1,12 +1,12 @@
 package com.yeoboya.lunch.api.v1.common.exception;
 
+import com.yeoboya.lunch.config.util.Helper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,14 +26,26 @@ public class ExceptionController {
         ExceptionResponse response = ExceptionResponse.builder()
                 .code(BAD_REQUEST.value())
                 .message(BAD_REQUEST.getReasonPhrase())
+                .validation(Helper.refineErrors(e))
                 .build();
-
-        for (FieldError fieldError : e.getFieldErrors()) {
-            response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
-        }
-
         return response;
     }
+
+//    @ResponseStatus(BAD_REQUEST)
+//    @ExceptionHandler(value = ConstraintViolationException.class)
+//    protected ExceptionResponse handleException(ConstraintViolationException e) {
+//        log.error("DataIntegrityViolationException", e);
+//        return Response
+//                .builder()
+//                .header(Header
+//                        .builder()
+//                        .isSuccessful(false)
+//                        .resultCode(-400)
+//                        .resultMessage(getResultMessage(exception.getConstraintViolations().iterator())) // 오류 응답을 생성
+//                        .build())
+//                .build();
+//    }
+
 
     @ResponseStatus(BAD_REQUEST) // 400
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -76,6 +88,8 @@ public class ExceptionController {
                 .message(CONFLICT.getReasonPhrase())
                 .build();
     }
+
+
 
     @ExceptionHandler(LunchException.class)
     public ResponseEntity<ExceptionResponse> lunchException(LunchException e) {

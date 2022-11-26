@@ -13,7 +13,7 @@ import com.yeoboya.lunch.config.security.domain.Roles;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
 import com.yeoboya.lunch.config.security.repository.RolesRepository;
-import com.yeoboya.lunch.config.security.reqeust.UserRequest;
+import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,8 +25,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.annotation.Validated;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@Validated
 public class UsersService {
 
     private final MemberRepository memberRepository;
@@ -46,10 +49,7 @@ public class UsersService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate<String, String> redisTemplate;
 
-    public ResponseEntity<Body> signUp(UserRequest.SignUp signUp) {
-        if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
-            return response.fail(ErrorCode.USER_DUPLICATE_EMAIL);
-        }
+    public ResponseEntity<Body> signUp(SignUp signUp) {
 
         // member
         Member build = Member.builder()
@@ -72,7 +72,7 @@ public class UsersService {
         return response.success("", Code.SAVE_SUCCESS);
     }
 
-    public ResponseEntity<Body> signIn(UserRequest.SignIn signIn) {
+    public ResponseEntity<Body> signIn(SignIn signIn) {
         if (memberRepository.findByEmail(signIn.getEmail()).isEmpty()) {
             return response.fail(ErrorCode.USER_NOT_FOUND);
         }
@@ -90,7 +90,7 @@ public class UsersService {
         return response.success(token, Code.SEARCH_SUCCESS);
     }
 
-    public ResponseEntity<?> signOut(UserRequest.SignOut signOut) {
+    public ResponseEntity<Body> signOut(SignOut signOut) {
         if (!jwtTokenProvider.validateToken(signOut.getAccessToken())) {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
@@ -111,7 +111,7 @@ public class UsersService {
         return response.success("로그아웃 되었습니다.");
     }
 
-    public ResponseEntity<Body> reIssue(UserRequest.Reissue reissue) {
+    public ResponseEntity<Body> reIssue(Reissue reissue) {
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
             return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
@@ -139,7 +139,14 @@ public class UsersService {
     }
 
 
-    public ResponseEntity<Body> changePassword(UserRequest.PassWord passWord) {
+
+    public ResponseEntity<Body> changePassword(@Valid Password passWord) {
+        log.error("{}", passWord);
+        return null;
+    }
+
+
+    public ResponseEntity<Body> resetPassword(Password password) {
         return null;
     }
 
@@ -157,7 +164,7 @@ public class UsersService {
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
-        return this.reIssue(new UserRequest.Reissue(token, redisRT));
+        return this.reIssue(new Reissue(token, redisRT));
     }
 
 }

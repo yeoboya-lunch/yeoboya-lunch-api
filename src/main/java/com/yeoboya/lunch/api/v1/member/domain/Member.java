@@ -18,9 +18,10 @@ public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id", nullable = false)
+    @Column(name = "MEMBER_ID", nullable = false)
     private Long id;
 
+    @Column(unique = true)
     private String email;
 
     private String name;
@@ -33,6 +34,9 @@ public class Member extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Account account;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private MemberInfo memberInfo;
 
 
     //연관관계 편의 메소드

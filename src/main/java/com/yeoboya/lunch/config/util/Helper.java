@@ -22,7 +22,6 @@ public class Helper {
         return errorList;
     }
 
-
     public static void printBeanNames(ApplicationContext context){
         String[] beanNames = context.getBeanDefinitionNames();
         Arrays.stream(beanNames)

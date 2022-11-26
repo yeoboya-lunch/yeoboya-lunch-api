@@ -30,7 +30,7 @@ public class Response {
                 .data(data)
                 .error(Collections.emptyList())
                 .build();
-        return ResponseEntity.ok(body);
+        return ResponseEntity.status(status).body(body);
     }
 
     public ResponseEntity<Body> invalidFields(LinkedList<LinkedHashMap<String, String>> errors) {
@@ -39,7 +39,7 @@ public class Response {
                 .data(Collections.emptyList())
                 .error(errors)
                 .build();
-        return ResponseEntity.ok(body);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(body);
     }
 
 
