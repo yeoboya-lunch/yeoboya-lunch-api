@@ -1,9 +1,9 @@
 package com.yeoboya.lunch.config.security.service;
 
-import com.yeoboya.lunch.api.v1.common.response.Body;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
@@ -69,7 +69,7 @@ public class UsersService {
         Member saveMember = Member.createMember(build, memberRoles);
 
         memberRepository.save(saveMember);
-        return response.success("", Code.SAVE_SUCCESS);
+        return response.success(Code.SAVE_SUCCESS);
     }
 
     public ResponseEntity<Body> signIn(SignIn signIn) {
@@ -87,7 +87,7 @@ public class UsersService {
                 token.getRefreshTokenExpirationTime() - new Date().getTime(),
                 TimeUnit.MILLISECONDS);
 
-        return response.success(token, Code.SEARCH_SUCCESS);
+        return response.success(Code.SEARCH_SUCCESS, token);
     }
 
     public ResponseEntity<Body> signOut(SignOut signOut) {
@@ -135,13 +135,13 @@ public class UsersService {
                 token.getRefreshTokenExpirationTime(),
                 TimeUnit.MILLISECONDS);
 
-        return response.success(token, Code.UPDATE_SUCCESS);
+        return response.success(Code.UPDATE_SUCCESS, token);
     }
 
 
 
-    public ResponseEntity<Body> changePassword(@Valid Password passWord) {
-        log.error("{}", passWord);
+    public ResponseEntity<Body> changePassword(@Valid Password password) {
+        log.error("{}", password);
         return null;
     }
 

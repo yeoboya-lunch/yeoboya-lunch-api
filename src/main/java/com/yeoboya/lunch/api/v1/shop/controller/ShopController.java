@@ -1,8 +1,8 @@
 package com.yeoboya.lunch.api.v1.shop.controller;
 
-import com.yeoboya.lunch.api.v1.common.response.Body;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopSearch;
 import com.yeoboya.lunch.api.v1.shop.response.ShopResponse;
@@ -32,7 +32,7 @@ public class ShopController {
     @PostMapping
     public ResponseEntity<Body> create(@RequestBody @Valid ShopCreate create) {
         ShopResponse shopResponse = service.create(create);
-        return response.success(shopResponse, Code.SAVE_SUCCESS);
+        return response.success(Code.SAVE_SUCCESS, shopResponse);
     }
 
     /**
@@ -42,7 +42,7 @@ public class ShopController {
     @GetMapping
     public ResponseEntity<Body> shop(ShopSearch search, Pageable pageable) {
         List<ShopResponse> shopResponses = service.shop(search, pageable);
-        return response.success(shopResponses, Code.SEARCH_SUCCESS);
+        return response.success(Code.SEARCH_SUCCESS, shopResponses);
     }
 
 

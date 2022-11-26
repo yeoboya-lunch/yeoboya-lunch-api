@@ -24,9 +24,10 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
         httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
         final Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_FORBIDDEN);
-        body.put("error", "액세스 권한이 없습니다.");
+        body.put("code", HttpServletResponse.SC_FORBIDDEN);
         body.put("message", e.getMessage());
+        body.put("data", "액세스 권한이 없습니다.");
+
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(httpServletResponse.getOutputStream(), body);

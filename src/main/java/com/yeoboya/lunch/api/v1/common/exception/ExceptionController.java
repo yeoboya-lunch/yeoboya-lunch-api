@@ -13,44 +13,41 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
+
 import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestControllerAdvice
 public class ExceptionController {
 
-    @ResponseStatus(BAD_REQUEST) // 400
+    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ExceptionResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException", e);
-        ExceptionResponse response = ExceptionResponse.builder()
+        return ExceptionResponse.builder()
                 .code(BAD_REQUEST.value())
                 .message(BAD_REQUEST.getReasonPhrase())
                 .validation(Helper.refineErrors(e))
                 .build();
-        return response;
     }
 
-//    @ResponseStatus(BAD_REQUEST)
-//    @ExceptionHandler(value = ConstraintViolationException.class)
-//    protected ExceptionResponse handleException(ConstraintViolationException e) {
-//        log.error("DataIntegrityViolationException", e);
-//        return Response
-//                .builder()
-//                .header(Header
-//                        .builder()
-//                        .isSuccessful(false)
-//                        .resultCode(-400)
-//                        .resultMessage(getResultMessage(exception.getConstraintViolations().iterator())) // 오류 응답을 생성
-//                        .build())
-//                .build();
-//    }
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    protected ExceptionResponse constraintViolationException(ConstraintViolationException e) {
+        log.error("ConstraintViolationException", e);
+        return ExceptionResponse.builder()
+                .code(BAD_REQUEST.value())
+                .message(BAD_REQUEST.getReasonPhrase())
+                .validation(Helper.refineErrors(e))
+                .build();
+    }
 
 
-    @ResponseStatus(BAD_REQUEST) // 400
+    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ExceptionResponse httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        log.error("MethodArgumentNotValidException", e);
+        log.error("HttpMessageNotReadableException", e);
         return ExceptionResponse.builder()
                 .code(BAD_REQUEST.value())
                 .message(BAD_REQUEST.getReasonPhrase())
@@ -58,20 +55,20 @@ public class ExceptionController {
                 .build();
     }
 
-    @ResponseStatus(NOT_FOUND) // 404
+    @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(EmptyResultDataAccessException.class)
     protected ExceptionResponse emptyResultDataAccessException(EmptyResultDataAccessException e){
-        log.error("DataIntegrityViolationException", e);
+        log.error("EmptyResultDataAccessException", e);
         return ExceptionResponse.builder()
                 .code(NOT_FOUND.value())
                 .message(NOT_FOUND.getReasonPhrase())
                 .build();
     }
 
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED) // 405
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ExceptionResponse httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        log.error("handleHttpRequestMethodNotSupportedException", e);
+        log.error("HttpRequestMethodNotSupportedException", e);
         return ExceptionResponse.builder()
                 .code(METHOD_NOT_ALLOWED.value())
                 .message(METHOD_NOT_ALLOWED.getReasonPhrase())
@@ -79,7 +76,7 @@ public class ExceptionController {
     }
 
     //todo 테이블의 특정 행을 삭제하고자 할때 그 행을 참조하는 자식 레코드가 있을경우 랑 save 할떄 오류 처리
-    @ResponseStatus(CONFLICT) // 409
+    @ResponseStatus(CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ExceptionResponse dataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error("DataIntegrityViolationException", e);

@@ -4,9 +4,9 @@ import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.Item.service.ItemService;
-import com.yeoboya.lunch.api.v1.common.response.Body;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class ItemController {
     @PostMapping
     public ResponseEntity<Body> create(@RequestBody @Valid ItemCreate create) {
         ItemResponse itemResponse = itemService.saveItem(create);
-        return response.success(itemResponse, Code.SAVE_SUCCESS);
+        return response.success(Code.SAVE_SUCCESS, itemResponse);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<Body> getList(Pageable pageable) {
         List<ItemResponse> itemResponses = itemService.getList(pageable);
-        return response.success(itemResponses, Code.SEARCH_SUCCESS);
+        return response.success(Code.SEARCH_SUCCESS, itemResponses);
     }
 
     /**
@@ -48,7 +48,7 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public ResponseEntity<Body> get(@PathVariable Long itemId) {
         ItemResponse itemResponse = itemService.get(itemId);
-        return response.success(itemResponse, Code.SEARCH_SUCCESS);
+        return response.success(Code.SEARCH_SUCCESS, itemResponse);
     }
 
     /**
@@ -57,7 +57,7 @@ public class ItemController {
     @PatchMapping("/{itemId}")
     public ResponseEntity<Body> updateItem(@PathVariable Long itemId, @RequestBody @Valid ItemEdit edit) {
         itemService.edit(itemId, edit);
-        return response.success(Code.UPDATE_SUCCESS.getMsg());
+        return response.success(Code.UPDATE_SUCCESS);
     }
 
     /**

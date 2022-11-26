@@ -1,47 +1,44 @@
 package com.yeoboya.lunch.api.v1.common.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 
 @Component
 public class Response {
 
+    @Getter
+    @Builder
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    public static class Body {
+        private final int code;
+        private final String message;
+        private Object data;
+    }
+
     /** 성공 */
-    public ResponseEntity<Body> success(Object data, String msg, HttpStatus status) {
+    public ResponseEntity<Body> success(HttpStatus status, String msg, Object data) {
         Body body = Body.builder()
                 .code(status.value())
                 .message(msg)
                 .data(data)
-                .error(Collections.emptyList())
                 .build();
         return ResponseEntity.ok(body);
     }
 
     /** 실패 */
-    public ResponseEntity<Body> fail(Object data, String msg, HttpStatus status) {
+    public ResponseEntity<Body> fail(ErrorCode errorCode) {
         Body body = Body.builder()
-                .code(status.value())
-                .message(msg)
-                .data(data)
-                .error(Collections.emptyList())
+                .code(errorCode.getHttpStatus().value())
+                .message(errorCode.getMsg())
                 .build();
-        return ResponseEntity.status(status).body(body);
+        return  ResponseEntity.status(errorCode.getHttpStatus()).body(body);
     }
-
-    public ResponseEntity<Body> invalidFields(LinkedList<LinkedHashMap<String, String>> errors) {
-        Body body = Body.builder()
-                .code(HttpStatus.BAD_REQUEST.value())
-                .data(Collections.emptyList())
-                .error(errors)
-                .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(body);
-    }
-
 
     /**
      * <p> 성공 응답만 반환한다. </p>
@@ -55,7 +52,43 @@ public class Response {
      * @return 응답 객체
      */
     public ResponseEntity<Body> success() {
-        return success(Collections.emptyList(), null, HttpStatus.OK);
+        return success(HttpStatus.OK, null, Collections.emptyList());
+    }
+
+    /**
+     * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
+     * <pre>
+     *     {
+     *         "statusCode" : code.getHttpStatus,
+     *         "result" : success,
+     *         "message" : message,
+     *         "data" : [{data1}, {data2}...]
+     *     }
+     * </pre>
+     *
+     * @param code Code.java
+     * @return 응답 객체
+     */
+    public ResponseEntity<Body> success(Code code) {
+        return success(code.getHttpStatus(), code.getMsg(), null);
+    }
+
+
+    /**
+     * <p> 메세지만 가진 성공 응답을 반환한다.</p>
+     * <pre>
+     *     {
+     *         "statusCode" : 200,
+     *         "result" : success,
+     *         "message" : message
+     *     }
+     * </pre>
+     *
+     * @param msg 응답 바디 message 필드에 포함될 정보
+     * @return 응답 객체
+     */
+    public ResponseEntity<Body> success(String msg) {
+        return success(HttpStatus.OK, msg, Collections.emptyList());
     }
 
     /**
@@ -72,25 +105,9 @@ public class Response {
      * @return 응답 객체
      */
     public ResponseEntity<Body> success(Object data) {
-        return success(data, null, HttpStatus.OK);
+        return success(HttpStatus.OK, null, data);
     }
 
-    /**
-     * <p> 메세지만 가진 성공 응답을 반환한다.</p>
-     * <pre>
-     *     {
-     *         "statusCode" : 200,
-     *         "result" : success,
-     *         "message" : message
-     *     }
-     * </pre>
-     *
-     * @param msg 응답 바디 message 필드에 포함될 정보
-     * @return 응답 객체
-     */
-    public ResponseEntity<Body> success(String msg) {
-        return success(Collections.emptyList(), msg, HttpStatus.OK);
-    }
 
     /**
      * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
@@ -103,19 +120,19 @@ public class Response {
      *     }
      * </pre>
      *
-     * @param data 응답 바디 data 필드에 포함될 정보
      * @param msg 응답 바디 message 필드에 포함될 정보
+     * @param data 응답 바디 data 필드에 포함될 정보
      * @return 응답 객체
      */
-    public ResponseEntity<Body> success(Object data, String msg) {
-        return success(data, msg, HttpStatus.OK);
+    public ResponseEntity<Body> success(String msg, Object data) {
+        return success(HttpStatus.OK, msg, data);
     }
 
     /**
      * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
      * <pre>
      *     {
-     *         "statusCode" : 200,
+     *         "statusCode" : code.getHttpStatus(),
      *         "result" : success,
      *         "message" : message,
      *         "data" : [{data1}, {data2}...]
@@ -126,45 +143,8 @@ public class Response {
      * @param code Code.java
      * @return 응답 객체
      */
-    public ResponseEntity<Body> success(Object data, Code code) {
-        return success(data, code.getMsg(), code.getHttpStatus());
+    public ResponseEntity<Body> success(Code code, Object data) {
+        return success(code.getHttpStatus(), code.getMsg(), data);
     }
 
-
-    /**
-     * <p> 메세지를 가진 실패 응답을 반환한다. </p>
-     * <pre>
-     *     {
-     *         "statusCode" : HttpStatus Code,
-     *         "result" : fail,
-     *         "message" : message,
-     *         "error" : [{error1}, {error2}...]
-     *     }
-     * </pre>
-     *
-     * @param msg 응답 바디 message 필드에 포함될 정보
-     * @param status 응답 바디 status 필드에 포함될 응답 상태 코드
-     * @return 응답 객체
-     */
-    public ResponseEntity<Body> fail(String msg, HttpStatus status) {
-        return fail(Collections.emptyList(), msg, status);
-    }
-
-    /**
-     * <p> 메세지를 가진 실패 응답을 반환한다. </p>
-     * <pre>
-     *     {
-     *         "statusCode" : HttpStatus Code,
-     *         "result" : fail,
-     *         "message" : message,
-     *         "error" : [{error1}, {error2}...]
-     *     }
-     * </pre>
-     *
-     * @param errorCode ErrorCode.java
-     * @return 응답 객체
-     */
-    public ResponseEntity<Body> fail(ErrorCode errorCode) {
-        return fail(errorCode.getMsg(), errorCode.getHttpStatus());
-    }
 }

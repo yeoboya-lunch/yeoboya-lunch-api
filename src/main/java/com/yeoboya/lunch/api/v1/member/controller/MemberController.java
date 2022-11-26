@@ -1,8 +1,8 @@
 package com.yeoboya.lunch.api.v1.member.controller;
 
-import com.yeoboya.lunch.api.v1.common.response.Body;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
@@ -29,9 +29,9 @@ public class MemberController {
      * 멤버 리스트
      */
     @GetMapping
-    public ResponseEntity<Body> member(Pageable pageable) {
+    public ResponseEntity<Response.Body> member(Pageable pageable) {
         List<MemberResponse> memberResponses = memberService.memberList(pageable);
-        return response.success(memberResponses, Code.SEARCH_SUCCESS);
+        return response.success(Code.SEARCH_SUCCESS, memberResponses);
     }
 
     /**
@@ -40,7 +40,7 @@ public class MemberController {
     @PostMapping("/account")
     public ResponseEntity<Body> account(@RequestBody @Valid AccountCreate accountCreate) {
         AccountResponse accountResponse = memberService.addAccount(accountCreate);
-        return response.success(accountResponse, Code.SAVE_SUCCESS);
+        return response.success(Code.SAVE_SUCCESS, accountResponse);
     }
 
     /**
@@ -49,6 +49,6 @@ public class MemberController {
     @PatchMapping("/account/{memberEmail}")
     public ResponseEntity<Body> accountUpdate(@PathVariable String memberEmail, @RequestBody @Valid AccountEdit edit){
         memberService.editAccount(memberEmail, edit);
-        return response.success(Code.UPDATE_SUCCESS.getMsg());
+        return response.success(Code.UPDATE_SUCCESS);
     }
 }

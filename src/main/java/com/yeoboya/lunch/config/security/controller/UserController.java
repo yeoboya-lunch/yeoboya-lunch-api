@@ -1,12 +1,12 @@
 package com.yeoboya.lunch.config.security.controller;
 
-import com.yeoboya.lunch.api.v1.common.response.Body;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import com.yeoboya.lunch.config.security.service.UsersService;
 import com.yeoboya.lunch.config.security.validation.ValidationGroups;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +22,19 @@ public class UserController {
 
     private final UsersService usersService;
     private final SignUpFormValidator signUpFormValidator;
+    private final PasswordFormValidator passwordFormValidator;
 
-    @InitBinder("signUp")
+    @InitBinder({"signUp"})
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(signUpFormValidator);
+
     }
+
+    @InitBinder({"password, signIn"})
+    public void initPasswordBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(passwordFormValidator);;
+    }
+
 
     /**
      * 회원가입

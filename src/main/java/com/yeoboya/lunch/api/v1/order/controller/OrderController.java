@@ -1,9 +1,9 @@
 package com.yeoboya.lunch.api.v1.order.controller;
 
 
-import com.yeoboya.lunch.api.v1.common.response.Body;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
@@ -32,7 +32,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Body> order(@RequestBody @Valid OrderCreate orderCreate){
         OrderResponse orderResponse = orderService.order(orderCreate);
-        return response.success(orderResponse, Code.SAVE_SUCCESS);
+        return response.success(Code.SAVE_SUCCESS, orderResponse);
     }
 
     /**
@@ -41,7 +41,7 @@ public class OrderController {
     @GetMapping("/list")
     public ResponseEntity<Body> getList(OrderSearch search, Pageable pageable) {
         List<OrderResponse> orderResponses = orderService.orderList(search, pageable);
-        return response.success(orderResponses, Code.SEARCH_SUCCESS);
+        return response.success(Code.SEARCH_SUCCESS, orderResponses);
     }
 
     /** 주문취소 */

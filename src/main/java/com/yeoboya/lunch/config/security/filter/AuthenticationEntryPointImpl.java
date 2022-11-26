@@ -24,9 +24,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         final Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "엑세스 토큰이 없습니다.");
+        body.put("code", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("message", e.getMessage());
+        body.put("data", "엑세스 토큰이 없습니다.");
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(httpServletResponse.getOutputStream(), body);
