@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.config.security.service;
 
+import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
@@ -27,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class UsersService {
+public class UserService {
 
     private final MemberRepository memberRepository;
     private final RolesRepository rolesRepository;
@@ -95,6 +95,7 @@ public class UsersService {
 
         Authentication authentication = jwtTokenProvider.getAuthentication(signOut.getAccessToken());
 
+        //fixme null check
         if (!redisTemplate.opsForValue().get("RT:" + authentication.getName()).isEmpty()) {
             redisTemplate.delete("RT:" + authentication.getName());
         }
@@ -137,14 +138,37 @@ public class UsersService {
     }
 
 
-    public ResponseEntity<Body> changePassword(@Valid Password password) {
-        log.error("{}", password);
-        return null;
+    @Transactional
+    public ResponseEntity<Body> changePassword(Credentials credentials) {
+        Member member = memberRepository.findByEmail(credentials.getEmail()).
+                orElseThrow(()->new EntityNotFoundException("Member not found - " + credentials.getEmail()));
+
+        if (!passwordEncoder.matches(credentials.getOldPassword(), member.getPassword())){
+            return response.fail(ErrorCode.INVALID_OLD_PASSWORD);
+        }
+
+        if (!credentials.getNewPassword().equals(credentials.getConfirmNewPassword())){
+            return response.fail(ErrorCode.INVALID_PASSWORD);
+        }
+
+        member.setPassword(passwordEncoder.encode(credentials.getNewPassword()));
+
+        return response.success(Code.UPDATE_SUCCESS);
     }
 
 
-    public ResponseEntity<Body> resetPassword(Password password) {
-        return null;
+    @Transactional
+    public ResponseEntity<Body> resetPassword(Credentials credentials) {
+        Member member = memberRepository.findByEmail(credentials.getEmail()).
+                orElseThrow(()->new EntityNotFoundException("Member not found - " + credentials.getEmail()));
+
+        if (!credentials.getNewPassword().equals(credentials.getConfirmNewPassword())){
+            return response.fail(ErrorCode.INVALID_PASSWORD);
+        }
+
+        member.setPassword(passwordEncoder.encode(credentials.getNewPassword()));
+
+        return response.success(Code.UPDATE_SUCCESS);
     }
 
     @Transactional

@@ -1,13 +1,22 @@
 package com.yeoboya.lunch.config.security.validation;
 
-public class ValidationGroups {
-    public interface NotNullGroup {};
-    public interface PatternCheckGroup {};
-    public interface SizeCheckGroup {};
-    public interface EmailCheckGroup {};
-    public interface UmKnowOldPassword {};
+import javax.validation.groups.Default;
 
-    public interface KnowOldPassword {}
+public class ValidationGroups {
+
+
+    public interface PatternCheckGroup {
+    }
+
+
+
+    public interface EmailCheckGroup {
+    }
+
+
+
+    public interface KnowOldPassword extends Default {
+    }
 
 
 }

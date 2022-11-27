@@ -1,12 +1,12 @@
 package com.yeoboya.lunch.config.security.controller;
 
+import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
-import com.yeoboya.lunch.config.security.service.UsersService;
-import com.yeoboya.lunch.config.security.validation.ValidationGroups;
+import com.yeoboya.lunch.config.security.service.UserService;
+import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +20,9 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UsersService usersService;
+    private final UserService userService;
     private final SignUpFormValidator signUpFormValidator;
-    private final PasswordFormValidator passwordFormValidator;
+//    private final PasswordFormValidator passwordFormValidator;
 
     @InitBinder({"signUp"})
     public void initBinder(WebDataBinder webDataBinder) {
@@ -30,10 +30,10 @@ public class UserController {
 
     }
 
-    @InitBinder({"password, signIn"})
-    public void initPasswordBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(passwordFormValidator);;
-    }
+//    @InitBinder({"password"})
+//    public void initPasswordBinder(WebDataBinder webDataBinder) {
+//        webDataBinder.addValidators(passwordFormValidator);;
+//    }
 
 
     /**
@@ -41,7 +41,7 @@ public class UserController {
      */
     @PostMapping("/sign-up")
     public ResponseEntity<Body> signUp(@Valid @RequestBody SignUp signUp) {
-        return usersService.signUp(signUp);
+        return userService.signUp(signUp);
     }
 
     /**
@@ -49,7 +49,7 @@ public class UserController {
      */
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@Valid @RequestBody SignIn signIn) {
-        return usersService.signIn(signIn);
+        return userService.signIn(signIn);
     }
 
     /**
@@ -57,15 +57,15 @@ public class UserController {
      */
     @PostMapping("/sign-out")
     public ResponseEntity<Body> signOut(@Valid @RequestBody SignOut signOut) {
-        return usersService.signOut(signOut);
+        return userService.signOut(signOut);
     }
 
     /**
      * 비밀번호 변경
      */
     @PostMapping("/setting/security")
-    public ResponseEntity<Body> changePassword(@Validated(ValidationGroups.KnowOldPassword.class) @RequestBody Password password){
-        return usersService.changePassword(password);
+    public ResponseEntity<Body> changePassword(@Validated(KnowOldPassword.class) @RequestBody Credentials credentials){
+        return userService.changePassword(credentials);
     }
 
     /**
@@ -73,8 +73,8 @@ public class UserController {
      * 메일->비밀번호 변경 페이지?
      */
     @PostMapping("/resetPassword")
-    public ResponseEntity<Body> resetPassword(@Validated(ValidationGroups.UmKnowOldPassword.class) @RequestBody Password password){
-        return usersService.resetPassword(password);
+    public ResponseEntity<Body> resetPassword(@Valid @RequestBody Credentials credentials){
+        return userService.resetPassword(credentials);
     }
 
 
@@ -82,8 +82,8 @@ public class UserController {
      * 토큰 재발급
      */
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@Validated @RequestBody Reissue reissue) {
-        return usersService.reIssue(reissue);
+    public ResponseEntity<?> reissue(@Valid @RequestBody Reissue reissue) {
+        return userService.reIssue(reissue);
     }
 
     /**
@@ -91,7 +91,7 @@ public class UserController {
      */
     @GetMapping("/authority")
     public ResponseEntity<?> authority(HttpServletRequest request) {
-        return usersService.authority(request);
+        return userService.authority(request);
     }
 
 }

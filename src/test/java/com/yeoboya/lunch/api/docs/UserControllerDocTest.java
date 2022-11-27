@@ -127,6 +127,12 @@ class UserControllerDocTest {
 
     }
 
+    //todo
+    @Test
+    void changePassword() throws Exception{
+
+    }
+
     //fixme
     @Disabled
     @Test

@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.config.security.reqeust;
 
-import com.yeoboya.lunch.config.security.validation.ValidationGroups;
-import com.yeoboya.lunch.config.security.validation.ValidationGroups.UmKnowOldPassword;
+import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +21,7 @@ public class UserRequest {
     public static class SignUp {
 
         @NotEmpty(message = "이메일은 필수 입력값입니다.")
-        @Email(message = "이메일 형식에 맞지 않습니다.")
+        @Email
         private String email;
 
         @Length(min = 2, max = 6)
@@ -37,21 +36,21 @@ public class UserRequest {
     @Getter
     @Setter
     @ToString
-    public static class Password {
+    public static class Credentials {
 
-        @NotEmpty(message = "이메일은 필수 입력값입니다.", groups = {ValidationGroups.KnowOldPassword.class, UmKnowOldPassword.class})
-        @Email(message = "이메일 형식에 맞지 않습니다.")
+        @NotEmpty(message = "이메일은 필수 입력값입니다.")
+        @Email
         private String email;
 
-        @NotEmpty(message = "비밀번호는 필수 입력값입니다.", groups = ValidationGroups.KnowOldPassword.class)
+        @NotEmpty(message = "비밀번호는 필수 입력값입니다.", groups = KnowOldPassword.class)
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
         private String oldPassword;
 
-        @NotEmpty(message = "비밀번호는 필수 입력값입니다.", groups = {ValidationGroups.KnowOldPassword.class, UmKnowOldPassword.class})
+        @NotEmpty(message = "비밀번호는 필수 입력값입니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
         private String newPassword;
 
-        @NotEmpty(message = "비밀번호는 필수 입력값입니다.", groups = {ValidationGroups.KnowOldPassword.class, UmKnowOldPassword.class})
+        @NotEmpty(message = "비밀번호는 필수 입력값입니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
         private String confirmNewPassword;
     }
@@ -61,7 +60,7 @@ public class UserRequest {
     @ToString
     public static class SignIn {
         @NotEmpty(message = "이메일은 필수 입력값입니다.")
-        @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
+        @Email
         private String email;
 
         @NotEmpty(message = "비밀번호는 필수 입력값입니다.")
