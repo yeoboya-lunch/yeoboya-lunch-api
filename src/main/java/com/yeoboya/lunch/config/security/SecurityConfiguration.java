@@ -4,9 +4,6 @@ import com.yeoboya.lunch.config.security.filter.AuthenticationEntryPointImpl;
 import com.yeoboya.lunch.config.security.filter.JwtAuthenticationFilter;
 import com.yeoboya.lunch.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.lunch.config.security.handler.AccessDeniedHandlerImpl;
-import com.yeoboya.lunch.config.security.handler.AuthenticationFailureHandlerImpl;
-import com.yeoboya.lunch.config.security.handler.AuthenticationSuccessHandlerImpl;
-import com.yeoboya.lunch.config.security.handler.LogoutSuccessHandlerImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -27,9 +24,9 @@ public class SecurityConfiguration {
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
     private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
 
-    private final AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
-    private final AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
-    private final LogoutSuccessHandlerImpl logoutSuccessHandlerImpl;
+//    private final AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
+//    private final AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
+//    private final LogoutSuccessHandlerImpl logoutSuccessHandlerImpl;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
@@ -78,7 +75,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.httpBasic().disable();
-
+        http.formLogin().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
@@ -88,18 +85,17 @@ public class SecurityConfiguration {
                 .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
-        //fixme formLogin
-        http.formLogin().disable();
-        http.formLogin()
-                .loginPage("/user/sign-in")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .successHandler(authenticationSuccessHandlerImpl)
-                .failureHandler(authenticationFailureHandlerImpl)
-                .and()
-                .logout()
-                .logoutSuccessHandler(logoutSuccessHandlerImpl)
-                .permitAll();
+        // formLogin 방식으로 변경 할 경우
+//        http.formLogin()
+//                .loginPage("/user/sign-in")
+//                .usernameParameter("email")
+//                .passwordParameter("password")
+//                .successHandler(authenticationSuccessHandlerImpl)
+//                .failureHandler(authenticationFailureHandlerImpl)
+//                .and()
+//                .logout()
+//                .logoutSuccessHandler(logoutSuccessHandlerImpl)
+//                .permitAll();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);

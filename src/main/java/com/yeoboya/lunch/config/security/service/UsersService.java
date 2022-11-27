@@ -25,7 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-import org.springframework.validation.annotation.Validated;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -37,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-@Validated
 public class UsersService {
 
     private final MemberRepository memberRepository;
@@ -137,7 +135,6 @@ public class UsersService {
 
         return response.success(Code.UPDATE_SUCCESS, token);
     }
-
 
 
     public ResponseEntity<Body> changePassword(@Valid Password password) {
