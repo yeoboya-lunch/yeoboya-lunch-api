@@ -6,7 +6,9 @@ import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
+import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
+import com.yeoboya.lunch.config.annotation.Retry;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
@@ -28,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,26 +48,27 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate<String, String> redisTemplate;
 
+    @Retry(value = 4)
     public ResponseEntity<Body> signUp(SignUp signUp) {
 
-        // member
+        // create member
         Member build = Member.builder()
                 .email(signUp.getEmail())
                 .name(signUp.getName())
                 .password(passwordEncoder.encode(signUp.getPassword()))
                 .build();
 
-        // roles
+        // find and set roles
         Roles roles = rolesRepository.findByRole(Authority.ROLE_USER);
+        List<MemberRole> memberRoles = List.of(MemberRole.createMemberRoles(build, roles));
 
-        // member_roles
-        List<MemberRole> memberRoles = new ArrayList<>();
-        memberRoles.add(MemberRole.createMemberRoles(build, roles));
+        // set member_info
+        MemberInfo memberInfo = MemberInfo.createMemberInfo(build);
 
         // save member
-        Member saveMember = Member.createMember(build, memberRoles);
-
+        Member saveMember = Member.createMember(build, memberInfo, memberRoles);
         memberRepository.save(saveMember);
+
         return response.success(Code.SAVE_SUCCESS);
     }
 

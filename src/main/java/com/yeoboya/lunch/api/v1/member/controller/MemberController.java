@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
+import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.service.MemberService;
@@ -29,10 +30,20 @@ public class MemberController {
      * 멤버 리스트
      */
     @GetMapping
-    public ResponseEntity<Response.Body> member(Pageable pageable) {
+    public ResponseEntity<Body> member(Pageable pageable) {
         List<MemberResponse> memberResponses = memberService.memberList(pageable);
         return response.success(Code.SEARCH_SUCCESS, memberResponses);
     }
+
+    /**
+     * 멤버 상세 정보 수정
+     */
+    @PatchMapping("/setting/info/{memberEmail}")
+    public ResponseEntity<Body> memberInfo(@PathVariable String memberEmail, @RequestBody MemberInfoEdit memberInfoEdit){
+        memberService.memberInfo(memberEmail, memberInfoEdit);
+        return response.success(Code.UPDATE_SUCCESS);
+    }
+
 
     /**
      * 멤버 계좌 등록
@@ -47,8 +58,8 @@ public class MemberController {
      * 멤버 계좌 수정
      */
     @PatchMapping("/account/{memberEmail}")
-    public ResponseEntity<Body> accountUpdate(@PathVariable String memberEmail, @RequestBody @Valid AccountEdit edit){
-        memberService.editAccount(memberEmail, edit);
+    public ResponseEntity<Body> accountUpdate(@PathVariable String memberEmail, @RequestBody AccountEdit accountEdit){
+        memberService.editAccount(memberEmail, accountEdit);
         return response.success(Code.UPDATE_SUCCESS);
     }
 }

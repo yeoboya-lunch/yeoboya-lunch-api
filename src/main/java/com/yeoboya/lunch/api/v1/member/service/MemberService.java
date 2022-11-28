@@ -3,11 +3,10 @@ package com.yeoboya.lunch.api.v1.member.service;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
+import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.repository.AccountRepository;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
-import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
-import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
-import com.yeoboya.lunch.api.v1.member.reqeust.AccountEditor;
+import com.yeoboya.lunch.api.v1.member.reqeust.*;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +33,20 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public void memberInfo(String memberEmail, MemberInfoEdit memberInfoEdit) {
+        MemberInfo memberInfo = memberRepository.getMemberInfo(memberEmail);
+
+        MemberInfoEditor.MemberInfoEditorBuilder editorBuilder = memberInfo.toEditor();
+
+        MemberInfoEditor memberInfoEditor = editorBuilder
+                .bio(memberInfoEdit.getBio())
+                .phoneNumber(memberInfoEdit.getPhoneNumber())
+                .build();
+
+        memberInfo.edit(memberInfoEditor);
+    }
+
     public AccountResponse addAccount(AccountCreate accountCreate) {
         Member member = memberRepository.findByEmail(accountCreate.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + accountCreate.getEmail()));
@@ -53,10 +66,13 @@ public class MemberService {
 
         AccountEditor.AccountEditorBuilder editorBuilder = account.toEditor();
 
-        AccountEditor accountEditor = editorBuilder.accountNumber(edit.getAccountNumber())
+        AccountEditor accountEditor = editorBuilder
+                .accountNumber(edit.getAccountNumber())
                 .bankName(edit.getBankName())
                 .build();
 
         account.edit(accountEditor);
     }
+
+
 }

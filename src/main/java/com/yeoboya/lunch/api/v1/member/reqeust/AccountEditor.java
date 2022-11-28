@@ -23,9 +23,6 @@ public class AccountEditor {
         private String bankName;
         private String accountNumber;
 
-        AccountEditorBuilder() {
-        }
-
         public AccountEditorBuilder bankName(final String bankName) {
             if (bankName != null) {
                 this.bankName = bankName;

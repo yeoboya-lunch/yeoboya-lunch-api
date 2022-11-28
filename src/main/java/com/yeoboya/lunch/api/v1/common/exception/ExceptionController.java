@@ -75,18 +75,16 @@ public class ExceptionController {
                 .build();
     }
 
-    //todo 테이블의 특정 행을 삭제하고자 할때 그 행을 참조하는 자식 레코드가 있을경우 랑 save 할떄 오류 처리
     @ResponseStatus(CONFLICT)
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler(value = {DataIntegrityViolationException.class})
     protected ExceptionResponse dataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error("DataIntegrityViolationException", e);
         return ExceptionResponse.builder()
                 .code(CONFLICT.value())
                 .message(CONFLICT.getReasonPhrase())
+                .note(e.getMostSpecificCause().getMessage())
                 .build();
     }
-
-
 
     @ExceptionHandler(LunchException.class)
     public ResponseEntity<ExceptionResponse> lunchException(LunchException e) {

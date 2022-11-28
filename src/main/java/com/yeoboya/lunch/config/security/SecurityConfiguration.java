@@ -34,7 +34,7 @@ public class SecurityConfiguration {
     private static final String[] PERMIT_URL_ARRAY = {
 
             /* user */
-            "/user/sign-up", "/user/sign-in", "/user/reissue", "/user/sign-out",
+            "/user/sign-up", "/user/sign-in", "/user/reissue", "/user/sign-out", "/user/setting/security",
 
             /* monitor */
             "/actuator/**",
@@ -43,10 +43,11 @@ public class SecurityConfiguration {
 
     private static final String[] USER_URL_ARRAY = {
             "/order/**", "/shop/**", "/item/**",
+            "/member/**",
     };
 
     private static final String[] ADMIN_URL_ARRAY = {
-            "/member/**",
+
             "/user/authority",
 
     };
@@ -85,7 +86,8 @@ public class SecurityConfiguration {
                 .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
-        // formLogin 방식으로 변경 할 경우
+        // formLogin 방식으로 변경 할 경우 (성공/실패/로그아웃)
+        // formLogin 방식이 아닌 경우 AuthenticationSuccessHandler 에서 처리하는게 맞는지?
 //        http.formLogin()
 //                .loginPage("/user/sign-in")
 //                .usernameParameter("email")

@@ -12,12 +12,16 @@ public class MemberResponse {
     private final String email;
     private final String name;
     private AccountResponse account;
+    private MemberInfoResponse info;
 
     public MemberResponse(Member member) {
         this.email = member.getEmail();
         this.name = member.getName();
         if (member.getAccount() != null) {
             this.account = AccountResponse.from(member.getAccount());
+        }
+        if(member.getMemberInfo() != null){
+            this.info = MemberInfoResponse.from(member.getMemberInfo());
         }
     }
 }

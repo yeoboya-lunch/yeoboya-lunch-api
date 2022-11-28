@@ -29,22 +29,23 @@ public class Member extends BaseTimeEntity {
     private String password;
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<MemberRole> memberRoles = new ArrayList<>(); //권한 목록
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberRole> memberRoles = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "member")
     private Account account;
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST)
     private MemberInfo memberInfo;
 
 
     //연관관계 편의 메소드
-    public static Member createMember(Member pMember, List<MemberRole> memberRoles){
+    public static Member createMember(Member pMember, MemberInfo memberInfo, List<MemberRole> memberRoles){
         Member member = new Member();
         member.setEmail(pMember.getEmail());
         member.setName(pMember.getName());
         member.setPassword(pMember.getPassword());
+        member.addMemberInfo(memberInfo);
         for(MemberRole roles : memberRoles) {
             member.addMemberRole(roles);
         }
@@ -56,4 +57,8 @@ public class Member extends BaseTimeEntity {
         memberRole.setMember(this);
     }
 
+    public void addMemberInfo(MemberInfo memberInfo){
+        this.setMemberInfo(memberInfo);
+        memberInfo.setMember(this);
+    }
 }

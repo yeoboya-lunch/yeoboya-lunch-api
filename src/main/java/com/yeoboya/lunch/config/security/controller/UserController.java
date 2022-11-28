@@ -70,13 +70,12 @@ public class UserController {
 
     /**
      * 비밀번호 초기화
-     * 메일->비밀번호 변경 페이지?
+     * todo: mail
      */
     @PatchMapping("/resetPassword")
     public ResponseEntity<Body> resetPassword(@Valid @RequestBody Credentials credentials){
         return userService.resetPassword(credentials);
     }
-
 
     /**
      * 토큰 재발급

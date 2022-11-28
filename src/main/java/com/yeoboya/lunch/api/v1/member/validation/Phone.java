@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface Phone {
 
-    String message() default "Invalid Phone";
+    String message() default "핸드폰 번호를 정확하게 입력하세요";
 
     Class<?>[] groups() default { };
 

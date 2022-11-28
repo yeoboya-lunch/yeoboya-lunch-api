@@ -28,7 +28,7 @@ public class Response {
                 .message(msg)
                 .data(data)
                 .build();
-        return ResponseEntity.ok(body);
+        return ResponseEntity.status(status.value()).body(body);
     }
 
     /** 실패 */
