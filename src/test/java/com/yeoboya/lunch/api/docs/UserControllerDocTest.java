@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -127,10 +128,40 @@ class UserControllerDocTest {
 
     }
 
-    //todo
     @Test
-    void changePassword() throws Exception{
+    void changePassword() throws Exception {
+        //given
+        UserRequest.Credentials credentials = new UserRequest.Credentials();
+        credentials.setEmail("khjzzm@gmail.com");
+        credentials.setOldPassword("1234qwer!@#$");
+        credentials.setNewPassword("qwer1234@@");
+        credentials.setConfirmNewPassword("qwer1234@@");
 
+        String json = objectMapper.writeValueAsString(credentials);
+
+        //expected
+        mockMvc.perform(patch("/user/setting/security")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/setting/security",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("oldPassword").description("전 비밀번호"),
+                                fieldWithPath("newPassword").description("새로운 비밀번호"),
+                                fieldWithPath("confirmNewPassword").description("비밀번호 확인")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
     }
 
     //fixme

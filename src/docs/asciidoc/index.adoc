@@ -25,6 +25,13 @@ include::{snippets}/user/sign-in/request-fields.adoc[]
 include::{snippets}/user/sign-in/http-response.adoc[]
 include::{snippets}/user/sign-in/response-fields.adoc[]
 
+=== 비밀번호 변경
+==== http-request
+include::{snippets}/user/setting/security/http-request.adoc[]
+include::{snippets}/user/setting/security/request-fields.adoc[]
+==== http-response
+include::{snippets}/user/setting/security/http-response.adoc[]
+include::{snippets}/user/setting/security/response-fields.adoc[]
 
 == Member
 

@@ -63,7 +63,7 @@ public class UserController {
     /**
      * 비밀번호 변경
      */
-    @PostMapping("/setting/security")
+    @PatchMapping("/setting/security")
     public ResponseEntity<Body> changePassword(@Validated(KnowOldPassword.class) @RequestBody Credentials credentials){
         return userService.changePassword(credentials);
     }
@@ -72,7 +72,7 @@ public class UserController {
      * 비밀번호 초기화
      * 메일->비밀번호 변경 페이지?
      */
-    @PostMapping("/resetPassword")
+    @PatchMapping("/resetPassword")
     public ResponseEntity<Body> resetPassword(@Valid @RequestBody Credentials credentials){
         return userService.resetPassword(credentials);
     }
