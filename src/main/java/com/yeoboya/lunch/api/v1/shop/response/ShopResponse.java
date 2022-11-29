@@ -21,8 +21,9 @@ public class ShopResponse {
     private List<ItemResponse> items;
 
     public static ShopResponse from(Shop shop) {
-        return new ShopResponse(shop.getName(), shop.getItems().stream()
-                .map((r)->ItemResponse.of(r.getName(), r.getPrice()))
+        return new ShopResponse(
+                shop.getName(),
+                shop.getItems().stream().map((r)->ItemResponse.of(r.getName(), r.getPrice()))
                 .collect(Collectors.toList()));
     }
 

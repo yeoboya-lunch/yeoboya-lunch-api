@@ -7,6 +7,7 @@ import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
+import com.yeoboya.lunch.api.v1.member.response.MemberProjections.*;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +37,30 @@ public class MemberController {
     }
 
     /**
+     * 멤버 정보 검색(기본)
+     */
+    @GetMapping("{memberEmail}")
+    public ResponseEntity<Body> findBasicMember(@PathVariable String memberEmail){
+        List<MemberSummary> memberSummary = memberService.memberSummary(memberEmail);
+        return response.success(Code.SEARCH_SUCCESS, memberSummary);
+    }
+
+    /**
+     * 멤버 정보 검색(기본/계좌)
+     */
+    @GetMapping("/account/{memberEmail}")
+    public ResponseEntity<Body> findAccountMember(@PathVariable String memberEmail){
+        List<MemberAccount> memberAccount = memberService.memberAccount(memberEmail);
+        return response.success(Code.SEARCH_SUCCESS, memberAccount);
+    }
+
+
+    /**
      * 멤버 상세 정보 수정
      */
     @PatchMapping("/setting/info/{memberEmail}")
-    public ResponseEntity<Body> memberInfo(@PathVariable String memberEmail, @RequestBody MemberInfoEdit memberInfoEdit){
-        memberService.memberInfo(memberEmail, memberInfoEdit);
+    public ResponseEntity<Body> editMemberInfo(@PathVariable String memberEmail, @RequestBody MemberInfoEdit memberInfoEdit){
+        memberService.editMemberInfo(memberEmail, memberInfoEdit);
         return response.success(Code.UPDATE_SUCCESS);
     }
 

@@ -8,6 +8,7 @@ import com.yeoboya.lunch.api.v1.member.repository.AccountRepository;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.reqeust.*;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
+import com.yeoboya.lunch.api.v1.member.response.MemberProjections.*;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,17 @@ public class MemberService {
         return memberRepository.getMembers(pageable);
     }
 
+    public List<MemberSummary> memberSummary(String email){
+        return memberRepository.findByEmail(email, MemberSummary.class);
+    }
+
+    public List<MemberAccount> memberAccount(String email){
+        return memberRepository.findByEmail(email, MemberAccount.class);
+    }
+
+
     @Transactional
-    public void memberInfo(String memberEmail, MemberInfoEdit memberInfoEdit) {
+    public void editMemberInfo(String memberEmail, MemberInfoEdit memberInfoEdit) {
         MemberInfo memberInfo = memberRepository.getMemberInfo(memberEmail);
 
         MemberInfoEditor.MemberInfoEditorBuilder editorBuilder = memberInfo.toEditor();
