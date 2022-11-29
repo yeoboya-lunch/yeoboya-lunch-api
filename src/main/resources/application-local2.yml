@@ -17,13 +17,18 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: 'true'
         show_sql: 'true'
-#        generate_statistics: true
+        generate_statistics: true
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
-    show-sql: true
     defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+  cache:
+    type: CAFFEINE
 
   redis:
     master:
@@ -35,17 +40,21 @@ spring:
     password:
     database:
 
-  cache:
-    type: CAFFEINE
+  mail:
+    host:
+    port:
+    username:
+    password:
+    properties:
+      mail.smtp.auth:
+      mail.smtp.starttls.enable:
+
   batch:
     job:
       enabled: false
       names: ${job.name:NONE}
     jdbc:
       initialize-schema: never
-  sql:
-    init:
-      mode: always
 
 management:
   endpoint:

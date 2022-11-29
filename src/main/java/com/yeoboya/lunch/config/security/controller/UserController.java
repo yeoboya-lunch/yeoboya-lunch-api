@@ -70,7 +70,6 @@ public class UserController {
 
     /**
      * 비밀번호 초기화
-     * todo: mail
      */
     @PatchMapping("/resetPassword")
     public ResponseEntity<Body> resetPassword(@Valid @RequestBody Credentials credentials){
