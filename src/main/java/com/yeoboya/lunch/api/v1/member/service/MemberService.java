@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -28,9 +27,7 @@ public class MemberService {
     }
 
     public List<MemberResponse> memberList(Pageable pageable) {
-        return memberRepository.getMembers(pageable).stream()
-                .map(MemberResponse::new)
-                .collect(Collectors.toList());
+        return memberRepository.getMembers(pageable);
     }
 
     @Transactional

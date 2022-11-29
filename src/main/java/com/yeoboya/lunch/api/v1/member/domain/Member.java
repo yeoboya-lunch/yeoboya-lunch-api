@@ -29,7 +29,7 @@ public class Member extends BaseTimeEntity {
     private String password;
 
     @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<MemberRole> memberRoles = new ArrayList<>();
 
     @OneToOne(mappedBy = "member")

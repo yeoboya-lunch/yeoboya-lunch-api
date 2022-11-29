@@ -2,8 +2,9 @@ package com.yeoboya.lunch.api.v1.member.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
+import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
+import com.yeoboya.lunch.api.v1.member.response.QMemberResponse;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -24,17 +25,25 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Member> getMembers(Pageable pageable) {
-        return jpaQueryFactory.selectFrom(member)
-                .leftJoin(member.account, account).fetchJoin()
-                .leftJoin(member.memberInfo, memberInfo).fetchJoin()
+    public List<MemberResponse> getMembers(Pageable pageable) {
+        return jpaQueryFactory.select(
+                        new QMemberResponse(
+                                member.email, member.name,
+                                account.bankName, account.accountNumber,
+                                memberInfo.bio, memberInfo.nickName, memberInfo.phoneNumber
+                        )
+                )
+                .from(member)
+                .leftJoin(member.account, account)
+                .leftJoin(member.memberInfo, memberInfo)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
     }
 
+
     @Override
-    public List<MemberRole> getMemberRoles(Long id){
+    public List<MemberRole> getMemberRoles(Long id) {
         return jpaQueryFactory.selectFrom(memberRole)
                 .leftJoin(memberRole.member, member)
                 .leftJoin(memberRole.roles, roles)
