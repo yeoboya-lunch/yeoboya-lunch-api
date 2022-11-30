@@ -15,7 +15,6 @@ import com.yeoboya.lunch.config.annotation.TimeLogging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -88,7 +87,6 @@ public class MemberController {
 
     @TimeLogging
     @GetMapping("/sendResetPasswordMail/{memberEmail}")
-    @Async
     public ResponseEntity<Body> sendResetPasswordMail(@PathVariable String memberEmail) {
         memberService.sendResetPasswordMail(memberEmail);
         return response.success(Code.SAVE_SUCCESS);

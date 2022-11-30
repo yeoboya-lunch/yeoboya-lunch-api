@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.api.v1.common.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -9,17 +10,15 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
 
-
-
+    @Async("mailTaskExecutor")
     public void resetPassword(String toEmail) {
+        System.out.println("Thread.currentThread().getName() = " + Thread.currentThread().getName());
         MimeMessage message = mailSender.createMimeMessage();
 
         StringBuilder sb = new StringBuilder();

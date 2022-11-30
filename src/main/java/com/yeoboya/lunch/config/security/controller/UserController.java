@@ -41,6 +41,11 @@ public class UserController {
      */
     @PostMapping("/sign-up")
     public ResponseEntity<Body> signUp(@Valid @RequestBody SignUp signUp) {
+        log.warn("{}", signUp);
+        log.error("{}", signUp);
+        log.debug("{}", signUp);
+        log.info("{}", signUp);
+        log.trace("{}", signUp);
         return userService.signUp(signUp);
     }
 
