@@ -4,10 +4,11 @@ import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.config.annotation.TimeLogging;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import com.yeoboya.lunch.config.security.service.UserService;
-import com.yeoboya.lunch.config.security.validation.ValidationGroups.UnKnowOldPassword;
 import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
+import com.yeoboya.lunch.config.security.validation.ValidationGroups.UnKnowOldPassword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,30 +25,19 @@ public class UserController {
 
     private final UserService userService;
     private final SignUpFormValidator signUpFormValidator;
-//    private final PasswordFormValidator passwordFormValidator;
 
-    @InitBinder({"signUp"})
+    @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(signUpFormValidator);
-
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+//        webDataBinder.addValidators(signUpFormValidator);
     }
-
-//    @InitBinder({"password"})
-//    public void initPasswordBinder(WebDataBinder webDataBinder) {
-//        webDataBinder.addValidators(passwordFormValidator);;
-//    }
-
 
     /**
      * 회원가입
      */
     @PostMapping("/sign-up")
     public ResponseEntity<Body> signUp(@Valid @RequestBody SignUp signUp) {
-        log.warn("{}", signUp);
-        log.error("{}", signUp);
-        log.debug("{}", signUp);
-        log.info("{}", signUp);
-        log.trace("{}", signUp);
         return userService.signUp(signUp);
     }
 

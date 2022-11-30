@@ -53,7 +53,7 @@ public class UserService {
 
     @Retry(value = 4)
     public ResponseEntity<Body> signUp(SignUp signUp) {
-        if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
+        if(memberRepository.existsByEmail(signUp.getEmail())){
             return response.fail(ErrorCode.USER_DUPLICATE_EMAIL);
         }
 
@@ -188,9 +188,7 @@ public class UserService {
     }
 
     public ResponseEntity<Body> sendResetPasswordMail(String memberEmail) {
-        boolean existsByEmail = memberRepository.existsByEmail(memberEmail);
-
-        if (!existsByEmail) {
+        if (!memberRepository.existsByEmail(memberEmail)) {
             throw new EntityNotFoundException("Member not found - " + memberEmail);
         }
 
