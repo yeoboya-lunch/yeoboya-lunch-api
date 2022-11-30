@@ -1,6 +1,6 @@
 package com.yeoboya.lunch.config.security.reqeust;
 
-import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
+import com.yeoboya.lunch.config.security.validation.ValidationGroups.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -53,6 +53,9 @@ public class UserRequest {
         @NotEmpty(message = "비밀번호는 필수 입력값입니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
         private String confirmNewPassword;
+
+        @NotEmpty(message = "please enter passKey", groups = UnKnowOldPassword.class)
+        private String passKey;
     }
 
     @Getter

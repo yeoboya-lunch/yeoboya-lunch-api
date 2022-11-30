@@ -17,8 +17,7 @@ public class EmailService {
 
 
     @Async("mailTaskExecutor")
-    public void resetPassword(String toEmail) {
-        System.out.println("Thread.currentThread().getName() = " + Thread.currentThread().getName());
+    public void resetPassword(String memberEmail, String authorityLink) {
         MimeMessage message = mailSender.createMimeMessage();
 
         StringBuilder sb = new StringBuilder();
@@ -27,7 +26,7 @@ public class EmailService {
         sb.append("<h1>" + "Reset your Yeoboya-lunch password" + "<h1><br>");
         sb.append("<p>We heard that you lost your GitHub password. Sorry about that!</p>");
         sb.append("<p>But don’t worry! You can use the following button to reset your password:</p>");
-        sb.append("<a href='none'>Reset your password</a>");
+        sb.append("<a href=").append(authorityLink).append(">Reset your password</a>");
         sb.append("<p>If you don’t use this link within 3 hours, it will expire.</p>");
         sb.append("</body></html>");
         String body = sb.toString();
@@ -35,7 +34,7 @@ public class EmailService {
         try {
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
             messageHelper.setSubject("[Yeoboya-lunch] Please reset your password");
-            messageHelper.setTo(toEmail);
+            messageHelper.setTo(memberEmail);
             messageHelper.setText(body, true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);

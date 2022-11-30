@@ -1,8 +1,10 @@
 package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.config.annotation.TimeLogging;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import com.yeoboya.lunch.config.security.service.UserService;
+import com.yeoboya.lunch.config.security.validation.ValidationGroups.UnKnowOldPassword;
 import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +79,7 @@ public class UserController {
      * 비밀번호 초기화
      */
     @PatchMapping("/resetPassword")
-    public ResponseEntity<Body> resetPassword(@Valid @RequestBody Credentials credentials){
+    public ResponseEntity<Body> resetPassword(@Validated(UnKnowOldPassword.class) @RequestBody Credentials credentials){
         return userService.resetPassword(credentials);
     }
 
@@ -97,4 +99,13 @@ public class UserController {
         return userService.authority(request);
     }
 
+
+    /**
+     * 비밀번호 변경 이메일 전송
+     */
+    @TimeLogging
+    @GetMapping("/sendResetPasswordMail/{memberEmail}")
+    public ResponseEntity<Body> sendResetPasswordMail(@PathVariable String memberEmail) {
+        return userService.sendResetPasswordMail(memberEmail);
+    }
 }

@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.common.service.EmailService;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
@@ -32,6 +33,7 @@ import org.springframework.util.ObjectUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -42,6 +44,7 @@ public class UserService {
     private final MemberRepository memberRepository;
     private final RolesRepository rolesRepository;
     private final MemberRolesRepository memberRolesRepository;
+    private final EmailService emailService;
     private final Response response;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -50,6 +53,9 @@ public class UserService {
 
     @Retry(value = 4)
     public ResponseEntity<Body> signUp(SignUp signUp) {
+        if (memberRepository.findByEmail(signUp.getEmail()).isPresent()) {
+            return response.fail(ErrorCode.USER_DUPLICATE_EMAIL);
+        }
 
         // create member
         Member build = Member.builder()
@@ -143,13 +149,13 @@ public class UserService {
     @Transactional
     public ResponseEntity<Body> changePassword(Credentials credentials) {
         Member member = memberRepository.findByEmail(credentials.getEmail()).
-                orElseThrow(()->new EntityNotFoundException("Member not found - " + credentials.getEmail()));
+                orElseThrow(() -> new EntityNotFoundException("Member not found - " + credentials.getEmail()));
 
-        if (!passwordEncoder.matches(credentials.getOldPassword(), member.getPassword())){
+        if (!passwordEncoder.matches(credentials.getOldPassword(), member.getPassword())) {
             return response.fail(ErrorCode.INVALID_OLD_PASSWORD);
         }
 
-        if (!credentials.getNewPassword().equals(credentials.getConfirmNewPassword())){
+        if (!credentials.getNewPassword().equals(credentials.getConfirmNewPassword())) {
             return response.fail(ErrorCode.INVALID_PASSWORD);
         }
 
@@ -162,16 +168,44 @@ public class UserService {
     @Transactional
     public ResponseEntity<Body> resetPassword(Credentials credentials) {
         Member member = memberRepository.findByEmail(credentials.getEmail()).
-                orElseThrow(()->new EntityNotFoundException("Member not found - " + credentials.getEmail()));
+                orElseThrow(() -> new EntityNotFoundException("Member not found - " + credentials.getEmail()));
 
-        if (!credentials.getNewPassword().equals(credentials.getConfirmNewPassword())){
+        String key = "EMAIL:" + credentials.getEmail();
+        String passKey = redisTemplate.opsForValue().get(key);
+
+        if (ObjectUtils.isEmpty(passKey) || !passKey.equals(credentials.getPassKey())) {
+            return response.fail(ErrorCode.INVALID_PASSWORD_RESET_LINK);
+        }
+
+        if (!credentials.getNewPassword().equals(credentials.getConfirmNewPassword())) {
             return response.fail(ErrorCode.INVALID_PASSWORD);
         }
 
         member.setPassword(passwordEncoder.encode(credentials.getNewPassword()));
+        redisTemplate.delete(key);
 
         return response.success(Code.UPDATE_SUCCESS);
     }
+
+    public ResponseEntity<Body> sendResetPasswordMail(String memberEmail) {
+        boolean existsByEmail = memberRepository.existsByEmail(memberEmail);
+
+        if (!existsByEmail) {
+            throw new EntityNotFoundException("Member not found - " + memberEmail);
+        }
+
+        String passKey = UUID.randomUUID().toString().replace("-", "");
+
+        redisTemplate.opsForValue().set("EMAIL:" + memberEmail, passKey, 60 * 5 * 1000L, TimeUnit.MILLISECONDS);
+
+        //todo front 비밀번호 변경 화면
+        String authorityLink = "https://khjzzm.github.io/" + passKey + "?q=" + memberEmail;
+
+        emailService.resetPassword(memberEmail, authorityLink);
+        return response.success("메일전송");
+    }
+
+
 
     @Transactional
     public ResponseEntity<Body> authority(HttpServletRequest request) {

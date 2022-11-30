@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.api.v1.member.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
-import com.yeoboya.lunch.api.v1.common.service.EmailService;
 import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
@@ -23,12 +22,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final AccountRepository accountRepository;
-    private final EmailService emailService;
 
-    public MemberService(MemberRepository memberRepository, AccountRepository accountRepository, EmailService emailService) {
+
+    public MemberService(MemberRepository memberRepository, AccountRepository accountRepository) {
         this.memberRepository = memberRepository;
         this.accountRepository = accountRepository;
-        this.emailService = emailService;
     }
 
     public List<MemberResponse> memberList(Pageable pageable) {
@@ -86,13 +84,5 @@ public class MemberService {
     }
 
 
-    public void sendResetPasswordMail(String memberEmail) {
-        boolean existsByEmail = memberRepository.existsByEmail(memberEmail);
 
-        if(!existsByEmail){
-            throw new EntityNotFoundException("Member not found - " + memberEmail);
-        }
-
-        emailService.resetPassword(memberEmail);
-    }
 }

@@ -11,7 +11,6 @@ import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberAccount;
 import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberSummary;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.service.MemberService;
-import com.yeoboya.lunch.config.annotation.TimeLogging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -85,10 +84,4 @@ public class MemberController {
         return response.success(Code.UPDATE_SUCCESS);
     }
 
-    @TimeLogging
-    @GetMapping("/sendResetPasswordMail/{memberEmail}")
-    public ResponseEntity<Body> sendResetPasswordMail(@PathVariable String memberEmail) {
-        memberService.sendResetPasswordMail(memberEmail);
-        return response.success(Code.SAVE_SUCCESS);
-    }
 }
