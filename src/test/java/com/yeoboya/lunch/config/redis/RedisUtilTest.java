@@ -40,7 +40,7 @@ class RedisUtilTest {
         redisUtil.setListOps(key, strings);
 
         List<String> listOps = redisUtil.getListOps(key);
-        listOps.stream().forEach(System.out::println);
+        listOps.forEach(System.out::println);
 
         assertEquals(strings, listOps);
     }
@@ -91,7 +91,7 @@ class RedisUtilTest {
         }});
         redisUtil.setSortedSetOps(key, values);
 
-        Set sortedSetOps = redisUtil.getSortedSetOps(key);
+        var sortedSetOps = redisUtil.getSortedSetOps(key);
 
         sortedSetOps.forEach(System.out::println);
 
