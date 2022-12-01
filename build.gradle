@@ -101,11 +101,11 @@ test {
     outputs.dir snippetsDir
 }
 
-//asciidoctor {
-//    inputs.dir snippetsDir
-//    configurations 'asciidoctorExt'
-//    dependsOn test
-//}
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
 
 asciidoctor.doFirst {
     delete file("src/main/resources/static/docs")
