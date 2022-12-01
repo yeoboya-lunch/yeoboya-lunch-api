@@ -26,10 +26,4 @@
         </root>
     </springProfile>
 
-    <springProfile name="local2">
-        <root level="info">
-            <appender-ref ref="STDOUT_COMMON"/>
-        </root>
-    </springProfile>
-
 </configuration>

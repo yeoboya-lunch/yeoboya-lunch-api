@@ -3,7 +3,16 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <property name="CONSOLE_LOG_COLOR" value="%clr(%d{yyyy/MM/dd HH:mm:ss.SSS}){faint} %clr(|){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(|){faint} %clr(%-30F){cyan}%clr(:%-4L){magenta} %clr(|){faint} %m%n"/>
+    <property name="CONSOLE_LOG_COLOR"
+              value="%n%clr(┌) %clr(%date{HH:mm:ss.SSS}){faint}%clr(%5level) %clr(%thread){yellow} %clr(%class){cyan}%clr(:%line){magenta} %n%clr(└) %clr(%method){blue} %message %n"/>
+
+    <logger name="jdbc" level="OFF"/>
+    <logger name="jdbc.sqlonly" level="OFF"/>
+    <logger name="jdbc.sqltiming" level="DEBUG"/>
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="jdbc.resultset" level="OFF"/>
+    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.connection" level="OFF"/>
 
     <appender name="STDOUT_COMMON" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -12,7 +21,7 @@
     </appender>
 
     <springProfile name="dev">
-        <root level="warn">
+        <root level="info">
             <appender-ref ref="STDOUT_COMMON"/>
         </root>
     </springProfile>
