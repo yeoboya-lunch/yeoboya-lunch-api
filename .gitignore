@@ -35,6 +35,4 @@ out/
 ### VS Code ###
 .vscode/
 
-application-local.yml
-application-dev.yml
 src/main/generated/

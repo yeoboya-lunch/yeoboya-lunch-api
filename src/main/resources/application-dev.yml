@@ -1,0 +1,77 @@
+logging:
+  config: classpath:log/logback-dev.xml
+
+spring:
+  datasource:
+    hikari:
+      master:
+        jdbcUrl: ENC(BjbrdO2e9XfD5LHjkFwk2wP0ros/23gQbwTKYkU1/3TfUmVJA/C+MwuwRja96VxbXIGLYg1NVVFa30Qp3zl5Ww==)
+        username: ENC(Z+0grMiwTWpfJnhBX4nd9w==)
+        password: ENC(RvZJmjpJdTdsKIdCevNZNyTWjLw3XXPn)
+        driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        poolName: kimzzang-db-master
+      slave:
+        jdbcUrl: ENC(BjbrdO2e9XfD5LHjkFwk2wP0ros/23gQbwTKYkU1/3TfUmVJA/C+MwuwRja96VxbXIGLYg1NVVFa30Qp3zl5Ww==)
+        username: ENC(Z+0grMiwTWpfJnhBX4nd9w==)
+        password: ENC(RvZJmjpJdTdsKIdCevNZNyTWjLw3XXPn)
+        driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        poolName: kimzzang-db-master
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: 'true'
+        show_sql: 'true'
+#        generate_statistics: true
+        default_batch_fetch_size: 100
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: none
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khjzzm@gmail.com
+    password: ENC(KxDELrKZQmqvkNlImzI4xQOmc5iFxWAOHoRfBe5lAo4=)
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  cache:
+    type: CAFFEINE
+
+  redis:
+    master:
+      host: ENC(NWu1FTq9ETA2Z8oOWAbCoynMM1pG7LLo)
+      port: 6379
+    slaves:
+      - host: ENC(NWu1FTq9ETA2Z8oOWAbCoynMM1pG7LLo)
+        port: 6379
+    password: ENC(ide1Ymb62UfD0C14HGaEXSOF640A/Xwy)
+    database: 0
+
+  batch:
+    job:
+      enabled: false
+      names: ${job.name:NONE}
+    jdbc:
+      initialize-schema: never
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+jwt:
+  token:
+    secretKey: ENC(ZMHDpBbzRCKi7fZdGX9x1T/hwe9Ew3MZrq2nF+2ZMEIVmN7qHPrb/6eseUwqf0MbJLA5Y1jPLVwUN1sVQnwGaWcjqTQBdhrM)
+
