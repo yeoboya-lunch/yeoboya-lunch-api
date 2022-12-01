@@ -103,8 +103,8 @@ public class UserService {
 
         Authentication authentication = jwtTokenProvider.getAuthentication(signOut.getAccessToken());
 
-        //fixme null check
-        if (!redisTemplate.opsForValue().get("RT:" + authentication.getName()).isEmpty()) {
+        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
+        if (!ObjectUtils.isEmpty(redisRT)) {
             redisTemplate.delete("RT:" + authentication.getName());
         }
 

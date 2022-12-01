@@ -71,5 +71,5 @@ public class ItemController {
     }
 
 
-    //fixme 아이템 조회 상점이름, 메뉴, 가격
+    //todo 아이템 조회 상점이름, 메뉴, 가격
 }

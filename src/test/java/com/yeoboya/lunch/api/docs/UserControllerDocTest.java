@@ -3,7 +3,7 @@ package com.yeoboya.lunch.api.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.security.WithMockCustomUser;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +39,7 @@ class UserControllerDocTest {
 
 
     @Test
+    @DisplayName("회원가입")
     void signUp() throws Exception {
         //given
         UserRequest.SignUp signUp = new UserRequest.SignUp();
@@ -54,7 +55,7 @@ class UserControllerDocTest {
                         .accept(APPLICATION_JSON)
                         .content(json))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andDo(document("user/sign-up",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -74,6 +75,7 @@ class UserControllerDocTest {
     }
 
     @Test
+    @DisplayName("로그인")
     void login() throws Exception {
         //given
         UserRequest.SignIn signIn = new UserRequest.SignIn();
@@ -122,13 +124,9 @@ class UserControllerDocTest {
                 ));
     }
 
-    @Test
-    @Disabled
-    void reissue() throws Exception {
-
-    }
 
     @Test
+    @DisplayName("패스워드 변경")
     void changePassword() throws Exception {
         //given
         UserRequest.Credentials credentials = new UserRequest.Credentials();
@@ -153,7 +151,8 @@ class UserControllerDocTest {
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("oldPassword").description("전 비밀번호"),
                                 fieldWithPath("newPassword").description("새로운 비밀번호"),
-                                fieldWithPath("confirmNewPassword").description("비밀번호 확인")
+                                fieldWithPath("confirmNewPassword").description("비밀번호 확인"),
+                                fieldWithPath("passKey").description("KnowPassKey").ignored()
                         ),
                         responseFields(
                                 fieldWithPath("code").description("code")
@@ -164,36 +163,6 @@ class UserControllerDocTest {
                 ));
     }
 
-    //fixme
-    @Disabled
-    @Test
-    void logout() throws Exception {
-        //given
-        UserRequest.SignOut signOut = new UserRequest.SignOut();
-        signOut.setAccessToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraGpAZ21haWwuY29tIiwianRpIjoiZmNkYjc3MDUtZmYwMC00YTFlLThmNTktNTUwNjk3MDMzNjRlIiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTY2ODY3NDEyMywiZXhwIjoxNjY4Njc3NzIzLCJhdXRoIjoiUk9MRV9VU0VSIn0.pH_7Dq26U3hneBI0PkfLndTpzzo_Yd3NpgFQRGyWE7o");
-        signOut.setRefreshToken("eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjkyNzg5MjN9.7Qd_YJIpISd1wec7_SAynikH2OdXgIqp9ivLkQyqUtM");
-
-        String json = objectMapper.writeValueAsString(signOut);
-
-        //expected
-        mockMvc.perform(post("/user/sign-out")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .content(json))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("user/sign-out",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("accessToken").description("엑세스 토큰"),
-                                fieldWithPath("refreshToken").description("리프레쉬 토큰")
-                        )
-                ));
-    }
-
-    @Test
-    @Disabled
-    void authority() throws Exception {
-    }
+    //todo
+    //로그아웃, 토큰 재발급, 비밀번호 변경 이메일전송, 비밀번호 초기화
 }

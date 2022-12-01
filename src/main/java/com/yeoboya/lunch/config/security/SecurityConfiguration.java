@@ -34,7 +34,9 @@ public class SecurityConfiguration {
     private static final String[] PERMIT_URL_ARRAY = {
 
             /* user */
-            "/user/sign-up", "/user/sign-in", "/user/reissue", "/user/sign-out", "/user/setting/security",
+            "/user/sign-in", "/user/sign-up", "/user/sign-out",
+            "/user/reissue", "/user/sendResetPasswordMail/**",
+            "/user/resetPassword",
 
             /* monitor */
             "/actuator/**",
@@ -47,9 +49,7 @@ public class SecurityConfiguration {
     };
 
     private static final String[] ADMIN_URL_ARRAY = {
-
             "/user/authority",
-
     };
 
 

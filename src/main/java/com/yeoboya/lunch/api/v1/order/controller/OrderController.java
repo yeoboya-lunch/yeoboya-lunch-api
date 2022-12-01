@@ -5,7 +5,6 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
@@ -49,13 +48,6 @@ public class OrderController {
     public ResponseEntity<Body> cancel(@PathVariable Long orderId) {
         orderService.cancelOrder(orderId);
         return response.success(Code.UPDATE_SUCCESS.getMsg());
-    }
-
-    /** 주문수정 */
-    //todo 주문수정 기능
-    @PatchMapping("/{orderId}")
-    public void updateOrder(@PathVariable Long orderId, @RequestBody @Valid OrderEdit edit) {
-        orderService.updateOrder(orderId, edit);
     }
 
 }

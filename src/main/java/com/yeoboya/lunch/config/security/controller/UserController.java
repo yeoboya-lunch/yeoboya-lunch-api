@@ -8,10 +8,8 @@ import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPass
 import com.yeoboya.lunch.config.security.validation.ValidationGroups.UnKnowOldPassword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +24,10 @@ public class UserController {
     private final UserService userService;
     private final SignUpFormValidator signUpFormValidator;
 
-    @InitBinder
-    public void initBinder(WebDataBinder webDataBinder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+//    @InitBinder(value = "signUp")
+//    public void initBinder(WebDataBinder webDataBinder) {
 //        webDataBinder.addValidators(signUpFormValidator);
-    }
+//    }
 
     /**
      * 회원가입

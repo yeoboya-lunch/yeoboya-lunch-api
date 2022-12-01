@@ -10,7 +10,6 @@ import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
 import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
@@ -74,13 +73,6 @@ public class OrderService {
     public void cancelOrder(Long orderId){
         Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("Order not found - " + orderId));
         order.setStatus(OrderStatus.CANCEL);
-    }
-
-    @Transactional
-    //fixme
-    public void updateOrder(Long orderId, OrderEdit edit) {
-        Order order = orderRepository.findById(orderId).orElseThrow(()->new EntityNotFoundException("Order not found - " + orderId));
-        List<OrderItem> orderItems = orderRepository.orderItems(orderId);
     }
 
 }

@@ -42,7 +42,7 @@ class MemberControllerDocTest {
     void member() throws Exception {
 
         mockMvc.perform(get("/member"))
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andDo(document("member/get/list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -61,10 +61,10 @@ class MemberControllerDocTest {
                                 fieldWithPath("data.[].name").description("이름")
                                         .type(JsonFieldType.STRING)
                                         .attributes(key("length").value("5")),
-                                fieldWithPath("data.[].account.bankName").description("은행명")
+                                fieldWithPath("data.[].bankName").description("은행명")
                                         .type(JsonFieldType.STRING)
                                         .optional(),
-                                fieldWithPath("data.[]account.accountNumber").description("계좌번호")
+                                fieldWithPath("data.[]accountNumber").description("계좌번호")
                                         .type(JsonFieldType.STRING)
                                         .attributes(key("length").value("30"))
                                         .optional()
@@ -90,7 +90,7 @@ class MemberControllerDocTest {
                         .accept(APPLICATION_JSON)
                         .content(json))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andDo(document("member/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -154,4 +154,10 @@ class MemberControllerDocTest {
                         )
                 ));
     }
+
+    //todo
+    //멤버 상세 정보 수정
+    //멤버 정보 검색(기본)
+    //멤버 정보 검색(기본/계좌)
+
 }

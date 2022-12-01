@@ -56,7 +56,7 @@ class ItemControllerDocTest {
                         .accept(APPLICATION_JSON)
                         .content(json))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andDo(document("item/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -191,10 +191,10 @@ class ItemControllerDocTest {
 
     @Test
     void deleteItem() throws Exception {
-        mockMvc.perform(delete("/item/{itemId}", 4)
+        mockMvc.perform(delete("/item/{itemId}", 8)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andDo(document("item/delete",
                         pathParameters(
                                 parameterWithName("itemId").description("상품번호")

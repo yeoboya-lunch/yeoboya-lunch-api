@@ -55,7 +55,7 @@ class ShopControllerDocTest {
                         .accept(APPLICATION_JSON)
                         .content(json))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andDo(document("shop/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),

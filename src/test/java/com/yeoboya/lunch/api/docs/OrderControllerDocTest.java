@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
 import com.yeoboya.lunch.config.security.WithMockCustomUser;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +74,7 @@ class OrderControllerDocTest {
                         .accept(APPLICATION_JSON)
                         .content(json))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andDo(document("order/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -159,10 +158,6 @@ class OrderControllerDocTest {
                 ));
     }
 
-    @Test
-    @Disabled
-    void updateOrder() {
-    }
 
     @Test
     void cancel() throws Exception {
