@@ -4,7 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <property name="CONSOLE_LOG_COLOR"
-              value="%n%clr(┌) %clr(%date{HH:mm:ss.SSS}){faint}%clr(%5level) %clr(%thread){yellow} %clr(%class){cyan}%clr(:%line){magenta} %n%clr(└) %clr(%method){blue} %message %n"/>
+              value="%n%clr(┌) %clr(%date{HH:mm:ss.SSS}){faint}%clr(%5level) %clr(%thread){yellow} %clr(%class){cyan}%clr(:%line){magenta} %clr(dev){faint} %n%clr(└) %clr(%method){blue} %message %n"/>
 
     <logger name="jdbc" level="OFF"/>
     <logger name="jdbc.sqlonly" level="OFF"/>

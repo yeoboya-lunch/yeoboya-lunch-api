@@ -67,6 +67,14 @@ class MemberControllerDocTest {
                                 fieldWithPath("data.[]accountNumber").description("계좌번호")
                                         .type(JsonFieldType.STRING)
                                         .attributes(key("length").value("30"))
+                                        .optional(),
+                                fieldWithPath("data.[]nickName").description("닉네임")
+                                        .type(JsonFieldType.STRING)
+                                        .attributes(key("length").value("30"))
+                                        .optional(),
+                                fieldWithPath("data.[]phoneNumber").description("핸드폰")
+                                        .type(JsonFieldType.STRING)
+                                        .attributes(key("length").value("30"))
                                         .optional()
                         )
                 ));

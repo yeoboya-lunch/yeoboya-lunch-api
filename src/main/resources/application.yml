@@ -1,12 +1,3 @@
-spring:
-  profiles:
-    active: "real"
-
-  data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-
 server:
   port: 463
   servlet:
@@ -14,9 +5,6 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-
-logging:
-  config: classpath:log/logback-real.xml
 
 mybatis:
   mapper-locations: mapper/*.xml

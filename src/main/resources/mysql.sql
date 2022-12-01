@@ -5,8 +5,9 @@ drop table if exists orders CASCADE;
 drop table if exists roles CASCADE;
 drop table if exists item CASCADE;
 drop table if exists shop CASCADE;
-drop table if exists member CASCADE;
 drop table if exists member_info CASCADE;
+drop table if exists member CASCADE;
+
 
 create table roles
 (
