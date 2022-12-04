@@ -1,0 +1,88 @@
+server:
+  port: 463
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+mybatis:
+  mapper-locations: mapper/*.xml
+  configuration:
+    default-fetch-size: '100'
+    default-statement-timeout: '30'
+    map-underscore-to-camel-case: 'true'
+
+logging:
+  config: classpath:logback-local.xml
+
+spring:
+  profiles:
+    active: "local"
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/lunch
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: 'true'
+        show_sql: 'true'
+        generate_statistics: true
+        default_batch_fetch_size: 100
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+  cache:
+    type: CAFFEINE
+
+  redis:
+    master:
+      host: 127.0.0.1
+      port: 6379
+    slaves:
+      - host: 127.0.0.1
+        port: 6380
+    password: ENC(1ObBS+sZ7hm1oF/5qZ8rnbB3+24dunchmZV2x5E1OVw=)
+    database: 0
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khjzzm@gmail.com
+    password: ENC(Bjsy0M7kztu842xXpHRvwDaMyhYIxddPxc4vfE1Z3EI=)
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  batch:
+    job:
+      enabled: false
+      names: ${job.name:NONE}
+    jdbc:
+      initialize-schema: never
+
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+jwt:
+  token:
+    secretKey: zVwpMJv4aQ7wjnbvTAT6MpsHiEsR1e2lTP+gu0MqJ7Fm9NWVusYSJUDVVhASpIQqv9YVvKRztUq2RhEb5nHBBgon8RkwsGMyct4WJifQBDkxFz1krltN6H3dyHrS9M3PSqBti5FiTQY=

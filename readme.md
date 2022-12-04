@@ -20,5 +20,8 @@ clean bootRun -Pprofile=dev
 **clean build -Pprofile=local**
 1. clean build -Pprofile=local -x test
    - >Task :asciidoctor FAILED
+   - 테스트를 안할수는 없음
+
 2. clean build -Pprofile=local
    - >ApplicationTests > contextLoads() FAILED
+   - 빌드 할때 jsaypt 변수를 넘겨주는 방법을 찾아야함
