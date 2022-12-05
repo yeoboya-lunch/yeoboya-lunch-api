@@ -92,26 +92,6 @@ dependencies {
 
 }
 
-
-sourceSets {
-    ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
-    println "current profile : ${profile}"
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-            srcDirs "src/main/resources", "src/main/resources/env/${profile}/"
-        }
-    }
-}
-
-tasks {
-    processResources {
-        duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    }
-}
-
 test {
     useJUnitPlatform()
     systemProperty 'jasypt.encryptor.password', findProperty("jasypt.encryptor.password")
