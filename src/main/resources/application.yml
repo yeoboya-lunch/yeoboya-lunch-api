@@ -1,6 +1,30 @@
 spring:
   profiles:
-    active: "dev"
+    active: "local"
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khjzzm@gmail.com
+    password: ENC(KxDELrKZQmqvkNlImzI4xQOmc5iFxWAOHoRfBe5lAo4=)
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  cache:
+    type: CAFFEINE
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+  batch:
+    job:
+      enabled: false
+      names: ${job.name:NONE}
+    jdbc:
+      initialize-schema: never
 
 server:
   port: 463
@@ -24,6 +48,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus
+        include: "*"
 
-
+jwt:
+  token:
+    secretKey: ENC(ZMHDpBbzRCKi7fZdGX9x1T/hwe9Ew3MZrq2nF+2ZMEIVmN7qHPrb/6eseUwqf0MbJLA5Y1jPLVwUN1sVQnwGaWcjqTQBdhrM)

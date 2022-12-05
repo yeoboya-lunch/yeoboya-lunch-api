@@ -22,56 +22,20 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: 'true'
         show_sql: 'true'
-#        generate_statistics: true
+        generate_statistics: true
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: none
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: khjzzm@gmail.com
-    password: ENC(KxDELrKZQmqvkNlImzI4xQOmc5iFxWAOHoRfBe5lAo4=)
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-
-  cache:
-    type: CAFFEINE
-
   redis:
     master:
-      host: ENC(NWu1FTq9ETA2Z8oOWAbCoynMM1pG7LLo)
-      port: 6379
+      host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+      port: 6380
     slaves:
-      - host: ENC(NWu1FTq9ETA2Z8oOWAbCoynMM1pG7LLo)
-        port: 6379
-    password: ENC(ide1Ymb62UfD0C14HGaEXSOF640A/Xwy)
-    database: 0
+      - host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+        port: 6381
+    password: ENC(FtsNreuQ5/JR69WxVWZxxWQi0sO0JGRY)
+    database: 12
 
-  batch:
-    job:
-      enabled: false
-      names: ${job.name:NONE}
-    jdbc:
-      initialize-schema: never
-
-  data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-
-management:
-  endpoint:
-    prometheus:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-jwt:
-  token:
-    secretKey: ENC(ZMHDpBbzRCKi7fZdGX9x1T/hwe9Ew3MZrq2nF+2ZMEIVmN7qHPrb/6eseUwqf0MbJLA5Y1jPLVwUN1sVQnwGaWcjqTQBdhrM)
 
