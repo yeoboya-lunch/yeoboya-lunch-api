@@ -36,5 +36,3 @@ spring:
         port: 6379
     password: ENC(k3+uuE0Hqnuha51Lh9UWXyZWi/mXk7Q1)
     database: 0
-
-

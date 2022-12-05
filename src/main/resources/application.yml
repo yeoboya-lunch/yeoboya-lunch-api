@@ -5,8 +5,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: khjzzm@gmail.com
-    password: ENC(KxDELrKZQmqvkNlImzI4xQOmc5iFxWAOHoRfBe5lAo4=)
+    username: ENC(5IBoYtY2KEjrpcjkfNcZUQ6Alpp8d5nxkTC4nGBXeGw=)
+    password: ENC(Dh20sGMupJaGJojuf5ZDoIzL3IeDdT3tLLZZfEGuFnA=)
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
@@ -52,4 +52,4 @@ management:
 
 jwt:
   token:
-    secretKey: ENC(ZMHDpBbzRCKi7fZdGX9x1T/hwe9Ew3MZrq2nF+2ZMEIVmN7qHPrb/6eseUwqf0MbJLA5Y1jPLVwUN1sVQnwGaWcjqTQBdhrM)
+    secretKey: ENC(CY9AK5nbR9Ok66F+oJvk+AA/8/cShipQoICTd8m4ZLVu6PcNHnL8WRhOVqDl3WNTFqoEw32HIzu1qYaW4GfPbDgrC+hPnpMmjPHeDckqdLs28oF4vunHQpg1dVcoD65t)
