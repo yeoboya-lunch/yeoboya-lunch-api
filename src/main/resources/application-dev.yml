@@ -36,8 +36,4 @@ spring:
         port: 6381
     password: ENC(FtsNreuQ5/JR69WxVWZxxWQi0sO0JGRY)
     database: 12
-  sql:
-    init:
-      encoding: UTF-8
-
 

@@ -26,6 +26,8 @@ spring:
   sql:
     init:
       mode: always
+      encoding: UTF-8
+
 
   redis:
     master:
