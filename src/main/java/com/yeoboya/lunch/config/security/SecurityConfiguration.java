@@ -38,6 +38,9 @@ public class SecurityConfiguration {
             "/user/reissue", "/user/sendResetPasswordMail/**",
             "/user/resetPassword",
 
+            /* spring docs */
+            "/docs/index.html",
+
             /* monitor */
             "/actuator/**",
 
