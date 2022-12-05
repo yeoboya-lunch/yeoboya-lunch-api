@@ -1,0 +1,2 @@
+logging:
+  config: classpath:env/prod/logback-prod.xml

@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JasyptConfig {
- 
+
     @Value("${jasypt.encryptor.password}")
     private String encryptKey;
- 
+
     final static String ALGORITHM = "PBEWithMD5AndDES";
- 
+
     @Bean("jasyptStringEncryptor")
     public StringEncryptor stringEncryptor() {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
