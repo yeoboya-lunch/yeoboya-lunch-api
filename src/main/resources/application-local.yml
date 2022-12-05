@@ -29,12 +29,12 @@ spring:
       encoding: UTF-8
   redis:
     master:
-      host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
-      port: 6380
+      host: ENC(1si6oObr2Zun8ln/OqBZ9szKhr4xO0YO)
+      port: 6379
     slaves:
-      - host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
-        port: 6381
-    password: ENC(FtsNreuQ5/JR69WxVWZxxWQi0sO0JGRY)
-    database: 12
+      - host: ENC(1si6oObr2Zun8ln/OqBZ9szKhr4xO0YO)
+        port: 6379
+    password: ENC(k3+uuE0Hqnuha51Lh9UWXyZWi/mXk7Q1)
+    database: 0
 
 
