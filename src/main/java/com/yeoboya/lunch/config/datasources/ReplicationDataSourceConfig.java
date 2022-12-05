@@ -10,6 +10,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -17,6 +18,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+@Profile("dev")
 @Configuration
 @RequiredArgsConstructor
 @EnableTransactionManagement

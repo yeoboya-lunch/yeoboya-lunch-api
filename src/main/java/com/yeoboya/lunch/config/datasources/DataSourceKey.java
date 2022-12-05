@@ -1,7 +1,9 @@
 package com.yeoboya.lunch.config.datasources;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("dev")
 @Component
 class DataSourceKey {
     private static final String MASTER_KEY = "master";

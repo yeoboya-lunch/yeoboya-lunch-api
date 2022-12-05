@@ -14,7 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableBatchProcessing
 @ComponentScan(
         excludeFilters = {
-//                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.yeoboya.lunch.config.datasources.*"),
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {ExcludeScan.class})
         }
 )
