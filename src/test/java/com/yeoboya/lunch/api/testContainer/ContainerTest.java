@@ -1,19 +1,16 @@
 package com.yeoboya.lunch.api.testContainer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
-import com.yeoboya.lunch.config.security.WithMockCustomUser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -32,18 +29,15 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @Slf4j
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-@WithMockCustomUser
+//@WithMockCustomUser
 @ActiveProfiles("test")
-class ContainerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
+class ContainerTest extends ContainerBaseTest {
 
     @Container
     private static final MariaDBContainer<?> mariaDBContainer = new MariaDBContainer<>("mariadb:10.6.10")
@@ -78,7 +72,6 @@ class ContainerTest {
     @Test
     @DisplayName("상점등록")
     void create() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
         //given
         ShopCreate request = new ShopCreate();
         request.setShopName("버거킹");

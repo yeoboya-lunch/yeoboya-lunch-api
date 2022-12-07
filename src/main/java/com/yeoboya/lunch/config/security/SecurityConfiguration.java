@@ -43,11 +43,12 @@ public class SecurityConfiguration {
 
             /* monitor */
             "/actuator/**",
+             "/shop/**"
 
     };
 
     private static final String[] USER_URL_ARRAY = {
-            "/order/**", "/shop/**", "/item/**",
+            "/order/**", "/item/**",
             "/member/**",
     };
 
