@@ -1,0 +1,20 @@
+logging:
+  config: classpath:logback-test.xml
+
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mariadb:10.6.10:///test?TC_INITSCRIPT=file:src/test/resources/data.sql&TC_REUSABLE=true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(5IBoYtY2KEjrpcjkfNcZUQ6Alpp8d5nxkTC4nGBXeGw=)
+    password: ENC(Dh20sGMupJaGJojuf5ZDoIzL3IeDdT3tLLZZfEGuFnA=)
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+jwt:
+  token:
+    secretKey: EuripidisconstitutoiusadappareatmaluissethasexutmeiinvenirecomplectiturEumesseargumentumscriptoremad
