@@ -1,18 +1,17 @@
 package com.yeoboya.lunch.api.docs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.container.ContainerDI;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.config.security.WithMockCustomUser;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -26,17 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockCustomUser(email = "admin@gmail.com")
-class MemberControllerDocTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+class MemberControllerDocTest extends ContainerDI {
 
     @Test
     void member() throws Exception {
@@ -127,6 +119,8 @@ class MemberControllerDocTest {
     }
 
     @Test
+    @DisplayName("계좌수정")
+    @Disabled
     void accountUpdate() throws Exception {
         //given
         AccountEdit request = AccountEdit.builder().bankName("토스").accountNumber("010-8349-0706").build();

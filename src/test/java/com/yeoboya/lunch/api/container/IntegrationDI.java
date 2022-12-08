@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.testContainer;
+package com.yeoboya.lunch.api.container;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Disabled;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Disabled
 @AutoConfigureMockMvc
 @Transactional
-public class IntegrationTest {
+public class IntegrationDI {
 
     @Autowired
     protected MockMvc mockMvc;

@@ -2,6 +2,7 @@ package com.yeoboya.lunch.batch.schedulers;
 
 import com.yeoboya.lunch.batch.job.TaskletJob;
 import com.yeoboya.lunch.batch.job.TaskletJob2;
+import com.yeoboya.lunch.config.annotation.ExcludeScan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
@@ -13,7 +14,6 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +25,7 @@ import java.util.Map;
 @EnableScheduling // 스케쥴러 기능 활성화
 @RequiredArgsConstructor
 @Component
+@ExcludeScan
 public class LogScheduler {
 
 //	private final Job job;

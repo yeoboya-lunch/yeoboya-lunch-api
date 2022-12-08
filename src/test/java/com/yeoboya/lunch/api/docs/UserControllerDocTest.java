@@ -1,18 +1,16 @@
 package com.yeoboya.lunch.api.docs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.container.ContainerDI;
 import com.yeoboya.lunch.config.security.WithMockCustomUser;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -25,18 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockCustomUser
-class UserControllerDocTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
+class UserControllerDocTest extends ContainerDI {
 
     @Test
     @DisplayName("회원가입")
@@ -74,13 +64,54 @@ class UserControllerDocTest {
                 ));
     }
 
+
     @Test
+    @Disabled
+    @DisplayName("패스워드 변경")
+    void changePassword() throws Exception {
+        //given
+        UserRequest.Credentials credentials = new UserRequest.Credentials();
+        credentials.setEmail("khj@gmail.com");
+        credentials.setOldPassword("test5678((");
+        credentials.setNewPassword("qwer1234@@");
+        credentials.setConfirmNewPassword("qwer1234@@");
+
+        String json = objectMapper.writeValueAsString(credentials);
+
+        //expected
+        mockMvc.perform(patch("/user/setting/security")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/setting/security",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("oldPassword").description("전 비밀번호"),
+                                fieldWithPath("newPassword").description("새로운 비밀번호"),
+                                fieldWithPath("confirmNewPassword").description("비밀번호 확인"),
+                                fieldWithPath("passKey").description("KnowPassKey").ignored()
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
+    @Disabled
     @DisplayName("로그인")
     void login() throws Exception {
         //given
         UserRequest.SignIn signIn = new UserRequest.SignIn();
-        signIn.setEmail("khjzzm@gmail.com");
-        signIn.setPassword("1234qwer!@#$");
+        signIn.setEmail("khj@gmail.com");
+        signIn.setPassword("qwer1234@@");
 
         String json = objectMapper.writeValueAsString(signIn);
 
@@ -125,43 +156,6 @@ class UserControllerDocTest {
     }
 
 
-    @Test
-    @DisplayName("패스워드 변경")
-    void changePassword() throws Exception {
-        //given
-        UserRequest.Credentials credentials = new UserRequest.Credentials();
-        credentials.setEmail("khjzzm@gmail.com");
-        credentials.setOldPassword("1234qwer!@#$");
-        credentials.setNewPassword("qwer1234@@");
-        credentials.setConfirmNewPassword("qwer1234@@");
-
-        String json = objectMapper.writeValueAsString(credentials);
-
-        //expected
-        mockMvc.perform(patch("/user/setting/security")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .content(json))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("user/setting/security",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("email").description("이메일"),
-                                fieldWithPath("oldPassword").description("전 비밀번호"),
-                                fieldWithPath("newPassword").description("새로운 비밀번호"),
-                                fieldWithPath("confirmNewPassword").description("비밀번호 확인"),
-                                fieldWithPath("passKey").description("KnowPassKey").ignored()
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("code")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING)
-                        )
-                ));
-    }
 
     //todo
     //로그아웃, 토큰 재발급, 비밀번호 변경 이메일전송, 비밀번호 초기화

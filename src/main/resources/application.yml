@@ -34,12 +34,6 @@ server:
       enabled: true
       force: true
 
-mybatis:
-  mapper-locations: mapper/*.xml
-  configuration:
-    default-fetch-size: '100'
-    default-statement-timeout: '30'
-    map-underscore-to-camel-case: 'true'
 
 management:
   endpoint:

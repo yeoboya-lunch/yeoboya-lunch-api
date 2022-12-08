@@ -65,7 +65,7 @@ public class RedisUtil {
         }
     }
 
-    public Set getSortedSetOps(String key){
+    public Set<?> getSortedSetOps(String key){
         Long len = stringRedisTemplate.opsForZSet().size(key);
         return len == 0 ? new HashSet<String>() : stringRedisTemplate.opsForZSet().range(key, 0, len-1);
     }
@@ -85,7 +85,7 @@ public class RedisUtil {
         return values;
     }
 
-    public Long delAsterOps(String key){
+    public void delAsterOps(String key){
         RedisConnection redisConnection = redisConnectionFactory.getConnection();
         ScanOptions options = ScanOptions.scanOptions().count(2).match(key).build();
 
@@ -97,9 +97,8 @@ public class RedisUtil {
             values.add(val);
         }
 
-        Long resultCode = stringRedisTemplate.delete(values);
+         stringRedisTemplate.delete(values);
 
-        return resultCode;
     }
 
     public List<String> getHashAsterOps(String key){

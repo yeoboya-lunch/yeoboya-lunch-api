@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.batch.job;
 
 
+import com.yeoboya.lunch.config.annotation.ExcludeScan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
+@ExcludeScan
 public class TaskletJob2 {
 
     private final JobBuilderFactory jobBuilderFactory;

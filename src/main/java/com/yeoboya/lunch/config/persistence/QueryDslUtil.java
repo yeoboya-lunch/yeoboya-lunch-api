@@ -7,7 +7,7 @@ import com.querydsl.core.types.dsl.Expressions;
 
 public class QueryDslUtil {
 
-    //fixme (uses unchecked or unsafe operations)
+    @SuppressWarnings("unchecked")
     public static OrderSpecifier<?> getSortedColumn(Order order, Path<?> parent, String fieldName) {
         Path<Object> fieldPath = Expressions.path(Object.class, parent, fieldName);
         return new OrderSpecifier(order, fieldPath);

@@ -23,7 +23,9 @@ public class RedisConfig {
                 .readFrom(ReadFrom.REPLICA_PREFERRED)
                 .build();
         RedisStaticMasterReplicaConfiguration staticMasterReplicaConfiguration = new RedisStaticMasterReplicaConfiguration(redis.getMaster().getHost(), redis.getMaster().getPort());
-        redis.getSlaves().forEach(slave -> staticMasterReplicaConfiguration.addNode(slave.getHost(), slave.getPort()));
+        if (redis.getSlaves() != null) {
+            redis.getSlaves().forEach(slave -> staticMasterReplicaConfiguration.addNode(slave.getHost(), slave.getPort()));
+        }
         staticMasterReplicaConfiguration.setDatabase(redis.getDatabase());
         staticMasterReplicaConfiguration.setPassword(redis.getPassword());
         return new LettuceConnectionFactory(staticMasterReplicaConfiguration, lettuceClientConfiguration);
@@ -33,10 +35,6 @@ public class RedisConfig {
     @Bean(name = "redisTemplate")
     public RedisTemplate<?, ?> redisTemplate() {
         RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setKeySerializer(new StringRedisSerializer());
-//        redisTemplate.setValueSerializer(new StringRedisSerializer());
-//        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-//        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
         redisTemplate.setDefaultSerializer(new StringRedisSerializer());
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;

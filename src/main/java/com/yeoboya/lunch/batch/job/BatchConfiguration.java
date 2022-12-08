@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.batch.job;
 
 import com.yeoboya.lunch.batch.model.Market;
+import com.yeoboya.lunch.config.annotation.ExcludeScan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -25,6 +26,7 @@ import java.util.Map;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
+@ExcludeScan
 public class BatchConfiguration {
 	
 	private final JobBuilderFactory jobBuilderFactory;

@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.config.redis;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,12 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
+@Disabled
 @SpringBootTest
 class RedisUtilTest {
 
     @Autowired
     RedisUtil redisUtil;
-
 
     @Test
     @DisplayName("string 저장 (key-value)")
