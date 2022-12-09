@@ -3,7 +3,6 @@ package com.yeoboya.lunch.api.docs;
 import com.yeoboya.lunch.api.container.ContainerDI;
 import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
-import com.yeoboya.lunch.config.security.WithMockCustomUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -30,10 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-@WithMockCustomUser
+@WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 class OrderControllerDocTest extends ContainerDI {
 
-    @WithMockUser
     @Test
     void order() throws Exception {
 
@@ -131,19 +129,19 @@ class OrderControllerDocTest extends ContainerDI {
                                         .type(JsonFieldType.STRING),
                                 fieldWithPath("data.[].orderName").description("주문자명")
                                         .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("5")).optional(),
+                                        .attributes(key("length").value("5")),
                                 fieldWithPath("data.[].orderStatus").description("주문상태")
                                         .type(JsonFieldType.STRING)
                                         .attributes(key("length").value("5"))
                                         .attributes(key("note").value("ORDER, CANCEL")).optional(),
                                 fieldWithPath("data.[].totalPrice").description("주문가격")
-                                        .type(JsonFieldType.NUMBER).optional(),
+                                        .type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.[].orderItems.[].itemName").description("상품명")
-                                        .type(JsonFieldType.STRING).optional(),
+                                        .type(JsonFieldType.STRING),
                                 fieldWithPath("data.[].orderItems.[].orderPrice").description("상품가격")
-                                        .type(JsonFieldType.NUMBER).optional(),
+                                        .type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.[].orderItems.[].orderQuantity").description("주문수량")
-                                        .type(JsonFieldType.NUMBER).optional()
+                                        .type(JsonFieldType.NUMBER)
                         )
                 ));
     }
