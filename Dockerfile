@@ -1,12 +1,4 @@
-## BUILFER
-FROM adoptopenjdk:11-jdk-hotspot as builder
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
-COPY src src
-RUN chmod +x ./gradlew
-RUN ./gradlew bootJar
+## BUILFER TODO builder script
 
 ## RUNNING
 FROM adoptopenjdk:11-jdk-hotspot

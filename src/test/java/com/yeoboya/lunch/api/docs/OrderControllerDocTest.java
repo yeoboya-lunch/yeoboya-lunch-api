@@ -131,19 +131,19 @@ class OrderControllerDocTest extends ContainerDI {
                                         .type(JsonFieldType.STRING),
                                 fieldWithPath("data.[].orderName").description("주문자명")
                                         .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("5")),
+                                        .attributes(key("length").value("5")).optional(),
                                 fieldWithPath("data.[].orderStatus").description("주문상태")
                                         .type(JsonFieldType.STRING)
                                         .attributes(key("length").value("5"))
-                                        .attributes(key("note").value("ORDER, CANCEL")),
+                                        .attributes(key("note").value("ORDER, CANCEL")).optional(),
                                 fieldWithPath("data.[].totalPrice").description("주문가격")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.[].orderItems.[].itemName").description("상품명")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.[].orderItems.[].orderPrice").description("상품가격")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.[].orderItems.[].orderQuantity").description("주문수량")
-                                        .type(JsonFieldType.NUMBER)
+                                        .type(JsonFieldType.NUMBER).optional()
                         )
                 ));
     }
