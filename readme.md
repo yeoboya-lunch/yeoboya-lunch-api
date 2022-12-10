@@ -10,3 +10,6 @@
 @TestContainer
 -> security test? /    @WithMockCustomUser
 TC_REUSABLE=true
+
+테스트 컨테이너 연속성
+도커 네트워크(스프링부트, 레디스, 데이터베이스)
