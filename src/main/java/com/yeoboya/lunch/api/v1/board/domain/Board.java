@@ -2,10 +2,7 @@ package com.yeoboya.lunch.api.v1.board.domain;
 
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,9 +10,11 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "board")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Board {
     //필드
     @Id
@@ -33,9 +32,30 @@ public class Board {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    private int pin;
+
+    private boolean secret;
+
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<BoardHashTeg> boardHashTags = new ArrayList<>();
+    private List<BoardHashTag> boardHashTags = new ArrayList<>();
 
-    public static Board createBoard(Member member, BoardCreate boardCreate)
+
+    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags){
+        Board board = new Board();
+        board.setMember(member);
+        board.setTitle(boardCreate.getTitle());
+        board.setContent(boardCreate.getContent());
+        board.setPin(boardCreate.getPin());
+        board.setSecret(boardCreate.isSecret());
+        for(BoardHashTag boardHashTag : boardHashTags){
+            board.addBoardHashTag(boardHashTag);
+        }
+        return board;
+    }
+
+    private void addBoardHashTag(BoardHashTag boardHashTag) {
+        this.boardHashTags.add(boardHashTag);
+        boardHashTag.setBoard(this);
+    }
 }

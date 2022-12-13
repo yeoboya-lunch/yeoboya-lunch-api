@@ -47,7 +47,8 @@ public class SecurityConfiguration {
 
     private static final String[] USER_URL_ARRAY = {
             "/order/**", "/item/**",
-            "/member/**", "/shop/**"
+            "/member/**", "/shop/**",
+            "/board/**"
     };
 
     private static final String[] ADMIN_URL_ARRAY = {

@@ -2,7 +2,6 @@ package com.yeoboya.lunch.api.v1.board.controller;
 
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.board.service.BoardService;
-import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +27,7 @@ public class BoardController {
      */
     @PostMapping("/write")
     public ResponseEntity<Body> create(@RequestBody @Valid BoardCreate boardCreate){
-        boardService.saveBoard(boardCreate);
-        return response.success(Code.SAVE_SUCCESS);
+        return boardService.saveBoard(boardCreate);
     }
 
 }
