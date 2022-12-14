@@ -1,6 +1,8 @@
 package com.yeoboya.lunch.api.v1.board.domain;
 
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
+import com.yeoboya.lunch.api.v1.common.domain.BaseEntity;
+import com.yeoboya.lunch.api.v1.file.domain.File;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.*;
 
@@ -15,8 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Board {
-    //필드
+public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOARD_ID")
@@ -36,19 +37,22 @@ public class Board {
 
     private boolean secret;
 
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<File> files = new ArrayList<>();
+
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<BoardHashTag> boardHashTags = new ArrayList<>();
 
 
-    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags){
+    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags) {
         Board board = new Board();
         board.setMember(member);
         board.setTitle(boardCreate.getTitle());
         board.setContent(boardCreate.getContent());
         board.setPin(boardCreate.getPin());
         board.setSecret(boardCreate.isSecret());
-        for(BoardHashTag boardHashTag : boardHashTags){
+        for (BoardHashTag boardHashTag : boardHashTags) {
             board.addBoardHashTag(boardHashTag);
         }
         return board;
@@ -57,5 +61,12 @@ public class Board {
     private void addBoardHashTag(BoardHashTag boardHashTag) {
         this.boardHashTags.add(boardHashTag);
         boardHashTag.setBoard(this);
+    }
+
+    private void addFile(File file) {
+        this.files.add(file);
+        if (file.getBoard() != this) {
+            file.setBoard(this);
+        }
     }
 }

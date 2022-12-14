@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.board.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@ToString
 public class BoardCreate {
 
 
@@ -26,6 +28,5 @@ public class BoardCreate {
     private int pin;                  //비밀번호
 
     private boolean secret;           //비밀글여부
-
 
 }
