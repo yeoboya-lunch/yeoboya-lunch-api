@@ -1,14 +1,16 @@
 package com.yeoboya.lunch.api.v1.board.controller;
 
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
+import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.board.service.BoardService;
-import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -18,7 +20,6 @@ import javax.validation.Valid;
 @Slf4j
 public class BoardController {
 
-    private final Response response;
     private final BoardService boardService;
 
 
@@ -26,14 +27,18 @@ public class BoardController {
      * 게시글 작성
      */
     @PostMapping("/write")
-    public ResponseEntity<Body> create(@RequestBody @Valid BoardCreate boardCreate){
+    public ResponseEntity<Body> create(@RequestBody @Valid BoardCreate boardCreate) {
         return boardService.saveBoard(boardCreate);
     }
 
-    @PostMapping(value = "/write/files", consumes = {"multipart/form-data"})
-    public ResponseEntity<Body> createFile(@ModelAttribute FileBoardCreate fileBoardCreate){
-        log.warn("{}", fileBoardCreate);
-        return boardService.saveBoardFile(fileBoardCreate);
+    @PostMapping(value = "/write/photo", consumes = {"multipart/form-data", "application/json"})
+    public ResponseEntity<Body> createPhoto(@RequestPart MultipartFile file, @RequestPart @Valid FileBoardCreate fileBoardCreate) {
+        return boardService.saveBoardPhoto(file, fileBoardCreate);
     }
 
+
+    @GetMapping
+    public ResponseEntity<Body> list(BoardSearch boardSearch, Pageable pageable) {
+        return boardService.list(boardSearch, pageable);
+    }
 }

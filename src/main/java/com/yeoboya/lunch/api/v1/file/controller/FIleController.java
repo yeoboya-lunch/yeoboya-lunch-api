@@ -18,7 +18,6 @@ public class FIleController {
     private final Response response;
     private final FileService fileServiceBasic;
 
-
     /**
      * 파일 업로드
      */

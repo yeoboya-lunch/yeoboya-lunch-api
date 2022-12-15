@@ -2,7 +2,6 @@ package com.yeoboya.lunch.api.v1.file.service;
 
 import com.j256.simplemagic.ContentInfo;
 import com.j256.simplemagic.ContentInfoUtil;
-import com.yeoboya.lunch.api.v1.file.repository.FileRepository;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
@@ -26,24 +25,17 @@ import java.util.Random;
 @Slf4j
 public class FileServiceBasic implements FileService {
 
-    private final FileRepository fileRepository;
-
     @Value("${file.upload.root-path}")
     private String ROOT_PATH;
     @Value("${file.upload.ratio-wh}")
     private int RATIO_WH;
 
 
-    public FileServiceBasic(FileRepository fileRepository) {
-        this.fileRepository = fileRepository;
-    }
-
-
     public FileUploadResponse upload(MultipartFile multipartFile, String fileType) {
 
         long fileSize;
         byte[] bytes = null;
-        String originalFileName = null;        //실제 업로드 파일 이름
+        String originalFileName = null;
 
         //fixme  MultipartFile / File / dataURL / ImageURL
         try {
@@ -70,14 +62,11 @@ public class FileServiceBasic implements FileService {
         String fileName = this.makeNewFileName(filExtension);
         this.photoUpload(bytes, directory, filExtension, fileName);
 
-        FileUploadResponse build = FileUploadResponse.builder()
-                .originalFileName(originalFileName)
-                .fileName(fileName)
-                .filePath(directory)
-                .extension(filExtension)
-                .size(fileSize)
-                .build();
-        return build;
+        FileUploadResponse fileUploadResponse = FileUploadResponse.builder()
+                .originalFileName(originalFileName).fileName(fileName)
+                .filePath(directory).extension(filExtension)
+                .size(fileSize).build();
+        return fileUploadResponse;
     }
 
 

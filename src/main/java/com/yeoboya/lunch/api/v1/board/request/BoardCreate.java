@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Setter
@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 public class BoardCreate {
 
-
+    @Email
     private String email;
 
     private String title;             //제목
@@ -23,8 +23,7 @@ public class BoardCreate {
 
     private String content;           //콘텐츠
 
-    @Min(1)
-    @Max(6)
+    @Digits(integer = 4, fraction = 0)
     private int pin;                  //비밀번호
 
     private boolean secret;           //비밀글여부

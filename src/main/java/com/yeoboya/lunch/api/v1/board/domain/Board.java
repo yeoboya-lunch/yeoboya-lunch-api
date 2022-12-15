@@ -58,6 +58,21 @@ public class Board extends BaseEntity {
         return board;
     }
 
+
+    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags, File file) {
+        Board board = new Board();
+        board.setMember(member);
+        board.setTitle(boardCreate.getTitle());
+        board.setContent(boardCreate.getContent());
+        board.setPin(boardCreate.getPin());
+        board.setSecret(boardCreate.isSecret());
+        for (BoardHashTag boardHashTag : boardHashTags) {
+            board.addBoardHashTag(boardHashTag);
+        }
+        board.addFile(file);
+        return board;
+    }
+
     private void addBoardHashTag(BoardHashTag boardHashTag) {
         this.boardHashTags.add(boardHashTag);
         boardHashTag.setBoard(this);

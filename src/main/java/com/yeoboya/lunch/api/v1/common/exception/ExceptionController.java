@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,18 @@ public class ExceptionController {
                 .validation(Helper.refineErrors(e))
                 .build();
     }
+
+    @ResponseStatus(BAD_REQUEST)
+    @ExceptionHandler(BindException.class)
+    protected ExceptionResponse bindException(BindException e) {
+        log.error("BindException", e);
+        return ExceptionResponse.builder()
+                .code(BAD_REQUEST.value())
+                .message(BAD_REQUEST.getReasonPhrase())
+                .validation(Helper.refineErrors(e))
+                .build();
+    }
+
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(value = ConstraintViolationException.class)
