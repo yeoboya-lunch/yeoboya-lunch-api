@@ -15,7 +15,6 @@ import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.file.domain.File;
-import com.yeoboya.lunch.api.v1.file.repository.FileRepository;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import com.yeoboya.lunch.api.v1.file.service.FileService;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
@@ -40,7 +39,6 @@ public class BoardService {
     private final HashTagRepository hashTagRepository;
     private final MemberRepository memberRepository;
     private final FileService fileService;
-    private final FileRepository fileRepository;
     private final Response response;
 
 

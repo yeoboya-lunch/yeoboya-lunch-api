@@ -19,14 +19,14 @@ public class BoardResponse {
     private final int pin;
     private final boolean secret;
     private final String email;
-    private final List<HashTagResponse> hashTagResponses;
+    private final List<HashTagResponse> hashTags;
     private final List<FileUploadResponse> files;
 
     public static BoardResponse from(Board board){
         return new BoardResponse(
                 board.getTitle(), board.getContent(), board.getPin(), board.isSecret(), board.getMember().getEmail(),
                 board.getBoardHashTags().stream().map(r-> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
-                FileUploadResponse.from(board.getFiles())
+                board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList())
         );
     }
 }
