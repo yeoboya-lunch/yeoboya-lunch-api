@@ -1,0 +1,45 @@
+logging:
+  config: classpath:logs/logback-local.xml
+
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/lunch
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show_sql: true
+#        generate_statistics: true
+        default_batch_fetch_size: 100
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto : create-drop
+    show-sql: true
+    defer-datasource-initialization: true
+
+  redis:
+    master:
+      host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+      port: 6380
+    slaves:
+      - host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+        port: 6381
+    password: ENC(FtsNreuQ5/JR69WxVWZxxWQi0sO0JGRY)
+    database: 12
+  sql:
+    init:
+      mode: always
+
+file:
+  upload:
+    root-path : ./file
+    ratio-wh: 1280
+
+
