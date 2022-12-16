@@ -13,7 +13,8 @@ public class HashTagResponse {
 
     private final String tag;
 
-    public static HashTagResponse from(HashTag tag){
-        return new HashTagResponse(tag.getTag());
+    public static HashTagResponse from(HashTag hashTag){
+        return new HashTagResponse(hashTag.getTag());
     }
+
 }
