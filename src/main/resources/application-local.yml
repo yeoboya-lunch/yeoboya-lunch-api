@@ -43,3 +43,8 @@ file:
     ratio-wh: 1280
 
 
+---
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
