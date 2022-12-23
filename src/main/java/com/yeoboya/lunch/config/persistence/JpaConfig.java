@@ -17,6 +17,7 @@ public class JpaConfig {
         return () -> Optional.of(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
+    // 사용하지 말자
     @Bean
     Hibernate5Module hibernate5Module(){
         return new Hibernate5Module();

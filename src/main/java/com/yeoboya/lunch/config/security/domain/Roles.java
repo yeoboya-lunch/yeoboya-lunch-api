@@ -8,9 +8,9 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
-@ToString
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class Roles  {
+@ToString(of = {"role"})
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Roles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

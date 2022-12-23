@@ -27,6 +27,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: none
+    open-in-view: false
   redis:
     master:
       host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)

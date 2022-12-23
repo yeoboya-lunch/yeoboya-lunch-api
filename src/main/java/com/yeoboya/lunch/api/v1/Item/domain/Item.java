@@ -18,7 +18,7 @@ import javax.persistence.*;
                 )
         }
 )
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseEntity {
 
     @Id

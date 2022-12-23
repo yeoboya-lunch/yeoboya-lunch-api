@@ -18,6 +18,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+    redis:
+      repositories:
+        enabled: false
 
   batch:
     job:
