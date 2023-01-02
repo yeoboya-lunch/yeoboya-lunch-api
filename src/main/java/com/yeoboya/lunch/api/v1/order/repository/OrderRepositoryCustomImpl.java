@@ -22,11 +22,11 @@ import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
 import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
 
 @Repository
-public class OrderRepositoryImpl implements OrderRepositoryCustom {
+public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
     private final JPAQueryFactory query;
 
-    public OrderRepositoryImpl(JPAQueryFactory query) {
+    public OrderRepositoryCustomImpl(JPAQueryFactory query) {
         this.query = query;
     }
 

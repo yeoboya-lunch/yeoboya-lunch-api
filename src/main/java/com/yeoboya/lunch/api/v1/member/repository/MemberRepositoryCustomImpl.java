@@ -20,7 +20,7 @@ import static com.yeoboya.lunch.config.security.domain.QRoles.roles;
 
 
 @RequiredArgsConstructor
-public class MemberRepositoryImpl implements MemberRepositoryCustom {
+public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 

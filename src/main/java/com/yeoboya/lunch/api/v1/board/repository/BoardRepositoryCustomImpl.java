@@ -16,11 +16,11 @@ import static com.yeoboya.lunch.api.v1.file.domain.QFile.file;
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 
 @Repository
-public class BoardRepositoryImpl implements BoardRepositoryCustom{
+public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
 
     private final JPAQueryFactory query;
 
-    public BoardRepositoryImpl(JPAQueryFactory query) {
+    public BoardRepositoryCustomImpl(JPAQueryFactory query) {
         this.query = query;
     }
 

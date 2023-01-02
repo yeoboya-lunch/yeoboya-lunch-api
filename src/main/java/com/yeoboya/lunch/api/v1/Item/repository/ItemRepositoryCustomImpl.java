@@ -16,7 +16,7 @@ import static com.yeoboya.lunch.api.v1.Item.domain.QItem.item;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @RequiredArgsConstructor
-public class ItemRepositoryImpl implements ItemRepositoryCustom {
+public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
