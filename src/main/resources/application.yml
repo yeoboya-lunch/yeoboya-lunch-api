@@ -47,6 +47,12 @@ management:
       exposure:
         include: "*"
 
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
 jwt:
   token:
     secretKey: ENC(CY9AK5nbR9Ok66F+oJvk+AA/8/cShipQoICTd8m4ZLVu6PcNHnL8WRhOVqDl3WNTFqoEw32HIzu1qYaW4GfPbDgrC+hPnpMmjPHeDckqdLs28oF4vunHQpg1dVcoD65t)

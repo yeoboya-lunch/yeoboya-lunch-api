@@ -15,6 +15,11 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
+file:
+  upload:
+    root-path : ./file
+    ratio-wh: 1280
+
 jwt:
   token:
     secretKey: EuripidisconstitutoiusadappareatmaluissethasexutmeiinvenirecomplectiturEumesseargumentumscriptoremad
