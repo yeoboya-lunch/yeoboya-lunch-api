@@ -5,8 +5,12 @@ import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.Item.service.ItemService;
 import com.yeoboya.lunch.api.v1.common.response.Code;
+import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.common.service.PricingPlanService;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.ConsumptionProbe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,8 @@ public class ItemController {
 
     private final Response response;
     private final ItemService itemService;
+    private final PricingPlanService pricingPlanService;
+
 
     /**
      * 아이템 등록
@@ -47,8 +53,20 @@ public class ItemController {
      */
     @GetMapping("/{itemId}")
     public ResponseEntity<Body> get(@PathVariable Long itemId) {
-        ItemResponse itemResponse = itemService.get(itemId);
-        return response.success(Code.SEARCH_SUCCESS, itemResponse);
+        Bucket bucket = pricingPlanService.resolveBucket("");
+        ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
+        long saveToekn = probe.getRemainingTokens();
+
+        if (probe.isConsumed()) {
+            ItemResponse itemResponse = itemService.get(itemId);
+            return response.success(Code.SEARCH_SUCCESS, itemResponse);
+        }
+
+        long waitForRefill = probe.getNanosToWaitForRefill();
+        System.out.println("TOO MANY REQUEST");
+        System.out.println("Available Toekn : " + saveToekn);
+        System.out.println("Wait Time " + waitForRefill + "Second");
+        return response.fail(ErrorCode.TOO_MANY_REQUESTS);
     }
 
     /**

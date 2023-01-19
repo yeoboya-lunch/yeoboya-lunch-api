@@ -1,14 +1,13 @@
 package com.yeoboya.lunch.api.v1.Item.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemCreate {
 
     @NotBlank(message = "상호를 입력해주세요.")
