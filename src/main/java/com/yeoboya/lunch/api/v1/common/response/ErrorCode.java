@@ -25,8 +25,8 @@ public enum ErrorCode {
 
     DUPLICATE_RESOURCE("데이터가 이미 존재합니다", CONFLICT),
 
-    INVALID_PASSWORD_RESET_LINK("잘못된 비밀번호 재설정 링크를 클릭했습니다", BAD_REQUEST)
-    ;
+    INVALID_PASSWORD_RESET_LINK("잘못된 비밀번호 재설정 링크를 클릭했습니다", BAD_REQUEST),
+    TOO_MANY_REQUESTS("Too Many Requests", HttpStatus.TOO_MANY_REQUESTS);
 
     private final String msg;
     private final HttpStatus httpStatus;

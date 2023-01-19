@@ -87,6 +87,8 @@ dependencies {
     implementation 'org.imgscalr:imgscalr-lib:4.2'
 
 
+    // https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core
+    implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
     //for local test H2, JPA, Querydsl
     runtimeOnly 'com.h2database:h2'
@@ -109,6 +111,10 @@ dependencies {
     testImplementation "org.testcontainers:junit-jupiter:1.17.6"
     testImplementation "org.testcontainers:mariadb:1.17.6"
 
+}
+
+bootRun {
+    systemProperty "jasypt.encryptor.password", findProperty("jasypt.encryptor.password")
 }
 
 test {
