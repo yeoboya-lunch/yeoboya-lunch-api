@@ -37,6 +37,7 @@ public class Board extends BaseEntity {
 
     private boolean secret;
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<File> files = new ArrayList<>();
 
