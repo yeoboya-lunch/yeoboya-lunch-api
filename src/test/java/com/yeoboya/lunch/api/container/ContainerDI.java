@@ -15,6 +15,7 @@ import java.sql.SQLException;
 
 @Testcontainers
 @Slf4j
+//@Disabled
 public class ContainerDI extends IntegrationDI {
 
     @Container

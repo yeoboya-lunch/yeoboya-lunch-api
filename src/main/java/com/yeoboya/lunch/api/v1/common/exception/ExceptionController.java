@@ -99,6 +99,18 @@ public class ExceptionController {
                 .build();
     }
 
+
+//    @ResponseStatus(FORBIDDEN)
+//    @ExceptionHandler(value = {ExpiredJwtException.class})
+//    protected ExceptionResponse expiredJwtException(ExpiredJwtException e) {
+//        log.error("ExpiredJwtException", e);
+//        return ExceptionResponse.builder()
+//                .code(FORBIDDEN.value())
+//                .message(FORBIDDEN.getReasonPhrase())
+//                .note(e.getMessage())
+//                .build();
+//    }
+
     @ExceptionHandler(LunchException.class)
     public ResponseEntity<ExceptionResponse> lunchException(LunchException e) {
         int statusCode = e.getStatusCode();
