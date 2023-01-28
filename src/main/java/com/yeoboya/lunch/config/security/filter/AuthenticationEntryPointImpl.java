@@ -2,10 +2,7 @@ package com.yeoboya.lunch.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -37,12 +34,14 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
             body.put("message", "계정이 비활성화 상태입니다. 관리자에게 문의하세요.");
         } else if (e instanceof CredentialsExpiredException) {
             body.put("message", "자격 증명 유효 기간이 만료되었습니다.");
+        } else if( e instanceof InsufficientAuthenticationException){
+            body.put("message", "이 리소스에 액세스하려면 전체 인증이 필요합니다.");
         } else {
             body.put("message", e.getMessage());
         }
 
         body.put("code", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("data", "엑세스 토큰이 없습니다.");
+//        body.put("data", "엑세스 토큰이 없습니다.");
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(httpServletResponse.getOutputStream(), body);
