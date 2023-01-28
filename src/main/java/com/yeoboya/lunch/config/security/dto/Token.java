@@ -16,6 +16,7 @@ public class Token {
     private String accessToken;
     private String refreshToken;
     private String tokenExpirationTime;         //access token 유효기간
-    private Long refreshTokenExpirationTime;    //refresh token 유효기간
+    private long refreshTokenExpirationTime;    //refresh token 유효기간
+    private String refreshTokenExpirationTimeStr;    //refresh token 유효기간
 
 }

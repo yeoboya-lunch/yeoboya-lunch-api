@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.config.security;
 
 import com.yeoboya.lunch.config.security.dto.Token;
+import com.yeoboya.lunch.config.security.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -35,10 +36,13 @@ public class JwtTokenProvider {
     private static final String BEARER_TYPE = "Bearer";
     private static final String AUTHORITIES_KEY = "auth";
 //    private static final long ACCESS_TOKEN_EXPIRE_TIME = 24 * 60 * 60 * 1000L;         // 1일
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 1000L;         // 30초
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 60 * 1000L;         // 60초
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 24 * 60 * 60 * 1000L;    // 7일
 
-    public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey) {
+    private final UserDetailsServiceImpl userDetailsService;
+
+    public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey, UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -50,7 +54,7 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
+        long now = new Date().getTime();
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
@@ -67,22 +71,21 @@ public class JwtTokenProvider {
         Date refreshAccessTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
         String refreshToken = Jwts.builder()
                 .setExpiration(refreshAccessTokenExpiresIn)
+                .setSubject(authentication.getName())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         Claims claims = this.parseClaims(accessToken);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String accessTokenExpiresInStr = sdf.format(accessTokenExpiresIn);
-
         return Token.builder()
                 .subject(claims.getSubject())
                 .id(claims.getId())
                 .issuer(claims.getIssuer())
                 .issueDAt(String.valueOf(claims.getIssuedAt()))
                 .accessToken(accessToken)
-                .tokenExpirationTime(accessTokenExpiresInStr)
+                .tokenExpirationTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(accessTokenExpiresIn))
                 .refreshToken(refreshToken)
                 .refreshTokenExpirationTime(refreshAccessTokenExpiresIn.getTime())
+                .refreshTokenExpirationTimeStr(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(refreshAccessTokenExpiresIn))
                 .build();
     }
 
@@ -103,7 +106,15 @@ public class JwtTokenProvider {
 
         // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+
+    // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
+    public Authentication getAuthenticationWithLoadUserByUsername(String refreshToken) {
+        Claims claims = this.parseClaims(refreshToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
+        return new UsernamePasswordAuthenticationToken(userDetails, refreshToken, userDetails.getAuthorities());
     }
 
 

@@ -118,12 +118,39 @@ public class UserService {
         return response.success("로그아웃 되었습니다.");
     }
 
-    public ResponseEntity<Body> reIssue(Reissue reissue) {
+    public ResponseEntity<Body> tokenReissue(Reissue reissue) {
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
             return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
+
+        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
+
+        if (ObjectUtils.isEmpty(redisRT)) {
+            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        if (!redisRT.equals(reissue.getRefreshToken())) {
+            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        Token token = jwtTokenProvider.generateToken(authentication);
+
+        redisTemplate.opsForValue().set("RT:" + authentication.getName(),
+                token.getRefreshToken(),
+                token.getRefreshTokenExpirationTime(),
+                TimeUnit.MILLISECONDS);
+
+        return response.success(Code.UPDATE_SUCCESS, token);
+    }
+
+    public ResponseEntity<Body> reissue(Reissue reissue) {
+        if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
+            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        Authentication authentication = jwtTokenProvider.getAuthenticationWithLoadUserByUsername(reissue.getRefreshToken());
 
         String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
@@ -219,7 +246,7 @@ public class UserService {
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
-        return this.reIssue(new Reissue(token, redisRT));
+        return this.reissue(new Reissue(token, redisRT));
     }
 
 }

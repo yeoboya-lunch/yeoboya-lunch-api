@@ -35,7 +35,7 @@ public class SecurityConfiguration {
 
             /* user */
             "/user/sign-in", "/user/sign-up", "/user/sign-out",
-            "/user/reissue", "/user/sendResetPasswordMail/**",
+            "/user/reissue", "/user/token-reissue", "/user/sendResetPasswordMail/**",
             "/user/resetPassword",
 
             /* spring docs */

@@ -72,10 +72,20 @@ public class UserController {
     /**
      * 토큰 재발급
      */
-    @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@Valid @RequestBody Reissue reissue) {
-        return userService.reIssue(reissue);
+    @Deprecated
+    @PostMapping("/token-reissue")
+    public ResponseEntity<?> tokenReissue(@Valid @RequestBody Reissue reissue) {
+        return userService.tokenReissue(reissue);
     }
+
+    /**
+     * 토큰 재발급(only refreshToken)
+     */
+    @PostMapping("/reissue")
+    public ResponseEntity<Body> reissue(@Valid @RequestBody Reissue reissue){
+        return  userService.reissue(reissue);
+    }
+
 
     /**
      * 권한추가
