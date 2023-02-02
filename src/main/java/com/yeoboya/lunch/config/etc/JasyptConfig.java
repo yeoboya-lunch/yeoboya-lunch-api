@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.config.etc;
 
+import com.yeoboya.lunch.config.annotation.ExcludeScan;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ExcludeScan
 public class JasyptConfig {
 
     @Value("${jasypt.encryptor.password}")

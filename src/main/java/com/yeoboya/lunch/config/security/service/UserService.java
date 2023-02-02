@@ -110,7 +110,7 @@ public class UserService {
 
         //add redis blacklist
         Long expiration = jwtTokenProvider.getExpiration(signOut.getAccessToken());
-        redisTemplate.opsForValue().set(signOut.getAccessToken(),
+        redisTemplate.opsForValue().set("LOT:" + signOut.getAccessToken(),
                 "logout",
                 expiration,
                 TimeUnit.MILLISECONDS);

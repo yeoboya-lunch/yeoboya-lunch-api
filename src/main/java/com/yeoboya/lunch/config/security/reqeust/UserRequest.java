@@ -77,16 +77,17 @@ public class UserRequest {
     @Getter
     @Setter
     public static class SignOut {
-        @NotEmpty(message = "Invalid request.")
+        @NotEmpty(message = "accessToken 을 입력해주세요.")
         private String accessToken;
 
-        @NotEmpty(message = "Invalid request.")
+        @NotEmpty(message = "refreshToken 을 입력해주세요.")
         private String refreshToken;
     }
 
     @Getter
     @Setter
     @NoArgsConstructor
+    @ToString
     public static class Reissue {
         private String accessToken;
 

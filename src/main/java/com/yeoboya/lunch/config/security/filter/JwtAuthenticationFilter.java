@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = jwtTokenProvider.resolveToken(request);
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
-                String isLogout = (String) redisTemplate.opsForValue().get(token);
+                String isLogout = (String) redisTemplate.opsForValue().get("LOT:" + token);
                 if (ObjectUtils.isEmpty(isLogout)) {
                     Authentication authentication = jwtTokenProvider.getAuthentication(token);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
