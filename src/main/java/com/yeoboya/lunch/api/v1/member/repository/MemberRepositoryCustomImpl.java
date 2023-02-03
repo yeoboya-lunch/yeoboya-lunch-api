@@ -59,6 +59,22 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .fetchOne();
     }
 
+    @Override
+    public MemberResponse memberProfile(String memberEmail) {
+        return jpaQueryFactory.select(
+                        new QMemberResponse(
+                                member.email, member.name,
+                                account.bankName, account.accountNumber,
+                                memberInfo.bio, memberInfo.nickName, memberInfo.phoneNumber
+                        )
+                )
+                .from(member)
+                .leftJoin(member.account, account)
+                .leftJoin(member.memberInfo, memberInfo)
+                .where(memberInfo.member.email.eq(memberEmail))
+                .fetchOne();
+    }
+
 
     private BooleanExpression likeMemberEmail(String email) {
         if (StringUtils.hasText(email)) {

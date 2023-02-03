@@ -42,6 +42,10 @@ public class MemberService {
     }
 
 
+    public MemberResponse memberProfile(String memberEmail) {
+        return memberRepository.memberProfile(memberEmail);
+    }
+
     @Transactional
     public void editMemberInfo(String memberEmail, MemberInfoEdit memberInfoEdit) {
         MemberInfo memberInfo = memberRepository.getMemberInfo(memberEmail);
@@ -82,7 +86,6 @@ public class MemberService {
 
         account.edit(accountEditor);
     }
-
 
 
 }

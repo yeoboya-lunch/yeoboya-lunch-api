@@ -15,4 +15,5 @@ public interface MemberRepositoryCustom {
 
     MemberInfo getMemberInfo(String email);
 
+    MemberResponse memberProfile(String memberEmail);
 }
