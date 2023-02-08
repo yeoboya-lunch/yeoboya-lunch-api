@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v2.heart.request;
+package com.yeoboya.lunch.api.v2.dalla.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

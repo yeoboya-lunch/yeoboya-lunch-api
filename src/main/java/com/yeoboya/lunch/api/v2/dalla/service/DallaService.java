@@ -1,9 +1,9 @@
-package com.yeoboya.lunch.api.v2.heart.service;
+package com.yeoboya.lunch.api.v2.dalla.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.api.v2.heart.response.DallaResponse;
-import com.yeoboya.lunch.api.v2.heart.response.RoomList;
+import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
+import com.yeoboya.lunch.api.v2.dalla.response.RoomList;
 import com.yeoboya.lunch.config.util.OkhttpClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +19,15 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class HeartService {
+public class DallaService {
 
     private final OkhttpClient client;
     private final ObjectMapper objectMapper;
 
-    public void action() {
+    public void heart() {
         List<RoomList.Room> rooms = this.roomList();
         Collections.reverse(rooms);
         int cnt = 0;
-//        rooms.forEach(room -> this.joinRoomAndHeart(room.getRoomNo(), room.getBjMemNo()));
         for (RoomList.Room room : rooms) {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
             if (joinRoom.getResult().equals("success")) {
@@ -89,6 +88,14 @@ public class HeartService {
         }
     }
 
+    public DallaResponse attendance() {
+        String s = client.sendPost("/event/attendance/check/in");
+        try {
+            return objectMapper.readValue(s, DallaResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

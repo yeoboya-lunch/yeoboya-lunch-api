@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.api.v2.heart.response;
+package com.yeoboya.lunch.api.v2.dalla.response;
 
 import lombok.Getter;
 import lombok.ToString;

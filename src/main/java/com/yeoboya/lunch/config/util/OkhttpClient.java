@@ -1,6 +1,6 @@
 package com.yeoboya.lunch.config.util;
 
-import com.yeoboya.lunch.api.v2.heart.request.DallaPayload;
+import com.yeoboya.lunch.api.v2.dalla.request.DallaPayload;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
@@ -41,6 +41,21 @@ public class OkhttpClient {
             throw new RuntimeException(e);
         }
     }
+
+    public String sendPost(String url) {
+        RequestBody body = RequestBody.create("", MediaType.parse("application/json"));
+        Request request = new Request.Builder()
+                .header("authToken", dallaPayload.getAuthToken())
+                .url(dallaPayload.getBaseUrl()+url)
+                .method("POST", body)
+                .build();
+        try {
+            return Objects.requireNonNull(client.newCall(request).execute().body()).string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public String sendPost(String url, RequestBody formBody) {
         Request request = new Request.Builder()
