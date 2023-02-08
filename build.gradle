@@ -86,6 +86,9 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.imgscalr:imgscalr-lib:4.2'
 
+    //http client
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+
 
     // https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
@@ -113,9 +116,9 @@ dependencies {
 
 }
 
-bootRun {
-    systemProperty "jasypt.encryptor.password", findProperty("jasypt.encryptor.password")
-}
+//bootRun {
+//    systemProperty "jasypt.encryptor.password", findProperty("jasypt.encryptor.password")
+//}
 
 test {
     useJUnitPlatform()

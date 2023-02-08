@@ -12,6 +12,7 @@ import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberSummary;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final Response response;
