@@ -11,5 +11,5 @@ public class DallaResponse {
     private String code;
     private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private RoomList data;
+    private Data data;
 }
