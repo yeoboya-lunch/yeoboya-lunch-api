@@ -21,6 +21,7 @@ public class Data {
         private String memNo;
         private String roomNo;
         private String bjMemNo;
+        private String clipNo;
     }
 }
 
