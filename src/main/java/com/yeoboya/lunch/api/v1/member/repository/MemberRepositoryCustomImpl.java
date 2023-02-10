@@ -36,8 +36,8 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .from(member)
                 .leftJoin(member.account, account)
                 .leftJoin(member.memberInfo, memberInfo)
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())  //페이지 사이즈
+                .offset(pageable.getOffset())   //페이지번호
                 .fetch();
     }
 

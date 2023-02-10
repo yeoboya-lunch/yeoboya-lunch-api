@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberService {
@@ -29,8 +30,13 @@ public class MemberService {
         this.accountRepository = accountRepository;
     }
 
-    public List<MemberResponse> memberList(Pageable pageable) {
-        return memberRepository.getMembers(pageable);
+    public Map<String, Object> memberList(Pageable pageable) {
+        //fixme 페이징 처리 return 데이터 생각해보기
+        Map<String, Object> hashMap = Map.of(
+                "next", 2,
+                "list",  memberRepository.getMembers(pageable)
+        );
+        return hashMap;
     }
 
     public List<MemberSummary> memberSummary(String email){

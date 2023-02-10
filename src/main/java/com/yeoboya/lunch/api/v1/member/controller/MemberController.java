@@ -35,8 +35,7 @@ public class MemberController {
      */
     @GetMapping
     public ResponseEntity<Body> member(Pageable pageable) {
-        List<MemberResponse> memberResponses = memberService.memberList(pageable);
-        return response.success(Code.SEARCH_SUCCESS, memberResponses);
+        return response.success(Code.SEARCH_SUCCESS, memberService.memberList(pageable));
     }
 
     /**
