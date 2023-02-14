@@ -12,6 +12,7 @@ import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberAccount;
 import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberSummary;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +32,16 @@ public class MemberService {
     }
 
     public Map<String, Object> memberList(Pageable pageable) {
-        //fixme 페이징 처리 return 데이터 생각해보기
-        Map<String, Object> hashMap = Map.of(
-                "next", 2,
-                "list",  memberRepository.getMembers(pageable)
+        Slice<MemberResponse> members = memberRepository.getMembers(pageable);
+        return Map.of(
+                "list", members.getContent(),
+                "isFirst", members.isFirst(),
+                "isLast", members.isLast(),
+                "hasNext", members.hasNext(),
+                "hasPrevious", members.hasPrevious(),
+                "pageNo", members.getNumber()+1
         );
-        return hashMap;
+
     }
 
     public List<MemberSummary> memberSummary(String email){

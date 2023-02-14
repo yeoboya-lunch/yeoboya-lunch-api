@@ -4,12 +4,13 @@ import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
 public interface MemberRepositoryCustom {
 
-    List<MemberResponse> getMembers(Pageable pageable);
+    Slice<MemberResponse> getMembers(Pageable pageable);
 
     List<MemberRole> getMemberRoles(Long id);
 

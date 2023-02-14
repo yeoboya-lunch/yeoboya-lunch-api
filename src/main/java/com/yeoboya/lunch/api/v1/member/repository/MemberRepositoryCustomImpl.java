@@ -8,6 +8,8 @@ import com.yeoboya.lunch.api.v1.member.response.QMemberResponse;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -25,8 +27,8 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<MemberResponse> getMembers(Pageable pageable) {
-        return jpaQueryFactory.select(
+    public Slice<MemberResponse> getMembers(Pageable pageable) {
+        List<MemberResponse> content = jpaQueryFactory.select(
                         new QMemberResponse(
                                 member.email, member.name,
                                 account.bankName, account.accountNumber,
@@ -36,9 +38,18 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .from(member)
                 .leftJoin(member.account, account)
                 .leftJoin(member.memberInfo, memberInfo)
-                .limit(pageable.getPageSize())  //페이지 사이즈
+                .limit(pageable.getPageSize() + 1)  //페이지 사이즈
                 .offset(pageable.getOffset())   //페이지번호
                 .fetch();
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        return new SliceImpl<>(content, pageable, hasNext);
+
+
     }
 
 
