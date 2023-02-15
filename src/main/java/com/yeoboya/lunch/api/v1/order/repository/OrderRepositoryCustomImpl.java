@@ -7,6 +7,8 @@ import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -28,6 +30,29 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 
     public OrderRepositoryCustomImpl(JPAQueryFactory query) {
         this.query = query;
+    }
+
+    @Override
+    public Slice<Order> orderRecruits(OrderSearch orderSearch, Pageable pageable) {
+        List<Order> content = query.selectFrom(order)
+                .leftJoin(order.orderItems, orderItem)
+                .leftJoin(order.member, member)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(order.id.desc())
+                .where(
+                        isStatus(orderSearch.getOrderStatus()),
+                        likeItemName(orderSearch.getOrderName()),
+                        eqDate(orderSearch.getStartDate(), orderSearch.getEndDate())
+                )
+                .distinct()
+                .fetch();
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     @Override

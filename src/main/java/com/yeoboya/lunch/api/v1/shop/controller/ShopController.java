@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/shop")
@@ -39,8 +38,7 @@ public class ShopController {
     @Cacheable(cacheNames = "cacheShop")
     @GetMapping
     public ResponseEntity<Body> shop(ShopSearch search, Pageable pageable) {
-        List<ShopResponse> shopResponses = service.shop(search, pageable);
-        return response.success(Code.SEARCH_SUCCESS, shopResponses);
+        return response.success(Code.SEARCH_SUCCESS, service.shop(search, pageable));
     }
 
 

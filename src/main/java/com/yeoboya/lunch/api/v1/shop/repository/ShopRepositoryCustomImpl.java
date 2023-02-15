@@ -3,11 +3,14 @@ package com.yeoboya.lunch.api.v1.shop.repository;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import com.yeoboya.lunch.api.v1.shop.request.ShopSearch;
 import com.yeoboya.lunch.config.persistence.QueryDslUtil;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -29,15 +32,35 @@ public class ShopRepositoryCustomImpl implements ShopRepositoryCustom {
     }
 
     @Override
-    public List<Shop> shopItem(ShopSearch search, Pageable pageable) {
+    public Slice<Shop> pageShops(ShopSearch search, Pageable pageable) {
+        List<Shop> content = this.shops(search, pageable);
+
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
+
+    @Override
+    public List<Shop> shops(ShopSearch search, Pageable pageable) {
         return query.selectFrom(shop)
                 .leftJoin(shop.items, item)
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize()+1)
                 .orderBy(this.sort(pageable).stream().toArray(OrderSpecifier[]::new))
                 .where(this.likeItemName(search.getShopName()))
                 .distinct()
                 .fetch();
+    }
+
+    @Override
+    public JPAQuery<Long> shopCounts (ShopSearch search) {
+        return query
+                .select(shop.count())
+                .from(shop)
+                .where(this.likeItemName(search.getShopName()));
     }
 
 

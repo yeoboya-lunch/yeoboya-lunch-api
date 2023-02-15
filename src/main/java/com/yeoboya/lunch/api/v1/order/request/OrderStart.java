@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @ToString
-public class OrderCreate {
+public class OrderStart {
 
     @NotBlank(message = "주문자를 입력해주세요.")
     private String email;
@@ -22,7 +22,7 @@ public class OrderCreate {
     private List<OrderItemCreate> orderItems;
 
     @Builder
-    public OrderCreate(String email, String shopName, List<OrderItemCreate> orderItems) {
+    public OrderStart(String email, String shopName, List<OrderItemCreate> orderItems) {
         this.email = email;
         this.shopName = shopName;
         this.orderItems = orderItems;

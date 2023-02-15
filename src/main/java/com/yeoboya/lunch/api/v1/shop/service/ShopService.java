@@ -6,9 +6,11 @@ import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopSearch;
 import com.yeoboya.lunch.api.v1.shop.response.ShopResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,9 +29,19 @@ public class ShopService {
         return ShopResponse.from(shopRepository.save(shop));
     }
 
-    public List<ShopResponse> shop(ShopSearch search, Pageable pageable) {
-        return shopRepository.shopItem(search, pageable).stream()
+    public Map<String, Object> shop(ShopSearch search, Pageable pageable) {
+        Slice<Shop> shops = shopRepository.pageShops(search, pageable);
+        List<ShopResponse> content = shops.getContent().stream()
                 .map(ShopResponse::from)
                 .collect(Collectors.toList());
+
+        return Map.of(
+                "list", content,
+                "isFirst", shops.isFirst(),
+                "isLast", shops.isLast(),
+                "hasNext", shops.hasNext(),
+                "hasPrevious", shops.hasPrevious(),
+                "pageNo", shops.getNumber()+1
+        );
     }
 }

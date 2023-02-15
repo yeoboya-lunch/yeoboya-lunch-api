@@ -20,8 +20,8 @@ public class UserServiceTest {
     @Test
     void signUp() {
         UserRequest.SignUp signUp = new UserRequest.SignUp();
-        IntStream.rangeClosed(0, 100).forEach(i->{
-            signUp.setEmail(i+"@"+i+".");
+        IntStream.rangeClosed(100, 300).forEach(i->{
+            signUp.setEmail(i+"@"+i+"."+i);
             signUp.setName("happy"+i);
             signUp.setPassword("qwer1234@@");
             service.signUp(signUp);

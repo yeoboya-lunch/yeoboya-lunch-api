@@ -5,7 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
-import com.yeoboya.lunch.api.v1.order.request.OrderCreate;
+import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
@@ -40,18 +40,23 @@ public class OrderController {
     }
 
     /**
-     * 주문
+     * 점심 주문 모집
      */
-    @PostMapping
-    public ResponseEntity<Body> order(@RequestBody @Valid OrderCreate orderCreate){
+    @PostMapping("/recruit")
+    public ResponseEntity<Body> lunchOrderRecruit(@RequestBody @Valid OrderRecruitmentCreate orderRecruitmentCreate){
 
         if (bucket.tryConsume(1)) {
-            OrderResponse orderResponse = orderService.order(orderCreate);
+            OrderResponse orderResponse = orderService.lunchOrderRecruitWrite(orderRecruitmentCreate);
             return response.success(Code.SAVE_SUCCESS, orderResponse);
         }
         System.out.println("TOO MANY REQUEST");
         return response.fail(ErrorCode.TOO_MANY_REQUESTS);
 
+    }
+
+    @GetMapping("/recruits")
+    public ResponseEntity<Body> lunchRecruits(OrderSearch search, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.recruits(search, pageable));
     }
 
     /**
