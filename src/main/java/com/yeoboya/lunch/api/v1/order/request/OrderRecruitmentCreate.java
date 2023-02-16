@@ -24,11 +24,10 @@ public class OrderRecruitmentCreate {
 
     private int deliveryFee;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     @NotNull(message = "주문 마감 시간을 입력해주세요.")
     private Timestamp lastOrderTime;
 
-    @NotNull(message = "메모를 입력해주세요.")
     private String memo;
 
 

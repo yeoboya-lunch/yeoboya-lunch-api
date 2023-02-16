@@ -38,7 +38,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
                 .leftJoin(order.orderItems, orderItem)
                 .leftJoin(order.member, member)
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize() + 1)
                 .orderBy(order.id.desc())
                 .where(
                         isStatus(orderSearch.getOrderStatus()),

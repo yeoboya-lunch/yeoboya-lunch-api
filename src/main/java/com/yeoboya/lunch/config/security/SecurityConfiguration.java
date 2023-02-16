@@ -33,6 +33,10 @@ public class SecurityConfiguration {
 
     private static final String[] PERMIT_URL_ARRAY = {
 
+
+            /* no login access*/
+            "/order/recruits",
+
             /* user */
             "/user/sign-in", "/user/sign-up", "/user/sign-out",
             "/user/reissue", "/user/token-reissue", "/user/sendResetPasswordMail/**",
