@@ -7,7 +7,7 @@ import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
-import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
+import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.Duration;
-import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -49,27 +48,39 @@ public class OrderController {
         System.out.println("orderRecruitmentCreate = " + orderRecruitmentCreate);
 
         if (bucket.tryConsume(1)) {
-            OrderResponse orderResponse = orderService.lunchOrderRecruitWrite(orderRecruitmentCreate);
-            return response.success(Code.SAVE_SUCCESS, orderResponse);
+            OrderDetailResponse orderDetailResponse = orderService.lunchOrderRecruitWrite(orderRecruitmentCreate);
+            return response.success(Code.SAVE_SUCCESS, orderDetailResponse);
         }
         System.out.println("TOO MANY REQUEST");
         return response.fail(ErrorCode.TOO_MANY_REQUESTS);
 
     }
 
+
+    /**
+     * 점심 주문 모집 리스트
+     */
     @GetMapping("/recruits")
     public ResponseEntity<Body> lunchRecruits(OrderSearch search, Pageable pageable){
         return response.success(Code.SEARCH_SUCCESS, orderService.recruits(search, pageable));
     }
 
     /**
+     * 주문번호로 점심 주문 조회
+     */
+    @GetMapping("/recruit/{orderId}")
+    public ResponseEntity<Body> lunchRecruitByOrderId(@PathVariable Long orderId){
+        return response.success(Code.SEARCH_SUCCESS, orderService.lunchRecruitByOrderId(orderId));
+    }
+
+    /**
      * 주문내역
      */
-    @GetMapping("/list")
-    public ResponseEntity<Body> getList(OrderSearch search, Pageable pageable) {
-        List<OrderResponse> orderResponses = orderService.orderList(search, pageable);
-        return response.success(Code.SEARCH_SUCCESS, orderResponses);
-    }
+//    @GetMapping("/list")
+//    public ResponseEntity<Body> getList(OrderSearch search, Pageable pageable) {
+//        List<OrderDetailResponse> orderDetailRespons = orderService.orderList(search, pageable);
+//        return response.success(Code.SEARCH_SUCCESS, orderDetailRespons);
+//    }
 
     /** 주문취소 */
     @PatchMapping("/cancel/{orderId}")

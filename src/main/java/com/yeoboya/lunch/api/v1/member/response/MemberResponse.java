@@ -2,9 +2,12 @@ package com.yeoboya.lunch.api.v1.member.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
+import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MemberResponse {
 
@@ -27,4 +30,8 @@ public class MemberResponse {
         this.phoneNumber = phoneNumber;
     }
 
+    public static MemberResponse from(Member member) {
+        return new MemberResponse(member.getEmail(), member.getName(), member.getAccount().getBankName(), member.getAccount().getAccountNumber(),
+                member.getMemberInfo().getBio(), member.getMemberInfo().getNickName(), member.getMemberInfo().getPhoneNumber());
+    }
 }

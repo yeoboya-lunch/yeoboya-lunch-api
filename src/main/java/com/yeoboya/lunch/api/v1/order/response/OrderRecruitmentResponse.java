@@ -30,7 +30,7 @@ public class OrderRecruitmentResponse {
 
 
     public static OrderRecruitmentResponse from(Order order) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd a HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 a HH:mm");
         return new OrderRecruitmentResponse(
                 order.getId(),
                 order.getMember().getName(),

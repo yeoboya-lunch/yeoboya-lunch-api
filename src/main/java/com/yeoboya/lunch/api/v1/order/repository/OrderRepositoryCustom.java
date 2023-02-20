@@ -10,9 +10,7 @@ import java.util.List;
 
 public interface OrderRepositoryCustom {
 
-
     Slice<Order> orderRecruits(OrderSearch orderSearch, Pageable pageable);
-
 
     List<Order> orderList(OrderSearch orderSearch, Pageable pageable);
 

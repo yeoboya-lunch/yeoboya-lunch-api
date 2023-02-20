@@ -9,8 +9,8 @@ import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
 import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderRecruitmentResponse;
-import com.yeoboya.lunch.api.v1.order.response.OrderResponse;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import com.yeoboya.lunch.api.v1.shop.repository.ShopRepository;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +38,7 @@ public class OrderService {
     }
 
 
-    public OrderResponse lunchOrderRecruitWrite(OrderRecruitmentCreate orderRecruitmentCreate) {
+    public OrderDetailResponse lunchOrderRecruitWrite(OrderRecruitmentCreate orderRecruitmentCreate) {
         Member member = memberRepository.findByEmail(orderRecruitmentCreate.getEmail()).
                 orElseThrow(() -> new EntityNotFoundException("Member not found - " + orderRecruitmentCreate.getEmail()));
 
@@ -95,11 +95,22 @@ public class OrderService {
         );
     }
 
-    public List<OrderResponse> orderList(OrderSearch orderSearch, Pageable pageable) {
-        return orderRepository.orderList(orderSearch, pageable).stream()
-                .map(OrderResponse::from)
-                .collect(Collectors.toList());
+
+    public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
+        Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
+        OrderDetailResponse orderInfo = OrderDetailResponse.orderInfo(order);
+//        OrderDetailResponse orderMemberInfo = OrderDetailResponse.orderMemberInfo(order);
+
+
+        return Map.of("order", orderInfo,
+                "orderMember", "");
     }
+
+//    public List<OrderDetailResponse> orderList(OrderSearch orderSearch, Pageable pageable) {
+//        return orderRepository.orderList(orderSearch, pageable).stream()
+//                .map(OrderDetailResponse::from)
+//                .collect(Collectors.toList());
+//    }
 
     @Transactional
     public void cancelOrder(Long orderId) {
