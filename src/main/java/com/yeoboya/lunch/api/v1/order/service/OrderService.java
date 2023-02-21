@@ -4,6 +4,7 @@ import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
+import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
@@ -99,14 +100,13 @@ public class OrderService {
     public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
         Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
         OrderDetailResponse orderInfo = OrderDetailResponse.orderInfo(order);
-//        OrderDetailResponse orderMemberInfo = OrderDetailResponse.orderMemberInfo(order);
-
+        MemberResponse memberResponse = MemberResponse.from(order.getMember());
 
         return Map.of("order", orderInfo,
-                "orderMember", "");
+                "orderMember", memberResponse);
     }
 
-//    public List<OrderDetailResponse> orderList(OrderSearch orderSearch, Pageable pageable) {
+//    public List<OrderDetailResponse> orderList(OrderSearch orderSearch, Pageablㅈe pageable) {
 //        return orderRepository.orderList(orderSearch, pageable).stream()
 //                .map(OrderDetailResponse::from)
 //                .collect(Collectors.toList());
