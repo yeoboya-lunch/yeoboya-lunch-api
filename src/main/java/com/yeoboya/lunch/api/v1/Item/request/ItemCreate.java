@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemCreate {
 

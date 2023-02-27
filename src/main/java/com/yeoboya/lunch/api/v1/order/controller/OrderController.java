@@ -43,10 +43,6 @@ public class OrderController {
      */
     @PostMapping("/recruit")
     public ResponseEntity<Body> lunchOrderRecruit(@RequestBody @Valid OrderRecruitmentCreate orderRecruitmentCreate){
-
-
-        System.out.println("orderRecruitmentCreate = " + orderRecruitmentCreate);
-
         if (bucket.tryConsume(1)) {
             OrderDetailResponse orderDetailResponse = orderService.lunchOrderRecruitWrite(orderRecruitmentCreate);
             return response.success(Code.SAVE_SUCCESS, orderDetailResponse);
