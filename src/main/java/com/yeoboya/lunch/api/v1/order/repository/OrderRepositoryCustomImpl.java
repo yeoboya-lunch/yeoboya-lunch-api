@@ -21,7 +21,6 @@ import java.util.List;
 
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
-import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
 
 @Repository
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
@@ -35,7 +34,6 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     @Override
     public Slice<Order> orderRecruits(OrderSearch orderSearch, Pageable pageable) {
         List<Order> content = query.selectFrom(order)
-                .leftJoin(order.orderItems, orderItem)
                 .leftJoin(order.member, member)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -58,7 +56,6 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     @Override
     public List<Order> orderList(OrderSearch orderSearch, Pageable pageable){
         return query.selectFrom(order)
-                .leftJoin(order.orderItems, orderItem)
                 .leftJoin(order.member, member)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

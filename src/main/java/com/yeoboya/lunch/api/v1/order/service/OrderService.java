@@ -1,24 +1,33 @@
 package com.yeoboya.lunch.api.v1.order.service;
 
+import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
+import com.yeoboya.lunch.api.v1.order.domain.GroupOrder;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
+import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
+import com.yeoboya.lunch.api.v1.order.repository.GroupOrderRepository;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
+import com.yeoboya.lunch.api.v1.order.request.GroupOrderJoin;
+import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.response.GroupOrderResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderRecruitmentResponse;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import com.yeoboya.lunch.api.v1.shop.repository.ShopRepository;
+import com.yeoboya.lunch.api.v1.shop.response.ShopResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,12 +38,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
+    private final GroupOrderRepository groupOrderRepository;
     private final ItemRepository itemRepository;
 
-    public OrderService(OrderRepository orderRepository, ShopRepository shopRepository, MemberRepository memberRepository, ItemRepository itemRepository) {
+    public OrderService(OrderRepository orderRepository, ShopRepository shopRepository, MemberRepository memberRepository, GroupOrderRepository groupOrderRepository, ItemRepository itemRepository) {
         this.orderRepository = orderRepository;
         this.shopRepository = shopRepository;
         this.memberRepository = memberRepository;
+        this.groupOrderRepository = groupOrderRepository;
         this.itemRepository = itemRepository;
     }
 
@@ -99,18 +110,28 @@ public class OrderService {
 
     public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
         Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
-        OrderDetailResponse orderInfo = OrderDetailResponse.orderInfo(order);
+
+        //주문모집정보
+        OrderDetailResponse orderDetailResponse = OrderDetailResponse.orderInfo(order);
+
+        //주문참가자정보
+        List<GroupOrderResponse> groupOrderResponse = order.getGroupOrders().stream()
+                .map((GroupOrder member) -> GroupOrderResponse.from(member.getMember(), member.getOrderItems()))
+                .collect(Collectors.toList());
+
+        //식당정보
+        ShopResponse shopResponse = ShopResponse.from(order.getShop());
+
+        //주문장 정보
         MemberResponse memberResponse = MemberResponse.from(order.getMember());
 
-        return Map.of("order", orderInfo,
-                "orderMember", memberResponse);
+        return Map.of("order", orderDetailResponse,
+                "shop", shopResponse,
+                "orderMember", memberResponse,
+                "group", groupOrderResponse
+        );
     }
 
-//    public List<OrderDetailResponse> orderList(OrderSearch orderSearch, Pageablㅈe pageable) {
-//        return orderRepository.orderList(orderSearch, pageable).stream()
-//                .map(OrderDetailResponse::from)
-//                .collect(Collectors.toList());
-//    }
 
     @Transactional
     public void cancelOrder(Long orderId) {
@@ -118,5 +139,30 @@ public class OrderService {
         order.setStatus(OrderStatus.CANCEL);
     }
 
+    public void lunchRecruitsJoin(GroupOrderJoin groupOrderJoin) {
+        Order order = orderRepository.findById(groupOrderJoin.getOrderNo()).orElseThrow(() -> new EntityNotFoundException("Order not found - " + groupOrderJoin.getOrderNo()));
 
+        Member member = memberRepository.findByEmail(groupOrderJoin.getEmail()).
+                orElseThrow(() -> new EntityNotFoundException("Member not found - " + groupOrderJoin.getEmail()));
+
+        List<OrderItemCreate> orderItemCreates = groupOrderJoin.getOrderItems();
+
+        Item item;
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for (OrderItemCreate orderItemCreate : orderItemCreates) {
+            item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), orderItemCreate.getItemName())
+                    .orElseThrow(() -> new EntityNotFoundException("Item not found - " + orderItemCreate.getItemName()));
+            orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItemCreate.getOrderQuantity()));
+        }
+
+        GroupOrder groupOrder = GroupOrder.createGroupOrder(order, member, orderItems);
+        groupOrderRepository.save(groupOrder);
+    }
+
+    @Transactional
+    public void lunchRecruitStatus(Long orderId, OrderStatus status) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
+        order.setStatus(status);
+    }
 }

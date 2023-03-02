@@ -11,13 +11,13 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MemberResponse {
 
-    private final String email;
-    private final String name;
-    private final String bankName;
-    private final String accountNumber;
-    private final String bio;
-    private final String nickName;
-    private final String phoneNumber;
+    private String email;
+    private String name;
+    private String bankName;
+    private String accountNumber;
+    private String bio;
+    private String nickName;
+    private String phoneNumber;
 
     @QueryProjection
     public MemberResponse(String email, String name, String bankName, String accountNumber, String bio, String nickName, String phoneNumber) {
@@ -30,8 +30,14 @@ public class MemberResponse {
         this.phoneNumber = phoneNumber;
     }
 
+    public MemberResponse(String email, String name, String nickName, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.nickName = nickName;
+        this.phoneNumber = phoneNumber;
+    }
+
     public static MemberResponse from(Member member) {
-        return new MemberResponse(member.getEmail(), member.getName(), member.getAccount().getBankName(), member.getAccount().getAccountNumber(),
-                member.getMemberInfo().getBio(), member.getMemberInfo().getNickName(), member.getMemberInfo().getPhoneNumber());
+        return new MemberResponse(member.getEmail(), member.getName(), member.getMemberInfo().getNickName(), member.getMemberInfo().getPhoneNumber());
     }
 }

@@ -7,7 +7,6 @@ import lombok.Getter;
 
 import java.text.SimpleDateFormat;
 
-
 @Getter
 public class OrderRecruitmentResponse {
 
@@ -28,7 +27,6 @@ public class OrderRecruitmentResponse {
     private final String lastOrderTime;
     private final OrderStatus orderStatus;
 
-
     public static OrderRecruitmentResponse from(Order order) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 a HH:mm");
         return new OrderRecruitmentResponse(
@@ -40,15 +38,4 @@ public class OrderRecruitmentResponse {
                 order.getStatus()
         );
     }
-
-//    @Builder
-//    public OrderRecruitmentResponse(String orderName, OrderStatus orderStatus, int totalPrice, Order orderItems) {
-//        this.orderName = orderName;
-//        this.orderStatus = orderStatus;
-//        this.totalPrice = totalPrice;
-//        this.orderItems = orderItems.getOrderItems().stream()
-//                .map(OrderItemResponse::new)
-//                .collect(Collectors.toList());
-//    }
-
 }

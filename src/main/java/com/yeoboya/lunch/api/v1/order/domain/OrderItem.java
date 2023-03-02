@@ -15,16 +15,14 @@ public class OrderItem {
     @Column(name = "ORDER_ITEM_ID")
     private Long id;
 
-
     //주문자
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_BUY_MEMBER")
+    private GroupOrder groupOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
     private Item item;      //주문 상품
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_ID")
-    private Order order;    //주문
 
     private int orderPrice;  //주문 가격
     private int orderQuantity; //주문 수량

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,15 +14,14 @@ public class OrderDetailResponse {
     private String title;
     private String lastOrderTime;
     private OrderStatus orderStatus;
+    private String memo;
     private int deliveryFee;
 
-    private int totalPrice;
-    private List<OrderItemResponse> orderItems;
-
-    public OrderDetailResponse(String title, String lastOrderTime, OrderStatus status, int deliveryFee) {
+    public OrderDetailResponse(String title, String lastOrderTime, OrderStatus orderStatus, String memo, int deliveryFee) {
         this.title = title;
         this.lastOrderTime = lastOrderTime;
-        this.orderStatus = status;
+        this.orderStatus = orderStatus;
+        this.memo = memo;
         this.deliveryFee = deliveryFee;
     }
 
@@ -33,12 +31,7 @@ public class OrderDetailResponse {
                 order.getTitle(),
                 simpleDateFormat.format(order.getLastOrderTime()),
                 order.getStatus(),
+                order.getMemo(),
                 order.getDeliveryFee());
-//                order.getTotalPrice(),
-//                order.getOrderItems().stream()
-//                        .map(OrderItemResponse::new)
-//                        .collect(Collectors.toList()));
     }
-
-
 }

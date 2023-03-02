@@ -5,6 +5,8 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
+import com.yeoboya.lunch.api.v1.order.request.GroupOrderJoin;
 import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
@@ -52,7 +54,6 @@ public class OrderController {
 
     }
 
-
     /**
      * 점심 주문 모집 리스트
      */
@@ -69,14 +70,27 @@ public class OrderController {
         return response.success(Code.SEARCH_SUCCESS, orderService.lunchRecruitByOrderId(orderId));
     }
 
+
     /**
-     * 주문내역
+     * 주문 요청하기
      */
-//    @GetMapping("/list")
-//    public ResponseEntity<Body> getList(OrderSearch search, Pageable pageable) {
-//        List<OrderDetailResponse> orderDetailRespons = orderService.orderList(search, pageable);
-//        return response.success(Code.SEARCH_SUCCESS, orderDetailRespons);
-//    }
+    @PostMapping("/recruit/join")
+    public ResponseEntity<Body> lunchRecruitsJoin(@RequestBody @Valid GroupOrderJoin groupOrderJoin){
+        orderService.lunchRecruitsJoin(groupOrderJoin);
+        return response.success(Code.SEARCH_SUCCESS);
+    }
+
+
+    /**
+     * 주문모집 상태변경
+     */
+    @PutMapping("/recruit/{orderId}")
+    public ResponseEntity<Body> lunchRecruitStatus(@PathVariable(value = "orderId") Long orderId, @RequestBody OrderStatus status){
+        orderService.lunchRecruitStatus(orderId, status);
+        return response.success(Code.SEARCH_SUCCESS);
+    }
+
+
 
     /** 주문취소 */
     @PatchMapping("/cancel/{orderId}")
