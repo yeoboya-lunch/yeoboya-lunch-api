@@ -12,10 +12,7 @@ import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import com.yeoboya.lunch.api.v1.order.repository.GroupOrderRepository;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
-import com.yeoboya.lunch.api.v1.order.request.GroupOrderJoin;
-import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.request.*;
 import com.yeoboya.lunch.api.v1.order.response.GroupOrderResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderRecruitmentResponse;
@@ -63,34 +60,6 @@ public class OrderService {
         return null;
     }
 
-//    public OrderResponse order(OrderRecruitmentCreate orderRecruitmentCreate) {
-//
-//        Member member = memberRepository.findByEmail(orderRecruitmentCreate.getEmail()).
-//                orElseThrow(() -> new EntityNotFoundException("Member not found - " + orderRecruitmentCreate.getEmail()));
-//
-//        List<OrderItemCreate> orderItemCreates = orderCreate.getOrderItems();
-//
-//        Item item;
-//        List<OrderItem> orderItems = new ArrayList<>();
-//
-//        for (OrderItemCreate orderItemCreate : orderItemCreates) {
-//            item = itemRepository.getItemByShopNameAndName(orderRecruitmentCreate.getShopName(), orderItemCreate.getItemName())
-//                    .orElseThrow(() -> new EntityNotFoundException("Item not found - " + orderItemCreate.getItemName()));
-//            orderItems.add(OrderItem.createOrderItem(item, item.getPrice(), orderItemCreate.getOrderQuantity()));
-//        }
-//
-//        Order order = Order.createOrder(member, orderItems);
-//        Order save = orderRepository.save(order);
-//
-//        return OrderResponse.builder()
-//                .orderStatus(save.getStatus())
-//                .orderName(save.getMember().getName())
-//                .totalPrice(save.getTotalPrice())
-//                .orderItems(order)
-//                .build();
-//    }
-
-
     public Map<String, Object> recruits(OrderSearch search, Pageable pageable) {
         Slice<Order> orders = orderRepository.orderRecruits(search, pageable);
         List<OrderRecruitmentResponse> orderRecruitmentResponses = orders.getContent().stream()
@@ -107,7 +76,6 @@ public class OrderService {
         );
     }
 
-
     public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
         Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
 
@@ -116,7 +84,7 @@ public class OrderService {
 
         //주문참가자정보
         List<GroupOrderResponse> groupOrderResponse = order.getGroupOrders().stream()
-                .map((GroupOrder member) -> GroupOrderResponse.from(member.getMember(), member.getOrderItems()))
+                .map((r) -> GroupOrderResponse.from(r, r.getMember(), r.getOrderItems()))
                 .collect(Collectors.toList());
 
         //식당정보
@@ -161,8 +129,13 @@ public class OrderService {
     }
 
     @Transactional
-    public void lunchRecruitStatus(Long orderId, OrderStatus status) {
+    public void lunchRecruitStatus(Long orderId, OrderEdit orderEdit) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
-        order.setStatus(status);
+        order.setStatus(OrderStatus.valueOf(orderEdit.getStatus()));
+    }
+
+    @Transactional
+    public void lunchRecruitsGroupExit(Long groupOrderId) {
+        groupOrderRepository.deleteById(groupOrderId);
     }
 }

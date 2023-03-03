@@ -53,7 +53,7 @@ public class Order {
         Order order = new Order();
         order.setMember(member);
         order.setShop(shop);
-        order.setStatus(OrderStatus.START);
+        order.setStatus(OrderStatus.ORDER_START);
         order.setOrderDate(new Date());
         order.setTitle(create.getTitle());
         order.setDeliveryFee(create.getDeliveryFee());

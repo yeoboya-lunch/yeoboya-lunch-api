@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.order.response;
 
-import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +12,11 @@ public class OrderDetailResponse {
 
     private String title;
     private String lastOrderTime;
-    private OrderStatus orderStatus;
+    private String orderStatus;
     private String memo;
     private int deliveryFee;
 
-    public OrderDetailResponse(String title, String lastOrderTime, OrderStatus orderStatus, String memo, int deliveryFee) {
+    public OrderDetailResponse(String title, String lastOrderTime, String orderStatus, String memo, int deliveryFee) {
         this.title = title;
         this.lastOrderTime = lastOrderTime;
         this.orderStatus = orderStatus;
@@ -30,7 +29,7 @@ public class OrderDetailResponse {
         return new OrderDetailResponse(
                 order.getTitle(),
                 simpleDateFormat.format(order.getLastOrderTime()),
-                order.getStatus(),
+                order.getStatus().getTitle(),
                 order.getMemo(),
                 order.getDeliveryFee());
     }

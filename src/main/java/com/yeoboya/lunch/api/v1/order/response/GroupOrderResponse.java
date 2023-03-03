@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.order.response;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
+import com.yeoboya.lunch.api.v1.order.domain.GroupOrder;
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,13 +13,15 @@ import java.util.stream.Collectors;
 @Setter
 public class GroupOrderResponse {
 
+    private Long groupOrderId;
     private String email;
     private String name;
     private List<OrderItemResponse> orderItem;
     private int totalPrice;
 
-    public static GroupOrderResponse from(Member member, List<OrderItem> orderItems) {
+    public static GroupOrderResponse from(GroupOrder groupOrder, Member member, List<OrderItem> orderItems) {
         GroupOrderResponse groupOrderResponse = new GroupOrderResponse();
+        groupOrderResponse.setGroupOrderId(groupOrder.getId());
         groupOrderResponse.setEmail(member.getEmail());
         groupOrderResponse.setName(member.getName());
         groupOrderResponse.setOrderItem(orderItems.stream().map(OrderItemResponse::new).collect(Collectors.toList()));

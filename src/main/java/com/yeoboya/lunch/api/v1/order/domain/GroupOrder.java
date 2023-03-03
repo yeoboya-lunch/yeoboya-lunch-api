@@ -1,7 +1,9 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +13,15 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "UK_ORDER_MEMBER",
+                        columnNames = {"ORDER_ID", "MEMBER_ID"}
+                )
+        }
+)
 public class GroupOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +33,7 @@ public class GroupOrder {
     private Order order;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="MEMBER_ID", unique = true)
+    @JoinColumn(name="MEMBER_ID")
     private Member member;
 
     @OneToMany(mappedBy = "groupOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

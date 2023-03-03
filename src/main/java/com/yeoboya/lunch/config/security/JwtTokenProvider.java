@@ -169,4 +169,10 @@ public class JwtTokenProvider {
         return authentication.getName();
     }
 
+    public String getJwtTokenSubject(HttpServletRequest request){
+        String token = this.resolveToken(request);
+        Claims claims = this.parseClaims(token);
+        return claims.getSubject();
+    }
+
 }
