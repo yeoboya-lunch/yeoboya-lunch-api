@@ -83,6 +83,7 @@ public class UserController {
      */
     @PostMapping("/reissue")
     public ResponseEntity<Body> reissue(@Valid @RequestBody Reissue reissue){
+        log.error("reissue {}", reissue);
         return userService.reissue(reissue);
     }
 

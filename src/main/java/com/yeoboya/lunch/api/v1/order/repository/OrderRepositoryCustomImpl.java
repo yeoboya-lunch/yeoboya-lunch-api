@@ -34,12 +34,13 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     @Override
     public Slice<Order> orderRecruits(OrderSearch orderSearch, Pageable pageable) {
         List<Order> content = query.selectFrom(order)
-                .leftJoin(order.member, member)
+//                .leftJoin(order.member, member)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .orderBy(order.id.desc())
                 .where(
                         isStatus(orderSearch.getOrderStatus()),
+                        eqEmail(orderSearch.getOrderEmail()),
                         likeItemName(orderSearch.getOrderName()),
                         eqDate(orderSearch.getStartDate(), orderSearch.getEndDate())
                 )
@@ -84,6 +85,14 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         }
         return null;
     }
+
+    private BooleanExpression eqEmail(String orderEmail) {
+        if (StringUtils.hasText(orderEmail)) {
+            return order.member.email.eq(orderEmail);
+        }
+        return null;
+    }
+
 
 
     // default 오늘 하루 주문만 조회

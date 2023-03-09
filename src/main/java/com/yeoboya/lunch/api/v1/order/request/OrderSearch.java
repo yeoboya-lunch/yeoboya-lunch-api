@@ -19,6 +19,7 @@ public class OrderSearch {
     @DateTimeFormat(pattern = "yyyyMMdd")
     private LocalDate endDate;
 
+    private String orderEmail;
     private String orderName;
     private OrderStatus orderStatus;
 
