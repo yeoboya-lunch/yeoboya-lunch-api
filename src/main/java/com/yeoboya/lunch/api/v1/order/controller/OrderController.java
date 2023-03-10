@@ -5,10 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
-import com.yeoboya.lunch.api.v1.order.request.GroupOrderJoin;
-import com.yeoboya.lunch.api.v1.order.request.OrderEdit;
-import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.request.*;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
 import com.yeoboya.lunch.config.annotation.Auth;
@@ -72,6 +69,15 @@ public class OrderController {
     }
 
     /**
+     * 점심 구매 내역
+     */
+    @GetMapping("/purchase-recruits")
+    public ResponseEntity<Body> purchaseRecruits(GroupOrderSearch search, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.purchaseRecruits(search, pageable));
+    }
+
+
+    /**
      * 주문번호로 점심 주문 조회
      */
     @GetMapping("/recruit/{orderId}")
@@ -102,5 +108,6 @@ public class OrderController {
         orderService.lunchRecruitStatus(orderId, orderEdit);
         return response.success(Code.SEARCH_SUCCESS);
     }
+
 
 }

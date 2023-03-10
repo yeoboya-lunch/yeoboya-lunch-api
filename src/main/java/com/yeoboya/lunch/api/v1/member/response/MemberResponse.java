@@ -18,6 +18,7 @@ public class MemberResponse {
     private String bio;
     private String nickName;
     private String phoneNumber;
+    private boolean isAccount;
 
     @QueryProjection
     public MemberResponse(String email, String name, String bankName, String accountNumber, String bio, String nickName, String phoneNumber) {

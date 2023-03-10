@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -39,6 +40,8 @@ public class GroupOrder {
     @OneToMany(mappedBy = "groupOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    private Date orderDate;     //주문시간
+
     //연관관계 편의 메소드
     public static GroupOrder createGroupOrder(Order order, Member member, List<OrderItem> orderItems) {
         GroupOrder groupOrder = new GroupOrder();
@@ -47,6 +50,7 @@ public class GroupOrder {
         for (OrderItem orderItem : orderItems) {
             groupOrder.addOrderItem(orderItem);
         }
+        groupOrder.setOrderDate(new Date());
         return groupOrder;
     }
 

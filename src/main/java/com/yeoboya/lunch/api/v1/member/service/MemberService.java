@@ -54,7 +54,11 @@ public class MemberService {
 
 
     public MemberResponse memberProfile(String memberEmail) {
-        return memberRepository.memberProfile(memberEmail);
+        MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
+        if(!memberResponse.getAccountNumber().equals("")){
+            memberResponse.setAccount(true);
+        }
+        return memberResponse;
     }
 
     @Transactional

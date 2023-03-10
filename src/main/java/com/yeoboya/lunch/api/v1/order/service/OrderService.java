@@ -13,6 +13,7 @@ import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
 import com.yeoboya.lunch.api.v1.order.repository.GroupOrderRepository;
 import com.yeoboya.lunch.api.v1.order.repository.OrderRepository;
 import com.yeoboya.lunch.api.v1.order.request.*;
+import com.yeoboya.lunch.api.v1.order.response.GroupOrderRecruitmentResponse;
 import com.yeoboya.lunch.api.v1.order.response.GroupOrderResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.response.OrderRecruitmentResponse;
@@ -73,6 +74,22 @@ public class OrderService {
                 "hasNext", orders.hasNext(),
                 "hasPrevious", orders.hasPrevious(),
                 "pageNo", orders.getNumber() + 1
+        );
+    }
+
+    public Map<String, Object> purchaseRecruits(GroupOrderSearch search, Pageable pageable) {
+        Slice<GroupOrder> groupOrders = groupOrderRepository.purchaseRecruits(search, pageable);
+        List<GroupOrderRecruitmentResponse> groupOrderRecruitmentResponses = groupOrders.getContent().stream()
+                .map(GroupOrderRecruitmentResponse::from)
+                .collect(Collectors.toList());
+
+        return Map.of(
+                "list", groupOrderRecruitmentResponses,
+                "isFirst", groupOrders.isFirst(),
+                "isLast", groupOrders.isLast(),
+                "hasNext", groupOrders.hasNext(),
+                "hasPrevious", groupOrders.hasPrevious(),
+                "pageNo", groupOrders.getNumber() + 1
         );
     }
 
@@ -138,4 +155,6 @@ public class OrderService {
     public void lunchRecruitsGroupExit(Long groupOrderId) {
         groupOrderRepository.deleteById(groupOrderId);
     }
+
+
 }
