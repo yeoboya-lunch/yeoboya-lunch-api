@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class MemberService {
 
     public MemberResponse memberProfile(String memberEmail) {
         MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
-        if(!memberResponse.getAccountNumber().equals("")){
+        if(StringUtils.hasText(memberResponse.getAccountNumber())){
             memberResponse.setAccount(true);
         }
         return memberResponse;
