@@ -8,7 +8,6 @@ import com.yeoboya.lunch.api.v1.board.repository.HashTagRepository;
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
-import com.yeoboya.lunch.api.v1.board.response.BoardResponse;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
@@ -20,6 +19,7 @@ import com.yeoboya.lunch.api.v1.file.service.FileService;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -103,11 +102,9 @@ public class BoardService {
     }
 
     public ResponseEntity<Body> list(BoardSearch boardSearch, Pageable pageable) {
-        List<BoardResponse> collect = boardRepository.boardList(boardSearch, pageable)
-                .stream()
-                .map(BoardResponse::from)
-                .collect(Collectors.toList());
-        return response.success(Code.SEARCH_SUCCESS, collect);
+        Page<Board> boards = boardRepository.boardList(boardSearch, pageable);
+
+        return response.success(Code.SEARCH_SUCCESS, boards);
     }
 
 }
