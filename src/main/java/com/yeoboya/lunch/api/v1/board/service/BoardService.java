@@ -8,6 +8,7 @@ import com.yeoboya.lunch.api.v1.board.repository.HashTagRepository;
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
+import com.yeoboya.lunch.api.v1.board.response.BoardResponse;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
@@ -28,7 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -104,7 +107,21 @@ public class BoardService {
     public ResponseEntity<Body> list(BoardSearch boardSearch, Pageable pageable) {
         Page<Board> boards = boardRepository.boardList(boardSearch, pageable);
 
-        return response.success(Code.SEARCH_SUCCESS, boards);
+        List<BoardResponse> boardResponses = boards
+                .stream()
+                .map(BoardResponse::from)
+                .collect(Collectors.toList());
+
+        Map<String, Object> data = Map.of(
+                "list", boardResponses,
+                "isFirst", boards.isFirst(),
+                "isLast", boards.isLast(),
+                "isEmpty", boards.isEmpty(),
+                "totalPages", boards.getTotalPages(),
+                "totalElements", boards.getTotalElements());
+
+        return response.success(Code.SEARCH_SUCCESS, data);
+
     }
 
 }

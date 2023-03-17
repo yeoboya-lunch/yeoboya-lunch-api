@@ -39,6 +39,7 @@ public class BoardController {
 
     @GetMapping
     public ResponseEntity<Body> list(BoardSearch boardSearch, Pageable pageable) {
+        System.out.println("boardSearch = " + boardSearch);
         return boardService.list(boardSearch, pageable);
     }
 }

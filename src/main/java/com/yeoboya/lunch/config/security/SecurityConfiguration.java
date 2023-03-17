@@ -33,9 +33,9 @@ public class SecurityConfiguration {
 
     private static final String[] PERMIT_URL_ARRAY = {
 
-
             /* no login access*/
             "/order/recruits",
+            "/board",
 
             /* user */
             "/user/sign-in", "/user/sign-up", "/user/sign-out",
@@ -52,7 +52,7 @@ public class SecurityConfiguration {
     private static final String[] USER_URL_ARRAY = {
             "/order/**", "/item/**",
             "/member/**", "/shop/**",
-            "/board/**"
+//            "/board/**"
     };
 
     private static final String[] ADMIN_URL_ARRAY = {

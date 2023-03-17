@@ -28,7 +28,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
 
     @Override
     public Page<Board> boardList(BoardSearch boardSearch, Pageable pageable) {
-        List<Board> content  = query.selectFrom(board)
+        List<Board> content = query.selectFrom(board)
                 .leftJoin(board.boardHashTags, boardHashTag)
                 .leftJoin(boardHashTag.hashTag, hashTag)
                 .leftJoin(board.member, member)
