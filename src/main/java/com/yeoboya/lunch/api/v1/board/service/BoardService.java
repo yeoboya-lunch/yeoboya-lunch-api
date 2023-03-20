@@ -112,13 +112,17 @@ public class BoardService {
                 .map(BoardResponse::from)
                 .collect(Collectors.toList());
 
-        Map<String, Object> data = Map.of(
-                "list", boardResponses,
+        Map<String, Object> pagination = Map.of(
+                "page", boards.getNumber()+1,
                 "isFirst", boards.isFirst(),
                 "isLast", boards.isLast(),
                 "isEmpty", boards.isEmpty(),
                 "totalPages", boards.getTotalPages(),
                 "totalElements", boards.getTotalElements());
+
+        Map<String, Object> data = Map.of(
+                "list", boardResponses,
+                "pagination", pagination);
 
         return response.success(Code.SEARCH_SUCCESS, data);
 

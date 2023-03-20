@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -37,6 +38,8 @@ public class Board extends BaseEntity {
 
     private boolean secret;
 
+    private Date createDate;
+
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<File> files = new ArrayList<>();
@@ -53,6 +56,7 @@ public class Board extends BaseEntity {
         board.setContent(boardCreate.getContent());
         board.setPin(boardCreate.getPin());
         board.setSecret(boardCreate.isSecret());
+        board.setCreateDate(new Date());
         for (BoardHashTag boardHashTag : boardHashTags) {
             board.addBoardHashTag(boardHashTag);
         }
@@ -67,6 +71,7 @@ public class Board extends BaseEntity {
         board.setContent(boardCreate.getContent());
         board.setPin(boardCreate.getPin());
         board.setSecret(boardCreate.isSecret());
+        board.setCreateDate(new Date());
         for (BoardHashTag boardHashTag : boardHashTags) {
             board.addBoardHashTag(boardHashTag);
         }

@@ -36,6 +36,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
                 .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
+                .orderBy(board.id.desc())
                 .fetch();
 
         Long totalCount = query
