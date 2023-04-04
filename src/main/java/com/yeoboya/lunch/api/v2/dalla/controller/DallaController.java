@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v2.dalla.constants.RankSearch;
 import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
 import com.yeoboya.lunch.api.v2.dalla.service.DallaService;
+import com.yeoboya.lunch.config.annotation.TimeLogging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ public class DallaController {
     private final Response response;
 
     @PostMapping("/heart")
+    @TimeLogging
     public ResponseEntity<Response.Body> heart() {
         dallaService.heart();
         return response.success(Code.SEARCH_SUCCESS);
