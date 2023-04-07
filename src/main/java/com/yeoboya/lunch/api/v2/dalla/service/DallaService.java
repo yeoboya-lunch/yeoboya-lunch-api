@@ -44,6 +44,11 @@ public class DallaService {
                 if (heart.getResult().equals("success")) {
                     cnt++;
                 }
+                try {
+                    Thread.sleep(30000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         log.warn("{}/{}", cnt, rooms.size());
