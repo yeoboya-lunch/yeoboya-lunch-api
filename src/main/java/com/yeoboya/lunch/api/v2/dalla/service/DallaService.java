@@ -2,6 +2,7 @@ package com.yeoboya.lunch.api.v2.dalla.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.v2.dalla.request.Gift;
 import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
 import com.yeoboya.lunch.api.v2.dalla.response.Data;
 import com.yeoboya.lunch.config.util.OkhttpClient;
@@ -36,13 +37,49 @@ public class DallaService {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
             if (joinRoom.getResult().equals("success")) {
                 try {
-                    Thread.sleep(60000);
+                    Thread.sleep(30000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
                 DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
                 if (heart.getResult().equals("success")) {
                     cnt++;
+                }
+                try {
+                    Thread.sleep(30000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        log.warn("{}/{}", cnt, rooms.size());
+    }
+
+    public void gift() {
+        List<Data.Response> rooms = this.roomList();
+        Collections.reverse(rooms);
+        int cnt = 0;
+        for (Data.Response room : rooms) {
+            DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
+            if (joinRoom.getResult().equals("success")) {
+                try {
+                    Thread.sleep(30000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                Gift build = Gift.builder()
+                        .roomNo(room.getRoomNo())
+                        .userMemNo(room.getBjMemNo())
+                        .memNo("11587087243106")
+                        .itemNo("G1773")
+                        .itemCnt("1")
+                        .isSecret("false")
+                        .build();
+                DallaResponse gift = this.gift(build);
+                if (gift.getResult().equals("success")) {
+                    cnt++;
+                }else{
+                    log.error("code={}, message={}", gift.getCode(), gift.getMessage());
                 }
                 try {
                     Thread.sleep(30000);
@@ -96,6 +133,25 @@ public class DallaService {
             throw new RuntimeException(e);
         }
     }
+
+    //선물 하기
+    public DallaResponse gift(Gift gift){
+        RequestBody body = new FormBody.Builder()
+                .add("roomNo", gift.getRoomNo())
+                .add("memNo", gift.getMemNo())
+                .add("userMemNo", gift.getUserMemNo())
+                .add("itemNo", gift.getItemNo())
+                .add("itemCnt", gift.getItemCnt())
+                .add("isSecret", gift.getIsSecret())
+                .build();
+        String s = client.sendPost("/broad/gift", body);
+        try {
+            return objectMapper.readValue(s, DallaResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public void joinRoomAndHeart(String roomNo, String bjMemNo) {
         DallaResponse joinRoom = this.joinRoom(roomNo);
@@ -239,6 +295,7 @@ public class DallaService {
             throw new RuntimeException(e);
         }
     }
+
 
 }
 

@@ -1,14 +1,11 @@
 package com.yeoboya.lunch.api.v2.dalla.scheduler;
 
-import com.yeoboya.lunch.api.v2.dalla.constants.RankSearch;
 import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
 import com.yeoboya.lunch.api.v2.dalla.service.DallaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @EnableScheduling
 @Component
@@ -21,13 +18,19 @@ public class DallaScheduler {
         this.dallaService = dallaService;
     }
 
-//     10분마다
+    //30분마다
     @Scheduled(cron = "0 0/30 * * * ?")
-    public void heartEveryTenMinutes() {
+    public void heartEveryThirtyMinutes() {
         dallaService.heart();
     }
 
-//    매일 오전 3시 10분
+    //3시간마다
+    @Scheduled(cron = "0 */3 * * * ?")
+    public void giftEveryThreeHour() {
+        dallaService.heart();
+    }
+
+    //매일 오전 3시 10분
     @Scheduled(cron = "0 10 3 ? * *")
     public void attendanceCheck() {
         DallaResponse attendance = dallaService.attendance();

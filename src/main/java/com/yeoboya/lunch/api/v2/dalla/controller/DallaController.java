@@ -29,6 +29,13 @@ public class DallaController {
         return response.success(Code.SEARCH_SUCCESS);
     }
 
+    @PostMapping("/gift")
+    public ResponseEntity<Response.Body> gift(){
+        dallaService.gift();
+        return response.success(Code.SEARCH_SUCCESS);
+    }
+
+
     @PostMapping("/attendance")
     public ResponseEntity<Response.Body> attendance() {
         DallaResponse attendance = dallaService.attendance();
