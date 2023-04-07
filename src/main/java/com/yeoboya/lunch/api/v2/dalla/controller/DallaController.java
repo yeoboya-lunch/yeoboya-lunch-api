@@ -25,13 +25,11 @@ public class DallaController {
     @PostMapping("/heart")
     @TimeLogging
     public ResponseEntity<Response.Body> heart() {
-        dallaService.heart();
-        return response.success(Code.SEARCH_SUCCESS);
-    }
-
-    @PostMapping("/gift")
-    public ResponseEntity<Response.Body> gift(){
-        dallaService.gift();
+        try {
+            dallaService.heart();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return response.success(Code.SEARCH_SUCCESS);
     }
 

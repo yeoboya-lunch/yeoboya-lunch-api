@@ -21,14 +21,13 @@ public class DallaScheduler {
     //30분마다
     @Scheduled(cron = "0 0/30 * * * ?")
     public void heartEveryThirtyMinutes() {
-        dallaService.heart();
+        try {
+            dallaService.heart();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    //3시간마다
-    @Scheduled(cron = "0 */3 * * * ?")
-    public void giftEveryThreeHour() {
-        dallaService.heart();
-    }
 
     //매일 오전 3시 10분
     @Scheduled(cron = "0 10 3 ? * *")
