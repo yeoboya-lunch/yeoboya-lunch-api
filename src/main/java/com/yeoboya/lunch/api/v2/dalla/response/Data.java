@@ -23,5 +23,7 @@ public class Data {
         private String bjMemNo;
         private String clipNo;
     }
+
+    private int couponCnt;
 }
 

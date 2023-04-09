@@ -38,11 +38,11 @@ public class DallaService {
         for (Data.Response room : rooms) {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
             if (joinRoom.getResult().equals("success")) {
-                Thread.sleep(30000);
+//                Thread.sleep(30000);
                 DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
-                if (heart.getResult().equals("success")) {
+                if (true) {
                     cnt++;
-                    Thread.sleep(10000);
+//                    Thread.sleep(10000);
                     DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
                     System.out.println("gift = " + gift);
                     Thread.sleep(10000);
@@ -133,6 +133,33 @@ public class DallaService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    //룰렛응모권 개수 가져오기
+    public int rouletteCnt() {
+        String s = client.sendGet("/event/roulette/coupon", null);
+        try {
+            DallaResponse dallaResponse = objectMapper.readValue(s, DallaResponse.class);
+            return dallaResponse.getData().getCouponCnt();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //룰렛 돌리기
+    public int roulette() {
+
+        int rouletteCnt = this.rouletteCnt();
+
+        for (int cnt = rouletteCnt; cnt > 0; cnt--) {
+            String s = client.sendGet("/event/roulette/start", null);
+            try {
+                objectMapper.readValue(s, DallaResponse.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return rouletteCnt;
     }
 
     //팬보드 글작성
