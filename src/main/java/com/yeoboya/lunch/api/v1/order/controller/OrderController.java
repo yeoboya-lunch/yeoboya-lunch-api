@@ -8,7 +8,6 @@ import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.order.request.*;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
-import com.yeoboya.lunch.config.annotation.Auth;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
@@ -45,7 +44,6 @@ public class OrderController {
     /**
      * 점심 주문 모집
      */
-    @Auth
     @PostMapping("/recruit")
     public ResponseEntity<Body> lunchOrderRecruit(@RequestBody @Valid OrderRecruitmentCreate orderRecruitmentCreate, HttpServletRequest request){
         String jwtTokenSubject = jwtTokenProvider.getJwtTokenSubject(request);

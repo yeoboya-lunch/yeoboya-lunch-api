@@ -44,6 +44,7 @@ public class DallaService {
                     cnt++;
                     Thread.sleep(10000);
                     DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
+                    System.out.println("gift = " + gift);
                     Thread.sleep(10000);
                 }
             }
@@ -100,8 +101,8 @@ public class DallaService {
     public DallaResponse gift(String roomNo, String bjMemNo) {
         RequestBody body = new FormBody.Builder()
                 .add("roomNo", roomNo)
-                .add("userMemNo", bjMemNo)
-                .add("memNo", "11587087243106")
+                .add("memNo", bjMemNo)
+                .add("userMemNo", "11587087243106")
                 .add("itemNo", "G1773")
                 .add("itemCnt", "1")
                 .add("isSecret", "false")
