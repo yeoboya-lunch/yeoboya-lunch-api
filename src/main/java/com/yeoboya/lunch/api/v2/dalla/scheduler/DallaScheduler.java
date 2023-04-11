@@ -18,23 +18,23 @@ public class DallaScheduler {
         this.dallaService = dallaService;
     }
 
-    //30분마다
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void heartEveryThirtyMinutes() {
-        try {
-            dallaService.heart();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    //매일 오전 3시 10분
-    @Scheduled(cron = "0 10 3 ? * *")
-    public void attendanceCheck() {
-        DallaResponse attendance = dallaService.attendance();
-        log.warn("{}", attendance);
-    }
+//    //30분마다
+//    @Scheduled(cron = "0 0/30 * * * ?")
+//    public void heartEveryThirtyMinutes() {
+//        try {
+//            dallaService.heart();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//
+//    //매일 오전 3시 10분
+//    @Scheduled(cron = "0 10 3 ? * *")
+//    public void attendanceCheck() {
+//        DallaResponse attendance = dallaService.attendance();
+//        log.warn("{}", attendance);
+//    }
 
 //    //매일 오전 8시 5분
 //    @Scheduled(cron = "0 5 8 * * ?")
