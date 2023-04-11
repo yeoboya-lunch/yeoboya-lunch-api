@@ -39,6 +39,12 @@ public class DallaController {
         return response.success(Code.SEARCH_SUCCESS, attendance);
     }
 
+    @PostMapping("/roulette")
+    public ResponseEntity<Response.Body> roulette() {
+        int roulette = dallaService.roulette();
+        return response.success(Code.SEARCH_SUCCESS, roulette);
+    }
+
     @PostMapping("/fan-board-write")
     public ResponseEntity<Response.Body> fanBoardWrite() {
         LocalDate localDate = LocalDate.now();

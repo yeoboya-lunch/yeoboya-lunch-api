@@ -10,6 +10,7 @@ public class DallaResponse {
     private String result;
     private String code;
     private String message;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Data data;
 }
