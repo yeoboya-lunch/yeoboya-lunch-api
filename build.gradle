@@ -49,6 +49,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
@@ -89,6 +90,8 @@ dependencies {
     //http client
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 
+    //websocket
+    implementation group: 'com.neovisionaries', name: 'nv-websocket-client', version: '2.14'
 
     // https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
