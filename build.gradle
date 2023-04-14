@@ -90,9 +90,6 @@ dependencies {
     //http client
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 
-    //websocket
-    implementation group: 'com.neovisionaries', name: 'nv-websocket-client', version: '2.14'
-
     // https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
 
