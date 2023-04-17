@@ -128,4 +128,9 @@ public class BoardService {
 
     }
 
+    public ResponseEntity<Body> findBoardById(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException("Board not found - " + boardId));;
+        BoardResponse boardResponse = BoardResponse.from(board);
+        return response.success(Code.SEARCH_SUCCESS, boardResponse);
+    }
 }

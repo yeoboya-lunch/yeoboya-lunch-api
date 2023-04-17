@@ -42,4 +42,9 @@ public class BoardController {
         System.out.println("boardSearch = " + boardSearch);
         return boardService.list(boardSearch, pageable);
     }
+
+    @GetMapping("/{boardId}")
+    public ResponseEntity<Body> findBoardById(@PathVariable Long boardId){
+        return boardService.findBoardById(boardId);
+    }
 }

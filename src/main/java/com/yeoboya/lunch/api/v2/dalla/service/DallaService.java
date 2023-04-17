@@ -152,7 +152,9 @@ public class DallaService {
         int rouletteCnt = this.rouletteCnt();
 
         for (int cnt = rouletteCnt; cnt > 0; cnt--) {
+//            System.out.println("cnt = " + cnt);
             String s = client.sendGet("/event/roulette/start", null);
+            System.out.println("s = " + s);
             try {
                 objectMapper.readValue(s, DallaResponse.class);
             } catch (JsonProcessingException e) {
