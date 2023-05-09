@@ -46,7 +46,7 @@ public class SecurityConfiguration {
             "/docs/index.html",
 
             /* monitor */
-            "/actuator/**",
+            "/actuator/**", "/memory"
     };
 
     private static final String[] USER_URL_ARRAY = {
