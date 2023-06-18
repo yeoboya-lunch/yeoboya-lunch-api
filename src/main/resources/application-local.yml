@@ -2,6 +2,15 @@ logging:
   config: classpath:logs/logback-local.xml
 
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khjzzm
+    password: snpmkpsycogrolbm
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
   datasource:
     url: jdbc:h2:tcp://localhost/~/lunch
     username: sa
@@ -15,37 +24,43 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
-#        show_sql: true
+#        show_sql: true # SQL 출력
+#        use_sql_comments: true # JPQL 출력
 #        generate_statistics: true
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto : create-drop
-    show-sql: true
+      ddl-auto : update
+    show-sql: true # Hibernate sql
     defer-datasource-initialization: true
-    open-in-view: false
+#    open-in-view: false
 
   redis:
     master:
-      host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+      host: 125.141.223.94
       port: 6380
     slaves:
-      - host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+      - host: 125.141.223.94
         port: 6381
-    password: ENC(FtsNreuQ5/JR69WxVWZxxWQi0sO0JGRY)
+    password: inforex((.(
     database: 12
+
   sql:
     init:
-      mode: always
+      mode: never
 
 file:
   upload:
     root-path : ./file
     ratio-wh: 1280
 
-
----
 decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+dalla:
+  baseUrl: https://api.dallalive.com
+#  baseUrl: https://devm-khj2.dallalive.com:463
+  authToken: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTU4NzA4NzI0MzEwNkB0cnVlIiwiaWF0IjoxNjgwODU2NjczLCJleHAiOjE2ODM0NDg2NzN9.lxg6ztuYw5NfwyVORZjBC2GoT85hSSlCzZyhxTDHlJ0
+
