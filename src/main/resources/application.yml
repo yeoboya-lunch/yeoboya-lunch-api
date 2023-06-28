@@ -30,7 +30,7 @@ spring:
       initialize-schema: never
 
 server:
-  port: 463
+  port: 4463
   servlet:
     encoding:
       charset: UTF-8
@@ -39,20 +39,28 @@ server:
 
 
 management:
+  server:
+    port: 9292
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    git:
+      mode: "full"
   endpoint:
     prometheus:
       enabled: true
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
   endpoints:
     web:
       exposure:
         include: "*"
 
 
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
-
 jwt:
   token:
-    secretKey: ENC(CY9AK5nbR9Ok66F+oJvk+AA/8/cShipQoICTd8m4ZLVu6PcNHnL8WRhOVqDl3WNTFqoEw32HIzu1qYaW4GfPbDgrC+hPnpMmjPHeDckqdLs28oF4vunHQpg1dVcoD65t)
+    secretKey: CY9AK5nbR9Ok66F+oJvk+AA/8/cShipQoICTd8m4ZLVu6PcNHnL8WRhOVqDl3WNTFqoEw32HIzu1qYaW4GfPbDgrC+hPnpMmjPHeDckqdLs28oF4vunHQpg1dVcoD65t
