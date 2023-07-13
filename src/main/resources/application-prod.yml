@@ -1,2 +1,15 @@
 logging:
   config: classpath:logs/logback-prod.xml
+
+spring:
+  profiles:
+    active: "prod"
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(5IBoYtY2KEjrpcjkfNcZUQ6Alpp8d5nxkTC4nGBXeGw=)
+    password: ENC(Dh20sGMupJaGJojuf5ZDoIzL3IeDdT3tLLZZfEGuFnA=)
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
