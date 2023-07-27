@@ -36,6 +36,9 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
 
 management:
