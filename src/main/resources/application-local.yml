@@ -6,7 +6,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: khjzzm
-    password: snpmkpsycogrolbm
+    password:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
@@ -24,26 +24,26 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
-#        show_sql: true # SQL 출력
-#        use_sql_comments: true # JPQL 출력
-#        generate_statistics: true
+        #        show_sql: true # SQL 출력
+        #        use_sql_comments: true # JPQL 출력
+        #        generate_statistics: true
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto : update
+      ddl-auto: update
     show-sql: true # Hibernate sql
     defer-datasource-initialization: true
-#    open-in-view: false
+  #    open-in-view: false
 
   redis:
     master:
-      host: 125.141.223.94
-      port: 6380
+      host:
+      port:
     slaves:
-      - host: 125.141.223.94
-        port: 6381
-    password: inforex((.(
-    database: 12
+      - host:
+        port:
+    password:
+    database:
 
   sql:
     init:
@@ -51,7 +51,7 @@ spring:
 
 file:
   upload:
-    root-path : ./file
+    root-path: ./file
     ratio-wh: 1280
 
 decorator:
@@ -61,6 +61,5 @@ decorator:
 
 dalla:
   baseUrl: https://api.dallalive.com
-#  baseUrl: https://devm-khj2.dallalive.com:463
-  authToken: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTU4NzA4NzI0MzEwNkB0cnVlIiwiaWF0IjoxNjgwODU2NjczLCJleHAiOjE2ODM0NDg2NzN9.lxg6ztuYw5NfwyVORZjBC2GoT85hSSlCzZyhxTDHlJ0
+  authToken:
 
