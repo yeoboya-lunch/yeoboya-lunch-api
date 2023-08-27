@@ -11,10 +11,7 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+ import java.util.*;
 
 @Slf4j
 @Service
@@ -34,18 +31,20 @@ public class DallaService {
 //        DallaResponse joinRoom = this.joinRoom(x.getRoomNo());
 //        log.warn("{}", joinRoom);
 
+        Random random = new Random();
         int cnt = 0;
         for (Data.Response room : rooms) {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
             if (joinRoom.getResult().equals("success")) {
-//                Thread.sleep(30000);
+                Thread.sleep(120000);
                 DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
                 if (true) {
                     cnt++;
-//                    Thread.sleep(10000);
-                    DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
-                    System.out.println("gift = " + gift);
-                    Thread.sleep(10000);
+                    int randomMillis = 300000 + random.nextInt(300001);
+                    Thread.sleep(randomMillis);
+//                    DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
+//                    System.out.println("gift = " + gift);
+
                 }
             }
         }
