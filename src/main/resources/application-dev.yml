@@ -5,15 +5,15 @@ spring:
   datasource:
     hikari:
       master:
-        jdbcUrl: ENC(BjbrdO2e9XfD5LHjkFwk2wP0ros/23gQbwTKYkU1/3TfUmVJA/C+MwuwRja96VxbXIGLYg1NVVFa30Qp3zl5Ww==)
-        username: ENC(Z+0grMiwTWpfJnhBX4nd9w==)
-        password: ENC(RvZJmjpJdTdsKIdCevNZNyTWjLw3XXPn)
+        jdbcUrl: ENC(15tbRcTtO8tBp118g94wKJxtKRiQL3LjofB6PIU3Yq2xuqyEj6adYn+DHIOSxNU9tSnI4Z69ZPc=)
+        username: ENC(prYggjblV9crtQtL3P0v+g==)
+        password: ENC(lYgYI4hD8lslLQ31SaAa2xVO7rFvQ4pu)
         driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         poolName: kimzzang-db-master
       slave:
-        jdbcUrl: ENC(BjbrdO2e9XfD5LHjkFwk2wP0ros/23gQbwTKYkU1/3TfUmVJA/C+MwuwRja96VxbXIGLYg1NVVFa30Qp3zl5Ww==)
-        username: ENC(Z+0grMiwTWpfJnhBX4nd9w==)
-        password: ENC(RvZJmjpJdTdsKIdCevNZNyTWjLw3XXPn)
+        jdbcUrl: ENC(15tbRcTtO8tBp118g94wKJxtKRiQL3LjofB6PIU3Yq2xuqyEj6adYn+DHIOSxNU9tSnI4Z69ZPc=)
+        username: ENC(prYggjblV9crtQtL3P0v+g==)
+        password: ENC(lYgYI4hD8lslLQ31SaAa2xVO7rFvQ4pu)
         driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         poolName: kimzzang-db-master
   jpa:
@@ -30,11 +30,23 @@ spring:
     open-in-view: false
   redis:
     master:
-      host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+      host: ENC(2lEBDKbUf18M4AajxCG6H5fp/6cwy/Y6)
       port: 6380
     slaves:
-      - host: ENC(LoE2TV1irncIGXTtYFDTMqvnbgLa7DBi)
+      - host: ENC(2lEBDKbUf18M4AajxCG6H5fp/6cwy/Y6)
         port: 6381
-    password: ENC(FtsNreuQ5/JR69WxVWZxxWQi0sO0JGRY)
+    password: ENC(BrzRsmE+7ctHykti1JTGiGUTrOYqn8Iy)
     database: 12
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khjzzm
+    password: ENC(wC/z1u5NfVfbQ4/8cfVPPDFBJoaQLRmCoGHBT73+YSo=)
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 
+file:
+  upload:
+    root-path: ./file
+    ratio-wh: 1280

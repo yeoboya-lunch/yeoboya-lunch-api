@@ -24,9 +24,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
-        #        show_sql: true # SQL 출력
-        #        use_sql_comments: true # JPQL 출력
-        #        generate_statistics: true
+        show_sql: true # SQL 출력
+        use_sql_comments: true # JPQL 출력
+        generate_statistics: true
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
