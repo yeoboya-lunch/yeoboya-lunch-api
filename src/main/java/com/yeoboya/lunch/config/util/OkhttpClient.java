@@ -71,6 +71,19 @@ public class OkhttpClient {
         }
     }
 
+    public String sendDelete(String url, RequestBody formBody) {
+        Request request = new Request.Builder()
+                .header("authToken", dallaPayload.getAuthToken())
+                .url(dallaPayload.getBaseUrl()+url)
+                .delete(formBody)
+                .build();
+        try {
+            return Objects.requireNonNull(client.newCall(request).execute().body()).string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public String sendPost(String url, JSONObject json) {
         RequestBody body = RequestBody.create(String.valueOf(json), MediaType.parse("application/json"));

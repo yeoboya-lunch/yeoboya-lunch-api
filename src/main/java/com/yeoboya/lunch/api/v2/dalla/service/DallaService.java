@@ -29,18 +29,20 @@ public class DallaService {
         int cnt = 0;
         for (Data.Response room : rooms) {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
+            log.error("{}", joinRoom);
             if (joinRoom.getResult().equals("success")) {
-//                Thread.sleep(120000);
+                Thread.sleep(120000);
                 DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
                 if (true) {
                     cnt++;
-//                    int randomMillis = 100000 + random.nextInt(100001);
-//                    Thread.sleep(randomMillis);
+                    int randomMillis = 100000 + random.nextInt(100001);
+                    Thread.sleep(randomMillis);
 //                    DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
 //                    System.out.println("gift = " + gift);
-
                 }
             }
+            DallaResponse dallaResponse = this.roomOut(room.getRoomNo());
+            log.error("{}", dallaResponse);
         }
         log.warn("heart and gift - {}/{}", cnt, rooms.size());
     }
@@ -83,6 +85,18 @@ public class DallaService {
                 .build();
         String s = client.sendPost("/broad/likes", body);
         log.warn("{}", s);
+        try {
+            return objectMapper.readValue(s, DallaResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //방퇴장
+    public DallaResponse roomOut(String roomNo) {
+        RequestBody body = new FormBody.Builder()
+                .add("roomNo", roomNo).build();
+        String s = client.sendDelete("/broad/exit", body);
         try {
             return objectMapper.readValue(s, DallaResponse.class);
         } catch (JsonProcessingException e) {
