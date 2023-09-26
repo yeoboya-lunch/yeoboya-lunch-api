@@ -1,12 +1,12 @@
 package com.yeoboya.lunch.api.v2.dalla.scheduler;
 
+import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
 import com.yeoboya.lunch.api.v2.dalla.service.DallaService;
+import com.yeoboya.lunch.api.v2.dalla.service.TownService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
 
 @EnableScheduling
 @Component
@@ -14,9 +14,11 @@ import java.time.LocalDate;
 public class DallaScheduler {
 
     private final DallaService dallaService;
+    private final TownService townService;
 
-    public DallaScheduler(DallaService dallaService) {
+    public DallaScheduler(DallaService dallaService, TownService townService) {
         this.dallaService = dallaService;
+        this.townService = townService;
     }
 
     //30분마다
@@ -28,14 +30,13 @@ public class DallaScheduler {
             throw new RuntimeException(e);
         }
     }
-//
-//
-//    //매일 오전 3시 10분
-//    @Scheduled(cron = "0 10 3 ? * *")
-//    public void attendanceCheck() {
-//        DallaResponse attendance = dallaService.attendance();
-//        log.warn("{}", attendance);
-//    }
+
+    //매일 오전 3시 10분
+    @Scheduled(cron = "0 10 3 ? * *")
+    public void attendanceCheck() {
+        DallaResponse attendance = dallaService.attendance();
+        log.warn("{}", attendance);
+    }
 
     //매일 오전 8시 5분
 //    @Scheduled(cron = "0 5 8 * * ?")
@@ -61,4 +62,37 @@ public class DallaScheduler {
 //        dallaService.fanBoardWrite(RankSearch.FAN_DAILY.getRankSlct(), RankSearch.FAN_DAILY.getRankType(), yesterday, RankSearch.FAN_DAILY.getMessage());
 //    }
 
+    // 1시 5분, 11시 5분, 19시 5분에 실행될 코드 - 타임랭킹 확인하기
+    @Scheduled(cron = "0 5 1,11,19 * * ?")
+    public void checkTimeRanking() {
+        System.out.println("Running task at 1:05AM, 11:05AM, and 7:05PM");
+        townService.missionUpdate("A0001", "A0005");
+        townService.mission("A0001", "A0005");
+    }
+
+    // 1시 10분, 11시 10분, 19시 10분에 실행될 코드 - 삼시세끼 당근먹기
+    @Scheduled(cron = "0 10 1,11,19 * * ?")
+    public void eatCarrotThreeMeals() {
+        System.out.println("Running task at 1:10AM, 11:10AM, and 7:10PM");
+        townService.missionUpdate("A0001", "B0001");
+        townService.mission("A0001", "B0001");
+    }
+
+    // 새벽 5시에 실행될 코드
+    // A0001 - 출석체크 (새벽)
+    @Scheduled(cron = "0 0 5 * * ?")
+    public void runAt5AM() {
+        System.out.println("Running task at 5AM");
+        townService.mission("A0001", "A0001");
+    }
+
+    // 밤 11시에 실행될 코드
+    // A0003 - 시청하기 (저녁)
+    // B0002 - 좋아요 (저녁)
+    @Scheduled(cron = "0 0 23 * * ?")
+    public void runAt11PM() {
+        System.out.println("Running task at 11PM");
+        townService.mission("A0001", "A0003");
+        townService.mission("A0001", "B0002");
+    }
 }

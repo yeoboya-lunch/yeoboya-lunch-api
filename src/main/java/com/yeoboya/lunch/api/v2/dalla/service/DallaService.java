@@ -25,12 +25,6 @@ public class DallaService {
         List<Data.Response> rooms = this.roomList();
         Collections.reverse(rooms);
 
-//        Random random = new Random();
-//        int randomIndex = random.nextInt(rooms.size());
-//        Data.Response x = rooms.get(randomIndex);
-//        DallaResponse joinRoom = this.joinRoom(x.getRoomNo());
-//        log.warn("{}", joinRoom);
-
         Random random = new Random();
         int cnt = 0;
         for (Data.Response room : rooms) {
@@ -115,7 +109,6 @@ public class DallaService {
     }
 
 
-
     public void joinRoomAndHeart(String roomNo, String bjMemNo) {
         DallaResponse joinRoom = this.joinRoom(roomNo);
         if (joinRoom.getResult().equals("success")) {
@@ -169,8 +162,7 @@ public class DallaService {
         int cnt = 0;
         for (Data.Response rank : ranks) {
             String contents = "안녕하세요~🙇‍ " + rank.getNickNm() + "님" +
-                    "\n[" + rankingDate + "] " + message + rank.getRank() + "위 축하드립니다.🥳" +
-                    "\n 오늘도 멋진 방송 부탁해요 화이팅~~~🎙️";
+                    "\n한가위 행복하게 보내세요~";
             DallaResponse write = this.write(rank.getMemNo(), contents);
             if (write.getResult().equals("success")) {
                 cnt++;
