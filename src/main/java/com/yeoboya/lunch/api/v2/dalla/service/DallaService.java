@@ -30,12 +30,12 @@ public class DallaService {
         for (Data.Response room : rooms) {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
             if (joinRoom.getResult().equals("success")) {
-                Thread.sleep(120000);
+//                Thread.sleep(120000);
                 DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
                 if (true) {
                     cnt++;
-                    int randomMillis = 300000 + random.nextInt(300001);
-                    Thread.sleep(randomMillis);
+//                    int randomMillis = 100000 + random.nextInt(100001);
+//                    Thread.sleep(randomMillis);
 //                    DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
 //                    System.out.println("gift = " + gift);
 
@@ -82,6 +82,7 @@ public class DallaService {
                 .add("bjMemNo", bjMemNo)
                 .build();
         String s = client.sendPost("/broad/likes", body);
+        log.warn("{}", s);
         try {
             return objectMapper.readValue(s, DallaResponse.class);
         } catch (JsonProcessingException e) {

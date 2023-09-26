@@ -62,20 +62,20 @@ public class DallaScheduler {
 //        dallaService.fanBoardWrite(RankSearch.FAN_DAILY.getRankSlct(), RankSearch.FAN_DAILY.getRankType(), yesterday, RankSearch.FAN_DAILY.getMessage());
 //    }
 
-    // 1시 5분, 11시 5분, 19시 5분에 실행될 코드 - 타임랭킹 확인하기
-    @Scheduled(cron = "0 5 1,11,19 * * ?")
+    // 5시 5분, 13시 5분, 19시 5분에 실행될 코드 - 삼시세끼 당근먹기 (B0001)
+    @Scheduled(cron = "0 5 7,13,19 * * ?")
     public void checkTimeRanking() {
-        System.out.println("Running task at 1:05AM, 11:05AM, and 7:05PM");
-        townService.missionUpdate("A0001", "A0005");
-        townService.mission("A0001", "A0005");
-    }
-
-    // 1시 10분, 11시 10분, 19시 10분에 실행될 코드 - 삼시세끼 당근먹기
-    @Scheduled(cron = "0 10 1,11,19 * * ?")
-    public void eatCarrotThreeMeals() {
-        System.out.println("Running task at 1:10AM, 11:10AM, and 7:10PM");
+        System.out.println("Running task at 5:05AM, 13:05PM, and 19:05PM");
         townService.missionUpdate("A0001", "B0001");
         townService.mission("A0001", "B0001");
+    }
+
+    // 1시 10분, 11시 10분, 19시 10분에 실행될 코드 - 타임랭킹 확인하기 (A0005)
+    @Scheduled(cron = "0 10 1,11,19 * * ?")
+    public void eatCarrotThreeMeals() {
+        System.out.println("Running task at 1:10AM, 11:10AM, and 19:10PM");
+        townService.missionUpdate("A0001", "A0005");
+        townService.mission("A0001", "A0005");
     }
 
     // 새벽 5시에 실행될 코드
