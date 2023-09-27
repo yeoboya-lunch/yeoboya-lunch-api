@@ -75,7 +75,27 @@ public class DallaController {
     // B0002 - 좋아요 (저녁)
     @PostMapping("/town/mission")
     public ResponseEntity<Response.Body> mission(){
-        townService.mission("A0001", "A0006");
+        //부스터
+//        townService.missionUpdate("A0001", "A0006");
+//        townService.mission("A0001", "A0006");
+
+        //삼시세끼 당근먹기
+//        townService.missionUpdate("A0001", "B0001");
+        townService.mission("A0001", "B0001");
+
+        //타임랭킹 확인하기
+//        townService.missionUpdate("A0001", "A0005");
+//        townService.mission("A0001", "A0005");
+
+        //출석체크
+//        townService.missionUpdate("A0001", "A0001");
+//        townService.mission("A0001", "A0001");
+
+        //시청하기
+        townService.mission("A0001", "A0003");
+
+        //좋아요
+//        townService.mission("A0001", "B0002");
         return response.success(Code.SEARCH_SUCCESS);
     }
 
