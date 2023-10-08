@@ -79,6 +79,10 @@ public class DallaController {
         townService.missionUpdate("A0001", "A0006");
         townService.mission("A0001", "A0006");
 
+        //부스터
+        townService.missionUpdate("A0001", "A0006");
+        townService.mission("A0001", "A0006");
+
         //삼시세끼 당근먹기
         townService.missionUpdate("A0001", "B0001");
         townService.mission("A0001", "B0001");
