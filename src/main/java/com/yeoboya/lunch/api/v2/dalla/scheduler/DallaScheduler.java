@@ -22,7 +22,7 @@ public class DallaScheduler {
     }
 
     //30분마다
-    @Scheduled(cron = "0 0 * * * ?")
+//    @Scheduled(cron = "0 0 * * * ?")
     public void heartEveryThirtyMinutes() {
         try {
             dallaService.heart();
@@ -32,7 +32,7 @@ public class DallaScheduler {
     }
 
     //매일 오전 3시 10분
-    @Scheduled(cron = "0 10 3 ? * *")
+//    @Scheduled(cron = "0 10 3 ? * *")
     public void attendanceCheck() {
         DallaResponse attendance = dallaService.attendance();
         log.warn("{}", attendance);

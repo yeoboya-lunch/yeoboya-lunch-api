@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v2.dalla.constants.RankSearch;
 import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
 import com.yeoboya.lunch.api.v2.dalla.service.DallaService;
+import com.yeoboya.lunch.api.v2.dalla.service.SocketService;
 import com.yeoboya.lunch.api.v2.dalla.service.TownService;
 import com.yeoboya.lunch.config.annotation.TimeLogging;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class DallaController {
 
     private final DallaService dallaService;
     private final TownService townService;
+    private final SocketService socketService;
     private final Response response;
 
     @PostMapping("/heart")
@@ -111,5 +113,13 @@ public class DallaController {
         townService.missionUpdate("A0001", "A0006");
         return response.success(Code.SEARCH_SUCCESS);
     }
+
+    @PostMapping("/socket")
+    public ResponseEntity<Response.Body> socket(){
+        socketService.sendUmmMessage();
+        return response.success(Code.SEARCH_SUCCESS);
+    }
+
+
 
 }

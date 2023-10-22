@@ -15,4 +15,5 @@ import org.springframework.context.annotation.Configuration;
 public class DallaPayload {
     private String baseUrl;
     private String authToken;
+    private String socketUrl;
 }
