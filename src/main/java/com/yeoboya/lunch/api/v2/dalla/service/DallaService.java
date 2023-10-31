@@ -186,6 +186,39 @@ public class DallaService {
         log.warn("{}/{}", cnt, ranks.size());
     }
 
+    //팔로잉 글작성
+    public void followingBoardWrite(){
+        List<Data.Response> followingeList = this.followingList();
+        int cnt = 0;
+        for (Data.Response response : followingeList) {
+            String contents = "안녕하세요~🙇‍ I am 준식이에요 " + response.getNickNm() + "님, next month 도 화이팅 입니다.";
+            DallaResponse write = this.write(response.getMemNo(), contents);
+            if (write.getResult().equals("success")) {
+                cnt++;
+            }
+        }
+        log.warn("{}/{}", cnt, followingeList.size());
+    }
+
+
+    //팔로잉 정보 가져오기
+    public List<Data.Response> followingList() {
+        Map<String, String> params = new HashMap<>();
+        params.put("memNo", "11587087243106");
+        params.put("sortType", "2");
+        params.put("pageNo", "1");
+        params.put("records", "3000");
+        String s = client.sendGet("/profile/star/list/new", params);
+        try {
+            DallaResponse dallaResponse = objectMapper.readValue(s, DallaResponse.class);
+            return dallaResponse.getData().getList();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     //랭킹 정보 가져오기
     public List<Data.Response> rankList(String rankSlct, String rankType, String rankingDate) {
         Map<String, String> params = new HashMap<>();

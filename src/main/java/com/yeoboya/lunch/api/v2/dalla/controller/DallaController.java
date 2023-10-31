@@ -57,6 +57,13 @@ public class DallaController {
         return response.success(Code.SEARCH_SUCCESS);
     }
 
+    @PostMapping("/following-board-write")
+    public ResponseEntity<Response.Body> followingBoardWrite() {
+        dallaService.followingBoardWrite();
+        return response.success(Code.SEARCH_SUCCESS);
+    }
+
+
     @PostMapping("/add-fan")
     public ResponseEntity<Response.Body> addFan() {
         dallaService.fanAction(RankSearch.FAN_DAILY.getRankSlct(), RankSearch.FAN_DAILY.getRankType(), "2023-02-08");
