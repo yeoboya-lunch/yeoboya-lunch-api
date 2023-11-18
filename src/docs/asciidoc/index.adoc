@@ -131,24 +131,24 @@ include::{snippets}/item/delete/http-response.adoc[]
 
 === 주문 등록
 ==== http-request
-include::{snippets}/order/post/http-request.adoc[]
-include::{snippets}/order/post/request-fields.adoc[]
+include::{snippets}/recruit/post/http-request.adoc[]
+include::{snippets}/recruit/post/request-fields.adoc[]
 ==== http-response
-include::{snippets}/order/post/http-response.adoc[]
-include::{snippets}/order/post/response-fields.adoc[]
+include::{snippets}/recruit/post/http-response.adoc[]
+include::{snippets}/recruit/post/response-fields.adoc[]
 
 === 주문 조회
 ==== http-request
-include::{snippets}/order/get/list/http-request.adoc[]
-include::{snippets}/order/get/list/request-parameters.adoc[]
+include::{snippets}/recruit/get/list/http-request.adoc[]
+include::{snippets}/recruit/get/list/request-parameters.adoc[]
 ==== http-response
-include::{snippets}/order/get/list/http-response.adoc[]
-include::{snippets}/order/get/list/response-fields.adoc[]
+include::{snippets}/recruit/get/list/http-response.adoc[]
+include::{snippets}/recruit/get/list/response-fields.adoc[]
 
 === 주문 취소
 ==== http-request
-include::{snippets}/order/cancel/http-request.adoc[]
-include::{snippets}/order/cancel/path-parameters.adoc[]
+include::{snippets}/recruit/cancel/http-request.adoc[]
+include::{snippets}/recruit/cancel/path-parameters.adoc[]
 ==== http-response
-include::{snippets}/order/cancel/http-response.adoc[]
-include::{snippets}/order/cancel/response-fields.adoc[]
+include::{snippets}/recruit/cancel/http-response.adoc[]
+include::{snippets}/recruit/cancel/response-fields.adoc[]
