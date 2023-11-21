@@ -31,12 +31,12 @@ public class DallaService {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
             log.error("{}", joinRoom);
             if (joinRoom.getResult().equals("success")) {
-                Thread.sleep(120000);
+//                Thread.sleep(1000*60);
                 DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
                 if (true) {
                     cnt++;
-                    int randomMillis = 100000 + random.nextInt(100001);
-                    Thread.sleep(randomMillis);
+//                    int randomMillis = 1000*60 + random.nextInt(1000*120);
+//                    Thread.sleep(randomMillis);
 //                    DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
 //                    System.out.println("gift = " + gift);
                 }
@@ -236,6 +236,21 @@ public class DallaService {
         }
     }
 
+    public List<Data.Response> boss() {
+        Map<String, String> params = new HashMap<>();
+        params.put("memNo", "31598789426374");
+        params.put("sortType", "0");
+        params.put("pageNo", "1");
+        params.put("records", "150");
+        String s = client.sendGet("/profile/star/list/new", params);
+        try {
+            DallaResponse dallaResponse = objectMapper.readValue(s, DallaResponse.class);
+            return dallaResponse.getData().getList();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     //방명록 쓰기
     public DallaResponse write(String memNo, String contents) {
         RequestBody body = new FormBody.Builder()
@@ -254,7 +269,8 @@ public class DallaService {
 
 
     public void fanAction(String rankSlct, String rankType, String rankingDate) {
-        List<Data.Response> ranks = this.rankList(rankSlct, rankType, rankingDate);
+//        List<Data.Response> ranks = this.rankList(rankSlct, rankType, rankingDate);
+        List<Data.Response> ranks = this.boss();
         int cnt = 0;
         for (Data.Response rank : ranks) {
             DallaResponse fan = this.fan(rank.getMemNo());
