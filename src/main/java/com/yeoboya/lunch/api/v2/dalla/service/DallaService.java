@@ -188,10 +188,11 @@ public class DallaService {
 
     //팔로잉 글작성
     public void followingBoardWrite(){
-        List<Data.Response> followingeList = this.followingList();
+        List<Data.Response> followingeList = this.boss();
         int cnt = 0;
         for (Data.Response response : followingeList) {
-            String contents = "안녕하세요~🙇‍ I am 준식이에요 " + response.getNickNm() + "님, next month 도 화이팅 입니다.";
+            String contents = "안녕하세요~ " + response.getNickNm() + "님, 12월 첫날, 강추위 감기 조심하시고 화이팅 입니다!!";
+            log.warn("{}", response.getNickNm());
             DallaResponse write = this.write(response.getMemNo(), contents);
             if (write.getResult().equals("success")) {
                 cnt++;
@@ -238,10 +239,10 @@ public class DallaService {
 
     public List<Data.Response> boss() {
         Map<String, String> params = new HashMap<>();
-        params.put("memNo", "31598789426374");
+        params.put("memNo", "11587087243106");
         params.put("sortType", "0");
         params.put("pageNo", "1");
-        params.put("records", "150");
+        params.put("records", "100");
         String s = client.sendGet("/profile/star/list/new", params);
         try {
             DallaResponse dallaResponse = objectMapper.readValue(s, DallaResponse.class);
