@@ -11,7 +11,7 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
 
- import java.util.*;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -31,12 +31,12 @@ public class DallaService {
             DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
             log.error("{}", joinRoom);
             if (joinRoom.getResult().equals("success")) {
-//                Thread.sleep(1000*60);
+                Thread.sleep(1000 * 300);
                 DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
-                if (true) {
+                if (heart.getResult().equals("success")) {
                     cnt++;
-//                    int randomMillis = 1000*60 + random.nextInt(1000*120);
-//                    Thread.sleep(randomMillis);
+                    int randomMillis = 1000 * 300 + random.nextInt(1000 * 120);
+                    Thread.sleep(randomMillis);
 //                    DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
 //                    System.out.println("gift = " + gift);
                 }
@@ -132,9 +132,20 @@ public class DallaService {
         }
     }
 
+
     //출석체크
     public DallaResponse attendance() {
-        String s = client.sendPost("/event/attendance/check/in");
+        String s = client.sendPost("/event/attendance");
+        try {
+            return objectMapper.readValue(s, DallaResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //일주일 출석체크 보너스
+    public DallaResponse attendanceBonus() {
+        String s = client.sendPost("/event/attendance/bonus");
         try {
             return objectMapper.readValue(s, DallaResponse.class);
         } catch (JsonProcessingException e) {
@@ -155,11 +166,8 @@ public class DallaService {
 
     //룰렛 돌리기
     public int roulette() {
-
         int rouletteCnt = this.rouletteCnt();
-
         for (int cnt = rouletteCnt; cnt > 0; cnt--) {
-//            System.out.println("cnt = " + cnt);
             String s = client.sendGet("/event/roulette/start", null);
             System.out.println("s = " + s);
             try {
@@ -187,8 +195,8 @@ public class DallaService {
     }
 
     //팔로잉 글작성
-    public void followingBoardWrite(){
-        List<Data.Response> followingeList = this.boss();
+    public void followingBoardWrite() {
+        List<Data.Response> followingeList = this.ummStar();
         int cnt = 0;
         for (Data.Response response : followingeList) {
             String contents = "안녕하세요~ " + response.getNickNm() + "님, 12월 첫날, 강추위 감기 조심하시고 화이팅 입니다!!";
@@ -219,7 +227,6 @@ public class DallaService {
     }
 
 
-
     //랭킹 정보 가져오기
     public List<Data.Response> rankList(String rankSlct, String rankType, String rankingDate) {
         Map<String, String> params = new HashMap<>();
@@ -237,7 +244,7 @@ public class DallaService {
         }
     }
 
-    public List<Data.Response> boss() {
+    public List<Data.Response> ummStar() {
         Map<String, String> params = new HashMap<>();
         params.put("memNo", "11587087243106");
         params.put("sortType", "0");
@@ -271,7 +278,7 @@ public class DallaService {
 
     public void fanAction(String rankSlct, String rankType, String rankingDate) {
 //        List<Data.Response> ranks = this.rankList(rankSlct, rankType, rankingDate);
-        List<Data.Response> ranks = this.boss();
+        List<Data.Response> ranks = this.ummStar();
         int cnt = 0;
         for (Data.Response rank : ranks) {
             DallaResponse fan = this.fan(rank.getMemNo());
@@ -342,7 +349,6 @@ public class DallaService {
             throw new RuntimeException(e);
         }
     }
-
 
 }
 
