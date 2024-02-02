@@ -6,7 +6,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: khjzzm
-    password:
+    password: snpmkpsycogrolbm
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
@@ -37,13 +37,13 @@ spring:
 
   redis:
     master:
-      host:
-      port:
+      host: 125.141.223.94
+      port: 6380
     slaves:
-      - host:
-        port:
-    password:
-    database:
+      - host: 125.141.223.94
+        port: 6381
+    password: inforex((.(
+    database: 12
 
   sql:
     init:
@@ -54,12 +54,14 @@ file:
     root-path: ./file
     ratio-wh: 1280
 
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
+#decorator:
+#  datasource:
+#    p6spy:
+#      enable-logging: false
 
 dalla:
+#  baseUrl: https://devapi.dallalive.com
+#  authToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxQDEuY29tIiwianRpIjoiOTViOTQ4OWYtYThkYS00OTY5LTlhYmUtZjY2OGJiMmM1MjFmIiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTY5NTcwMzY0MywiZXhwIjoxNjk1NzQ2ODQzLCJhdXRoIjoiUk9MRV9VU0VSIn0.xGd7FmSkNXw8GSt8fExhkFWFHiPpjYCdDatseO_zZ08
   baseUrl: https://api.dallalive.com
-  authToken:
-
+  authToken: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTU4NzA4NzI0MzEwNkB0cnVlIiwiaWF0IjoxNzA0MTU0OTA5LCJleHAiOjE3MDY3NDY5MDl9.BfkvPiCSlMZON2qCYTVTGz4HDJ2-pQc2jyBpGDDjmFA
+  socketUrl: https://devsv1.dallalive.com:8000/api/chatroom/sendmessage/
