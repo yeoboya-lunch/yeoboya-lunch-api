@@ -6,7 +6,6 @@ import com.yeoboya.lunch.api.v2.dalla.service.DallaService;
 import com.yeoboya.lunch.api.v2.dalla.service.TownService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -25,7 +24,7 @@ public class DallaScheduler {
     }
 
     //30분마다
-    @Scheduled(cron = "0/30 * * * * ?")
+//    @Scheduled(cron = "0/30 * * * * ?")
     public void heartEveryThirtyMinutes() {
         try {
             dallaService.heart();
@@ -35,14 +34,14 @@ public class DallaScheduler {
     }
 
     //매일 오전 1시 10분
-    @Scheduled(cron = "0 10 1 ? * *")
+//    @Scheduled(cron = "0 10 1 ? * *")
     public void attendance() {
         DallaResponse attendance = dallaService.attendance();
         log.warn("{}", attendance);
     }
 
     //매주 일요일 오전 1시 15분
-    @Scheduled(cron = "0 15 1 ? * SUN")
+//    @Scheduled(cron = "0 15 1 ? * SUN")
     public void attendanceBonus() {
         DallaResponse attendance = dallaService.attendanceBonus();
         log.warn("{}", attendance);
