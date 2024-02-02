@@ -3,7 +3,7 @@ package com.yeoboya.lunch.config.util;
 import com.yeoboya.lunch.api.v2.dalla.request.DallaPayload;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

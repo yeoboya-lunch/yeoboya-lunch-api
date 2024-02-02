@@ -6,8 +6,8 @@ import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
 import com.yeoboya.lunch.config.util.OkhttpClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Slf4j

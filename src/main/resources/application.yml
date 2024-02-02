@@ -40,7 +40,6 @@ server:
     mbeanregistry:
       enabled: true
 
-
 management:
   server:
     port: 9292
@@ -62,7 +61,6 @@ management:
     web:
       exposure:
         include: "*"
-
 
 jwt:
   token:

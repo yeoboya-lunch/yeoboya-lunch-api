@@ -1,46 +1,49 @@
 plugins {
+    // Spring Boot 플러그인 제공 (애플리케이션 실행 및 패키징 용이)
     id 'org.springframework.boot' version '2.7.4'
+    // Spring 의존성 관리 플러그인 (버전 관리 자동화)
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    // AsciiDoc 파일을 HTML 등으로 변환
     id "org.asciidoctor.jvm.convert" version "3.3.2"
-    id "com.gorylenko.gradle-git-properties" version "2.4.1" //git info
+    // Git 정보를 프로젝트에 포함 (예: 최근 커밋 해시)
+    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+    // Java 플러그인 (자바 소스 코드 컴파일 및 빌드)
     id 'java'
 }
 
-group = 'com.yeoboya'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+group = 'com.yeoboya' // 프로젝트 그룹 ID
+version = '0.0.1-SNAPSHOT' // 프로젝트 버전
+sourceCompatibility = JavaVersion.VERSION_11 // 사용할 Java 소스 코드 호환 버전
+targetCompatibility = JavaVersion.VERSION_11 // 컴파일된 코드의 타겟 Java 버전
 
 configurations {
     compileOnly {
-        extendsFrom annotationProcessor
+        extendsFrom annotationProcessor // 컴파일 타임 의존성에 애노테이션 프로세서 추가
     }
-
-    asciidoctorExt
+    asciidoctorExt // AsciiDoctor 확장 설정
 }
 
 repositories {
-    mavenCentral()
+    mavenCentral() // Maven 중앙 저장소에서 의존성 검색
 }
 
-
+// Spring Boot의 실행 가능한 JAR 파일 생성 설정
 bootJar {
-    dependsOn asciidoctor
+    dependsOn asciidoctor // asciidoctor 작업이 먼저 실행되도록 설정
     copy {
-        from asciidoctor.outputDir
-        into "src/main/resources/static/docs"
+        from asciidoctor.outputDir // AsciiDoc로 생성된 문서를 복사
+        into "src/main/resources/static/docs" // 복사 목적지 설정
     }
 }
 
 jar {
-    enabled = false
+    enabled = false // 기본 JAR 작업 비활성화 (bootJar 사용)
 }
 
 dependencies {
+    // Spring Boot 스타터 및 프레임워크 관련 의존성
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
-    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -50,50 +53,35 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 
-    //JSON Web Token
+    // JWT 관련 의존성
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
 
-    //caffeine cache
+    // 캐싱, 데이터베이스, 로깅 및 기타 유틸리티 의존성
     implementation 'com.github.ben-manes.caffeine:caffeine'
-
-    //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
-
-    //lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-    //Database(mariadb/log4j)
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.8'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-
-    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2' // 버전은 해당 라이브러리의 최신 버전에 따라 변경될 수 있습니다.
+    implementation 'org.json:json:20210307'
 
     //monitor
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-
-    //docs
     asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE"
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE"
-
-    //file upload
     implementation 'com.j256.simplemagic:simplemagic:1.17'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.imgscalr:imgscalr-lib:4.2'
 
-    //http client
+    // HTTP 클라이언트, 제한 정책 및 테스트 관련 의존성
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-
-    // https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
-
-    //for local test H2, JPA, Querydsl
     runtimeOnly 'com.h2database:h2'
     implementation 'com.querydsl:querydsl-core'
     implementation 'com.querydsl:querydsl-jpa'
@@ -102,56 +90,56 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-    //테스트
+    // 테스트 관련 의존성
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     testImplementation 'org.springframework.security:spring-security-test'
-
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
     testImplementation "org.testcontainers:testcontainers:1.17.6"
     testImplementation "org.testcontainers:junit-jupiter:1.17.6"
     testImplementation "org.testcontainers:mariadb:1.17.6"
-
 }
 
+// Spring Boot 애플리케이션 실행 시 Jasypt 암호화 키 전달
 bootRun {
     systemProperty "jasypt.encryptor.password", findProperty("jasypt.encryptor.password")
 }
 
+// 테스트 실행 시 Jasypt 암호화 키 전달 및 추가 설정
 test {
     useJUnitPlatform()
     systemProperty 'jasypt.encryptor.password', findProperty("jasypt.encryptor.password")
     outputs.dir file('build/generated-snippets')
 }
 
+// AsciiDoc 문서 생성 설정
 asciidoctor {
     inputs.dir file('build/generated-snippets')
     configurations 'asciidoctorExt'
     dependsOn test
 }
 
-asciidoctor.doFirst {
-    delete file("src/main/resources/static/docs")
-}
-
+// AsciiDoc 문서를 정적 리소스로 복사하는 작업 정의
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
     from file("build/docs/asciidoc")
     into file("src/main/resources/static/docs")
 }
 
+// 빌드 과정에서 문서 복사 작업을 의존성에 추가
 build {
     dependsOn copyDocument
 }
 
+// clean 작업 정의 (문서와 생성된 코드 삭제)
 clean {
     delete file("src/main/resources/static/docs")
     delete file('src/main/generated')
 }
 
-
+// Spring Boot 빌드 정보 생성
 springBoot {
     buildInfo()
 }
