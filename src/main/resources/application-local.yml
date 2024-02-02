@@ -6,7 +6,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: khjzzm
-    password: snpmkpsycogrolbm
+    password: ENC(wC/z1u5NfVfbQ4/8cfVPPDFBJoaQLRmCoGHBT73+YSo=)
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
@@ -37,12 +37,12 @@ spring:
 
   redis:
     master:
-      host: 125.141.223.94
+      host: ENC(2lEBDKbUf18M4AajxCG6H5fp/6cwy/Y6)
       port: 6380
     slaves:
-      - host: 125.141.223.94
+      - host: ENC(2lEBDKbUf18M4AajxCG6H5fp/6cwy/Y6)
         port: 6381
-    password: inforex((.(
+    password: ENC(BrzRsmE+7ctHykti1JTGiGUTrOYqn8Iy)
     database: 12
 
   sql:
