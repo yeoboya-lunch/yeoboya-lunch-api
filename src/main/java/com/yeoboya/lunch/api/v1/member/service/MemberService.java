@@ -16,6 +16,7 @@ import com.yeoboya.lunch.api.v1.member.response.procedure.MemberResponseInterfac
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -62,13 +63,13 @@ public class MemberService {
 
     @Transactional
     public MemberResponse memberProfile(String memberEmail) {
-//        MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
-        List<MemberResponseInterface> memberResponseInterface = memberProcedure.pMemberListByEmail(memberEmail);
-//        if(StringUtils.hasText(memberResponse.getAccountNumber())){
-//            memberResponse.setAccount(true);
-//        }
-//        return memberResponse;
-        return null;
+        MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
+//        List<MemberResponseInterface> memberResponseInterface = memberProcedure.pMemberListByEmail(memberEmail);
+        if(StringUtils.hasText(memberResponse.getAccountNumber())){
+            memberResponse.setAccount(true);
+        }
+        return memberResponse;
+//        return null;
     }
 
     @Transactional
