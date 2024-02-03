@@ -1,3 +1,3 @@
-INSERT INTO roles (role) VALUES ('ROLE_ADMIN');
-INSERT INTO roles (role) VALUES ('ROLE_MANGER');
-INSERT INTO roles (role) VALUES ('ROLE_USER');
+MERGE INTO roles (role) KEY(role) VALUES ('ROLE_ADMIN');
+MERGE INTO roles (role) KEY(role) VALUES ('ROLE_MANAGER');
+MERGE INTO roles (role) KEY(role) VALUES ('ROLE_USER');

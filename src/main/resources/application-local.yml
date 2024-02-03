@@ -30,24 +30,24 @@ spring:
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true # Hibernate sql
     defer-datasource-initialization: true
     open-in-view: true
 
   redis:
     master:
-      host:
-      port:
+      host: 127.0.0.1
+      port: 6379
     slaves:
-      - host:
-        port:
-    password:
-    database:
+      - host: 127.0.0.1
+        port: 6380
+    password: redistestpassword
+    database: 12
 
   sql:
     init:
-      mode: never
+      mode: always
 
 file:
   upload:
