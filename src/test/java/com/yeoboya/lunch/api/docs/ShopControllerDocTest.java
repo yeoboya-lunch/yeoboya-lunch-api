@@ -1,17 +1,24 @@
 package com.yeoboya.lunch.api.docs;
 
-import com.yeoboya.lunch.api.container.ContainerDI;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -26,17 +33,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
-class ShopControllerDocTest extends ContainerDI {
+@TestPropertySource(properties = "jasypt.encryptor.password=RV47mq6CwLrDEankn8j4")
+class ShopControllerDocTest {
+
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected MockMvc mockMvc;
+
+    private static String uniqueShop;
+
+    @BeforeAll
+    static void setUp() {
+        uniqueShop = "상점" + new Random().nextInt(10000);
+    }
 
     @Test
     @DisplayName("상점등록")
     void create() throws Exception {
         //given
         ShopCreate request = new ShopCreate();
-        request.setShopName("버거킹");
+        request.setShopName(uniqueShop);
         String json = objectMapper.writeValueAsString(request);
 
         //expected
@@ -75,9 +97,9 @@ class ShopControllerDocTest extends ContainerDI {
     void shop() throws Exception {
         //given
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
-//        info.add("shopName", "맥도날드");
-//        info.add("page", "0");
-//        info.add("size", "10");
+        info.add("shopName", uniqueShop);
+        info.add("page", "0");
+        info.add("size", "10");
 
         //expected
         mockMvc.perform(get("/shop")
@@ -99,7 +121,12 @@ class ShopControllerDocTest extends ContainerDI {
                                 fieldWithPath("message")
                                         .type(JsonFieldType.STRING)
                                         .description("message"),
-                                fieldWithPath("data.[].shopName")
+                                fieldWithPath("data.pageNo").description("현재 페이지 번호"),
+                                fieldWithPath("data.hasPrevious").description("이전 페이지가 있는지 여부"),
+                                fieldWithPath("data.hasNext").description("다음 페이지가 있는지 여부"),
+                                fieldWithPath("data.isFirst").description("현재 페이지가 첫 페이지인지 여부"),
+                                fieldWithPath("data.isLast").description("현재 페이지가 마지막 페이지인지 여부"),
+                                fieldWithPath("data.list[].shopName")
                                         .type(JsonFieldType.STRING)
                                         .description("가게이름")
                                         .attributes(key("length").value("20")),

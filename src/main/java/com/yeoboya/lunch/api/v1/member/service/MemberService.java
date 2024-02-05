@@ -12,8 +12,8 @@ import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
 import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberAccount;
 import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberSummary;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
-import com.yeoboya.lunch.api.v1.member.response.procedure.MemberResponseInterface;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -37,17 +37,16 @@ public class MemberService {
 
     @Transactional
     public Map<String, Object> memberList(Pageable pageable) {
-        List<MemberResponseInterface> memberResponses = memberProcedure.pMemberList(pageable.getPageNumber(), pageable.getPageSize());
+//        List<MemberResponseInterface> memberResponses = memberProcedure.pMemberList(pageable.getPageNumber(), pageable.getPageSize());
 
-//        Slice<MemberResponse> members = memberRepository.getMembers(pageable);
+        Slice<MemberResponse> members = memberRepository.getMembers(pageable);
         return Map.of(
-                    "member", memberResponses
-//                "list", members.getContent(),
-//                "isFirst", members.isFirst(),
-//                "isLast", members.isLast(),
-//                "hasNext", members.hasNext(),
-//                "hasPrevious", members.hasPrevious(),
-//                "pageNo", members.getNumber()+1
+                "list", members.getContent(),
+                "isFirst", members.isFirst(),
+                "isLast", members.isLast(),
+                "hasNext", members.hasNext(),
+                "hasPrevious", members.hasPrevious(),
+                "pageNo", members.getNumber()+1
         );
 
     }

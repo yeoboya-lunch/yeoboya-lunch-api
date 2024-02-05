@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.IntStream;
 
@@ -18,6 +19,7 @@ public class UserServiceTest {
     UserService service;
 
     @Test
+    @Transactional
     void signUp() {
         UserRequest.SignUp signUp = new UserRequest.SignUp();
         IntStream.rangeClosed(100, 300).forEach(i->{

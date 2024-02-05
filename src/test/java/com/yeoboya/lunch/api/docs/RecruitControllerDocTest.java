@@ -1,165 +1,96 @@
 package com.yeoboya.lunch.api.docs;
 
-import com.yeoboya.lunch.api.container.ContainerDI;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.restdocs.snippet.Attributes.key;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
-class RecruitControllerDocTest extends ContainerDI {
+@TestPropertySource(properties = "jasypt.encryptor.password=RV47mq6CwLrDEankn8j4")
+class RecruitControllerDocTest  {
 
-//    @Test
-//    @Disabled
-//    void order() throws Exception {
-//
-//        //given
-//        OrderItemCreate orderItemCreate = new OrderItemCreate();
-//        orderItemCreate.setItemName("슈비버거");
-//        orderItemCreate.setOrderQuantity(1);
-//
-//        OrderItemCreate orderItemCreate2 = new OrderItemCreate();
-//        orderItemCreate2.setItemName("슈슈버거");
-//        orderItemCreate2.setOrderQuantity(2);
-//
-//        List<OrderItemCreate> orderItemCreates = new ArrayList<>();
-//        orderItemCreates.add(orderItemCreate);
-//        orderItemCreates.add(orderItemCreate2);
-//
-//        //given
-//        OrderRecruitmentCreate order = OrderRecruitmentCreate.builder()
-//                .email("user@gmail.com")
-//                .shopName("맥도날드")
-//                .orderItems(orderItemCreates)
-//                .build();
-//        String json = objectMapper.writeValueAsString(order);
-//
-//        //expected
-//        mockMvc.perform(post("/order")
-//                        .contentType(APPLICATION_JSON)
-//                        .accept(APPLICATION_JSON)
-//                        .content(json))
-//                .andDo(print())
-//                .andExpect(status().is2xxSuccessful())
-//                .andDo(document("order/post",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint()),
-//                        requestFields(
-//                                fieldWithPath("email").description("이메일")
-//                                        .type(JsonFieldType.STRING),
-//                                fieldWithPath("shopName").description("맥도날드")
-//                                        .type(JsonFieldType.STRING),
-//                                fieldWithPath("orderItems.[].itemName").description("주문아이템")
-//                                        .type(JsonFieldType.STRING),
-//                                fieldWithPath("orderItems.[].orderQuantity").description("주문수량")
-//                                        .type(JsonFieldType.NUMBER).optional()
-//                        ),
-//                        responseFields(
-//                                fieldWithPath("code").description("code")
-//                                        .type(JsonFieldType.NUMBER),
-//                                fieldWithPath("message").description("message")
-//                                        .type(JsonFieldType.STRING),
-//                                fieldWithPath("data.orderName").description("주문자명")
-//                                        .type(JsonFieldType.STRING)
-//                                        .attributes(key("length").value("5")),
-//                                fieldWithPath("data.orderStatus").description("주문상태")
-//                                        .type(JsonFieldType.STRING)
-//                                        .attributes(key("length").value("5"))
-//                                        .attributes(key("note").value("ORDER, CANCEL")),
-//                                fieldWithPath("data.totalPrice").description("주문가격")
-//                                        .type(JsonFieldType.NUMBER),
-//                                fieldWithPath("data.orderItems.[].itemName").description("상품명")
-//                                        .type(JsonFieldType.STRING),
-//                                fieldWithPath("data.orderItems.[].orderPrice").description("상품가격")
-//                                        .type(JsonFieldType.NUMBER),
-//                                fieldWithPath("data.orderItems.[].orderQuantity").description("주문수량")
-//                                        .type(JsonFieldType.NUMBER)
-//                        )
-//                ));
-//    }
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected MockMvc mockMvc;
+
 
     @Test
-    void getList() throws Exception {
+    @DisplayName("점심 주문 모집")
+    void orderRecruit() throws Exception {
+        // 현재 시간에 30분을 추가
+        LocalDateTime localDateTimePlus30Mins = LocalDateTime.now().plusMinutes(30);
+        Timestamp lastOrderTime = Timestamp.valueOf(localDateTimePlus30Mins);
 
         //given
-        MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
-//        info.add("page", "0");
-//        info.add("size", "10");
+        OrderRecruitmentCreate order = OrderRecruitmentCreate.builder()
+                .email("khj@gmail.com")
+                .title("맥도날드 먹는날")
+                .lastOrderTime(lastOrderTime)
+                .memo("신상버거 나왔습니다 ㅋㅋ")
+                .deliveryFee(2500)
+                .shopName("맥도날드")
+                .build();
 
-        mockMvc.perform(get("/order/list")
-                        .params(info))
-                .andExpect(status().isOk())
-                .andDo(document("order/get/list",
+        String json = objectMapper.writeValueAsString(order);
+
+        //expected
+        mockMvc.perform(post("/order/recruit")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("order/recruit",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
-                                parameterWithName("startDate").description("주문 조회 시작 날짜").optional(),
-                                parameterWithName("endDate").description("주문 조회 종료 날짜").optional(),
-                                parameterWithName("orderName").description("주문자 이름").optional(),
-                                parameterWithName("orderStatus").description("주문상태").optional(),
-                                parameterWithName("page").description("페이지").optional(),
-                                parameterWithName("size").description("사이즈").optional()
+                        requestFields(
+                                fieldWithPath("email").description("이메일").type(JsonFieldType.STRING),
+                                fieldWithPath("title").description("모집 제목").type(JsonFieldType.STRING),
+                                fieldWithPath("lastOrderTime").description("주문 마감 시간").type(JsonFieldType.STRING),
+                                fieldWithPath("memo").description("메모").type(JsonFieldType.STRING),
+                                fieldWithPath("deliveryFee").description("배달료").type(JsonFieldType.NUMBER),
+                                fieldWithPath("shopName").description("가게 이름").type(JsonFieldType.STRING)
                         ),
                         responseFields(
                                 fieldWithPath("code").description("code")
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.[].orderName").description("주문자명")
                                         .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("5")),
-                                fieldWithPath("data.[].orderStatus").description("주문상태")
-                                        .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("5"))
-                                        .attributes(key("note").value("ORDER, CANCEL")).optional(),
-                                fieldWithPath("data.[].totalPrice").description("주문가격")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.[].orderItems.[].itemName").description("상품명")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.[].orderItems.[].orderPrice").description("상품가격")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.[].orderItems.[].orderQuantity").description("주문수량")
-                                        .type(JsonFieldType.NUMBER)
                         )
                 ));
     }
-
 
     @Test
-    void cancel() throws Exception {
-        //expected
-        mockMvc.perform(patch("/order/cancel/{orderId}", 1))
-                .andExpect(status().isOk())
-                .andDo(document("order/cancel",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("orderId").description("주문번호")
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("code")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING)
-                        )
-                ));
+    @DisplayName("점심 주문 모집 참가")
+    void lunchRecruitsGroupJoin() throws Exception {
+
     }
+
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.IntStream;
 
@@ -13,13 +14,12 @@ import java.util.stream.IntStream;
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 public class ShopServiceTest {
 
-
     @Autowired
     ShopService service;
 
     @Test
+    @Transactional
     void create() {
-
         ShopCreate shopCreate = new ShopCreate();
         IntStream.rangeClosed(1, 300).forEach(i->{
             shopCreate.setShopName(i+"번 방");

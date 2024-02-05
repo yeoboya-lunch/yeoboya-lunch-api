@@ -1,18 +1,26 @@
 package com.yeoboya.lunch.api.docs;
 
-import com.yeoboya.lunch.api.container.ContainerDI;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -25,18 +33,34 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
-class ItemControllerDocTest extends ContainerDI {
+@TestPropertySource(properties = "jasypt.encryptor.password=RV47mq6CwLrDEankn8j4")
+class ItemControllerDocTest {
+
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected MockMvc mockMvc;
+
+    private static int unique;
+
+    @BeforeAll
+    static void setUp() {
+        unique = new Random().nextInt(10000);
+    }
+
 
     @Test
     void create() throws Exception {
         //given
         ItemCreate request = ItemCreate.builder()
                 .shopName("맥도날드")
-                .itemName("더블불고기버거")
-                .price(7300)
+                .itemName("아이템"+unique)
+                .price(unique)
                 .build();
         String json = objectMapper.writeValueAsString(request);
 
@@ -80,7 +104,6 @@ class ItemControllerDocTest extends ContainerDI {
 
     @Test
     void getItem() throws Exception {
-
         mockMvc.perform(get("/item/{itemId}", 1)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
@@ -96,9 +119,9 @@ class ItemControllerDocTest extends ContainerDI {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
                                         .type(JsonFieldType.STRING),
-                                fieldWithPath("data.shopName") .description("상점명")
+                                fieldWithPath("data.shopName").description("상점명")
                                         .type(JsonFieldType.STRING),
-                                fieldWithPath("data.name") .description("상품명")
+                                fieldWithPath("data.name").description("상품명")
                                         .type(JsonFieldType.STRING),
                                 fieldWithPath("data.price").description("상품가격")
                                         .type(JsonFieldType.NUMBER)
@@ -109,11 +132,10 @@ class ItemControllerDocTest extends ContainerDI {
 
     @Test
     void getList() throws Exception {
-
         //given
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
-//        info.add("page", "0");
-//        info.add("size", "10");
+        info.add("page", "0");
+        info.add("size", "10");
 
         mockMvc.perform(get("/item")
                         .params(info))
@@ -146,10 +168,10 @@ class ItemControllerDocTest extends ContainerDI {
 
     @Test
     @Transactional
+    @DisplayName("아이템 업데이트")
     void updateItem() throws Exception {
-
         //given
-        ItemEdit request = ItemEdit.builder().name("NEW 슈비버거").price(10500).build();
+        ItemEdit request = ItemEdit.builder().name("NEW 슈비버거").price(6800).build();
         String json = objectMapper.writeValueAsString(request);
 
         //expected
@@ -175,13 +197,14 @@ class ItemControllerDocTest extends ContainerDI {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
                                         .type(JsonFieldType.STRING)
-                                )
+                        )
                 ));
     }
 
     @Test
+    @Transactional
     void deleteItem() throws Exception {
-        mockMvc.perform(delete("/item/{itemId}", 8)
+        mockMvc.perform(delete("/item/{itemId}", 2)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())

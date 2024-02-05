@@ -1,17 +1,21 @@
 package com.yeoboya.lunch.api.docs;
 
-import com.yeoboya.lunch.api.container.ContainerDI;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -24,12 +28,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
-class MemberControllerDocTest extends ContainerDI {
+@TestPropertySource(properties = "jasypt.encryptor.password=RV47mq6CwLrDEankn8j4")
+class MemberControllerDocTest {
+
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected MockMvc mockMvc;
 
     @Test
+    @DisplayName("회원리스트")
     void member() throws Exception {
 
         mockMvc.perform(get("/member"))
@@ -46,39 +59,34 @@ class MemberControllerDocTest extends ContainerDI {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
                                         .type(JsonFieldType.STRING),
-                                fieldWithPath("data.[].email").description("이메일")
-                                        .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("20")),
-                                fieldWithPath("data.[].name").description("이름")
-                                        .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("5")),
-                                fieldWithPath("data.[].bankName").description("은행명")
-                                        .type(JsonFieldType.STRING)
-                                        .optional(),
-                                fieldWithPath("data.[]accountNumber").description("계좌번호")
-                                        .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("30"))
-                                        .optional(),
-                                fieldWithPath("data.[]nickName").description("닉네임")
-                                        .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("30"))
-                                        .optional(),
-                                fieldWithPath("data.[]phoneNumber").description("핸드폰")
-                                        .type(JsonFieldType.STRING)
-                                        .attributes(key("length").value("30"))
-                                        .optional()
+                                fieldWithPath("data.pageNo").description("현재 페이지 번호"),
+                                fieldWithPath("data.hasPrevious").description("이전 페이지가 있는지 여부"),
+                                fieldWithPath("data.hasNext").description("다음 페이지가 있는지 여부"),
+                                fieldWithPath("data.isFirst").description("현재 페이지가 첫 페이지인지 여부"),
+                                fieldWithPath("data.isLast").description("현재 페이지가 마지막 페이지인지 여부"),
+                                fieldWithPath("data.list[].email").description("이메일 주소"),
+                                fieldWithPath("data.list[].name").description("이름"),
+                                fieldWithPath("data.list[].bankName").optional().description("은행 이름"),
+                                fieldWithPath("data.list[].accountNumber").optional().description("계좌 번호"),
+                                fieldWithPath("data.list[].account").description("계좌 존재 여부"),
+                                fieldWithPath("data.list[].nickName").optional().description("닉네임"),
+                                fieldWithPath("data.list[].phoneNumber").optional().description("전화번호")
+
                         )
+
                 ));
 
     }
 
     @Test
+    @DisplayName("계좌등록")
+    @Transactional
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
-                .email("manager@gmail.com")
-                .bankName("터스")
-                .accountNumber("010-8349-0705")
+                .email("admin@gmail.com")
+                .bankName("카카오뱅크")
+                .accountNumber("3333-01-123456")
                 .build();
 
         String json = objectMapper.writeValueAsString(request);
@@ -119,7 +127,6 @@ class MemberControllerDocTest extends ContainerDI {
 
     @Test
     @DisplayName("계좌수정")
-    @Disabled
     void accountUpdate() throws Exception {
         //given
         AccountEdit request = AccountEdit.builder().bankName("토스").accountNumber("010-8349-0706").build();

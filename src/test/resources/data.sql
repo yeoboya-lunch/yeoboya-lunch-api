@@ -1,218 +1,199 @@
-drop table if exists account CASCADE;
-drop table if exists member_role CASCADE;
-drop table if exists order_item CASCADE;
-drop table if exists orders CASCADE;
-drop table if exists roles CASCADE;
-drop table if exists item CASCADE;
-drop table if exists shop CASCADE;
-drop table if exists member CASCADE;
-drop table if exists member_info CASCADE;
+-- 기존 테이블 삭제
+DROP TABLE IF EXISTS order_item CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS account CASCADE;
+DROP TABLE IF EXISTS member_info CASCADE;
+DROP TABLE IF EXISTS member_role CASCADE;
+DROP TABLE IF EXISTS member CASCADE;
+DROP TABLE IF EXISTS item CASCADE;
+DROP TABLE IF EXISTS shop CASCADE;
+DROP TABLE IF EXISTS roles CASCADE;
 
-create table roles
+-- 역할(Role) 테이블 생성
+CREATE TABLE roles
 (
-    roles_id bigint auto_increment,
-    role     varchar(255),
-    primary key (roles_id),
-    constraint UK_ROLE unique (role)
+    roles_id BIGINT AUTO_INCREMENT,
+    role     VARCHAR(255),
+    PRIMARY KEY (roles_id),
+    CONSTRAINT UK_ROLE UNIQUE (role)
 );
 
-create table member
+-- 회원(Member) 테이블 생성
+CREATE TABLE member
 (
-    member_id          bigint auto_increment,
-    created_date       timestamp,
-    last_modified_date timestamp,
-    email              varchar(255),
-    name               varchar(255),
-    password           varchar(255),
-    primary key (member_id)
+    member_id          BIGINT AUTO_INCREMENT,
+    created_date       TIMESTAMP,
+    last_modified_date TIMESTAMP,
+    email              VARCHAR(255),
+    name               VARCHAR(255),
+    password           VARCHAR(255),
+    PRIMARY KEY (member_id)
 );
 
-create table member_role
+-- 회원 역할(Member_Role) 관계 테이블 생성
+CREATE TABLE member_role
 (
-    member_roles_id bigint auto_increment,
-    member_id       bigint,
-    roles_id        bigint,
-    primary key (member_roles_id),
-    constraint FK_MEMBER_MEMBER_ROLE foreign key (member_id) references member (member_id),
-    constraint KF_ROLES_MEMBER_ROLE foreign key (roles_id) references roles (roles_id),
-    constraint UK_MEMBER_ROLE unique (member_id, roles_id)
+    member_roles_id BIGINT AUTO_INCREMENT,
+    member_id       BIGINT,
+    roles_id        BIGINT,
+    PRIMARY KEY (member_roles_id),
+    CONSTRAINT FK_MEMBER_MEMBER_ROLE FOREIGN KEY (member_id) REFERENCES member (member_id),
+    CONSTRAINT FK_ROLES_MEMBER_ROLE FOREIGN KEY (roles_id) REFERENCES roles (roles_id),
+    CONSTRAINT UK_MEMBER_ROLE UNIQUE (member_id, roles_id)
 );
 
-create table member_info
+-- 회원 정보(Member_Info) 테이블 생성
+CREATE TABLE member_info
 (
-    member_info_id bigint auto_increment,
-    member_id      bigint,
-    bio varchar(255) NOT NULL,
-    nick_name varchar(255),
-    phone_number varchar(255),
-    primary key (member_info_id),
-    constraint FK_MEMBER_INFO foreign key (member_id) references member (member_id),
-    constraint UK_MEMBER_MEMBER_INFO unique (member_id)
+    member_info_id BIGINT AUTO_INCREMENT,
+    member_id      BIGINT,
+    bio            VARCHAR(255) NOT NULL,
+    nick_name      VARCHAR(255),
+    phone_number   VARCHAR(255),
+    PRIMARY KEY (member_info_id),
+    CONSTRAINT FK_MEMBER_INFO FOREIGN KEY (member_id) REFERENCES member (member_id),
+    CONSTRAINT UK_MEMBER_MEMBER_INFO UNIQUE (member_id)
 );
 
-create table account
+-- 계정(Account) 테이블 생성
+CREATE TABLE account
 (
-    account_id         bigint auto_increment,
-    created_date       timestamp,
-    last_modified_date timestamp,
-    account_number     varchar(255),
-    bank_name          varchar(255),
-    member_id          bigint,
-    primary key (account_id),
-    constraint FK_MEMBER_ACCOUNT foreign key (member_id) references member (member_id),
-    constraint UK_ACCOUNT_MEMBER unique (member_id)
+    account_id         BIGINT AUTO_INCREMENT,
+    created_date       TIMESTAMP,
+    last_modified_date TIMESTAMP,
+    account_number     VARCHAR(255),
+    bank_name          VARCHAR(255),
+    member_id          BIGINT,
+    PRIMARY KEY (account_id),
+    CONSTRAINT FK_MEMBER_ACCOUNT FOREIGN KEY (member_id) REFERENCES member (member_id),
+    CONSTRAINT UK_ACCOUNT_MEMBER UNIQUE (member_id)
 );
 
-create table shop
+-- 상점(Shop) 테이블 생성
+CREATE TABLE shop
 (
-    shop_id            bigint auto_increment,
-    created_date       timestamp,
-    last_modified_date timestamp,
-    create_by          varchar(255),
-    last_modified_by   varchar(255),
-    name               varchar(10) not null,
-    primary key (shop_id),
-    constraint UK_SHOP unique (name)
+    shop_id            BIGINT AUTO_INCREMENT,
+    created_date       TIMESTAMP,
+    last_modified_date TIMESTAMP,
+    create_by          VARCHAR(255),
+    last_modified_by   VARCHAR(255),
+    name               VARCHAR(10) NOT NULL,
+    PRIMARY KEY (shop_id),
+    CONSTRAINT UK_SHOP UNIQUE (name)
 );
 
-create table item
+-- 상품(Item) 테이블 생성
+CREATE TABLE item
 (
-    item_id            bigint auto_increment,
-    created_date       timestamp,
-    last_modified_date timestamp,
-    create_by          varchar(255),
-    last_modified_by   varchar(255),
-    name               varchar(255),
-    price              integer not null,
-    shop_id            bigint,
-    primary key (item_id),
-    constraint FK_SHOP_ITEM foreign key (shop_id) references shop (shop_id),
-    constraint UK_NAME_SHOP unique (name, shop_id)
+    item_id            BIGINT AUTO_INCREMENT,
+    created_date       TIMESTAMP,
+    last_modified_date TIMESTAMP,
+    create_by          VARCHAR(255),
+    last_modified_by   VARCHAR(255),
+    name               VARCHAR(255),
+    price              INTEGER NOT NULL,
+    shop_id            BIGINT,
+    PRIMARY KEY (item_id),
+    CONSTRAINT FK_SHOP_ITEM FOREIGN KEY (shop_id) REFERENCES shop (shop_id),
+    CONSTRAINT UK_NAME_SHOP UNIQUE (name, shop_id)
 );
 
-create table orders
+-- 주문(Orders) 테이블 생성
+CREATE TABLE orders
 (
-    order_id   bigint auto_increment,
-    order_date timestamp,
-    status     varchar(255),
-    member_id  bigint,
-    primary key (order_id),
-    constraint FK_MEMBER_ORDERS foreign key (member_id) references member (member_id)
+    order_id        BIGINT AUTO_INCREMENT,
+    order_date      TIMESTAMP,
+    status          VARCHAR(255),
+    member_id       BIGINT,
+    delivery_fee    BINARY,
+    PRIMARY KEY (order_id),
+    CONSTRAINT FK_MEMBER_ORDERS FOREIGN KEY (member_id) REFERENCES member (member_id)
 );
 
-create table order_item
+-- 주문 항목(Order_Item) 테이블 생성
+CREATE TABLE order_item
 (
-    order_item_id  bigint auto_increment,
-    order_price    integer not null,
-    order_quantity integer not null,
-    item_id        bigint,
-    order_id       bigint,
-    primary key (order_item_id),
-    constraint FK_ITEM_ORDER_ITEM foreign key (item_id) references item (item_id),
-    constraint FK_ORDER_ORDER_ITEM foreign key (order_id) references orders (order_id)
+    order_item_id  BIGINT AUTO_INCREMENT,
+    order_price    INTEGER NOT NULL,
+    order_quantity INTEGER NOT NULL,
+    item_id        BIGINT,
+    order_id       BIGINT,
+    PRIMARY KEY (order_item_id),
+    CONSTRAINT FK_ITEM_ORDER_ITEM FOREIGN KEY (item_id) REFERENCES item (item_id),
+    CONSTRAINT FK_ORDER_ORDER_ITEM FOREIGN KEY (order_id) REFERENCES orders (order_id)
 );
 
-
-
+-- 초기 데이터 삽입
+-- 역할 데이터 삽입
 INSERT INTO roles (role)
-VALUES ('ROLE_ADMIN');
-INSERT INTO roles (role)
-VALUES ('ROLE_MANGER');
-INSERT INTO roles (role)
-VALUES ('ROLE_USER');
+VALUES ('ROLE_ADMIN'),
+       ('ROLE_MANGER'),
+       ('ROLE_USER');
 
+-- 회원 데이터 삽입
 INSERT INTO member (created_date, last_modified_date, email, name, password)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'khj@gmail.com', '김현진', 'test5678((');
+VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'khj@gmail.com', '김현진', 'test5678(('),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin@gmail.com', '어드민', 'admin5678(('),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'user@gmail.com', '유저', 'user5678(('),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'manager@gmail.com', '매니저', 'manager5678((');
 
-INSERT INTO member (created_date, last_modified_date, email, name, password)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin@gmail.com', '어드민', 'admin5678((');
+-- 회원 역할 관계 데이터 삽입
+INSERT INTO member_role (member_id, roles_id)
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (2, 1),
+       (3, 3),
+       (4, 2);
 
-INSERT INTO member (created_date, last_modified_date, email, name, password)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'user@gmail.com', '유저', 'user5678((');
-
-INSERT INTO member (created_date, last_modified_date, email, name, password)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'manager@gmail.com', '매니저', 'manager5678((');
-
-
-INSERT INTO member_role (member_id, roles_id)
-values (1, 1);
-INSERT INTO member_role (member_id, roles_id)
-values (1, 2);
-INSERT INTO member_role (member_id, roles_id)
-values (1, 3);
-INSERT INTO member_role (member_id, roles_id)
-values (2, 1);
-INSERT INTO member_role (member_id, roles_id)
-values (3, 3);
-INSERT INTO member_role (member_id, roles_id)
-values (4, 2);
-
+-- 계정 데이터 삽입
 INSERT INTO account (created_date, last_modified_date, account_number, bank_name, member_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '3333-01-0630167', '카카오뱅크', 1);
+VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '3333-01-0630167', '카카오뱅크', 1);
+
+-- 상점 및 상품 데이터 삽입
+INSERT INTO shop (name)
+VALUES ('맥도날드');
+INSERT INTO item (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
+VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '슈비버거', 6300, 1),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '슈슈버거', 6000, 1);
 
 INSERT INTO shop (name)
-values ('맥도날드');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '슈비버거', '6300', '1');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '슈슈버거', '6000', '1');
-
+VALUES ('맘스터치');
+INSERT INTO item (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
+VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '싸이버거', 5300, 2),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '망한버거', 25300, 2);
 
 INSERT INTO shop (name)
-values ('맘스터치');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '싸이버거', '5300', '2');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '망한버거', '25300', '2');
+VALUES ('상무초밥');
+INSERT INTO item (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
+VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin', 'admin', '우럭초밥', 1200, 3),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin', 'admin', '계란초밥 2피스', 2400, 3),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin', 'admin', '커플세트(소) 2인', 35000, 3),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin', 'admin', '우정세트(중) 3인', 55000, 3),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin', 'admin', '초밥세트(특대) 6인', 130000, 3),
+       (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin', 'admin', '오늘의초밥', 9900, 3);
+
+-- 주문 데이터 삽입
+-- member_id는 주문을 하는 회원의 ID를 사용해야 합니다.
+-- 이 예제에서는 member_id = 1 (김현진)으로 가정합니다.
+INSERT INTO orders (order_date, status, member_id)
+VALUES ('2022-11-20 10:20:00', 'ORDER', 1),
+       ('2022-11-20 20:20:00', 'ORDER', 3),
+       ('2022-11-21 09:20:00', 'ORDER', 3),
+       ('2022-12-24 10:20:00', 'ORDER', 3);
+
+-- 주문 항목 데이터 삽입
+-- order_id와 item_id는 적절한 주문 및 상품의 ID를 사용해야 합니다.
+-- 이 예제에서는 주문 ID와 상품 ID를 가정하여 작성합니다.
+INSERT INTO order_item (item_id, order_id, order_price, order_quantity)
+VALUES (1, 1, 6300, 1),  -- '슈비버거' 1개 주문
+       (2, 1, 6000, 2),  -- '슈슈버거' 2개 주문
+       (4, 2, 25300, 5), -- '망한버거' 5개 주문
+       (5, 3, 1200, 5),  -- '우럭초밥' 5개 주문
+       (6, 3, 2400, 10), -- '계란초밥 2피스' 10개 주문
+       (10, 4, 9900, 1); -- '오늘의초밥' 1개 주문
 
 
-INSERT INTO shop (name)
-values ('상무초밥');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '우럭초밥', '1200', '3');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '계란초밥 2피스', '2400', '3');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '커플세트(소) 2인', '35000', '3');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '우정세트(중) 3인', '55000', '3');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '초밥세트(특대) 6인', '130000', '3');
-INSERT INTO ITEM (created_date, last_modified_date, create_by, last_modified_by, name, price, shop_id)
-values (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test', '오늘의초밥', '9900', '3');
 
 
-INSERT INTO ORDERS (order_date, status, member_id)
-values (CURRENT_TIMESTAMP, 'ORDER', 1);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (1, 1, 6300, 1);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (2, 1, 6000, 2);
 
-INSERT INTO ORDERS (order_date, status, member_id)
-values ('2022-11-20 10:20:00', 'ORDER', 3);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (1, 2, 6300, 1);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (2, 2, 6000, 2);
-
-INSERT INTO ORDERS (order_date, status, member_id)
-values ('2022-11-20 20:20:00', 'ORDER', 3);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (4, 3, 25300, 5);
-
-INSERT INTO ORDERS (order_date, status, member_id)
-values ('2022-11-21 09:20:00', 'ORDER', 3);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (5, 4, 1200, 5);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (6, 4, 2400, 10);
-
-INSERT INTO ORDERS (order_date, status, member_id)
-values ('2022-12-24 10:20:00', 'ORDER', 3);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (3, 5, 5300, 1);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (1, 5, 6300, 1);
-insert into ORDER_ITEM (item_id, order_id, order_price, order_quantity)
-values (10, 5, 9900, 1);

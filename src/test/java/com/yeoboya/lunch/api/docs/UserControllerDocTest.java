@@ -1,16 +1,22 @@
 package com.yeoboya.lunch.api.docs;
 
-import com.yeoboya.lunch.api.container.ContainerDI;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -23,17 +29,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 443)
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
-class UserControllerDocTest extends ContainerDI {
+@TestPropertySource(properties = "jasypt.encryptor.password=RV47mq6CwLrDEankn8j4")
+class UserControllerDocTest {
+
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected MockMvc mockMvc;
+
+    private static String uniqueEmail;
+
+    @BeforeAll
+    static void setUp() {
+        uniqueEmail = "test" + new Random().nextInt(10000) + "@example.com";
+    }
 
     @Test
     @DisplayName("회원가입")
     void signUp() throws Exception {
         //given
         UserRequest.SignUp signUp = new UserRequest.SignUp();
-        signUp.setEmail("khjzzm@gmail.com");
+        signUp.setEmail(uniqueEmail);
         signUp.setName("김현진");
         signUp.setPassword("1234qwer!@#$");
 
@@ -66,13 +87,12 @@ class UserControllerDocTest extends ContainerDI {
 
 
     @Test
-    @Disabled
     @DisplayName("패스워드 변경")
     void changePassword() throws Exception {
         //given
         UserRequest.Credentials credentials = new UserRequest.Credentials();
-        credentials.setEmail("khj@gmail.com");
-        credentials.setOldPassword("test5678((");
+        credentials.setEmail(uniqueEmail);
+        credentials.setOldPassword("1234qwer!@#$");
         credentials.setNewPassword("qwer1234@@");
         credentials.setConfirmNewPassword("qwer1234@@");
 
@@ -105,13 +125,12 @@ class UserControllerDocTest extends ContainerDI {
     }
 
     @Test
-    @Disabled
     @DisplayName("로그인")
     void login() throws Exception {
         //given
         UserRequest.SignIn signIn = new UserRequest.SignIn();
-        signIn.setEmail("khj@gmail.com");
-        signIn.setPassword("qwer1234@@");
+        signIn.setEmail(uniqueEmail);
+        signIn.setPassword("1234qwer!@#$");
 
         String json = objectMapper.writeValueAsString(signIn);
 
@@ -149,13 +168,13 @@ class UserControllerDocTest extends ContainerDI {
                                 fieldWithPath("data.tokenExpirationTime").description("토큰 만료기간")
                                         .type(JsonFieldType.STRING),
                                 fieldWithPath("data.refreshTokenExpirationTime").description("리프레시 토큰 만료기간")
-                                        .type(JsonFieldType.NUMBER)
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.refreshTokenExpirationTimeStr").description("리프레시 토큰 만료기간")
+                                        .type(JsonFieldType.STRING)
 
                         )
                 ));
     }
-
-
 
     //todo
     //로그아웃, 토큰 재발급, 비밀번호 변경 이메일전송, 비밀번호 초기화

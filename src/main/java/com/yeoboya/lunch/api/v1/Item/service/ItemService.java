@@ -67,6 +67,8 @@ public class ItemService {
                 .price(itemEdit.getPrice())
                 .build();
 
+        System.out.println("itemEditor = " + itemEditor);
+
         item.edit(itemEditor);
     }
 

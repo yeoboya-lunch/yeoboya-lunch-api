@@ -46,14 +46,10 @@ public class OrderController {
      */
     @PostMapping("/recruit")
     public ResponseEntity<Body> lunchOrderRecruit(@RequestBody @Valid OrderRecruitmentCreate orderRecruitmentCreate, HttpServletRequest request){
-        String jwtTokenSubject = jwtTokenProvider.getJwtTokenSubject(request);
-        System.out.println("jwtTokenSubject = " + jwtTokenSubject);
-
         if (bucket.tryConsume(1)) {
             OrderDetailResponse orderDetailResponse = orderService.lunchOrderRecruitWrite(orderRecruitmentCreate);
             return response.success(Code.SAVE_SUCCESS, orderDetailResponse);
         }
-        System.out.println("TOO MANY REQUEST");
         return response.fail(ErrorCode.TOO_MANY_REQUESTS);
 
     }
