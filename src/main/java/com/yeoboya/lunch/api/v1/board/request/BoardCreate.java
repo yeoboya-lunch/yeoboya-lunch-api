@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.board.request;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,9 +10,17 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import java.util.List;
 
+/**
+ * The {@code BoardCreate} class represents a board creation object.
+ * It contains fields to store information about the board, such as email, title, hash tags, content, pin, and secret.
+ * The class provides getter and setter methods for each field.
+ *
+ * @see FileBoardCreate
+ */
 @Setter
 @Getter
 @ToString
+@Builder
 public class BoardCreate {
 
     @Email

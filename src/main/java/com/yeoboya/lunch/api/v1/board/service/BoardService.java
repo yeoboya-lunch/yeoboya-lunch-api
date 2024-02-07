@@ -20,9 +20,12 @@ import com.yeoboya.lunch.api.v1.file.service.FileService;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +38,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
 
     private final BoardRepository boardRepository;
@@ -48,7 +52,8 @@ public class BoardService {
         Member member = memberRepository.findByEmail(boardCreate.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + boardCreate.getEmail()));
 
-        String name = Optional.of(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new EntityNotFoundException(""));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
         if (!boardCreate.getEmail().equals(name)) {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
@@ -68,7 +73,12 @@ public class BoardService {
         }
 
         Board board = Board.createBoard(member, boardCreate, boardHashTags);
-        boardRepository.save(board);
+        try {
+            Board save = boardRepository.save(board);
+        } catch (DataAccessException e) {
+
+        }
+
         return response.success(Code.SAVE_SUCCESS);
     }
 
@@ -77,7 +87,8 @@ public class BoardService {
         Member member = memberRepository.findByEmail(fileBoardCreate.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + fileBoardCreate.getEmail()));
 
-        String name = Optional.of(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new EntityNotFoundException(""));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
         if (!fileBoardCreate.getEmail().equals(name)) {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }

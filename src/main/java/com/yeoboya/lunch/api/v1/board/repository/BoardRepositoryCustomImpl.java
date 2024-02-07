@@ -26,6 +26,13 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
         this.query = query;
     }
 
+    /**
+     * Retrieves a page of boards based on the given search criteria and pageable parameters.
+     *
+     * @param boardSearch - the search criteria to apply
+     * @param pageable - the pageable parameters for pagination
+     * @return a page of boards
+     */
     @Override
     public Page<Board> boardList(BoardSearch boardSearch, Pageable pageable) {
         List<Board> content = query.selectFrom(board)
@@ -46,4 +53,5 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
 
         return new PageImpl<>(content, pageable, totalCount);
     }
+
 }

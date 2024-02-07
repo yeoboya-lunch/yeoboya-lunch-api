@@ -37,6 +37,9 @@ public class BoardController {
     }
 
 
+    /**
+     * 게시글 조회
+     */
     @GetMapping
     public ResponseEntity<Body> list(BoardSearch boardSearch, Pageable pageable) {
         System.out.println("boardSearch = " + boardSearch);
