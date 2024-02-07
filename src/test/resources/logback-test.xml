@@ -4,14 +4,16 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <property name="CONSOLE_LOG_COLOR"
-              value="%n%clr(┌) %clr(%date{HH:mm:ss.SSS}){faint}%clr(%5level) %clr(%thread){yellow} %clr(%class){cyan}%clr(:%line){magenta} %clr(test){faint} %n%clr(└) %clr(%method){blue} %message %n"/>
+              value="%n%clr(┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────){faint}%n
+          %clr([%date{HH:mm:ss.SSS}]){faint} %clr([%5level]){bold} %clr([%thread]){yellow,bold} %clr(%logger{15}){cyan} %clr(:%line){magenta,bold}
+          %n%clr(│){faint} %clr(%msg){white}%n%clr(└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────){faint}%n"/>
 
     <logger name="jdbc" level="OFF"/>
     <logger name="jdbc.sqlonly" level="OFF"/>
     <logger name="jdbc.sqltiming" level="DEBUG"/>
     <logger name="jdbc.audit" level="OFF"/>
     <logger name="jdbc.resultset" level="OFF"/>
-    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.resultsettable" level="OFF"/>
     <logger name="jdbc.connection" level="OFF"/>
 
     <appender name="STDOUT_COMMON" class="ch.qos.logback.core.ConsoleAppender">
