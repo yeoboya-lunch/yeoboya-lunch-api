@@ -488,6 +488,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_주문_취소">7.3. 주문 취소</a></li>
 </ul>
 </li>
+<li><a href="#_board">8. Board</a>
+<ul class="sectlevel2">
+<li><a href="#_게시글_등록">8.1. 게시글 등록</a></li>
+<li><a href="#_게시글_리스트_조회">8.2. 게시글 리스트 조회</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -542,7 +548,7 @@ Content-Length: 93
 Host: lunch.yeoboya.com:4443
 
 {
-  "email" : "test2769@example.com",
+  "email" : "test7043@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$"
 }</code></pre>
@@ -665,7 +671,7 @@ Content-Length: 93
 Host: lunch.yeoboya.com:4443
 
 {
-  "email" : "test2769@example.com",
+  "email" : "test7043@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$"
 }</code></pre>
@@ -788,16 +794,13 @@ Content-Length: 163
 Host: lunch.yeoboya.com:4443
 
 {
-  "email" : "test2769@example.com",
+  "email" : "test7043@example.com",
   "oldPassword" : "1234qwer!@#$",
   "newPassword" : "qwer1234@@",
   "confirmNewPassword" : "qwer1234@@",
   "passKey" : null
 }</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/user setting/security/http-request.adoc[]</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -993,6 +996,10 @@ Content-Length: 3359
   "message" : "조회",
   "data" : {
     "pageNo" : 1,
+    "hasNext" : true,
+    "isFirst" : true,
+    "hasPrevious" : false,
+    "isLast" : false,
     "list" : [ {
       "email" : "khj@gmail.com",
       "name" : "김현진",
@@ -1109,11 +1116,7 @@ Content-Length: 3359
       "nickName" : "#77670",
       "phoneNumber" : "010-0000-0000",
       "account" : false
-    } ],
-    "isLast" : false,
-    "hasPrevious" : false,
-    "isFirst" : true,
-    "hasNext" : true
+    } ]
   }
 }</code></pre>
 </div>
@@ -1534,7 +1537,7 @@ Content-Length: 31
 Host: lunch.yeoboya.com:4443
 
 {
-  "shopName" : "상점4242"
+  "shopName" : "상점4991"
 }</code></pre>
 </div>
 </div>
@@ -1590,7 +1593,7 @@ Content-Length: 90
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "shopName" : "상점4242"
+    "shopName" : "상점4991"
   }
 }</code></pre>
 </div>
@@ -1644,7 +1647,7 @@ Content-Length: 90
 <h4 id="_http_request_8"><a class="link" href="#_http_request_8">5.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%904242&amp;page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%904991&amp;page=0&amp;size=10 HTTP/1.1
 Host: lunch.yeoboya.com:4443</code></pre>
 </div>
 </div>
@@ -1710,13 +1713,13 @@ Content-Length: 228
   "message" : "조회",
   "data" : {
     "pageNo" : 1,
-    "list" : [ {
-      "shopName" : "상점4242"
-    } ],
-    "isLast" : true,
-    "hasPrevious" : false,
+    "hasNext" : false,
     "isFirst" : true,
-    "hasNext" : false
+    "hasPrevious" : false,
+    "isLast" : true,
+    "list" : [ {
+      "shopName" : "상점4991"
+    } ]
   }
 }</code></pre>
 </div>
@@ -1832,8 +1835,8 @@ Host: lunch.yeoboya.com:4443
 
 {
   "shopName" : "맥도날드",
-  "itemName" : "아이템4548",
-  "price" : 4548
+  "itemName" : "아이템3250",
+  "price" : 3250
 }</code></pre>
 </div>
 </div>
@@ -1904,8 +1907,8 @@ Content-Length: 142
   "message" : "저장",
   "data" : {
     "shopName" : "맥도날드",
-    "name" : "아이템4548",
-    "price" : 4548
+    "name" : "아이템3250",
+    "price" : 3250
   }
 }</code></pre>
 </div>
@@ -2404,11 +2407,11 @@ Content-Length: 31
 <div class="sect3">
 <h4 id="_http_request_14"><a class="link" href="#_http_request_14">7.1.1. http-request</a></h4>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/post/http-request.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/post/request-fields.adoc[]
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/http-request.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/request-fields.adoc[]
 ==== http-response
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/post/http-response.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/post/response-fields.adoc[]</p>
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -2417,11 +2420,11 @@ Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lun
 <div class="sect3">
 <h4 id="_http_request_15"><a class="link" href="#_http_request_15">7.2.1. http-request</a></h4>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/get/list/http-request.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/get/list/request-parameters.adoc[]
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/http-request.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/request-parameters.adoc[]
 ==== http-response
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/get/list/http-response.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/get/list/response-fields.adoc[]</p>
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -2430,12 +2433,507 @@ Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lun
 <div class="sect3">
 <h4 id="_http_request_16"><a class="link" href="#_http_request_16">7.3.1. http-request</a></h4>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/cancel/http-request.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/cancel/path-parameters.adoc[]
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/http-request.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/path-parameters.adoc[]
 ==== http-response
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/cancel/http-response.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch/build/generated-snippets/recruit/cancel/response-fields.adoc[]</p>
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/response-fields.adoc[]</p>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_board"><a class="link" href="#_board">8. Board</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_게시글_등록"><a class="link" href="#_게시글_등록">8.1. 게시글 등록</a></h3>
+<div class="sect3">
+<h4 id="_http_request_17"><a class="link" href="#_http_request_17">8.1.1. http-request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/write HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 202
+Host: lunch.yeoboya.com:4443
+
+{
+  "email" : "khj6804@gmail.com",
+  "title" : "Test board title No is 8432",
+  "hashTag" : [ "snatch", "clean&amp;jerk", "크로스핏" ],
+  "content" : "Test content",
+  "pin" : 1234,
+  "secret" : false
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">optional</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 내용</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hashTag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해시태그</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">secret</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 공개여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_14"><a class="link" href="#_http_response_14">8.1.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 42
+
+{
+  "code" : 201,
+  "message" : "저장"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_게시글_리스트_조회"><a class="link" href="#_게시글_리스트_조회">8.2. 게시글 리스트 조회</a></h3>
+<div class="sect3">
+<h4 id="_http_request_18"><a class="link" href="#_http_request_18">8.2.1. http-request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board?page=0&amp;size=10 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: lunch.yeoboya.com:4443</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">optional</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">page</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사이즈</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_15"><a class="link" href="#_http_response_15">8.2.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 3385
+
+{
+  "code" : 200,
+  "message" : "조회",
+  "data" : {
+    "pagination" : {
+      "totalElements" : 8,
+      "isEmpty" : false,
+      "page" : 1,
+      "isFirst" : true,
+      "totalPages" : 1,
+      "isLast" : true
+    },
+    "list" : [ {
+      "boardId" : 8,
+      "title" : "Test board title No is 8432",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 06일 오후 17:43",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 7,
+      "title" : "Test board title No is 9579",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 06일 오후 17:19",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 6,
+      "title" : "Test board title No is 3170",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 06일 오후 16:14",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 5,
+      "title" : "자유게시판",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "boardTeser@gmail.com",
+      "name" : "김현진100",
+      "createDate" : "02월 06일 오후 16:10",
+      "hashTags" : [ {
+        "tag" : "마이"
+      }, {
+        "tag" : "구미!"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 4,
+      "title" : "Test board title No is 9718",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 06일 오후 16:07",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 3,
+      "title" : "Test board title No is 8030",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 06일 오후 16:03",
+      "hashTags" : [ {
+        "tag" : "tag1"
+      }, {
+        "tag" : "tag2"
+      }, {
+        "tag" : "ㄹㅗㅋㅑㄷㅕㅇㅓ"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 2,
+      "title" : "자유게시판",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "boardTeser@gmail.com",
+      "name" : "김현진100",
+      "createDate" : "02월 06일 오후 16:02",
+      "hashTags" : [ {
+        "tag" : "마이"
+      }, {
+        "tag" : "구미"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 1,
+      "title" : "자유게시판",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "boardTeser@gmail.com",
+      "name" : "김현진100",
+      "createDate" : "02월 06일 오후 16:02",
+      "hashTags" : [ {
+        "tag" : "마이"
+      }, {
+        "tag" : "구미"
+      } ],
+      "files" : [ ]
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The response code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The response message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].boardId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 내용</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].secret</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 공개 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 작성자 이메일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시판 작성자 이름</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].createDate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작성일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].hashTags[].tag</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해시태그</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첨부 파일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.pagination.isLast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.pagination.totalPages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 페이지 수</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.pagination.isFirst</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첫 페이지 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.pagination.page</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.pagination.totalElements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 게시물 수</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.pagination.isEmpty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 존재 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -2444,7 +2942,7 @@ Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lun
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-02-05 17:02:26 +0900
+Last updated 2024-02-06 17:25:39 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

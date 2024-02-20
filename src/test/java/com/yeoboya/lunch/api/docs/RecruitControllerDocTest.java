@@ -1,7 +1,11 @@
 package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
+import com.yeoboya.lunch.api.v1.order.request.GroupOrderJoin;
+import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
 import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
+import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,15 +18,24 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 @TestPropertySource(properties = "jasypt.encryptor.password=RV47mq6CwLrDEankn8j4")
-class RecruitControllerDocTest  {
+class RecruitControllerDocTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -88,9 +101,107 @@ class RecruitControllerDocTest  {
     }
 
     @Test
-    @DisplayName("점심 주문 모집 참가")
-    void lunchRecruitsGroupJoin() throws Exception {
+    @DisplayName("점심 주문 참가")
+    @Transactional
+    void testJoinGroupOrder() throws Exception {
+        // given
+        List<OrderItemCreate> orderItemsList = new ArrayList<>();
 
+        OrderItemCreate testItem = OrderItemCreate.builder()
+                .itemName("슈슈버거")
+                .orderQuantity(1)
+                .build();
+        orderItemsList.add(testItem);
+
+        GroupOrderJoin groupOrderJoin = GroupOrderJoin.builder()
+                .orderNo(5L)
+                .email("khj3103@gmail.com")
+                .orderItems(orderItemsList)
+                .build();
+
+        String json = objectMapper.writeValueAsString(groupOrderJoin);
+
+        // when & then
+        mockMvc.perform(post("/order/recruit/group/join")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("order/recruit/group/join",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("orderNo").description("Order number").type(JsonFieldType.NUMBER),
+                                fieldWithPath("email").description("Email of the order").type(JsonFieldType.STRING),
+                                fieldWithPath("orderItems[].itemName").description("Name of the order item").type(JsonFieldType.STRING),
+                                fieldWithPath("orderItems[].orderQuantity").description("Quantity of the order item").type(JsonFieldType.NUMBER)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
     }
 
+
+    @Test
+    @DisplayName("점심 주문 조회")
+    void testFetchLunchRecruits() throws Exception {
+        OrderSearch search = new OrderSearch();
+        search.setOrderStatus(OrderStatus.valueOf("ORDER_START"));
+        search.setOrderName("김현진");
+        search.setOrderEmail("");
+        search.setStartDate(LocalDate.ofEpochDay(20240101));
+        search.setEndDate(LocalDate.ofEpochDay(20241231));
+
+        MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
+        info.add("orderStatus", search.getOrderStatus().name());
+        info.add("orderName", search.getOrderName());
+        info.add("orderEmail", search.getOrderEmail());
+        info.add("startDate", "20240101");
+        info.add("endDate", "20241231");
+        info.add("page", "0");
+        info.add("size", "10");
+
+        // when & then
+        mockMvc.perform(get("/order/recruits")
+                        .params(info))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("order/recruits",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("orderStatus").description("Order Status"),
+                                parameterWithName("orderName").description("Order Name"),
+                                parameterWithName("orderEmail").description("Order Email"),
+                                parameterWithName("startDate").description("Start Date"),
+                                parameterWithName("endDate").description("End Date"),
+                                parameterWithName("page").description("페이지").optional(),
+                                parameterWithName("size").description("사이즈").optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("The response code").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("The response message").type(JsonFieldType.STRING),
+                                fieldWithPath("data").description("The main data object").type(JsonFieldType.OBJECT),
+                                fieldWithPath("data.hasNext").description("Whether there are more pages").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.isFirst").description("Whether request page is the first").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.hasPrevious").description("Whether there are previous pages").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.isLast").description("Whether request page is the last").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.list[]").description("List of orders").type(JsonFieldType.ARRAY),
+                                fieldWithPath("data.list[].orderId").description("Order ID").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[].orderMemberEmail").description("Order member Email").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].orderMemberName").description("Order member Name").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].shopName").description("Shop Name").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].title").description("Order title").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].lastOrderTime").description("Last order time").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].orderStatus").description("Order status").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].groupCount").description("Group count").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pageNo").description("Page number").type(JsonFieldType.NUMBER)
+                        )
+                ));
+    }
 }

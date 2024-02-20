@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableCaching
 @EnableJpaAuditing
-@EnableBatchProcessing
+//@EnableBatchProcessing
 @ComponentScan(
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {ExcludeScan.class})

@@ -10,5 +10,8 @@ public class BoardProjections {
 
     public interface BoardDetail {
 
+
+
+
     }
 }

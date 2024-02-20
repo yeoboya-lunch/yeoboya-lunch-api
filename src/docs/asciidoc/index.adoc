@@ -38,7 +38,6 @@ include::{snippets}/user/sign-up/response-fields.adoc[]
 === 비밀번호 변경
 ==== http-request
 include::{snippets}/user/setting/security/http-request.adoc[]
-include::{snippets}/user setting/security/http-request.adoc[]
 include::{snippets}/user/setting/security/request-fields.adoc[]
 ==== http-response
 include::{snippets}/user/setting/security/http-response.adoc[]
@@ -161,3 +160,22 @@ include::{snippets}/recruit/cancel/path-parameters.adoc[]
 ==== http-response
 include::{snippets}/recruit/cancel/http-response.adoc[]
 include::{snippets}/recruit/cancel/response-fields.adoc[]
+
+
+== Board
+
+=== 게시글 등록
+==== http-request
+include::{snippets}/board/write/http-request.adoc[]
+include::{snippets}/board/write/request-fields.adoc[]
+==== http-response
+include::{snippets}/board/write/http-response.adoc[]
+include::{snippets}/board/write/response-fields.adoc[]
+
+=== 게시글 리스트 조회
+==== http-request
+include::{snippets}/board/http-request.adoc[]
+include::{snippets}/board/request-parameters.adoc[]
+==== http-response
+include::{snippets}/board/http-response.adoc[]
+include::{snippets}/board/response-fields.adoc[]
