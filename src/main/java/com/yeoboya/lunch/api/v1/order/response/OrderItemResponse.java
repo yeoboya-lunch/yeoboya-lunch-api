@@ -1,10 +1,14 @@
 package com.yeoboya.lunch.api.v1.order.response;
 
 import com.yeoboya.lunch.api.v1.order.domain.OrderItem;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class OrderItemResponse {
+
+
 
     private final String itemName;
     private final int orderPrice;  //주문 가격

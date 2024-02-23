@@ -2,10 +2,7 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
-import com.yeoboya.lunch.api.v1.order.request.GroupOrderJoin;
-import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.request.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,8 +27,7 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -201,6 +197,39 @@ class RecruitControllerDocTest {
                                 fieldWithPath("data.list[].orderStatus").description("Order status").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].groupCount").description("Group count").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.pageNo").description("Page number").type(JsonFieldType.NUMBER)
+                        )
+                ));
+    }
+
+
+    @Test
+    @DisplayName("Lunch Recruit Status Update")
+    void updateLunchRecruitStatus() throws Exception {
+        //given
+        String orderId = "20";  //Provide the orderId
+        OrderEdit orderEdit = new OrderEdit();
+        orderEdit.setStatus(OrderStatus.END.name());
+
+        String jsonRequest = objectMapper.writeValueAsString(orderEdit);
+
+        //expected
+        mockMvc.perform(patch("/order/recruit/{orderId}", orderId)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("order/recruit-status",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("status").description("Order Status").type(JsonFieldType.STRING)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("response code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("response message")
+                                        .type(JsonFieldType.STRING)
                         )
                 ));
     }

@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.order.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.order.domain.GroupOrder;
+import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.request.GroupOrderSearch;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -17,7 +18,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 import static com.yeoboya.lunch.api.v1.order.domain.QGroupOrder.groupOrder;
+import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
+import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
 
 @Repository
 public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCustom {
@@ -46,7 +50,6 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
         }
         return new SliceImpl<>(content, pageable, hasNext);
     }
-
 
 
     private BooleanExpression eqEmail(String orderEmail) {

@@ -20,7 +20,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
+import static com.yeoboya.lunch.api.v1.order.domain.QGroupOrder.groupOrder;
 import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
+import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
 
 @Repository
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
@@ -55,6 +57,25 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     }
 
     @Override
+    public Slice<Order> getOrderHistoryByEmail(String email, Pageable pageable) {
+        List<Order> content = query.select(order)
+                .from(order)
+                .leftJoin(order.member, member)
+                .leftJoin(order.groupOrders, groupOrder) // Fetch join on GroupOrder
+                .leftJoin(groupOrder.orderItems, orderItem) // Fetch join on OrderItem
+                .where(member.email.eq(email)) // Filter on Member's ID
+                .offset(pageable.getOffset()) // Set offset for pagination
+                .limit(pageable.getPageSize()) // Set limit for
+                .fetch(); // Execute the query
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
+
+    @Override
     public List<Order> orderList(OrderSearch orderSearch, Pageable pageable){
         return query.selectFrom(order)
                 .leftJoin(order.member, member)
@@ -74,6 +95,10 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     public List<OrderItem> orderItems(Long orderID) {
         return null;
     }
+
+
+
+
 
     private BooleanExpression isStatus(OrderStatus status){
         return status != null ? order.status.eq(status) : null;

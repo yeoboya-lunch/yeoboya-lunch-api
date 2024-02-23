@@ -93,6 +93,25 @@ public class OrderService {
         );
     }
 
+    public Map<String, Object> getOrderHistoryByEmail(String email, Pageable pageable){
+        System.out.println("email = " + email + ", pageable = " + pageable);
+        Slice<Order> orders = orderRepository.getOrderHistoryByEmail(email, pageable);
+
+        List<GroupOrderResponse> groupOrderResponses = orders.getContent().stream()
+                .flatMap(order -> order.getGroupOrders().stream())
+                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
+                .collect(Collectors.toList());
+
+        return Map.of(
+                "list", groupOrderResponses,
+                "isFirst", orders.isFirst(),
+                "isLast", orders.isLast(),
+                "hasNext", orders.hasNext(),
+                "hasPrevious", orders.hasPrevious(),
+                "pageNo", orders.getNumber() + 1
+        );
+    }
+
     public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
         Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
 
@@ -147,7 +166,8 @@ public class OrderService {
 
     @Transactional
     public void lunchRecruitStatus(Long orderId, OrderEdit orderEdit) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
         order.setStatus(OrderStatus.valueOf(orderEdit.getStatus()));
     }
 
