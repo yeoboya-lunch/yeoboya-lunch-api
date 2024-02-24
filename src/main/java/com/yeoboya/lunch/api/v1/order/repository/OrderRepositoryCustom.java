@@ -12,8 +12,6 @@ public interface OrderRepositoryCustom {
 
     Slice<Order> orderRecruits(OrderSearch orderSearch, Pageable pageable);
 
-    Slice<Order> getOrderHistoryByEmail(String email, Pageable pageable);
-
     List<Order> orderList(OrderSearch orderSearch, Pageable pageable);
 
     List<OrderItem> orderItems(Long orderID);

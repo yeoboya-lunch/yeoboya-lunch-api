@@ -3,7 +3,6 @@ package com.yeoboya.lunch.api.v1.order.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.order.domain.GroupOrder;
-import com.yeoboya.lunch.api.v1.order.domain.Order;
 import com.yeoboya.lunch.api.v1.order.request.GroupOrderSearch;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -51,6 +50,23 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
+    @Override
+    public Slice<GroupOrder> getOrderHistoryByEmail(String email, Pageable pageable) {
+        List<GroupOrder> content = query.selectFrom(groupOrder)
+                .leftJoin(order.member, member)
+                .leftJoin(order.groupOrders, groupOrder)
+                .leftJoin(groupOrder.orderItems, orderItem)
+                .where(member.email.eq(email))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
 
     private BooleanExpression eqEmail(String orderEmail) {
         if (StringUtils.hasText(orderEmail)) {

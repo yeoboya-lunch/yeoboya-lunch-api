@@ -57,25 +57,6 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     }
 
     @Override
-    public Slice<Order> getOrderHistoryByEmail(String email, Pageable pageable) {
-        List<Order> content = query.select(order)
-                .from(order)
-                .leftJoin(order.member, member)
-                .leftJoin(order.groupOrders, groupOrder) // Fetch join on GroupOrder
-                .leftJoin(groupOrder.orderItems, orderItem) // Fetch join on OrderItem
-                .where(member.email.eq(email)) // Filter on Member's ID
-                .offset(pageable.getOffset()) // Set offset for pagination
-                .limit(pageable.getPageSize()) // Set limit for
-                .fetch(); // Execute the query
-        boolean hasNext = false;
-        if (content.size() > pageable.getPageSize()) {
-            content.remove(pageable.getPageSize());
-            hasNext = true;
-        }
-        return new SliceImpl<>(content, pageable, hasNext);
-    }
-
-    @Override
     public List<Order> orderList(OrderSearch orderSearch, Pageable pageable){
         return query.selectFrom(order)
                 .leftJoin(order.member, member)
