@@ -77,10 +77,6 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
         return null;
     }
 
-
-
-
-
     private BooleanExpression isStatus(OrderStatus status){
         return status != null ? order.status.eq(status) : null;
     }

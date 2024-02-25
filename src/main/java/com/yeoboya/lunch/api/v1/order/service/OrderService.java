@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -131,7 +132,36 @@ public class OrderService {
     public Map<String, Object> getOrderHistory(Pageable pageable) {
         String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
 
-        return null;
+        Slice<Order> byMemberEmail = orderRepository.findByMemberEmail(currentUserEmail);
+
+        //주문모집정보
+        List<OrderDetailResponse> orderDetailResponses = byMemberEmail.stream()
+                .map(OrderDetailResponse::orderInfo)
+                .collect(Collectors.toList());
+
+        //주문참가자정보
+        List<List<GroupOrderResponse>> groupOrderResponses = byMemberEmail.stream()
+                .map(order -> order.getGroupOrders().stream()
+                        .map(r -> GroupOrderResponse.from(r, r.getMember(), r.getOrderItems()))
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList());
+
+        //식당정보
+        List<ShopResponse> shopResponses = byMemberEmail.stream()
+                .map(order -> ShopResponse.from(order.getShop()))
+                .collect(Collectors.toList());
+
+        //주문자정보
+        Optional<MemberResponse> memberResponse = byMemberEmail.stream()
+                .map(order -> MemberResponse.from(order.getMember()))
+                .distinct()
+                .findFirst();
+
+        return Map.of("order", orderDetailResponses,
+                "shop", shopResponses,
+                "orderMember", memberResponse.orElse(null),
+                "group", groupOrderResponses
+        );
     }
 
     public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {

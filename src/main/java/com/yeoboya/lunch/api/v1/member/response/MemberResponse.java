@@ -6,6 +6,8 @@ import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -40,5 +42,25 @@ public class MemberResponse {
 
     public static MemberResponse from(Member member) {
         return new MemberResponse(member.getEmail(), member.getName(), member.getMemberInfo().getNickName(), member.getMemberInfo().getPhoneNumber());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MemberResponse)) return false;
+        MemberResponse that = (MemberResponse) o;
+        return isAccount == that.isAccount &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(bankName, that.bankName) &&
+                Objects.equals(accountNumber, that.accountNumber) &&
+                Objects.equals(bio, that.bio) &&
+                Objects.equals(nickName, that.nickName) &&
+                Objects.equals(phoneNumber, that.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, name, bankName, accountNumber, bio, nickName, phoneNumber, isAccount);
     }
 }
