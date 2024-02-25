@@ -233,4 +233,53 @@ class RecruitControllerDocTest {
                         )
                 ));
     }
+    @Test
+    @DisplayName("Order History Get")
+    void getOrderHistoryByEmail() throws Exception {
+        //given
+        String email = "3@3.com";  //Provide the email
+
+        //expected
+        mockMvc.perform(get("/order/recruit/history/{email}", email)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("order/recruit/history",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").description("response code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("response message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.isLast").description("is it the last page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.hasPrevious").description("does it have previous page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.isFirst").description("is it the first page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.hasNext").description("does it have next page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pageNo").description("page number")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].groupOrderId").description("ID of group order")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].email").description("email of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[0].name").description("name of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[0].orderItem[0].itemName").description("name of the item")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[0].orderItem[0].orderPrice").description("price per item ordered")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].orderItem[0].orderQuantity").description("quantity of item ordered")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].orderItem[0].totalPrice").description("total price for this item")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].totalPrice").description("total price of the order")
+                                        .type(JsonFieldType.NUMBER)
+                        )
+                ));
+    }
 }

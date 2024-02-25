@@ -34,12 +34,12 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
     @Override
     public Slice<GroupOrder> purchaseRecruits(GroupOrderSearch orderSearch, Pageable pageable) {
         List<GroupOrder> content = query.selectFrom(groupOrder)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
                 .orderBy(groupOrder.id.desc())
                 .where(
                         eqEmail(orderSearch.getOrderEmail())
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
                 .distinct()
                 .fetch();
         boolean hasNext = false;
@@ -53,12 +53,12 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
     @Override
     public Slice<GroupOrder> getOrderHistoryByEmail(String email, Pageable pageable) {
         List<GroupOrder> content = query.selectFrom(groupOrder)
-                .leftJoin(order.member, member)
-                .leftJoin(order.groupOrders, groupOrder)
+                .leftJoin(groupOrder.member, member)
                 .leftJoin(groupOrder.orderItems, orderItem)
                 .where(member.email.eq(email))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .distinct()
                 .fetch();
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {

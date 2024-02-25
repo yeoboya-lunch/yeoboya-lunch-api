@@ -94,11 +94,8 @@ public class OrderService {
     }
 
     public Map<String, Object> getOrderHistoryByEmail(String email, Pageable pageable){
-        System.out.println("email = " + email + ", pageable = " + pageable);
         Slice<GroupOrder> groupOrders = groupOrderRepository.getOrderHistoryByEmail(email, pageable);
-
         List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
-//                .flatMap(order -> order.getOrder().stream())
                 .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
                 .collect(Collectors.toList());
 
