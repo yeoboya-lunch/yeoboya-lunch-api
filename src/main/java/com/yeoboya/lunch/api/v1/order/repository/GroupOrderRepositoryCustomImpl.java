@@ -17,7 +17,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 import static com.yeoboya.lunch.api.v1.order.domain.QGroupOrder.groupOrder;
+import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
+import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
 
 @Repository
 public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCustom {
@@ -31,12 +34,12 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
     @Override
     public Slice<GroupOrder> purchaseRecruits(GroupOrderSearch orderSearch, Pageable pageable) {
         List<GroupOrder> content = query.selectFrom(groupOrder)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
                 .orderBy(groupOrder.id.desc())
                 .where(
                         eqEmail(orderSearch.getOrderEmail())
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
                 .distinct()
                 .fetch();
         boolean hasNext = false;
@@ -47,7 +50,23 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
-
+    @Override
+    public Slice<GroupOrder> getOrderHistoryByEmail(String email, Pageable pageable) {
+        List<GroupOrder> content = query.selectFrom(groupOrder)
+                .leftJoin(groupOrder.member, member)
+                .leftJoin(groupOrder.orderItems, orderItem)
+                .where(member.email.eq(email))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .distinct()
+                .fetch();
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
+    }
 
     private BooleanExpression eqEmail(String orderEmail) {
         if (StringUtils.hasText(orderEmail)) {

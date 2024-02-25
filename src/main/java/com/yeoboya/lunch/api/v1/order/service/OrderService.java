@@ -93,6 +93,22 @@ public class OrderService {
         );
     }
 
+    public Map<String, Object> getOrderHistoryByEmail(String email, Pageable pageable){
+        Slice<GroupOrder> groupOrders = groupOrderRepository.getOrderHistoryByEmail(email, pageable);
+        List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
+                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
+                .collect(Collectors.toList());
+
+        return Map.of(
+                "list", groupOrderResponses,
+                "isFirst", groupOrders.isFirst(),
+                "isLast", groupOrders.isLast(),
+                "hasNext", groupOrders.hasNext(),
+                "hasPrevious", groupOrders.hasPrevious(),
+                "pageNo", groupOrders.getNumber() + 1
+        );
+    }
+
     public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
         Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
 
@@ -147,7 +163,8 @@ public class OrderService {
 
     @Transactional
     public void lunchRecruitStatus(Long orderId, OrderEdit orderEdit) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
         order.setStatus(OrderStatus.valueOf(orderEdit.getStatus()));
     }
 

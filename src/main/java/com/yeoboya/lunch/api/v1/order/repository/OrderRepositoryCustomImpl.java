@@ -20,7 +20,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
+import static com.yeoboya.lunch.api.v1.order.domain.QGroupOrder.groupOrder;
 import static com.yeoboya.lunch.api.v1.order.domain.QOrder.order;
+import static com.yeoboya.lunch.api.v1.order.domain.QOrderItem.orderItem;
 
 @Repository
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
@@ -74,6 +76,10 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     public List<OrderItem> orderItems(Long orderID) {
         return null;
     }
+
+
+
+
 
     private BooleanExpression isStatus(OrderStatus status){
         return status != null ? order.status.eq(status) : null;

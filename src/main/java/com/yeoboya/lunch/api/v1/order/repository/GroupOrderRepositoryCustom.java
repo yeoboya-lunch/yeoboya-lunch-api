@@ -9,4 +9,7 @@ import org.springframework.data.domain.Slice;
 public interface GroupOrderRepositoryCustom {
 
     Slice<GroupOrder> purchaseRecruits(GroupOrderSearch orderSearch, Pageable pageable);
+
+    Slice<GroupOrder> getOrderHistoryByEmail(String email, Pageable pageable);
+
 }

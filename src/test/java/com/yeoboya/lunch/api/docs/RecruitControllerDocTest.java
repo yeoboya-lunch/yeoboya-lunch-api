@@ -2,10 +2,7 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
-import com.yeoboya.lunch.api.v1.order.request.GroupOrderJoin;
-import com.yeoboya.lunch.api.v1.order.request.OrderItemCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
-import com.yeoboya.lunch.api.v1.order.request.OrderSearch;
+import com.yeoboya.lunch.api.v1.order.request.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,8 +27,7 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -201,6 +197,88 @@ class RecruitControllerDocTest {
                                 fieldWithPath("data.list[].orderStatus").description("Order status").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].groupCount").description("Group count").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.pageNo").description("Page number").type(JsonFieldType.NUMBER)
+                        )
+                ));
+    }
+
+
+    @Test
+    @DisplayName("Lunch Recruit Status Update")
+    void updateLunchRecruitStatus() throws Exception {
+        //given
+        String orderId = "20";  //Provide the orderId
+        OrderEdit orderEdit = new OrderEdit();
+        orderEdit.setStatus(OrderStatus.END.name());
+
+        String jsonRequest = objectMapper.writeValueAsString(orderEdit);
+
+        //expected
+        mockMvc.perform(patch("/order/recruit/{orderId}", orderId)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(jsonRequest))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("order/recruit-status",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("status").description("Order Status").type(JsonFieldType.STRING)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("response code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("response message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+    @Test
+    @DisplayName("Order History Get")
+    void getOrderHistoryByEmail() throws Exception {
+        //given
+        String email = "3@3.com";  //Provide the email
+
+        //expected
+        mockMvc.perform(get("/order/recruit/history/{email}", email)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("order/recruit/history",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").description("response code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("response message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.isLast").description("is it the last page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.hasPrevious").description("does it have previous page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.isFirst").description("is it the first page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.hasNext").description("does it have next page")
+                                        .type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pageNo").description("page number")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].groupOrderId").description("ID of group order")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].email").description("email of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[0].name").description("name of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[0].orderItem[0].itemName").description("name of the item")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[0].orderItem[0].orderPrice").description("price per item ordered")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].orderItem[0].orderQuantity").description("quantity of item ordered")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].orderItem[0].totalPrice").description("total price for this item")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[0].totalPrice").description("total price of the order")
+                                        .type(JsonFieldType.NUMBER)
                         )
                 ));
     }

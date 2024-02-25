@@ -72,12 +72,22 @@ public class OrderController {
 
 
     /**
+     * 이메일로 주문 내역 조회
+     */
+    @GetMapping("/recruit/history/{email}")
+    public ResponseEntity<Body> getOrderHistoryByEmail(@PathVariable String email, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getOrderHistoryByEmail(email, pageable));
+    }
+
+
+    /**
      * 주문번호로 점심 주문 조회
      */
     @GetMapping("/recruit/{orderId}")
     public ResponseEntity<Body> lunchRecruitByOrderId(@PathVariable Long orderId){
         return response.success(Code.SEARCH_SUCCESS, orderService.lunchRecruitByOrderId(orderId));
     }
+
 
     /**
      * 주문 요청하기
@@ -98,10 +108,9 @@ public class OrderController {
      * 주문모집 상태변경
      */
     @PatchMapping("/recruit/{orderId}")
-    public ResponseEntity<Body> lunchRecruitStatus(@PathVariable(value = "orderId") Long orderId, @RequestBody OrderEdit orderEdit){
+    public ResponseEntity<Body> lunchRecruitStatus(@PathVariable(value = "orderId") Long orderId,
+                                                   @RequestBody OrderEdit orderEdit){
         orderService.lunchRecruitStatus(orderId, orderEdit);
-        return response.success(Code.SEARCH_SUCCESS);
+        return response.success(Code.UPDATE_SUCCESS);
     }
-
-
 }
