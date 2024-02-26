@@ -3,7 +3,6 @@ package com.yeoboya.lunch.api.v1.order.service;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
-import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
@@ -48,7 +47,7 @@ public class OrderService {
     }
 
 
-    public OrderDetailResponse lunchOrderRecruitWrite(OrderRecruitmentCreate orderRecruitmentCreate) {
+    public OrderDetailResponse startLunchOrderRecruitment(OrderRecruitmentCreate orderRecruitmentCreate) {
         Member member = memberRepository.findByEmail(orderRecruitmentCreate.getEmail()).
                 orElseThrow(() -> new EntityNotFoundException("Member not found - " + orderRecruitmentCreate.getEmail()));
 
@@ -61,7 +60,7 @@ public class OrderService {
         return null;
     }
 
-    public Map<String, Object> recruits(OrderSearch search, Pageable pageable) {
+    public Map<String, Object> getLunchOrderRecruitmentList(OrderSearch search, Pageable pageable) {
         Slice<Order> orders = orderRepository.orderRecruits(search, pageable);
         List<OrderRecruitmentResponse> orderRecruitmentResponses = orders.getContent().stream()
                 .map(OrderRecruitmentResponse::from)
@@ -77,66 +76,7 @@ public class OrderService {
         );
     }
 
-    public Map<String, Object> purchaseRecruits(GroupOrderSearch search, Pageable pageable) {
-        Slice<GroupOrder> groupOrders = groupOrderRepository.purchaseRecruits(search, pageable);
-        List<GroupOrderRecruitmentResponse> groupOrderRecruitmentResponses = groupOrders.getContent().stream()
-                .map(GroupOrderRecruitmentResponse::from)
-                .collect(Collectors.toList());
-
-        return Map.of(
-                "list", groupOrderRecruitmentResponses,
-                "isFirst", groupOrders.isFirst(),
-                "isLast", groupOrders.isLast(),
-                "hasNext", groupOrders.hasNext(),
-                "hasPrevious", groupOrders.hasPrevious(),
-                "pageNo", groupOrders.getNumber() + 1
-        );
-    }
-
-    public Map<String, Object> getJoinHistoryByEmail(String email, Pageable pageable){
-        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoryByEmail(email, pageable);
-        List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
-                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
-                .collect(Collectors.toList());
-
-        return Map.of(
-                "list", groupOrderResponses,
-                "isFirst", groupOrders.isFirst(),
-                "isLast", groupOrders.isLast(),
-                "hasNext", groupOrders.hasNext(),
-                "hasPrevious", groupOrders.hasPrevious(),
-                "pageNo", groupOrders.getNumber() + 1
-        );
-    }
-
-    public Map<String, Object> getJoinHistoryByToken(Pageable pageable){
-        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
-
-        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoryByEmail(currentUserEmail, pageable);
-        List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
-                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
-                .collect(Collectors.toList());
-
-        return Map.of(
-                "list", groupOrderResponses,
-                "isFirst", groupOrders.isFirst(),
-                "isLast", groupOrders.isLast(),
-                "hasNext", groupOrders.hasNext(),
-                "hasPrevious", groupOrders.hasPrevious(),
-                "pageNo", groupOrders.getNumber() + 1
-        );
-    }
-
-    public List<OrderDetailResponse> getOrderHistory(Pageable pageable) {
-        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
-        Slice<Order> orderHistory = orderRepository.findByMemberEmail(currentUserEmail, pageable);
-
-        return orderHistory.stream()
-                .map(OrderDetailResponse::of)
-                .collect(Collectors.toList());
-    }
-
-    public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
+    public Map<String, Object> findLunchOrderByOrderId(Long orderNo) {
         Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
 
         //주문모집정보
@@ -160,13 +100,7 @@ public class OrderService {
         );
     }
 
-    @Transactional
-    public void cancelOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
-        order.setStatus(OrderStatus.CANCEL);
-    }
-
-    public void lunchRecruitsJoin(GroupOrderJoin groupOrderJoin) {
+    public void participateInLunchJoinRecruitment(GroupOrderJoin groupOrderJoin) {
         Order order = orderRepository.findById(groupOrderJoin.getOrderNo()).orElseThrow(() -> new EntityNotFoundException("Order not found - " + groupOrderJoin.getOrderNo()));
         Member member = memberRepository.findByEmail(groupOrderJoin.getEmail()).orElseThrow(() -> new EntityNotFoundException("Member not found - " + groupOrderJoin.getEmail()));
 
@@ -182,9 +116,52 @@ public class OrderService {
         groupOrderRepository.save(groupOrder);
     }
 
+
+    public Map<String, Object> getMyJoinHistoryByEmail(String email, Pageable pageable){
+        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoryByEmail(email, pageable);
+        List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
+                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
+                .collect(Collectors.toList());
+
+        return Map.of(
+                "list", groupOrderResponses,
+                "isFirst", groupOrders.isFirst(),
+                "isLast", groupOrders.isLast(),
+                "hasNext", groupOrders.hasNext(),
+                "hasPrevious", groupOrders.hasPrevious(),
+                "pageNo", groupOrders.getNumber() + 1
+        );
+    }
+
+    public Map<String, Object> getMyJoinHistoryByToken(Pageable pageable){
+        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
+
+        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoryByEmail(currentUserEmail, pageable);
+        List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
+                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
+                .collect(Collectors.toList());
+
+        return Map.of(
+                "list", groupOrderResponses,
+                "isFirst", groupOrders.isFirst(),
+                "isLast", groupOrders.isLast(),
+                "hasNext", groupOrders.hasNext(),
+                "hasPrevious", groupOrders.hasPrevious(),
+                "pageNo", groupOrders.getNumber() + 1
+        );
+    }
+
+    public List<OrderDetailResponse> getMyRecruitmentOrderHistory(Pageable pageable) {
+        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
+        Slice<Order> orderHistory = orderRepository.findByMemberEmail(currentUserEmail, pageable);
+
+        return orderHistory.stream()
+                .map(OrderDetailResponse::of)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
-    //todo return check
-    public void lunchRecruitStatus(Long orderId, OrderEdit orderEdit) {
+    public void changeRecruitmentOrderStatus(Long orderId, OrderEdit orderEdit) {
         String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
 
         Order order = orderRepository.findById(orderId)
@@ -198,8 +175,35 @@ public class OrderService {
     }
 
     @Transactional
-    public void lunchRecruitsGroupExit(Long groupOrderId) {
+    public void cancelLunchOrder(Long groupOrderId) {
         groupOrderRepository.deleteById(groupOrderId);
+    }
+
+
+
+    //--------------------------------------------------------------------------------------------------------------------------------
+
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
+        order.setStatus(OrderStatus.CANCEL);
+    }
+
+
+    public Map<String, Object> purchaseRecruits(GroupOrderSearch search, Pageable pageable) {
+        Slice<GroupOrder> groupOrders = groupOrderRepository.purchaseRecruits(search, pageable);
+        List<GroupOrderRecruitmentResponse> groupOrderRecruitmentResponses = groupOrders.getContent().stream()
+                .map(GroupOrderRecruitmentResponse::from)
+                .collect(Collectors.toList());
+
+        return Map.of(
+                "list", groupOrderRecruitmentResponses,
+                "isFirst", groupOrders.isFirst(),
+                "isLast", groupOrders.isLast(),
+                "hasNext", groupOrders.hasNext(),
+                "hasPrevious", groupOrders.hasPrevious(),
+                "pageNo", groupOrders.getNumber() + 1
+        );
     }
 
 

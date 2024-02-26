@@ -44,9 +44,9 @@ public class OrderController {
      * 점심 주문 모집 시작
      */
     @PostMapping("/recruit/start")
-    public ResponseEntity<Body> lunchOrderRecruit(@RequestBody @Valid OrderRecruitmentCreate orderRecruitmentCreate, HttpServletRequest request){
+    public ResponseEntity<Body> startLunchOrderRecruitment(@RequestBody @Valid OrderRecruitmentCreate orderRecruitmentCreate, HttpServletRequest request){
         if (bucket.tryConsume(1)) {
-            OrderDetailResponse orderDetailResponse = orderService.lunchOrderRecruitWrite(orderRecruitmentCreate);
+            OrderDetailResponse orderDetailResponse = orderService.startLunchOrderRecruitment(orderRecruitmentCreate);
             return response.success(Code.SAVE_SUCCESS, orderDetailResponse);
         }
         return response.fail(ErrorCode.TOO_MANY_REQUESTS);
@@ -57,24 +57,24 @@ public class OrderController {
      * 점심 주문 모집 리스트
      */
     @GetMapping("/recruits")
-    public ResponseEntity<Body> lunchRecruits(OrderSearch search, Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.recruits(search, pageable));
+    public ResponseEntity<Body> getLunchOrderRecruitmentList(OrderSearch search, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getLunchOrderRecruitmentList(search, pageable));
     }
 
     /**
      * 주문번호로 점심 주문 조회
      */
     @GetMapping("/recruit/{orderId}")
-    public ResponseEntity<Body> lunchRecruitByOrderId(@PathVariable Long orderId){
-        return response.success(Code.SEARCH_SUCCESS, orderService.lunchRecruitByOrderId(orderId));
+    public ResponseEntity<Body> findLunchOrderByOrderId(@PathVariable Long orderId){
+        return response.success(Code.SEARCH_SUCCESS, orderService.findLunchOrderByOrderId(orderId));
     }
 
     /**
      * 점심 주문 모집 참여
      */
     @PostMapping("/recruit/join")
-    public ResponseEntity<Body> lunchRecruitsGroupJoin(@RequestBody @Valid GroupOrderJoin groupOrderJoin){
-        orderService.lunchRecruitsJoin(groupOrderJoin);
+    public ResponseEntity<Body> participateInLunchJoinRecruitment(@RequestBody @Valid GroupOrderJoin groupOrderJoin){
+        orderService.participateInLunchJoinRecruitment(groupOrderJoin);
         return response.success(Code.SAVE_SUCCESS);
     }
 
@@ -82,44 +82,44 @@ public class OrderController {
      * 내 주문 내역 조회 (이메일)
      */
     @GetMapping("/recruit/join-history/{email}")
-    public ResponseEntity<Body> getJoinHistoryByEmail(@PathVariable String email, Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getJoinHistoryByEmail(email, pageable));
+    public ResponseEntity<Body> getMyJoinHistoryByEmail(@PathVariable String email, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoryByEmail(email, pageable));
     }
 
     /**
      * 내 주문 내역 조회 (토큰)
      */
     @GetMapping("/recruit/join-history")
-    public ResponseEntity<Body> getJoinHistoryByToken(Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getJoinHistoryByToken(pageable));
+    public ResponseEntity<Body> getMyJoinHistoryByToken(Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoryByToken(pageable));
     }
 
     /**
      * 내 주문 모집 내역 조회
      */
-    @GetMapping("/recruit/order-history")
-    public ResponseEntity<Body> getOrderHistory(Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getOrderHistory(pageable));
+    @GetMapping("/recruit/history")
+    public ResponseEntity<Body> getMyRecruitmentOrderHistory(Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistory(pageable));
     }
 
     /**
      * 주문모집 상태변경
      */
     @PatchMapping("/recruit/{orderId}")
-    public ResponseEntity<Body> lunchRecruitStatus(@PathVariable(value = "orderId") Long orderId,
+    public ResponseEntity<Body> changeRecruitmentOrderStatus(@PathVariable(value = "orderId") Long orderId,
                                                    @RequestBody OrderEdit orderEdit){
-        orderService.lunchRecruitStatus(orderId, orderEdit);
+        orderService.changeRecruitmentOrderStatus(orderId, orderEdit);
         return response.success(Code.UPDATE_SUCCESS);
     }
 
-
+    /**
+     * 점심주문취소
+     */
     @DeleteMapping("/recruit/join/{groupOrderId}")
-    public ResponseEntity<Body> lunchRecruitsGroupExit(@PathVariable Long groupOrderId){
-        orderService.lunchRecruitsGroupExit(groupOrderId);
+    public ResponseEntity<Body> cancelLunchOrder(@PathVariable Long groupOrderId){
+        orderService.cancelLunchOrder(groupOrderId);
         return response.success(Code.UPDATE_SUCCESS);
     }
-
-
 
     //------------------------------------------
 
