@@ -151,7 +151,15 @@ public class OrderService {
         );
     }
 
-    public List<OrderDetailResponse> getMyRecruitmentOrderHistory(Pageable pageable) {
+    public List<OrderDetailResponse> getMyRecruitmentOrderHistoryByEmail(String email ,Pageable pageable) {
+        Slice<Order> orderHistory = orderRepository.findByMemberEmail(email, pageable);
+
+        return orderHistory.stream()
+                .map(OrderDetailResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<OrderDetailResponse> getMyRecruitmentOrderHistoryByToken(Pageable pageable) {
         String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
         Slice<Order> orderHistory = orderRepository.findByMemberEmail(currentUserEmail, pageable);
 
@@ -167,9 +175,9 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
 
-        if (!order.getMember().getEmail().equals(currentUserEmail)) {
-            throw new SecurityException("Only the person who created the order can modify it.");
-        }
+//        if (!order.getMember().getEmail().equals(currentUserEmail)) {
+//            throw new SecurityException("Only the person who created the order can modify it.");
+//        }
 
         order.setStatus(OrderStatus.valueOf(orderEdit.getStatus()));
     }

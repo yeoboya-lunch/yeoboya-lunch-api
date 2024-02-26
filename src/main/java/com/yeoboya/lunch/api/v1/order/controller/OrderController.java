@@ -95,11 +95,20 @@ public class OrderController {
     }
 
     /**
-     * 내 주문 모집 내역 조회
+     * 내 주문 모집 내역 조회 (이메일)
+     */
+    @GetMapping("/recruit/history/{email}")
+    public ResponseEntity<Body> getMyRecruitmentOrderHistory(@PathVariable String email, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoryByEmail(email, pageable));
+    }
+
+
+    /**
+     * 내 주문 모집 내역 조회 (토큰)
      */
     @GetMapping("/recruit/history")
     public ResponseEntity<Body> getMyRecruitmentOrderHistory(Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistory(pageable));
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoryByToken(pageable));
     }
 
     /**
