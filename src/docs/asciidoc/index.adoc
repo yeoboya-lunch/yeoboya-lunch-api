@@ -137,29 +137,67 @@ include::{snippets}/item/delete/http-response.adoc[]
 
 == Order
 
-=== 주문 등록
+=== 점심 주문 모집 시작
 ==== http-request
-include::{snippets}/recruit/post/http-request.adoc[]
-include::{snippets}/recruit/post/request-fields.adoc[]
+include::{snippets}/order/recruit/start/http-request.adoc[]
+include::{snippets}/order/recruit/start/request-fields.adoc[]
 ==== http-response
-include::{snippets}/recruit/post/http-response.adoc[]
-include::{snippets}/recruit/post/response-fields.adoc[]
+include::{snippets}/order/recruit/start/http-response.adoc[]
+include::{snippets}/order/recruit/start/response-fields.adoc[]
 
-=== 주문 조회
+=== 점심 주문 모집 리스트
 ==== http-request
-include::{snippets}/recruit/get/list/http-request.adoc[]
-include::{snippets}/recruit/get/list/request-parameters.adoc[]
+include::{snippets}/order/recruits/http-request.adoc[]
+include::{snippets}/order/recruits/request-parameters.adoc[]
 ==== http-response
-include::{snippets}/recruit/get/list/http-response.adoc[]
-include::{snippets}/recruit/get/list/response-fields.adoc[]
+include::{snippets}/order/recruits/http-response.adoc[]
+include::{snippets}/order/recruits/response-fields.adoc[]
 
-=== 주문 취소
+=== 주문번호로 점심 주문 조회
 ==== http-request
-include::{snippets}/recruit/cancel/http-request.adoc[]
-include::{snippets}/recruit/cancel/path-parameters.adoc[]
+include::{snippets}/order/recruits/orderId/http-request.adoc[]
+include::{snippets}/order/recruits/orderId/request-parameters.adoc[]
 ==== http-response
-include::{snippets}/recruit/cancel/http-response.adoc[]
-include::{snippets}/recruit/cancel/response-fields.adoc[]
+include::{snippets}/order/recruits/orderId/http-response.adoc[]
+include::{snippets}/order/recruits/orderId/response-fields.adoc[]
+
+=== 점심 주문 모집 참여
+==== http-request
+include::{snippets}/order/recruit/join/http-request.adoc[]
+include::{snippets}/order/recruit/join/request-fields.adoc[]
+==== http-response
+include::{snippets}/order/recruit/join/http-response.adoc[]
+include::{snippets}/order/recruit/join/response-fields.adoc[]
+
+=== 내 주문 내역 조회 (이메일)
+==== http-request
+include::{snippets}/order/recruit/history/email/http-request.adoc[]
+==== http-response
+include::{snippets}/order/recruit/history/email/http-response.adoc[]
+include::{snippets}/order/recruit/history/email/response-fields.adoc[]
+
+=== 내 주문 모집 내역 조회 (이메일)
+==== http-request
+include::{snippets}/order/recruit/history/email/http-request.adoc[]
+==== http-response
+include::{snippets}/order/recruit/history/email/http-response.adoc[]
+include::{snippets}/order/recruit/history/email/response-fields.adoc[]
+
+=== 주문모집 상태변경
+==== http-request
+include::{snippets}/order/recruit/orderId/http-request.adoc[]
+include::{snippets}/order/recruit/orderId/request-fields.adoc[]
+==== http-response
+include::{snippets}/order/recruit/orderId/http-response.adoc[]
+include::{snippets}/order/recruit/orderId/response-fields.adoc[]
+
+=== 점심 주문 취소
+==== http-request
+include::{snippets}/order/recruit/join/cancel/http-request.adoc[]
+==== http-response
+include::{snippets}/order/recruit/join/cancel/http-response.adoc[]
+include::{snippets}/order/recruit/join/cancel/response-fields.adoc[]
+
 
 
 == Board

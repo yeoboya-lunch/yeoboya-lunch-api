@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -23,7 +24,20 @@ public class ShopResponse {
     public static ShopResponse from(Shop shop) {
         return new ShopResponse(
                 shop.getName(),
-                shop.getItems().stream().map((r)->ItemResponse.of(r.getName(), r.getPrice())).collect(Collectors.toList()));
+                shop.getItems().stream().map((r) -> ItemResponse.of(r.getName(), r.getPrice())).collect(Collectors.toList()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShopResponse that = (ShopResponse) o;
+        return Objects.equals(shopName, that.shopName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shopName);
     }
 
 }

@@ -48,14 +48,15 @@ public class GroupOrder {
         groupOrder.setOrder(order);
         groupOrder.setMember(member);
         for (OrderItem orderItem : orderItems) {
-            groupOrder.addOrderItem(orderItem);
+            groupOrder.addOrderItem(orderItem, order);
         }
         groupOrder.setOrderDate(new Date());
         return groupOrder;
     }
 
-    public void addOrderItem(OrderItem orderItem) {
+    public void addOrderItem(OrderItem orderItem, Order order) {
         this.orderItems.add(orderItem);
         orderItem.setGroupOrder(this);
+        orderItem.setOrder(order);
     }
 }

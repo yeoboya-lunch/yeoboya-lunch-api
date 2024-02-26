@@ -24,13 +24,18 @@ public class OrderItem {
     @JoinColumn(name = "ITEM_ID")
     private Item item;      //주문 상품
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ORDER_ID", insertable = true)
+    private Order order;
+
     private int orderPrice;  //주문 가격
     private int orderQuantity; //주문 수량
 
     //==생성 메서드==//
-    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+    public static OrderItem createOrderItem(Item item, Order order, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.setItem(item);
+        orderItem.setOrder(order);
         orderItem.setOrderPrice(orderPrice);
         orderItem.setOrderQuantity(count);
         return orderItem;

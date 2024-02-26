@@ -483,9 +483,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_order">7. Order</a>
 <ul class="sectlevel2">
-<li><a href="#_주문_등록">7.1. 주문 등록</a></li>
-<li><a href="#_주문_조회">7.2. 주문 조회</a></li>
-<li><a href="#_주문_취소">7.3. 주문 취소</a></li>
+<li><a href="#_점심_주문_모집_시작">7.1. 점심 주문 모집 시작</a></li>
+<li><a href="#_점심_주문_모집_리스트">7.2. 점심 주문 모집 리스트</a></li>
+<li><a href="#_주문번호로_점심_주문_조회">7.3. 주문번호로 점심 주문 조회</a></li>
+<li><a href="#_점심_주문_모집_참여">7.4. 점심 주문 모집 참여</a></li>
+<li><a href="#_내_주문_내역_조회_이메일">7.5. 내 주문 내역 조회 (이메일)</a></li>
+<li><a href="#_내_주문_모집_내역_조회_이메일">7.6. 내 주문 모집 내역 조회 (이메일)</a></li>
+<li><a href="#_주문모집_상태변경">7.7. 주문모집 상태변경</a></li>
+<li><a href="#_점심_주문_취소">7.8. 점심 주문 취소</a></li>
+<li><a href="#_내_주문_모집_내역_조회_이메일_2">7.9. 내 주문 모집 내역 조회 (이메일)</a></li>
+<li><a href="#_주문모집_상태변경_2">7.10. 주문모집 상태변경</a></li>
+<li><a href="#_점심_주문_취소_2">7.11. 점심 주문 취소</a></li>
 </ul>
 </li>
 <li><a href="#_board">8. Board</a>
@@ -548,7 +556,7 @@ Content-Length: 93
 Host: lunch.yeoboya.com:4443
 
 {
-  "email" : "test7043@example.com",
+  "email" : "test7275@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$"
 }</code></pre>
@@ -671,7 +679,7 @@ Content-Length: 93
 Host: lunch.yeoboya.com:4443
 
 {
-  "email" : "test7043@example.com",
+  "email" : "test7275@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$"
 }</code></pre>
@@ -794,7 +802,7 @@ Content-Length: 163
 Host: lunch.yeoboya.com:4443
 
 {
-  "email" : "test7043@example.com",
+  "email" : "test7275@example.com",
   "oldPassword" : "1234qwer!@#$",
   "newPassword" : "qwer1234@@",
   "confirmNewPassword" : "qwer1234@@",
@@ -996,10 +1004,6 @@ Content-Length: 3359
   "message" : "조회",
   "data" : {
     "pageNo" : 1,
-    "hasNext" : true,
-    "isFirst" : true,
-    "hasPrevious" : false,
-    "isLast" : false,
     "list" : [ {
       "email" : "khj@gmail.com",
       "name" : "김현진",
@@ -1116,7 +1120,11 @@ Content-Length: 3359
       "nickName" : "#77670",
       "phoneNumber" : "010-0000-0000",
       "account" : false
-    } ]
+    } ],
+    "isLast" : false,
+    "hasPrevious" : false,
+    "isFirst" : true,
+    "hasNext" : true
   }
 }</code></pre>
 </div>
@@ -1537,7 +1545,7 @@ Content-Length: 31
 Host: lunch.yeoboya.com:4443
 
 {
-  "shopName" : "상점4991"
+  "shopName" : "상점5298"
 }</code></pre>
 </div>
 </div>
@@ -1593,7 +1601,7 @@ Content-Length: 90
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "shopName" : "상점4991"
+    "shopName" : "상점5298"
   }
 }</code></pre>
 </div>
@@ -1647,7 +1655,7 @@ Content-Length: 90
 <h4 id="_http_request_8"><a class="link" href="#_http_request_8">5.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%904991&amp;page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%905298&amp;page=0&amp;size=10 HTTP/1.1
 Host: lunch.yeoboya.com:4443</code></pre>
 </div>
 </div>
@@ -1713,13 +1721,13 @@ Content-Length: 228
   "message" : "조회",
   "data" : {
     "pageNo" : 1,
-    "hasNext" : false,
-    "isFirst" : true,
-    "hasPrevious" : false,
-    "isLast" : true,
     "list" : [ {
-      "shopName" : "상점4991"
-    } ]
+      "shopName" : "상점5298"
+    } ],
+    "isLast" : true,
+    "hasPrevious" : false,
+    "isFirst" : true,
+    "hasNext" : false
   }
 }</code></pre>
 </div>
@@ -1835,8 +1843,8 @@ Host: lunch.yeoboya.com:4443
 
 {
   "shopName" : "맥도날드",
-  "itemName" : "아이템3250",
-  "price" : 3250
+  "itemName" : "아이템7502",
+  "price" : 7502
 }</code></pre>
 </div>
 </div>
@@ -1907,8 +1915,8 @@ Content-Length: 142
   "message" : "저장",
   "data" : {
     "shopName" : "맥도날드",
-    "name" : "아이템3250",
-    "price" : 3250
+    "name" : "아이템7502",
+    "price" : 7502
   }
 }</code></pre>
 </div>
@@ -2403,41 +2411,1311 @@ Content-Length: 31
 <h2 id="_order"><a class="link" href="#_order">7. Order</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_주문_등록"><a class="link" href="#_주문_등록">7.1. 주문 등록</a></h3>
+<h3 id="_점심_주문_모집_시작"><a class="link" href="#_점심_주문_모집_시작">7.1. 점심 주문 모집 시작</a></h3>
 <div class="sect3">
 <h4 id="_http_request_14"><a class="link" href="#_http_request_14">7.1.1. http-request</a></h4>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/http-request.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/request-fields.adoc[]
-==== http-response
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/http-response.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/post/response-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /order/recruit/start HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 214
+Host: lunch.yeoboya.com:4443
+
+{
+  "email" : "khj@gmail.com",
+  "shopName" : "맥도날드",
+  "title" : "맥도날드 먹는날",
+  "deliveryFee" : 2500,
+  "lastOrderTime" : "2024-02-26T07:45",
+  "memo" : "신상버거 나왔습니다 ㅋㅋ"
+}</code></pre>
 </div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">optional</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모집 제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lastOrderTime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">주문 마감 시간</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">memo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메모</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deliveryFee</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">배달료</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shopName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">가게 이름</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_14"><a class="link" href="#_http_response_14">7.1.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 42
+
+{
+  "code" : 201,
+  "message" : "저장"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_주문_조회"><a class="link" href="#_주문_조회">7.2. 주문 조회</a></h3>
+<h3 id="_점심_주문_모집_리스트"><a class="link" href="#_점심_주문_모집_리스트">7.2. 점심 주문 모집 리스트</a></h3>
 <div class="sect3">
 <h4 id="_http_request_15"><a class="link" href="#_http_request_15">7.2.1. http-request</a></h4>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/http-request.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/request-parameters.adoc[]
-==== http-response
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/http-response.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/get/list/response-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruits?orderStatus=ORDER_START&amp;orderName=%EA%B9%80%ED%98%84%EC%A7%84&amp;orderEmail=&amp;startDate=20240101&amp;endDate=20241231&amp;page=0&amp;size=10 HTTP/1.1
+Host: lunch.yeoboya.com:4443</code></pre>
 </div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">name</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">optional</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orderStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order Status</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orderName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order Name</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orderEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order Email</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">startDate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start Date</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">endDate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">End Date</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">page</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사이즈</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_15"><a class="link" href="#_http_response_15">7.2.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 3221
+
+{
+  "code" : 200,
+  "message" : "조회",
+  "data" : {
+    "pageNo" : 1,
+    "list" : [ {
+      "orderId" : 26,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 26일 오후 16:42",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 25,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 26일 오후 16:08",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 24,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 26일 오후 14:57",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 23,
+      "orderMemberEmail" : "v@v.com",
+      "orderMemberName" : "김현진3",
+      "shopName" : "상점3428",
+      "title" : "상점3428 먹으실분",
+      "lastOrderTime" : "02월 26일 오후 20:20",
+      "orderStatus" : "모집시작",
+      "groupCount" : 1
+    }, {
+      "orderId" : 21,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 26일 오후 14:19",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 19,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 13일 오후 14:29",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 18,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 06일 오후 18:13",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 17,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 06일 오후 17:49",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 16,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 06일 오후 16:08",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 15,
+      "orderMemberEmail" : "khj@gmail.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 먹는날",
+      "lastOrderTime" : "02월 06일 오전 10:07",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    } ],
+    "isLast" : false,
+    "hasPrevious" : false,
+    "isFirst" : true,
+    "hasNext" : true
+  }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The response code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The response message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The main data object</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.hasNext</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether there are more pages</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.isFirst</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether request page is the first</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.hasPrevious</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether there are previous pages</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.isLast</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether request page is the last</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of orders</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderMemberEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order member Email</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderMemberName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order member Name</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].shopName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shop Name</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order title</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].lastOrderTime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last order time</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order status</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].groupCount</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Group count</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.pageNo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Page number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_주문_취소"><a class="link" href="#_주문_취소">7.3. 주문 취소</a></h3>
+<h3 id="_주문번호로_점심_주문_조회"><a class="link" href="#_주문번호로_점심_주문_조회">7.3. 주문번호로 점심 주문 조회</a></h3>
 <div class="sect3">
 <h4 id="_http_request_16"><a class="link" href="#_http_request_16">7.3.1. http-request</a></h4>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/http-request.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/path-parameters.adoc[]
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruits/{orderId}/http-request.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruits/{orderId}/request-parameters.adoc[]
 ==== http-response
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/http-response.adoc[]
-Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/recruit/cancel/response-fields.adoc[]</p>
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruits/{orderId}/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruits/{orderId}/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_점심_주문_모집_참여"><a class="link" href="#_점심_주문_모집_참여">7.4. 점심 주문 모집 참여</a></h3>
+<div class="sect3">
+<h4 id="_http_request_17"><a class="link" href="#_http_request_17">7.4.1. http-request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /order/recruit/join HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 132
+Host: lunch.yeoboya.com:4443
+
+{
+  "orderNo" : 23,
+  "email" : "khj3103@gmail.com",
+  "orderItems" : [ {
+    "itemName" : "조명",
+    "orderQuantity" : 1
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">optional</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orderNo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order number</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Email of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orderItems[].itemName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the order item</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">orderItems[].orderQuantity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quantity of the order item</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_16"><a class="link" href="#_http_response_16">7.4.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 42
+
+{
+  "code" : 201,
+  "message" : "저장"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_내_주문_내역_조회_이메일"><a class="link" href="#_내_주문_내역_조회_이메일">7.5. 내 주문 내역 조회 (이메일)</a></h3>
+<div class="sect3">
+<h4 id="_http_request_18"><a class="link" href="#_http_request_18">7.5.1. http-request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/history/v@v.com HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: lunch.yeoboya.com:4443</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_17"><a class="link" href="#_http_response_17">7.5.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Disposition: inline;filename=f.txt
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 647
+
+{
+  "code" : 200,
+  "message" : "조회",
+  "data" : [ {
+    "orderId" : 23,
+    "title" : "상점3428 먹으실분",
+    "lastOrderTime" : "02월 26일 오후 20:20",
+    "orderStatus" : "모집시작",
+    "memo" : "즐거운 상점3428 출발합니다",
+    "deliveryFee" : 1500,
+    "joinMember" : [ {
+      "orderId" : 23,
+      "groupOrderId" : 14,
+      "title" : "상점3428 먹으실분",
+      "email" : "1@1.com",
+      "name" : "김현진5",
+      "orderItem" : [ {
+        "itemName" : "조명",
+        "orderPrice" : 5000,
+        "orderQuantity" : 1,
+        "totalPrice" : 5000
+      } ],
+      "totalPrice" : 5000
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">response code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">response message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].orderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].lastOrderTime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last order time</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].orderStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].memo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order memo</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].deliveryFee</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delivery fee of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joined member&#8217;s order ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].groupOrderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of group order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Join member&#8217;s email</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Join member&#8217;s name</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].itemName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].orderPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Price per item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].orderQuantity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quantity of item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].totalPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total price of join member&#8217;s order item</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].totalPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total price of join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_내_주문_모집_내역_조회_이메일"><a class="link" href="#_내_주문_모집_내역_조회_이메일">7.6. 내 주문 모집 내역 조회 (이메일)</a></h3>
+<div class="sect3">
+<h4 id="_http_request_19"><a class="link" href="#_http_request_19">7.6.1. http-request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/history/v@v.com HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: lunch.yeoboya.com:4443</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_18"><a class="link" href="#_http_response_18">7.6.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Disposition: inline;filename=f.txt
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 647
+
+{
+  "code" : 200,
+  "message" : "조회",
+  "data" : [ {
+    "orderId" : 23,
+    "title" : "상점3428 먹으실분",
+    "lastOrderTime" : "02월 26일 오후 20:20",
+    "orderStatus" : "모집시작",
+    "memo" : "즐거운 상점3428 출발합니다",
+    "deliveryFee" : 1500,
+    "joinMember" : [ {
+      "orderId" : 23,
+      "groupOrderId" : 14,
+      "title" : "상점3428 먹으실분",
+      "email" : "1@1.com",
+      "name" : "김현진5",
+      "orderItem" : [ {
+        "itemName" : "조명",
+        "orderPrice" : 5000,
+        "orderQuantity" : 1,
+        "totalPrice" : 5000
+      } ],
+      "totalPrice" : 5000
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">response code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">response message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].orderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].lastOrderTime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last order time</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].orderStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].memo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order memo</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].deliveryFee</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delivery fee of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joined member&#8217;s order ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].groupOrderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of group order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Join member&#8217;s email</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Join member&#8217;s name</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].itemName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].orderPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Price per item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].orderQuantity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quantity of item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].totalPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total price of join member&#8217;s order item</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].totalPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total price of join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_주문모집_상태변경"><a class="link" href="#_주문모집_상태변경">7.7. 주문모집 상태변경</a></h3>
+<div class="sect3">
+<h4 id="_http_request_20"><a class="link" href="#_http_request_20">7.7.1. http-request</a></h4>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/http-request.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/request-fields.adoc[]
+==== http-response
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_점심_주문_취소"><a class="link" href="#_점심_주문_취소">7.8. 점심 주문 취소</a></h3>
+<div class="sect3">
+<h4 id="_http_request_21"><a class="link" href="#_http_request_21">7.8.1. http-request</a></h4>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/join/{groupOrderId}/cancel/http-request.adoc[]
+==== http-response
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/join/{groupOrderId}/cancel/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/join/{groupOrderId}/cancel/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_내_주문_모집_내역_조회_이메일_2"><a class="link" href="#_내_주문_모집_내역_조회_이메일_2">7.9. 내 주문 모집 내역 조회 (이메일)</a></h3>
+<div class="sect3">
+<h4 id="_http_request_22"><a class="link" href="#_http_request_22">7.9.1. http-request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/history/v@v.com HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Host: lunch.yeoboya.com:4443</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_19"><a class="link" href="#_http_response_19">7.9.2. http-response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Content-Disposition: inline;filename=f.txt
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 647
+
+{
+  "code" : 200,
+  "message" : "조회",
+  "data" : [ {
+    "orderId" : 23,
+    "title" : "상점3428 먹으실분",
+    "lastOrderTime" : "02월 26일 오후 20:20",
+    "orderStatus" : "모집시작",
+    "memo" : "즐거운 상점3428 출발합니다",
+    "deliveryFee" : 1500,
+    "joinMember" : [ {
+      "orderId" : 23,
+      "groupOrderId" : 14,
+      "title" : "상점3428 먹으실분",
+      "email" : "1@1.com",
+      "name" : "김현진5",
+      "orderItem" : [ {
+        "itemName" : "조명",
+        "orderPrice" : 5000,
+        "orderQuantity" : 1,
+        "totalPrice" : 5000
+      } ],
+      "totalPrice" : 5000
+    } ]
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">path</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+<th class="tableblock halign-left valign-top">length</th>
+<th class="tableblock halign-left valign-top">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">response code</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">response message</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].orderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].lastOrderTime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Last order time</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].orderStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].memo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order memo</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].deliveryFee</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delivery fee of the order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joined member&#8217;s order ID</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].groupOrderId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of group order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Title of join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Join member&#8217;s email</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Join member&#8217;s name</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].itemName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].orderPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Price per item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].orderQuantity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quantity of item in join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].orderItem[].totalPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total price of join member&#8217;s order item</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data[].joinMember[].totalPrice</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total price of join member&#8217;s order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_주문모집_상태변경_2"><a class="link" href="#_주문모집_상태변경_2">7.10. 주문모집 상태변경</a></h3>
+<div class="sect3">
+<h4 id="_http_request_23"><a class="link" href="#_http_request_23">7.10.1. http-request</a></h4>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/http-request.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/request-fields.adoc[]
+==== http-response
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/{orderId}/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_점심_주문_취소_2"><a class="link" href="#_점심_주문_취소_2">7.11. 점심 주문 취소</a></h3>
+<div class="sect3">
+<h4 id="_http_request_24"><a class="link" href="#_http_request_24">7.11.1. http-request</a></h4>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/join/{groupOrderId}/cancel/http-request.adoc[]
+==== http-response
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/join/{groupOrderId}/cancel/http-response.adoc[]
+Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lunch-api/build/generated-snippets/order/recruit/join/{groupOrderId}/cancel/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -2449,18 +3727,18 @@ Unresolved directive in index.adoc - include::/Users/hyunjinkim/repo/yeoboya-lun
 <div class="sect2">
 <h3 id="_게시글_등록"><a class="link" href="#_게시글_등록">8.1. 게시글 등록</a></h3>
 <div class="sect3">
-<h4 id="_http_request_17"><a class="link" href="#_http_request_17">8.1.1. http-request</a></h4>
+<h4 id="_http_request_25"><a class="link" href="#_http_request_25">8.1.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/write HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 202
+Content-Length: 201
 Host: lunch.yeoboya.com:4443
 
 {
   "email" : "khj6804@gmail.com",
-  "title" : "Test board title No is 8432",
+  "title" : "Test board title No is 121",
   "hashTag" : [ "snatch", "clean&amp;jerk", "크로스핏" ],
   "content" : "Test content",
   "pin" : 1234,
@@ -2532,7 +3810,7 @@ Host: lunch.yeoboya.com:4443
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_14"><a class="link" href="#_http_response_14">8.1.2. http-response</a></h4>
+<h4 id="_http_response_20"><a class="link" href="#_http_response_20">8.1.2. http-response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -2596,7 +3874,7 @@ Content-Length: 42
 <div class="sect2">
 <h3 id="_게시글_리스트_조회"><a class="link" href="#_게시글_리스트_조회">8.2. 게시글 리스트 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_18"><a class="link" href="#_http_request_18">8.2.1. http-request</a></h4>
+<h4 id="_http_request_26"><a class="link" href="#_http_request_26">8.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board?page=0&amp;size=10 HTTP/1.1
@@ -2637,7 +3915,7 @@ Host: lunch.yeoboya.com:4443</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_15"><a class="link" href="#_http_response_15">8.2.2. http-response</a></h4>
+<h4 id="_http_response_21"><a class="link" href="#_http_response_21">8.2.2. http-response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2654,21 +3932,61 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 3385
+Content-Length: 4256
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "pagination" : {
-      "totalElements" : 8,
-      "isEmpty" : false,
-      "page" : 1,
-      "isFirst" : true,
-      "totalPages" : 1,
-      "isLast" : true
-    },
     "list" : [ {
+      "boardId" : 11,
+      "title" : "Test board title No is 121",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 26일 오후 16:15",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 10,
+      "title" : "Test board title No is 9253",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 26일 오후 16:12",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ]
+    }, {
+      "boardId" : 9,
+      "title" : "Test board title No is 1467",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "khj6804@gmail.com",
+      "name" : "김현진",
+      "createDate" : "02월 26일 오후 15:38",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ]
+    }, {
       "boardId" : 8,
       "title" : "Test board title No is 8432",
       "content" : "Test content",
@@ -2776,21 +4094,15 @@ Content-Length: 3385
         "tag" : "구미"
       } ],
       "files" : [ ]
-    }, {
-      "boardId" : 1,
-      "title" : "자유게시판",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "boardTeser@gmail.com",
-      "name" : "김현진100",
-      "createDate" : "02월 06일 오후 16:02",
-      "hashTags" : [ {
-        "tag" : "마이"
-      }, {
-        "tag" : "구미"
-      } ],
-      "files" : [ ]
-    } ]
+    } ],
+    "pagination" : {
+      "isLast" : false,
+      "totalPages" : 2,
+      "isFirst" : true,
+      "page" : 1,
+      "isEmpty" : false,
+      "totalElements" : 11
+    }
   }
 }</code></pre>
 </div>
@@ -2942,7 +4254,7 @@ Content-Length: 3385
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-02-06 17:25:39 +0900
+Last updated 2024-02-26 16:09:50 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
