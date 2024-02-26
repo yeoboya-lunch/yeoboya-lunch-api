@@ -112,6 +112,15 @@ public class OrderController {
         return response.success(Code.UPDATE_SUCCESS);
     }
 
+
+    @DeleteMapping("/recruit/join/{groupOrderId}")
+    public ResponseEntity<Body> lunchRecruitsGroupExit(@PathVariable Long groupOrderId){
+        orderService.lunchRecruitsGroupExit(groupOrderId);
+        return response.success(Code.UPDATE_SUCCESS);
+    }
+
+
+
     //------------------------------------------
 
     /**
@@ -120,13 +129,6 @@ public class OrderController {
     @GetMapping("/purchase-recruits")
     public ResponseEntity<Body> purchaseRecruits(GroupOrderSearch search, Pageable pageable){
         return response.success(Code.SEARCH_SUCCESS, orderService.purchaseRecruits(search, pageable));
-    }
-
-
-    @DeleteMapping("/recruit/group/join/{groupOrderId}")
-    public ResponseEntity<Body> lunchRecruitsGroupExit(@PathVariable Long groupOrderId){
-        orderService.lunchRecruitsGroupExit(groupOrderId);
-        return response.success(Code.SEARCH_SUCCESS);
     }
 
 

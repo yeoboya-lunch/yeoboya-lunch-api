@@ -13,7 +13,10 @@ import java.util.stream.Collectors;
 @Setter
 public class GroupOrderResponse {
 
+    //todo 내 주문내역, 모집내역 return 분리 하기
+    private Long orderId;
     private Long groupOrderId;
+    private String title;
     private String email;
     private String name;
     private List<OrderItemResponse> orderItem;
@@ -22,6 +25,8 @@ public class GroupOrderResponse {
     public static GroupOrderResponse from(GroupOrder groupOrder, Member member, List<OrderItem> orderItems) {
         GroupOrderResponse groupOrderResponse = new GroupOrderResponse();
         groupOrderResponse.setGroupOrderId(groupOrder.getId());
+        groupOrderResponse.setOrderId(groupOrder.getOrder().getId());
+        groupOrderResponse.setTitle(groupOrder.getOrder().getTitle());
         groupOrderResponse.setEmail(member.getEmail());
         groupOrderResponse.setName(member.getName());
         groupOrderResponse.setOrderItem(orderItems.stream().map(OrderItemResponse::new).collect(Collectors.toList()));

@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.order.service;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
+import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
@@ -26,10 +27,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,46 +127,20 @@ public class OrderService {
         );
     }
 
-    public Map<String, Object> getOrderHistory(Pageable pageable) {
+    public List<OrderDetailResponse> getOrderHistory(Pageable pageable) {
         String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
+        Slice<Order> orderHistory = orderRepository.findByMemberEmail(currentUserEmail, pageable);
 
-        Slice<Order> byMemberEmail = orderRepository.findByMemberEmail(currentUserEmail);
-
-        //주문모집정보
-        List<OrderDetailResponse> orderDetailResponses = byMemberEmail.stream()
-                .map(OrderDetailResponse::orderInfo)
+        return orderHistory.stream()
+                .map(OrderDetailResponse::of)
                 .collect(Collectors.toList());
-
-        //주문참가자정보
-        List<List<GroupOrderResponse>> groupOrderResponses = byMemberEmail.stream()
-                .map(order -> order.getGroupOrders().stream()
-                        .map(r -> GroupOrderResponse.from(r, r.getMember(), r.getOrderItems()))
-                        .collect(Collectors.toList()))
-                .collect(Collectors.toList());
-
-        //식당정보
-        List<ShopResponse> shopResponses = byMemberEmail.stream()
-                .map(order -> ShopResponse.from(order.getShop()))
-                .collect(Collectors.toList());
-
-        //주문자정보
-        Optional<MemberResponse> memberResponse = byMemberEmail.stream()
-                .map(order -> MemberResponse.from(order.getMember()))
-                .distinct()
-                .findFirst();
-
-        return Map.of("order", orderDetailResponses,
-                "shop", shopResponses,
-                "orderMember", memberResponse.orElse(null),
-                "group", groupOrderResponses
-        );
     }
 
     public Map<String, Object> lunchRecruitByOrderId(Long orderNo) {
         Order order = orderRepository.findById(orderNo).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderNo));
 
         //주문모집정보
-        OrderDetailResponse orderDetailResponse = OrderDetailResponse.orderInfo(order);
+        OrderDetailResponse orderDetailResponse = OrderDetailResponse.of(order);
 
         //주문참가자정보
         List<GroupOrderResponse> groupOrderResponse = order.getGroupOrders().stream()
@@ -188,7 +160,6 @@ public class OrderService {
         );
     }
 
-
     @Transactional
     public void cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
@@ -199,19 +170,7 @@ public class OrderService {
         Order order = orderRepository.findById(groupOrderJoin.getOrderNo()).orElseThrow(() -> new EntityNotFoundException("Order not found - " + groupOrderJoin.getOrderNo()));
         Member member = memberRepository.findByEmail(groupOrderJoin.getEmail()).orElseThrow(() -> new EntityNotFoundException("Member not found - " + groupOrderJoin.getEmail()));
 
-        List<OrderItemCreate> orderItemCreates = groupOrderJoin.getOrderItems();
-
-        //todo delete
-//        Item item;
-//        List<OrderItem> orderItems = new ArrayList<>();
-//
-//        for (OrderItemCreate orderItemCreate : orderItemCreates) {
-//            item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), orderItemCreate.getItemName())
-//                    .orElseThrow(() -> new EntityNotFoundException("Item not found - " + orderItemCreate.getItemName()));
-//            orderItems.add(OrderItem.createOrderItem(item, order, item.getPrice(), orderItemCreate.getOrderQuantity()));
-//        }
-
-        List<OrderItem> orderItems = orderItemCreates.stream()
+        List<OrderItem> orderItems = groupOrderJoin.getOrderItems().stream()
                 .map(orderItemCreate -> {
                     Item item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), orderItemCreate.getItemName())
                             .orElseThrow(() -> new EntityNotFoundException("Item not found - " + orderItemCreate.getItemName()));
@@ -224,9 +183,17 @@ public class OrderService {
     }
 
     @Transactional
+    //todo return check
     public void lunchRecruitStatus(Long orderId, OrderEdit orderEdit) {
+        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
+
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));
+
+        if (!order.getMember().getEmail().equals(currentUserEmail)) {
+            throw new SecurityException("Only the person who created the order can modify it.");
+        }
+
         order.setStatus(OrderStatus.valueOf(orderEdit.getStatus()));
     }
 
