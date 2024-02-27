@@ -7,5 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReplyRepositoryCustom {
 
-    Page<Reply> replyList(BoardSearch boardSearch, Pageable pageable);
+    Page<Reply> getReplyForBoard(BoardSearch boardSearch, Pageable pageable);
+
+    Page<Reply> getChildrenForReply(BoardSearch boardSearch, Pageable pageable);
 }

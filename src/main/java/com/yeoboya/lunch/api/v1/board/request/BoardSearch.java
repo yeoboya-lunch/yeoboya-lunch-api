@@ -10,4 +10,7 @@ import lombok.ToString;
 public class BoardSearch {
 
     private long boardId;
+    private long parentReplyId;
+    private int size;
+    private int page;
 }

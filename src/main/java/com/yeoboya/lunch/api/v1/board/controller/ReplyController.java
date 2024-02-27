@@ -25,14 +25,18 @@ public class ReplyController {
     }
 
     /**
-     * 댓글조회 (페이징)
+     * 댓글조회
      */
     @GetMapping
-    public ResponseEntity<Response.Body> list(BoardSearch boardSearch, Pageable pageable) {
-        return replyService.list(boardSearch, pageable);
+    public ResponseEntity<Response.Body> getReplyForBoard(BoardSearch boardSearch, Pageable pageable) {
+        return replyService.getReplyForBoard(boardSearch, pageable);
     }
 
     /**
-     * todo 대댓글조회
+     * 대댓글조회
      */
+    @GetMapping("/children")
+    public ResponseEntity<Response.Body> getChildrenForReply(BoardSearch boardSearch, Pageable pageable) {
+        return replyService.getChildrenForReply(boardSearch, pageable);
+    }
 }

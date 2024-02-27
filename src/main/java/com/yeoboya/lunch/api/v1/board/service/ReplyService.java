@@ -14,6 +14,7 @@ import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -51,8 +52,34 @@ public class ReplyService {
         return response.success(Code.SAVE_SUCCESS);
     }
 
-    public ResponseEntity<Response.Body> list(BoardSearch boardSearch, Pageable pageable) {
-        Page<Reply> replies = replyRepository.replyList(boardSearch, pageable);
+    //게시글(Board)에 대한 특정 댓글(Reply)을 검색합니다.
+    public ResponseEntity<Response.Body> getReplyForBoard(BoardSearch boardSearch, Pageable pageable) {
+        Page<Reply> replies = replyRepository.getReplyForBoard(boardSearch, pageable);
+        List<Reply> replyList = replies.getContent();
+
+        List<ReplyResponse> replyResponses = replies
+                .stream()
+                .map(r -> ReplyResponse.from(r.getMember(), r, replyList))
+                .collect(Collectors.toList());
+
+        Map<String, Object> pagination = Map.of(
+                "page", replies.getNumber() + 1,
+                "isFirst", replies.isFirst(),
+                "isLast", replies.isLast(),
+                "isEmpty", replies.isEmpty(),
+                "totalPages", replies.getTotalPages(),
+                "totalElements", replies.getTotalElements());
+
+        Map<String, Object> data = Map.of(
+                "list", replyResponses,
+                "pagination", pagination);
+
+        return response.success(Code.SEARCH_SUCCESS, data);
+    }
+
+    //특정 댓글(Reply)에 대한 대댓글을 검색합니다.
+    public ResponseEntity<Response.Body> getChildrenForReply(BoardSearch boardSearch, Pageable pageable) {
+        Page<Reply> replies = replyRepository.getChildrenForReply(boardSearch, pageable);
         List<Reply> replyList = replies.getContent();
 
         List<ReplyResponse> replyResponses = replies

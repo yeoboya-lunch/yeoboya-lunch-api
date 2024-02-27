@@ -14,9 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 public class ReplyResponse {
 
+    private Long parentId;
     private Long replyId;
     private String writer;
-    private String parentContent;
+    private String content;
     private Date date;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ReplyResponse> childReplies = new ArrayList<>();
@@ -25,11 +26,12 @@ public class ReplyResponse {
         ReplyResponse replyResponse = new ReplyResponse();
         replyResponse.setReplyId(reply.getId());
         replyResponse.setWriter(member.getName());
-        replyResponse.setParentContent(reply.getContent());
+        replyResponse.setContent(reply.getContent());
         replyResponse.setDate(reply.getCreateDate());
 
         for (Reply childReply : childReplies) {
-            if (childReply.getParentReply() != null && childReply.getParentReply().getId().equals(reply.getId())) {
+            Reply parent = childReply.getParentReply();
+            if (parent != null && parent.getId().equals(reply.getId())) {
                 replyResponse.getChildReplies().add(from(member, childReply, childReplies));
             }
         }

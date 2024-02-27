@@ -25,7 +25,7 @@ public class ReplyRepositoryCustomImpl implements ReplyRepositoryCustom {
     }
 
     @Override
-    public Page<Reply> replyList(BoardSearch boardSearch, Pageable pageable) {
+    public Page<Reply> getReplyForBoard(BoardSearch boardSearch, Pageable pageable) {
         List<Reply> content = query.selectFrom(reply)
                 .where(reply.board.id.eq(boardSearch.getBoardId()))
                 .limit(pageable.getPageSize())
@@ -39,5 +39,22 @@ public class ReplyRepositoryCustomImpl implements ReplyRepositoryCustom {
 
         return new PageImpl<>(content, pageable, totalCount);
     }
+
+    @Override
+    public Page<Reply> getChildrenForReply(BoardSearch boardSearch, Pageable pageable) {
+        List<Reply> content = query.selectFrom(reply)
+                .where(reply.parentReply.id.eq(boardSearch.getParentReplyId()))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+
+        Long totalCount = query
+                .select(reply.count())
+                .from(reply)
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, totalCount);
+    }
+
 
 }
