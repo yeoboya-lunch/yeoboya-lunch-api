@@ -30,10 +30,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,24 +55,19 @@ public class BoardService {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
 
-        List<BoardHashTag> boardHashTags = new ArrayList<>();
-        if (boardCreate.getHashTag() != null) {
-            for (String tag : boardCreate.getHashTag()) {
-                boolean isHashTag = hashTagRepository.existsHashTagByTag(tag);
-                if (isHashTag) {
-                    HashTag findHashTag = hashTagRepository.findHashTagByTag(tag);
-                    boardHashTags.add(BoardHashTag.createBoardHashTag(findHashTag));
-                } else {
-                    HashTag save = hashTagRepository.save(HashTag.builder().tag(tag).build());
-                    boardHashTags.add(BoardHashTag.createBoardHashTag(save));
-                }
-            }
-        }
+        List<BoardHashTag> boardHashTags = Optional.ofNullable(boardCreate.getHashTag())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(tag -> hashTagRepository.existsHashTagByTag(tag)
+                        ? hashTagRepository.findHashTagByTag(tag)
+                        : hashTagRepository.save(HashTag.builder().tag(tag).build()))
+                .map(BoardHashTag::createBoardHashTag)
+                .collect(Collectors.toList());
 
         Board board = Board.createBoard(member, boardCreate, boardHashTags);
         try {
             Board save = boardRepository.save(board);
-        } catch (DataAccessException e) {
+        } catch (DataAccessException ignored) {
 
         }
 
@@ -87,25 +79,21 @@ public class BoardService {
         Member member = memberRepository.findByEmail(fileBoardCreate.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + fileBoardCreate.getEmail()));
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
-        if (!fileBoardCreate.getEmail().equals(name)) {
-            return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
-        }
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
+//        if (!fileBoardCreate.getEmail().equals(name)) {
+//            return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
+//        }
 
-        List<BoardHashTag> boardHashTags = new ArrayList<>();
-        if (fileBoardCreate.getHashTag() != null) {
-            for (String tag : fileBoardCreate.getHashTag()) {
-                boolean isHashTag = hashTagRepository.existsHashTagByTag(tag);
-                if (isHashTag) {
-                    HashTag findHashTag = hashTagRepository.findHashTagByTag(tag);
-                    boardHashTags.add(BoardHashTag.createBoardHashTag(findHashTag));
-                } else {
-                    HashTag save = hashTagRepository.save(HashTag.builder().tag(tag).build());
-                    boardHashTags.add(BoardHashTag.createBoardHashTag(save));
-                }
-            }
-        }
+        List<BoardHashTag> boardHashTags = Optional.ofNullable(fileBoardCreate.getHashTag())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(tag -> hashTagRepository.existsHashTagByTag(tag)
+                        ? hashTagRepository.findHashTagByTag(tag)
+                        : hashTagRepository.save(HashTag.builder().tag(tag).build()))
+                .map(BoardHashTag::createBoardHashTag)
+                .collect(Collectors.toList());
+
 
         FileUploadResponse upload = fileService.upload(file, fileBoardCreate.getUploadType());
         File fileBuild = File.builder().fileUploadResponse(upload).build();

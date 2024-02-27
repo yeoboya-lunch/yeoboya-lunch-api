@@ -22,7 +22,6 @@ public class BoardController {
 
     private final BoardService boardService;
 
-
     /**
      * 게시글 작성
      */
@@ -31,23 +30,27 @@ public class BoardController {
         return boardService.saveBoard(boardCreate);
     }
 
+    /**
+     * 게시글 작성 (파일첨부)
+     */
     @PostMapping(value = "/write/photo", consumes = {"multipart/form-data", "application/json"})
     public ResponseEntity<Body> createPhoto(@RequestPart MultipartFile file, @RequestPart @Valid FileBoardCreate fileBoardCreate) {
         return boardService.saveBoardPhoto(file, fileBoardCreate);
     }
-
 
     /**
      * 게시글 조회
      */
     @GetMapping
     public ResponseEntity<Body> list(BoardSearch boardSearch, Pageable pageable) {
-        System.out.println("boardSearch = " + boardSearch);
         return boardService.list(boardSearch, pageable);
     }
 
+    /**
+     * 게시글 단건 조회
+     */
     @GetMapping("/{boardId}")
-    public ResponseEntity<Body> findBoardById(@PathVariable Long boardId){
+    public ResponseEntity<Body> findBoardById(@PathVariable Long boardId) {
         return boardService.findBoardById(boardId);
     }
 }

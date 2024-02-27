@@ -1,9 +1,7 @@
 package com.yeoboya.lunch.api.v1.board.request;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +15,7 @@ public class FileBoardCreate extends BoardCreate {
     private String uploadType;
     private MultipartFile file;
 
-    FileBoardCreate(@Email String email, String title, List<String> hashTag, String content, @Digits(integer = 4, fraction = 0) int pin, boolean secret) {
+    public FileBoardCreate(@Email String email, String title, List<String> hashTag, String content, @Digits(integer = 4, fraction = 0) int pin, boolean secret) {
         super(email, title, hashTag, content, pin, secret);
     }
 

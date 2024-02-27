@@ -1,11 +1,9 @@
 package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
-import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
-import com.yeoboya.lunch.api.v1.common.response.Code;
+import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,18 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -35,9 +34,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -64,7 +61,7 @@ class BoardControllerDocTest {
     }
 
     @Test
-    @DisplayName("게시판 저장 테스트")
+    @DisplayName("게시판 작성")
     void saveBoardTest() throws Exception {
 
         BoardCreate boardCreate = BoardCreate.builder()
@@ -103,9 +100,8 @@ class BoardControllerDocTest {
                 ));
     }
 
-
     @Test
-    @DisplayName("Board listing test")
+    @DisplayName("게시글 조회")
     void listBoardTest() throws Exception {
 
         BoardSearch boardSearch = new BoardSearch(); // Fill this object with some test data
@@ -150,8 +146,56 @@ class BoardControllerDocTest {
     }
 
     @Test
+    @DisplayName("게시글 작성 (파일첨부)")
+    void createPhotoTest() throws Exception {
+        File fileResource = new ClassPathResource("test.jpg").getFile();
+        byte[] fileBytes = Files.readAllBytes(fileResource.toPath());
+        MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", fileBytes);
+
+        FileBoardCreate fileBoardCreate = new FileBoardCreate("v@v.com", "파일업로드 테스트", Arrays.asList("#1", "#2", "#3"),
+                "내용입니다.", 7777, false);
+
+        String json = new ObjectMapper().writeValueAsString(fileBoardCreate);
+        MockMultipartFile fileBoardCreateFile = new MockMultipartFile("fileBoardCreate", "",
+                "application/json", json.getBytes());
+
+        mockMvc.perform(multipart("/board/write/photo")
+                        .file(file)
+                        .file(fileBoardCreateFile)
+                        .characterEncoding("utf-8")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print())
+                .andDo(document("write/photo",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParts(
+                                partWithName("file").description("사진 파일"),
+                                partWithName("fileBoardCreate").description("글 정보")
+                        ),
+                        requestFields(
+                                fieldWithPath("email").description("Email").type(JsonFieldType.STRING),
+                                fieldWithPath("title").description("게시글 제목").type(JsonFieldType.STRING),
+                                fieldWithPath("content").description("게시글 내용").type(JsonFieldType.STRING),
+                                fieldWithPath("hashTag").description("해시태그").type(JsonFieldType.ARRAY),
+                                fieldWithPath("secret").description("게시글 공개여부").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("pin").description("게시글 비밀번호").type(JsonFieldType.NUMBER),
+                                fieldWithPath("uploadType").description("파일 업로드 형태").optional().type(JsonFieldType.STRING),
+                                fieldWithPath("file").description("업로드 파일 데이터").optional().type(JsonFieldType.STRING)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("The response code").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("The response message").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("게시글 단건 조회")
     public void testFindBoardById() throws Exception {
-        Long boardId = 1L; // change this value to an ID present in your database
+        Long boardId = 18L;
         mockMvc.perform(get("/board/{id}", boardId)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -170,9 +214,18 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.email").description("The email of the board post author"),
                                 fieldWithPath("data.name").description("The name of the board post author"),
                                 fieldWithPath("data.createDate").description("The creation date of the board post"),
-                                fieldWithPath("data.hashTags[]").description("The list of hash tags associated with the board post"),
-                                fieldWithPath("data.hashTags[].tag").description("The specific tag of hash tag"),
-                                fieldWithPath("data.files[]").description("The list of files associated with the board post")
+                                subsectionWithPath("data.hashTags").description("The list of hash tags associated with the board post")
+                                        .type(JsonFieldType.ARRAY)
+                                        .optional(),
+                                fieldWithPath("data.hashTags[].tag").description("The specific tag of hash tag").optional(),
+                                subsectionWithPath("data.files").description("The list of files associated with the board post")
+                                        .type(JsonFieldType.ARRAY)
+                                        .optional(),
+                                fieldWithPath("data.files[].originalFileName").description("The original name of the uploaded file").optional(),
+                                fieldWithPath("data.files[].fileName").description("The server generated file name for uploaded file").optional(),
+                                fieldWithPath("data.files[].filePath").description("The file path where the file was saved").optional(),
+                                fieldWithPath("data.files[].extension").description("The extension of the file").optional(),
+                                fieldWithPath("data.files[].size").description("The size of the file in bytes").optional()
                         )));
     }
 }
