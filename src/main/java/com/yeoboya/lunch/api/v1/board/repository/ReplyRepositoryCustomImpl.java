@@ -30,6 +30,7 @@ public class ReplyRepositoryCustomImpl implements ReplyRepositoryCustom {
                 .where(reply.board.id.eq(boardSearch.getBoardId()))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
+                .distinct()
                 .fetch();
 
         Long totalCount = query
@@ -46,6 +47,7 @@ public class ReplyRepositoryCustomImpl implements ReplyRepositoryCustom {
                 .where(reply.parentReply.id.eq(boardSearch.getParentReplyId()))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
+                .distinct()
                 .fetch();
 
         Long totalCount = query

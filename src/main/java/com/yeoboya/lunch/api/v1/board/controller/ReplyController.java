@@ -28,15 +28,15 @@ public class ReplyController {
      * 댓글조회
      */
     @GetMapping
-    public ResponseEntity<Response.Body> getReplyForBoard(BoardSearch boardSearch, Pageable pageable) {
-        return replyService.getReplyForBoard(boardSearch, pageable);
+    public ResponseEntity<Response.Body> fetchBoardReplies(BoardSearch boardSearch, Pageable pageable) {
+        return replyService.fetchBoardReplies(boardSearch, pageable);
     }
 
     /**
      * 대댓글조회
      */
     @GetMapping("/children")
-    public ResponseEntity<Response.Body> getChildrenForReply(BoardSearch boardSearch, Pageable pageable) {
-        return replyService.getChildrenForReply(boardSearch, pageable);
+    public ResponseEntity<Response.Body> fetchReplyChildren(BoardSearch boardSearch, Pageable pageable) {
+        return replyService.fetchReplyChildren(boardSearch, pageable);
     }
 }

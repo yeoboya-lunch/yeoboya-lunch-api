@@ -19,6 +19,7 @@ public class ReplyResponse {
     private String writer;
     private String content;
     private Date date;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ReplyResponse> childReplies = new ArrayList<>();
 
@@ -28,10 +29,13 @@ public class ReplyResponse {
         replyResponse.setWriter(member.getName());
         replyResponse.setContent(reply.getContent());
         replyResponse.setDate(reply.getCreateDate());
+        //todo 대댓글에 부모댓글 번호 남기기
+//        replyResponse.setParentId(reply.getId());
 
         for (Reply childReply : childReplies) {
             Reply parent = childReply.getParentReply();
             if (parent != null && parent.getId().equals(reply.getId())) {
+//                replyResponse.setParentId(parent.getId());
                 replyResponse.getChildReplies().add(from(member, childReply, childReplies));
             }
         }

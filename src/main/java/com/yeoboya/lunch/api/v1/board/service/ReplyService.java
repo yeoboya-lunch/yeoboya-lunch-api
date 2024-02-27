@@ -53,52 +53,60 @@ public class ReplyService {
     }
 
     //게시글(Board)에 대한 특정 댓글(Reply)을 검색합니다.
-    public ResponseEntity<Response.Body> getReplyForBoard(BoardSearch boardSearch, Pageable pageable) {
-        Page<Reply> replies = replyRepository.getReplyForBoard(boardSearch, pageable);
-        List<Reply> replyList = replies.getContent();
+    public ResponseEntity<Response.Body> fetchBoardReplies(BoardSearch boardSearch, Pageable pageable) {
+        Page<Reply> pagedReplies = replyRepository.getReplyForBoard(boardSearch, pageable);
 
-        List<ReplyResponse> replyResponses = replies
-                .stream()
-                .map(r -> ReplyResponse.from(r.getMember(), r, replyList))
+        List<Reply> allReplies = pagedReplies.getContent();
+
+        List<Reply> parentReplies = allReplies.stream()
+                .filter(reply -> reply.getParentReply() == null)
                 .collect(Collectors.toList());
 
-        Map<String, Object> pagination = Map.of(
-                "page", replies.getNumber() + 1,
-                "isFirst", replies.isFirst(),
-                "isLast", replies.isLast(),
-                "isEmpty", replies.isEmpty(),
-                "totalPages", replies.getTotalPages(),
-                "totalElements", replies.getTotalElements());
+        List<ReplyResponse> replyResponses = parentReplies.stream()
+                .map(parentReply -> ReplyResponse.from(parentReply.getMember(), parentReply, allReplies))
+                .collect(Collectors.toList());
 
-        Map<String, Object> data = Map.of(
+        Map<String, Object> paginationDetails = Map.of(
+                "page", pagedReplies.getNumber() + 1,
+                "isFirst", pagedReplies.isFirst(),
+                "isLast", pagedReplies.isLast(),
+                "isEmpty", pagedReplies.isEmpty(),
+                "totalPages", pagedReplies.getTotalPages(),
+                "totalElements", pagedReplies.getTotalElements()
+        );
+
+        Map<String, Object> responseData = Map.of(
                 "list", replyResponses,
-                "pagination", pagination);
+                "pagination", paginationDetails
+        );
 
-        return response.success(Code.SEARCH_SUCCESS, data);
+        return response.success(Code.SEARCH_SUCCESS, responseData);
     }
 
     //특정 댓글(Reply)에 대한 대댓글을 검색합니다.
-    public ResponseEntity<Response.Body> getChildrenForReply(BoardSearch boardSearch, Pageable pageable) {
-        Page<Reply> replies = replyRepository.getChildrenForReply(boardSearch, pageable);
-        List<Reply> replyList = replies.getContent();
+    public ResponseEntity<Response.Body> fetchReplyChildren(BoardSearch boardSearch, Pageable pageable) {
+        Page<Reply> pagedReplies = replyRepository.getChildrenForReply(boardSearch, pageable);
 
-        List<ReplyResponse> replyResponses = replies
-                .stream()
-                .map(r -> ReplyResponse.from(r.getMember(), r, replyList))
+        List<Reply> allReplies = pagedReplies.getContent();
+
+        List<ReplyResponse> replyResponses = allReplies.stream()
+                .map(reply -> ReplyResponse.from(reply.getMember(), reply, allReplies))
                 .collect(Collectors.toList());
 
-        Map<String, Object> pagination = Map.of(
-                "page", replies.getNumber() + 1,
-                "isFirst", replies.isFirst(),
-                "isLast", replies.isLast(),
-                "isEmpty", replies.isEmpty(),
-                "totalPages", replies.getTotalPages(),
-                "totalElements", replies.getTotalElements());
+        Map<String, Object> paginationDetails = Map.of(
+                "page", pagedReplies.getNumber() + 1,
+                "isFirst", pagedReplies.isFirst(),
+                "isLast", pagedReplies.isLast(),
+                "isEmpty", pagedReplies.isEmpty(),
+                "totalPages", pagedReplies.getTotalPages(),
+                "totalElements", pagedReplies.getTotalElements()
+        );
 
-        Map<String, Object> data = Map.of(
+        Map<String, Object> responseData = Map.of(
                 "list", replyResponses,
-                "pagination", pagination);
+                "pagination", paginationDetails
+        );
 
-        return response.success(Code.SEARCH_SUCCESS, data);
+        return response.success(Code.SEARCH_SUCCESS, responseData);
     }
 }
