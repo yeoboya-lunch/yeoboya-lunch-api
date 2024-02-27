@@ -8,4 +8,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class BoardSearch {
+
+    private long boardId;
 }
