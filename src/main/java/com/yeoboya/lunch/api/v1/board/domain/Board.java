@@ -48,6 +48,9 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<BoardHashTag> boardHashTags = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    private List<Reply> replies = new ArrayList<>();
 
     public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags) {
         Board board = new Board();

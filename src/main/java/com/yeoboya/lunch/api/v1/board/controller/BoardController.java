@@ -50,7 +50,7 @@ public class BoardController {
      * 게시글 단건 조회
      */
     @GetMapping("/{boardId}")
-    public ResponseEntity<Body> findBoardById(@PathVariable Long boardId) {
-        return boardService.findBoardById(boardId);
+    public ResponseEntity<Body> findBoardById(@PathVariable Long boardId, Pageable pageable) {
+        return boardService.findBoardById(boardId, pageable);
     }
 }

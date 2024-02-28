@@ -14,6 +14,7 @@ import java.util.List;
 import static com.yeoboya.lunch.api.v1.board.domain.QBoard.board;
 import static com.yeoboya.lunch.api.v1.board.domain.QBoardHashTag.boardHashTag;
 import static com.yeoboya.lunch.api.v1.board.domain.QHashTag.hashTag;
+import static com.yeoboya.lunch.api.v1.board.domain.QReply.reply;
 import static com.yeoboya.lunch.api.v1.file.domain.QFile.file;
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 
@@ -40,6 +41,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
                 .leftJoin(boardHashTag.hashTag, hashTag)
                 .leftJoin(board.member, member)
                 .leftJoin(board.files, file)
+                .leftJoin(board.replies, reply)
                 .distinct()
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())

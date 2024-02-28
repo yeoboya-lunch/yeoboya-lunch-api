@@ -3,15 +3,19 @@ package com.yeoboya.lunch.api.v1.board.service;
 import com.yeoboya.lunch.api.v1.board.domain.Board;
 import com.yeoboya.lunch.api.v1.board.domain.BoardHashTag;
 import com.yeoboya.lunch.api.v1.board.domain.HashTag;
+import com.yeoboya.lunch.api.v1.board.domain.Reply;
 import com.yeoboya.lunch.api.v1.board.repository.BoardRepository;
 import com.yeoboya.lunch.api.v1.board.repository.HashTagRepository;
+import com.yeoboya.lunch.api.v1.board.repository.ReplyRepository;
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.board.response.BoardResponse;
+import com.yeoboya.lunch.api.v1.board.response.ReplyResponse;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
+import com.yeoboya.lunch.api.v1.common.response.Pagination;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.file.domain.File;
@@ -23,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -38,10 +43,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BoardService {
 
+    // Repositories
     private final BoardRepository boardRepository;
     private final HashTagRepository hashTagRepository;
     private final MemberRepository memberRepository;
+    private final ReplyRepository replyRepository;
+
+    // Services
     private final FileService fileService;
+
+    // Others
     private final Response response;
 
 
@@ -108,28 +119,27 @@ public class BoardService {
 
         List<BoardResponse> boardResponses = boards
                 .stream()
-                .map(BoardResponse::from)
+                .map(board -> BoardResponse.of(board, replyRepository.countByBoard_Id(board.getId())))
                 .collect(Collectors.toList());
 
-        Map<String, Object> pagination = Map.of(
-                "page", boards.getNumber()+1,
-                "isFirst", boards.isFirst(),
-                "isLast", boards.isLast(),
-                "isEmpty", boards.isEmpty(),
-                "totalPages", boards.getTotalPages(),
-                "totalElements", boards.getTotalElements());
+        Pagination pagination = new Pagination(
+                boards.getNumber() + 1,
+                boards.isFirst(),
+                boards.isLast(),
+                boards.isEmpty(),
+                boards.getTotalPages(),
+                boards.getTotalElements());
 
         Map<String, Object> data = Map.of(
                 "list", boardResponses,
                 "pagination", pagination);
 
         return response.success(Code.SEARCH_SUCCESS, data);
-
     }
 
-    public ResponseEntity<Body> findBoardById(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException("Board not found - " + boardId));;
-        BoardResponse boardResponse = BoardResponse.from(board);
+    public ResponseEntity<Body> findBoardById(Long boardId, Pageable pageable) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException("Board not found - " + boardId));
+        BoardResponse boardResponse = BoardResponse.of(board, replyRepository.countByBoard_Id(boardId), replyRepository.findByBoardId(boardId, pageable));
         return response.success(Code.SEARCH_SUCCESS, boardResponse);
     }
 }
