@@ -36,7 +36,7 @@ public class BoardResponse {
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
-                board.getReplies().stream().map(r -> ReplyResponse.from(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
+                board.getReplies().stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
     }
 
@@ -48,7 +48,7 @@ public class BoardResponse {
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
-                board.getReplies().stream().map(r -> ReplyResponse.from(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
+                board.getReplies().stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);
         return response;
@@ -66,7 +66,7 @@ public class BoardResponse {
                 simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
-                replies.getContent().stream().map(r -> ReplyResponse.from(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
+                replies.getContent().stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);
         return response;

@@ -15,6 +15,7 @@ import com.yeoboya.lunch.api.v1.board.response.ReplyResponse;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
+import com.yeoboya.lunch.api.v1.common.response.Pagination;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.file.domain.File;
@@ -121,13 +122,13 @@ public class BoardService {
                 .map(board -> BoardResponse.of(board, replyRepository.countByBoard_Id(board.getId())))
                 .collect(Collectors.toList());
 
-        Map<String, Object> pagination = Map.of(
-                "page", boards.getNumber() + 1,
-                "isFirst", boards.isFirst(),
-                "isLast", boards.isLast(),
-                "isEmpty", boards.isEmpty(),
-                "totalPages", boards.getTotalPages(),
-                "totalElements", boards.getTotalElements());
+        Pagination pagination = new Pagination(
+                boards.getNumber() + 1,
+                boards.isFirst(),
+                boards.isLast(),
+                boards.isEmpty(),
+                boards.getTotalPages(),
+                boards.getTotalElements());
 
         Map<String, Object> data = Map.of(
                 "list", boardResponses,

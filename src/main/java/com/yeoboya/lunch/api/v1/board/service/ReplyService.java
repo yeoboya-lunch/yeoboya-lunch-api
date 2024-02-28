@@ -9,12 +9,12 @@ import com.yeoboya.lunch.api.v1.board.request.ReplyCreateRequest;
 import com.yeoboya.lunch.api.v1.board.response.ReplyResponse;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
+import com.yeoboya.lunch.api.v1.common.response.Pagination;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,10 +35,12 @@ public class ReplyService {
 
     @Transactional
     public ResponseEntity<Response.Body> createReply(ReplyCreateRequest replyCreateRequest) {
-        Member member = memberRepository.findByEmail(replyCreateRequest.getEmail()).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + replyCreateRequest.getEmail()));
+        Member member = memberRepository
+                .findByEmail(replyCreateRequest.getEmail())
+                .orElseThrow(() -> new EntityNotFoundException("Member not found - " + replyCreateRequest.getEmail()));
 
-        Board board = boardRepository.findById(replyCreateRequest.getBoardId())
+        Board board = boardRepository
+                .findById(replyCreateRequest.getBoardId())
                 .orElseThrow(() -> new EntityNotFoundException("Board not found - " + replyCreateRequest.getEmail()));
 
         Reply parentReply = null;
@@ -56,28 +58,29 @@ public class ReplyService {
     public ResponseEntity<Response.Body> fetchBoardReplies(BoardSearch boardSearch, Pageable pageable) {
         Page<Reply> pagedReplies = replyRepository.getReplyForBoard(boardSearch, pageable);
 
+        //이전 단계에서 얻은 페이지네이션된 Reply 객체에서 실제 Reply 객체의 목록을 추출합니다.
         List<Reply> allReplies = pagedReplies.getContent();
 
+        //이 부분에서는 allReplies 목록에서 상위 댓글(부모 댓글이 없는 댓글) 만 걸러내어 parentReplies 목록을 만듭니다.
         List<Reply> parentReplies = allReplies.stream()
                 .filter(reply -> reply.getParentReply() == null)
                 .collect(Collectors.toList());
 
         List<ReplyResponse> replyResponses = parentReplies.stream()
-                .map(parentReply -> ReplyResponse.from(parentReply.getMember(), parentReply, allReplies))
+                .map(parentReply -> ReplyResponse.of(parentReply.getMember(), parentReply, allReplies))
                 .collect(Collectors.toList());
 
-        Map<String, Object> paginationDetails = Map.of(
-                "page", pagedReplies.getNumber() + 1,
-                "isFirst", pagedReplies.isFirst(),
-                "isLast", pagedReplies.isLast(),
-                "isEmpty", pagedReplies.isEmpty(),
-                "totalPages", pagedReplies.getTotalPages(),
-                "totalElements", pagedReplies.getTotalElements()
-        );
+        Pagination pagination = new Pagination(
+                pagedReplies.getNumber() + 1,
+                pagedReplies.isFirst(),
+                pagedReplies.isLast(),
+                pagedReplies.isEmpty(),
+                pagedReplies.getTotalPages(),
+                pagedReplies.getTotalElements());
 
         Map<String, Object> responseData = Map.of(
                 "list", replyResponses,
-                "pagination", paginationDetails
+                "pagination", pagination
         );
 
         return response.success(Code.SEARCH_SUCCESS, responseData);
@@ -90,21 +93,21 @@ public class ReplyService {
         List<Reply> allReplies = pagedReplies.getContent();
 
         List<ReplyResponse> replyResponses = allReplies.stream()
-                .map(reply -> ReplyResponse.from(reply.getMember(), reply, allReplies))
+                .map(reply -> ReplyResponse.of(reply.getMember(), reply, allReplies))
                 .collect(Collectors.toList());
 
-        Map<String, Object> paginationDetails = Map.of(
-                "page", pagedReplies.getNumber() + 1,
-                "isFirst", pagedReplies.isFirst(),
-                "isLast", pagedReplies.isLast(),
-                "isEmpty", pagedReplies.isEmpty(),
-                "totalPages", pagedReplies.getTotalPages(),
-                "totalElements", pagedReplies.getTotalElements()
-        );
+        Pagination pagination = new Pagination(
+                pagedReplies.getNumber() + 1,
+                pagedReplies.isFirst(),
+                pagedReplies.isLast(),
+                pagedReplies.isEmpty(),
+                pagedReplies.getTotalPages(),
+                pagedReplies.getTotalElements());
+
 
         Map<String, Object> responseData = Map.of(
                 "list", replyResponses,
-                "pagination", paginationDetails
+                "pagination", pagination
         );
 
         return response.success(Code.SEARCH_SUCCESS, responseData);
