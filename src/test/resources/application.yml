@@ -35,21 +35,21 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ENC(5IBoYtY2KEjrpcjkfNcZUQ6Alpp8d5nxkTC4nGBXeGw=)
-    password: ENC(Dh20sGMupJaGJojuf5ZDoIzL3IeDdT3tLLZZfEGuFnA=)
+    username: ENC(msnXO/qwDDzrDVxBzJSA39GjTJTgNJlo24Ii6fmYxi4=)
+    password: ENC(NOQd4VVQYDKVJm1XJxmGlaETq76lg+c8CUS9YmndAxs=)
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
   redis:
     master:
-      host:
-      port:
+      host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
+      port: 6380
     slaves:
-      - host:
-        port:
-    password:
-    database:
+      - host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
+        port: 6381
+    password: ENC(wXDtXa+LzvTJI8S77PmGxJz35uoG8N2B)
+    database: 12
 
   sql:
     init:
