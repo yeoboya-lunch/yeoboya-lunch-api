@@ -43,12 +43,17 @@ public class BoardResponse {
 
     public static BoardResponse of(Board board, long replyCount) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 a HH:mm");
+
+        List<Reply> parentReplies = board.getReplies().stream()
+                .filter(reply -> reply.getParentReply() == null)
+                .collect(Collectors.toList());
+
         BoardResponse response = new BoardResponse(
                 board.getId(), board.getTitle(), board.getContent(), board.isSecret(), board.getMember().getEmail(),
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
-                board.getReplies().stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
+                parentReplies.stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);
         return response;
@@ -56,6 +61,12 @@ public class BoardResponse {
 
     public static BoardResponse of(Board board, long replyCount, Page<Reply> replies) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 a HH:mm");
+
+        List<Reply> allReplies = replies.getContent();
+        List<Reply> parentReplies = allReplies.stream()
+                .filter(reply -> reply.getParentReply() == null)
+                .collect(Collectors.toList());
+
         BoardResponse response = new BoardResponse(
                 board.getId(),
                 board.getTitle(),
@@ -66,7 +77,7 @@ public class BoardResponse {
                 simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
-                replies.getContent().stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
+                parentReplies.stream().map(r -> ReplyResponse.of(board.getMember(), r, allReplies)).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);
         return response;

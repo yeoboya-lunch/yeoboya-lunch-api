@@ -5,48 +5,37 @@ spring:
   datasource:
     hikari:
       master:
-        jdbcUrl: ENC(15tbRcTtO8tBp118g94wKJxtKRiQL3LjofB6PIU3Yq2xuqyEj6adYn+DHIOSxNU9tSnI4Z69ZPc=)
-        username: ENC(prYggjblV9crtQtL3P0v+g==)
-        password: ENC(lYgYI4hD8lslLQ31SaAa2xVO7rFvQ4pu)
+        jdbcUrl: ENC(rXD3LhzZaoLUP8MZsvnYxuou7znO1P5eO4JZNqZwH/3eHj8/7M0WKxmsKcf6RoqJf21bMs2HZmI=)
+        username: ENC(M/tnB43FoA03zzaPXaZSuA==)
+        password: ENC(CshQkcD3r93r6dVS4p5UtXJV7c8k+qpu)
         driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         poolName: kimzzang-db-master
       slave:
-        jdbcUrl: ENC(15tbRcTtO8tBp118g94wKJxtKRiQL3LjofB6PIU3Yq2xuqyEj6adYn+DHIOSxNU9tSnI4Z69ZPc=)
-        username: ENC(prYggjblV9crtQtL3P0v+g==)
-        password: ENC(lYgYI4hD8lslLQ31SaAa2xVO7rFvQ4pu)
+        jdbcUrl: ENC(rXD3LhzZaoLUP8MZsvnYxuou7znO1P5eO4JZNqZwH/3eHj8/7M0WKxmsKcf6RoqJf21bMs2HZmI=)
+        username: ENC(M/tnB43FoA03zzaPXaZSuA==)
+        password: ENC(CshQkcD3r93r6dVS4p5UtXJV7c8k+qpu)
         driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         poolName: kimzzang-db-master
+
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: 'true'
         show_sql: 'true'
-        # generate_statistics: true
+        generate_statistics: true
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: none
     open-in-view: true
+
   redis:
     master:
-      host: ENC(2lEBDKbUf18M4AajxCG6H5fp/6cwy/Y6)
+      host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
       port: 6380
     slaves:
-      - host: ENC(2lEBDKbUf18M4AajxCG6H5fp/6cwy/Y6)
+      - host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
         port: 6381
-    password: ENC(BrzRsmE+7ctHykti1JTGiGUTrOYqn8Iy)
+    password: ENC(wXDtXa+LzvTJI8S77PmGxJz35uoG8N2B)
     database: 12
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: khjzzm
-    password: ENC(wC/z1u5NfVfbQ4/8cfVPPDFBJoaQLRmCoGHBT73+YSo=)
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-
-file:
-  upload:
-    root-path: ./file
-    ratio-wh: 1280

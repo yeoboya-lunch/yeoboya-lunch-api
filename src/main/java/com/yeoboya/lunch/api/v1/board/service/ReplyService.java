@@ -58,16 +58,18 @@ public class ReplyService {
     public ResponseEntity<Response.Body> fetchBoardReplies(BoardSearch boardSearch, Pageable pageable) {
         Page<Reply> pagedReplies = replyRepository.getReplyForBoard(boardSearch, pageable);
 
-        //이전 단계에서 얻은 페이지네이션된 Reply 객체에서 실제 Reply 객체의 목록을 추출합니다.
         List<Reply> allReplies = pagedReplies.getContent();
 
-        //이 부분에서는 allReplies 목록에서 상위 댓글(부모 댓글이 없는 댓글) 만 걸러내어 parentReplies 목록을 만듭니다.
         List<Reply> parentReplies = allReplies.stream()
                 .filter(reply -> reply.getParentReply() == null)
                 .collect(Collectors.toList());
 
+        List<Reply> childReplies = allReplies.stream()
+                .filter(reply -> reply.getParentReply() != null)
+                .collect(Collectors.toList());
+
         List<ReplyResponse> replyResponses = parentReplies.stream()
-                .map(parentReply -> ReplyResponse.of(parentReply.getMember(), parentReply, allReplies))
+                .map(parentReply -> ReplyResponse.of(parentReply.getMember(), parentReply, childReplies))
                 .collect(Collectors.toList());
 
         Pagination pagination = new Pagination(
@@ -92,8 +94,16 @@ public class ReplyService {
 
         List<Reply> allReplies = pagedReplies.getContent();
 
-        List<ReplyResponse> replyResponses = allReplies.stream()
-                .map(reply -> ReplyResponse.of(reply.getMember(), reply, allReplies))
+        List<Reply> parentReplies = allReplies.stream()
+                .filter(reply -> reply.getParentReply() == null)
+                .collect(Collectors.toList());
+
+        List<Reply> childReplies = allReplies.stream()
+                .filter(reply -> reply.getParentReply() != null)
+                .collect(Collectors.toList());
+
+        List<ReplyResponse> replyResponses = parentReplies.stream()
+                .map(parentReply -> ReplyResponse.of(parentReply.getMember(), parentReply, childReplies))
                 .collect(Collectors.toList());
 
         Pagination pagination = new Pagination(

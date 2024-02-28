@@ -1,7 +1,10 @@
 package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.aws.AwsSecretsManagerClient;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
 @ExtendWith(RestDocumentationExtension.class)
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
-@TestPropertySource(properties = "jasypt.encryptor.password=RV47mq6CwLrDEankn8j4")
+@ContextConfiguration(initializers = SecretsManagerInitializer.class)
 class UserControllerDocTest {
 
     @Autowired

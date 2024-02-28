@@ -2,15 +2,6 @@ logging:
   config: classpath:logs/logback-local.xml
 
 spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: khjzzm
-    password: ENC(Dh20sGMupJaGJojuf5ZDoIzL3IeDdT3tLLZZfEGuFnA=)
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-
   datasource:
     url: jdbc:h2:tcp://localhost/~/lunch
     username: sa
@@ -19,6 +10,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
   jpa:
     properties:
       hibernate:
@@ -37,31 +29,29 @@ spring:
 
   redis:
     master:
-      host: 127.0.0.1
-      port: 6379
+      host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
+      port: 6380
     slaves:
-      - host: 127.0.0.1
-        port: 6380
-    password: redistestpassword
+      - host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
+        port: 6381
+    password: ENC(wXDtXa+LzvTJI8S77PmGxJz35uoG8N2B)
     database: 12
+
+    #  redis:
+    #    master:
+    #      host: 127.0.0.1
+    #      port: 6379
+    #    slaves:
+    #      - host: 127.0.0.1
+    #        port: 6380
+    #    password: redistestpassword
+    #    database: 12
 
   sql:
     init:
-      mode: always
-
-file:
-  upload:
-    root-path: ./file
-    ratio-wh: 1280
-
-#decorator:
-#  datasource:
-#    p6spy:
-#      enable-logging: false
+      mode: never
 
 dalla:
-#  baseUrl: https://devapi.dallalive.com
-#  authToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxQDEuY29tIiwianRpIjoiOTViOTQ4OWYtYThkYS00OTY5LTlhYmUtZjY2OGJiMmM1MjFmIiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTY5NTcwMzY0MywiZXhwIjoxNjk1NzQ2ODQzLCJhdXRoIjoiUk9MRV9VU0VSIn0.xGd7FmSkNXw8GSt8fExhkFWFHiPpjYCdDatseO_zZ08
   baseUrl: https://api.dallalive.com
   authToken: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTU4NzA4NzI0MzEwNkB0cnVlIiwiaWF0IjoxNzA0MTU0OTA5LCJleHAiOjE3MDY3NDY5MDl9.BfkvPiCSlMZON2qCYTVTGz4HDJ2-pQc2jyBpGDDjmFA
   socketUrl: https://devsv1.dallalive.com:8000/api/chatroom/sendmessage/

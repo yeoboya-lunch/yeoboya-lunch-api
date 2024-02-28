@@ -67,9 +67,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.8'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     implementation 'org.json:json:20210307'
+    implementation 'software.amazon.awssdk:secretsmanager:2.24.12'
 
     //monitor
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
@@ -104,13 +105,13 @@ dependencies {
 
 // Spring Boot 애플리케이션 실행 시 Jasypt 암호화 키 전달
 bootRun {
-    systemProperty "jasypt.encryptor.password", findProperty("jasypt.encryptor.password")
+//    systemProperty "jasypt.encryptor.password", findProperty("jasypt.encryptor.password")
 }
 
 // 테스트 실행 시 Jasypt 암호화 키 전달 및 추가 설정
 test {
     useJUnitPlatform()
-    systemProperty 'jasypt.encryptor.password', findProperty("jasypt.encryptor.password")
+//    systemProperty 'jasypt.encryptor.password', findProperty("jasypt.encryptor.password")
     outputs.dir file('build/generated-snippets')
 }
 
