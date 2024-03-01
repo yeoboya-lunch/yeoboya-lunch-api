@@ -12,7 +12,7 @@ import static com.yeoboya.lunch.config.aws.AwsSecretsManagerClient.getSecret;
 
 @Profile("prod")
 @Configuration
-public class DatabaseConfig {
+public class ProdDatabaseSourceConfig {
 
     @Bean
     public DataSource dataSource() {

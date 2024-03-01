@@ -8,8 +8,6 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -37,15 +35,12 @@ public class ReplyResponse {
         replyResponse.setContent(reply.getContent());
         replyResponse.setDate(reply.getCreateDate());
 
-        Map<Long, List<Reply>> groupedReplies = allReplies.stream()
-                .filter(r -> r.getParentReply() != null)
-                .collect(Collectors.groupingBy(r -> r.getParentReply().getId()));
+        for (Reply childReply : allReplies) {
+            Reply parent = childReply.getParentReply();
 
-        List<Reply> childReplies = groupedReplies.get(reply.getId());
-
-        if (childReplies != null) {
-            for (Reply childReply : childReplies) {
-                ReplyResponse childReplyResponse = of(member, childReply, childReplies);
+            // 현재 댓글(childReply)의 부모 댓글(parent)이 존재하고 그 ID가 reply 의 ID와 같다면, 이 childReply 는 reply 의 자식 댓글임을 확인
+            if (parent != null && parent.getId().equals(reply.getId())) {
+                ReplyResponse childReplyResponse = of(member, childReply, allReplies);
                 childReplyResponse.setParentId(reply.getId());
                 replyResponse.getChildReplies().add(childReplyResponse);
             }
