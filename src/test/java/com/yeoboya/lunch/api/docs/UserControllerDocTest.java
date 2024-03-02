@@ -1,10 +1,9 @@
 package com.yeoboya.lunch.api.docs;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
-import com.yeoboya.lunch.config.aws.AwsSecretsManagerClient;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,11 +13,14 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.data.util.Pair;
+import org.springframework.util.StringUtils;
 
 import java.util.Random;
 
@@ -89,45 +91,6 @@ class UserControllerDocTest {
                 ));
     }
 
-
-    @Test
-    @DisplayName("패스워드 변경")
-    void changePassword() throws Exception {
-        //given
-        UserRequest.Credentials credentials = new UserRequest.Credentials();
-        credentials.setEmail(uniqueEmail);
-        credentials.setOldPassword("1234qwer!@#$");
-        credentials.setNewPassword("qwer1234@@");
-        credentials.setConfirmNewPassword("qwer1234@@");
-
-        String json = objectMapper.writeValueAsString(credentials);
-
-        //expected
-        mockMvc.perform(patch("/user/setting/security")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .content(json))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("user/setting/security",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("email").description("이메일"),
-                                fieldWithPath("oldPassword").description("전 비밀번호"),
-                                fieldWithPath("newPassword").description("새로운 비밀번호"),
-                                fieldWithPath("confirmNewPassword").description("비밀번호 확인"),
-                                fieldWithPath("passKey").description("KnowPassKey").ignored()
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("code")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING)
-                        )
-                ));
-    }
-
     @Test
     @DisplayName("로그인")
     void login() throws Exception {
@@ -180,6 +143,186 @@ class UserControllerDocTest {
                 ));
     }
 
-    //todo
-    //로그아웃, 토큰 재발급, 비밀번호 변경 이메일전송, 비밀번호 초기화
+    private Pair<String, String> performLoginAndGetTokens() throws Exception {
+        UserRequest.SignIn signIn = new UserRequest.SignIn();
+        signIn.setEmail("logout@gmail.com");
+        signIn.setPassword("qwer1234@@");
+
+        String signInJson = objectMapper.writeValueAsString(signIn);
+
+        MvcResult result = mockMvc.perform(post("/user/sign-in")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(signInJson))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String contentAsString = result.getResponse().getContentAsString();
+        JsonNode root = objectMapper.readTree(contentAsString);
+        String accessToken = root.path("data").path("accessToken").asText();
+        String refreshToken = root.path("data").path("refreshToken").asText();
+
+        // accessToken과 refreshToken을 반환
+        return Pair.of(accessToken, refreshToken);
+    }
+
+    @Test
+    @DisplayName("로그아웃")
+    void logout() throws Exception {
+        //given
+        Pair<String, String> tokens = performLoginAndGetTokens();
+
+        UserRequest.SignOut signOut = new UserRequest.SignOut();
+        signOut.setAccessToken(tokens.getFirst());
+        signOut.setRefreshToken(tokens.getSecond());
+
+        String json = objectMapper.writeValueAsString(signOut);
+
+        // When & then
+        mockMvc.perform(post("/user/sign-out")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/sign-out",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("accessToken").description("액세스 토큰"),
+                                fieldWithPath("refreshToken").description("리프레시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("메세지").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("패스워드 변경")
+    void changePassword() throws Exception {
+        //given
+        UserRequest.Credentials credentials = new UserRequest.Credentials();
+        credentials.setEmail(uniqueEmail);
+        credentials.setOldPassword("1234qwer!@#$");
+        credentials.setNewPassword("qwer1234@@");
+        credentials.setConfirmNewPassword("qwer1234@@");
+
+        String json = objectMapper.writeValueAsString(credentials);
+
+        //expected
+        mockMvc.perform(patch("/user/setting/security")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/setting/security",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("oldPassword").description("전 비밀번호"),
+                                fieldWithPath("newPassword").description("새로운 비밀번호"),
+                                fieldWithPath("confirmNewPassword").description("비밀번호 확인"),
+                                fieldWithPath("passKey").description("KnowPassKey").ignored()
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("토큰 재발급")
+    public void reIssueToken() throws Exception {
+        //given
+        Pair<String, String> tokens = performLoginAndGetTokens();
+
+        UserRequest.Reissue reissue = new UserRequest.Reissue();
+        reissue.setRefreshToken(tokens.getSecond());
+
+        String json = objectMapper.writeValueAsString(reissue);
+
+        ConstraintDescriptions constraintDescriptions = new ConstraintDescriptions(UserRequest.Reissue.class);
+
+        //expected
+        mockMvc.perform(post("/user/reissue")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/reissue",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("accessToken")
+                                        .description("엑세스 토큰")
+                                        .attributes(
+                                                key("constraints")
+                                                        .value(
+                                                                StringUtils.collectionToDelimitedString(
+                                                                        constraintDescriptions.descriptionsForProperty("accessToken"), ". "
+                                                                )
+                                                        )
+                                        ),
+
+                                fieldWithPath("refreshToken")
+                                        .description("리프레시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("메시지").type(JsonFieldType.STRING),
+                                fieldWithPath("data.subject").description("서브젝트").type(JsonFieldType.STRING),
+                                fieldWithPath("data.id").description("아이디").type(JsonFieldType.STRING),
+                                fieldWithPath("data.issuer").description("발행자").type(JsonFieldType.STRING),
+                                fieldWithPath("data.issueDAt").description("발행일시").type(JsonFieldType.STRING),
+                                fieldWithPath("data.accessToken").description("액세스 토큰").type(JsonFieldType.STRING),
+                                fieldWithPath("data.refreshToken").description("리프레시 토큰").type(JsonFieldType.STRING),
+                                fieldWithPath("data.tokenExpirationTime").description("토큰 만료일시").type(JsonFieldType.STRING),
+                                fieldWithPath("data.refreshTokenExpirationTime").description("리프레시토큰 만료일시").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.refreshTokenExpirationTimeStr").description("리프레시 토큰 만료일시 문자열").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비밀번호 재설정 이메일 보내기")
+    public void sendResetPasswordMail() throws Exception {
+        //given
+        UserRequest.ResetPassword resetPassword = new UserRequest.ResetPassword();
+        resetPassword.setEmail("khjzzm@gmail.com");
+        resetPassword.setPhone("010-0000-0000");
+        resetPassword.setAuthorityLink("localhost");
+
+        String json = objectMapper.writeValueAsString(resetPassword);
+
+        //expected
+        mockMvc.perform(post("/user/sendResetPasswordMail")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/sendResetPasswordMail",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("phone").description("휴대폰 번호"),
+                                fieldWithPath("authorityLink").description("권한 링크")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("메시지").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+
 }

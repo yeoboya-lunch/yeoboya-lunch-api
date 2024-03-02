@@ -214,19 +214,26 @@ public class UserService {
         return response.success(Code.UPDATE_SUCCESS);
     }
 
-    public ResponseEntity<Body> sendResetPasswordMail(String memberEmail) {
-        if (!memberRepository.existsByEmail(memberEmail)) {
-            throw new EntityNotFoundException("Member not found - " + memberEmail);
+    public ResponseEntity<Body> sendResetPasswordMail(ResetPassword resetPassword) {
+        String email = resetPassword.getEmail();
+        String phone = resetPassword.getPhone();
+        if (!memberRepository.existsByEmail(email)) {
+            throw new EntityNotFoundException("Member not found - " + email);
+        }
+
+        if(!memberRepository.existsMemberByEmailAndMemberInfoPhoneNumber(email, phone)){
+            String errorMessage = String.format("Member with email %s and phone number %s does not exist.", email, phone);
+            throw new EntityNotFoundException(errorMessage);
         }
 
         String passKey = UUID.randomUUID().toString().replace("-", "");
 
-        redisTemplate.opsForValue().set("EMAIL:" + memberEmail, passKey, 60 * 5 * 1000L, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set("EMAIL:" + email, passKey, 60 * 5 * 1000L, TimeUnit.MILLISECONDS);
 
         //todo front 비밀번호 변경 화면
-        String authorityLink = "https://khjzzm.github.io/" + passKey + "?q=" + memberEmail;
+        String authorityLink = "https://"+ resetPassword.getAuthorityLink()+ "?pass_key=" + passKey + "&email=" + email;
 
-        emailService.resetPassword(memberEmail, authorityLink);
+        emailService.resetPassword(email, authorityLink);
         return response.success("메일전송");
     }
 

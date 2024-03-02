@@ -83,10 +83,8 @@ public class UserController {
      */
     @PostMapping("/reissue")
     public ResponseEntity<Body> reissue(@Valid @RequestBody Reissue reissue){
-        log.error("reissue {}", reissue);
         return userService.reissue(reissue);
     }
-
 
     /**
      * 권한추가
@@ -96,13 +94,12 @@ public class UserController {
         return userService.authority(request);
     }
 
-
     /**
      * 비밀번호 변경 이메일 전송
      */
     @TimeLogging
-    @GetMapping("/sendResetPasswordMail/{memberEmail}")
-    public ResponseEntity<Body> sendResetPasswordMail(@PathVariable String memberEmail) {
-        return userService.sendResetPasswordMail(memberEmail);
+    @PostMapping("/sendResetPasswordMail")
+    public ResponseEntity<Body> sendResetPasswordMail(@RequestBody ResetPassword resetPassword) {
+        return userService.sendResetPasswordMail(resetPassword);
     }
 }
