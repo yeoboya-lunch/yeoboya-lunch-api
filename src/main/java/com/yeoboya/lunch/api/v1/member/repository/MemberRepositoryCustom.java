@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MemberRepositoryCustom {
 
-    Slice<MemberResponse> getMembers(Pageable pageable);
+    Slice<MemberResponse> findMembersInPages(Pageable pageable);
 
     List<MemberRole> getMemberRoles(Long id);
 

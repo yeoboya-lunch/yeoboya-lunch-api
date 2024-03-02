@@ -3,7 +3,9 @@ package com.yeoboya.lunch.api.v1.board.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yeoboya.lunch.api.v1.board.domain.Reply;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Date;

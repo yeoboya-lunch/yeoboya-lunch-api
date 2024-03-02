@@ -27,7 +27,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Slice<MemberResponse> getMembers(Pageable pageable) {
+    public Slice<MemberResponse> findMembersInPages(Pageable pageable) {
         List<MemberResponse> content = jpaQueryFactory.select(
                         new QMemberResponse(
                                 member.email, member.name,
@@ -48,8 +48,6 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
         }
 
         return new SliceImpl<>(content, pageable, hasNext);
-
-
     }
 
 

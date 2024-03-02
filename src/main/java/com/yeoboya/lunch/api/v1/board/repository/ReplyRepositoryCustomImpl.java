@@ -2,7 +2,6 @@ package com.yeoboya.lunch.api.v1.board.repository;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.yeoboya.lunch.api.v1.board.domain.Board;
 import com.yeoboya.lunch.api.v1.board.domain.Reply;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import org.springframework.data.domain.Page;

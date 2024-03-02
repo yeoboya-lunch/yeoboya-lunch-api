@@ -2,7 +2,9 @@ package com.yeoboya.lunch.api.v1.Item.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @Builder

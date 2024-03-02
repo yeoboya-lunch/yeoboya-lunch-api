@@ -15,17 +15,18 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.key;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +47,6 @@ class MemberControllerDocTest {
     @Test
     @DisplayName("회원리스트")
     void member() throws Exception {
-
         mockMvc.perform(get("/member"))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("member/get/list",
@@ -61,23 +61,22 @@ class MemberControllerDocTest {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
                                         .type(JsonFieldType.STRING),
-                                fieldWithPath("data.pageNo").description("현재 페이지 번호"),
-                                fieldWithPath("data.hasPrevious").description("이전 페이지가 있는지 여부"),
-                                fieldWithPath("data.hasNext").description("다음 페이지가 있는지 여부"),
-                                fieldWithPath("data.isFirst").description("현재 페이지가 첫 페이지인지 여부"),
-                                fieldWithPath("data.isLast").description("현재 페이지가 마지막 페이지인지 여부"),
+                                fieldWithPath("data.pagination.pageNo").description("현재 페이지 번호"),
+                                fieldWithPath("data.pagination.size").description("페이지 사이즈"),
+                                fieldWithPath("data.pagination.numberOfElements").description("현재 페이지에 있는 데이터의 수"),
+                                fieldWithPath("data.pagination.isFirst").description("현재 페이지가 첫 페이지인지 여부"),
+                                fieldWithPath("data.pagination.isLast").description("현재 페이지가 마지막 페이지인지 여부"),
+                                fieldWithPath("data.pagination.hasNext").description("다음 페이지가 있는지 여부"),
+                                fieldWithPath("data.pagination.hasPrevious").description("이전 페이지가 있는지 여부"),
                                 fieldWithPath("data.list[].email").description("이메일 주소"),
                                 fieldWithPath("data.list[].name").description("이름"),
-                                fieldWithPath("data.list[].bankName").optional().description("은행 이름"),
-                                fieldWithPath("data.list[].accountNumber").optional().description("계좌 번호"),
-                                fieldWithPath("data.list[].account").description("계좌 존재 여부"),
                                 fieldWithPath("data.list[].nickName").optional().description("닉네임"),
-                                fieldWithPath("data.list[].phoneNumber").optional().description("전화번호")
-
+                                fieldWithPath("data.list[].phoneNumber").optional().description("전화번호"),
+                                fieldWithPath("data.list[].account").description("계좌 존재 여부"),
+                                fieldWithPath("data.list[].bankName").optional().description("은행 이름"),
+                                fieldWithPath("data.list[].accountNumber").optional().description("계좌 번호")
                         )
-
                 ));
-
     }
 
     @Test
@@ -86,7 +85,7 @@ class MemberControllerDocTest {
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
-                .email("admin@gmail.com")
+                .email("khjzzm@gmail.com")
                 .bankName("카카오뱅크")
                 .accountNumber("3333-01-123456")
                 .build();
@@ -127,16 +126,56 @@ class MemberControllerDocTest {
                 ));
     }
 
+
+    @Test
+    @DisplayName("프로필조회")
+    public void getMemberProfile() throws Exception {
+
+        String memberEmail = "khjzzm@gmail.com";
+
+        mockMvc.perform(get("/member/{memberEmail}/profile", memberEmail)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("member/get/list",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.email").description("Email of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.name").description("Name of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.nickName").description("Nickname of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.phoneNumber").description("Phone number of the user")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.account").description("Account status of the user")
+                                        .type(JsonFieldType.BOOLEAN)
+                        )
+                ));
+    }
+
+
     @Test
     @DisplayName("계좌수정")
     void accountUpdate() throws Exception {
         //given
-        AccountEdit request = AccountEdit.builder().bankName("토스").accountNumber("010-8349-0706").build();
+        AccountEdit request = AccountEdit .builder()
+                .bankName("토스")
+                .accountNumber("010-8349-0706")
+                .build();
+
+        String memberEmail = "khjzzm@gmail.com";
 
         String json = objectMapper.writeValueAsString(request);
 
         //expected
-        mockMvc.perform(patch("/member/account/{memberEmail}", "manager@gmail.com")
+        mockMvc.perform(patch("/member/account/{memberEmail}", memberEmail)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(json))

@@ -38,22 +38,17 @@ public class MemberController {
         return response.success(Code.SEARCH_SUCCESS, memberService.memberList(pageable));
     }
 
-    /**
-     * 멤버 정보 검색(기본)
-     */
-    @Deprecated
-//    @GetMapping("{memberEmail}")
-    public ResponseEntity<Body> findBasicMember(@PathVariable String memberEmail) {
+    @GetMapping("{memberEmail}/summary")
+    public ResponseEntity<Body> getMemberSummary(@PathVariable String memberEmail) {
         List<MemberSummary> memberSummary = memberService.memberSummary(memberEmail);
         return response.success(Code.SEARCH_SUCCESS, memberSummary);
     }
 
-    @GetMapping("{memberEmail}")
-    public ResponseEntity<Body> memberProfile(@PathVariable String memberEmail) {
+    @GetMapping("{memberEmail}/profile")
+    public ResponseEntity<Body> getMemberProfile(@PathVariable String memberEmail) {
         MemberResponse memberResponse = memberService.memberProfile(memberEmail);
         return response.success(Code.SEARCH_SUCCESS, memberResponse);
     }
-
 
     /**
      * 멤버 정보 검색(기본/계좌)

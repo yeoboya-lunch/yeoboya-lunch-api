@@ -43,12 +43,12 @@ spring:
 
   redis:
     master:
-      host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
-      port: 6380
+      host: 127.0.0.1
+      port: 6379
     slaves:
-      - host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
-        port: 6381
-    password: ENC(wXDtXa+LzvTJI8S77PmGxJz35uoG8N2B)
+      - host: 127.0.0.1
+        port: 6380
+    password: redistestpassword
     database: 12
 
   sql:

@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.member.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
+import com.yeoboya.lunch.api.v1.common.response.SlicePagination;
 import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
@@ -39,16 +40,21 @@ public class MemberService {
     public Map<String, Object> memberList(Pageable pageable) {
 //        List<MemberResponseInterface> memberResponses = memberProcedure.pMemberList(pageable.getPageNumber(), pageable.getPageSize());
 
-        Slice<MemberResponse> members = memberRepository.getMembers(pageable);
-        return Map.of(
-                "list", members.getContent(),
-                "isFirst", members.isFirst(),
-                "isLast", members.isLast(),
-                "hasNext", members.hasNext(),
-                "hasPrevious", members.hasPrevious(),
-                "pageNo", members.getNumber()+1
-        );
+        Slice<MemberResponse> membersInPages = memberRepository.findMembersInPages(pageable);
 
+        SlicePagination slicePagination = SlicePagination.builder()
+                .pageNo(membersInPages.getNumber() + 1)
+                .size(membersInPages.getSize())
+                .numberOfElements(membersInPages.getNumberOfElements())
+                .isFirst(membersInPages.isFirst())
+                .isLast(membersInPages.isLast())
+                .hasNext(membersInPages.hasNext())
+                .hasPrevious(membersInPages.hasPrevious())
+                .build();
+
+        return Map.of(
+                "list", membersInPages.getContent(),
+                "pagination", slicePagination);
     }
 
     public List<MemberSummary> memberSummary(String email){
@@ -63,17 +69,31 @@ public class MemberService {
     @Transactional
     public MemberResponse memberProfile(String memberEmail) {
         MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
-//        List<MemberResponseInterface> memberResponseInterface = memberProcedure.pMemberListByEmail(memberEmail);
         if(StringUtils.hasText(memberResponse.getAccountNumber())){
             memberResponse.setAccount(true);
         }
         return memberResponse;
-//        return null;
     }
 
+    /**
+     * editMemberInfo 메소드는 사용자가 자신의 프로필을 수정하는 요청을 처리합니다.
+     *
+     * @param memberEmail 사용자의 이메일. 이메일을 통해 특정 사용자를 식별합니다.
+     * @param memberInfoEdit 사용자가 변경하려는 정보. bio, nickName, phoneNumber를 포함합니다.
+     *
+     * 수정 작업은 다음과 같은 순서로 처리됩니다.
+     * 1. memberEmail을 통해 MemberRepository에서 특정 Member를 찾습니다.
+     *    - Member가 없으면 EntityNotFoundException을 발생시킵니다.
+     * 2. 해당 Member의 현재 정보를 가져옵니다.
+     * 3. 가져온 Member 정보를 통해 MemberInfoEditorBuilder를 생성합니다.
+     * 4. memberInfoEdit에 담긴 변경하려는 정보를 이용해 MemberInfoEditor를 구성하고, 새 정보로 Member를 업데이트합니다.
+     */
     @Transactional
     public void editMemberInfo(String memberEmail, MemberInfoEdit memberInfoEdit) {
-        MemberInfo memberInfo = memberRepository.getMemberInfo(memberEmail);
+        Member member = memberRepository.findByEmail(memberEmail).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + memberEmail));
+
+        MemberInfo memberInfo = memberRepository.getMemberInfo(member.getEmail());
 
         MemberInfoEditor.MemberInfoEditorBuilder editorBuilder = memberInfo.toEditor();
 
@@ -82,17 +102,23 @@ public class MemberService {
                 .phoneNumber(memberInfoEdit.getPhoneNumber())
                 .build();
 
-        memberInfo.edit(memberInfoEditor);
+        try {
+            memberInfo.edit(memberInfoEditor);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public AccountResponse addAccount(AccountCreate accountCreate) {
         Member member = memberRepository.findByEmail(accountCreate.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + accountCreate.getEmail()));
+
         Account createAccount = Account.builder()
                 .member(member)
                 .bankName(accountCreate.getBankName())
                 .accountNumber(accountCreate.getAccountNumber())
                 .build();
+
         Account account = accountRepository.save(createAccount);
         return AccountResponse.from(account);
     }
@@ -109,9 +135,12 @@ public class MemberService {
                 .bankName(edit.getBankName())
                 .build();
 
-        account.edit(accountEditor);
+        try {
+            account.edit(accountEditor);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
 }
 

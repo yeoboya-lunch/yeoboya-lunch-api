@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.config.security.reqeust;
 
-import com.yeoboya.lunch.config.security.validation.ValidationGroups.*;
+import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
+import com.yeoboya.lunch.config.security.validation.ValidationGroups.UnKnowOldPassword;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

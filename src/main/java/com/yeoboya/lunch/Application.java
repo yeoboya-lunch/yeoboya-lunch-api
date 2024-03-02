@@ -1,7 +1,6 @@
 package com.yeoboya.lunch;
 
 import com.yeoboya.lunch.config.annotation.ExcludeScan;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;

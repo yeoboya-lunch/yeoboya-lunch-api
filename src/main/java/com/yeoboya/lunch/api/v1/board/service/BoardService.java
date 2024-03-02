@@ -3,7 +3,6 @@ package com.yeoboya.lunch.api.v1.board.service;
 import com.yeoboya.lunch.api.v1.board.domain.Board;
 import com.yeoboya.lunch.api.v1.board.domain.BoardHashTag;
 import com.yeoboya.lunch.api.v1.board.domain.HashTag;
-import com.yeoboya.lunch.api.v1.board.domain.Reply;
 import com.yeoboya.lunch.api.v1.board.repository.BoardRepository;
 import com.yeoboya.lunch.api.v1.board.repository.HashTagRepository;
 import com.yeoboya.lunch.api.v1.board.repository.ReplyRepository;
@@ -11,7 +10,6 @@ import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.board.response.BoardResponse;
-import com.yeoboya.lunch.api.v1.board.response.ReplyResponse;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
@@ -27,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -35,7 +32,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
