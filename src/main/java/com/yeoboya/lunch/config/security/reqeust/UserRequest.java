@@ -100,4 +100,14 @@ public class UserRequest {
         }
     }
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @ToString
+    public static class ResetPassword {
+        private String email;
+        private String phone;
+        private String authorityLink;
+    }
+
 }

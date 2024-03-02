@@ -1,11 +1,13 @@
 package com.yeoboya.lunch.api.docs;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import com.yeoboya.lunch.config.aws.AwsSecretsManagerClient;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +21,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Random;
 
@@ -89,45 +92,6 @@ class UserControllerDocTest {
                 ));
     }
 
-
-    @Test
-    @DisplayName("패스워드 변경")
-    void changePassword() throws Exception {
-        //given
-        UserRequest.Credentials credentials = new UserRequest.Credentials();
-        credentials.setEmail(uniqueEmail);
-        credentials.setOldPassword("1234qwer!@#$");
-        credentials.setNewPassword("qwer1234@@");
-        credentials.setConfirmNewPassword("qwer1234@@");
-
-        String json = objectMapper.writeValueAsString(credentials);
-
-        //expected
-        mockMvc.perform(patch("/user/setting/security")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .content(json))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("user/setting/security",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("email").description("이메일"),
-                                fieldWithPath("oldPassword").description("전 비밀번호"),
-                                fieldWithPath("newPassword").description("새로운 비밀번호"),
-                                fieldWithPath("confirmNewPassword").description("비밀번호 확인"),
-                                fieldWithPath("passKey").description("KnowPassKey").ignored()
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("code")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING)
-                        )
-                ));
-    }
-
     @Test
     @DisplayName("로그인")
     void login() throws Exception {
@@ -179,6 +143,78 @@ class UserControllerDocTest {
                         )
                 ));
     }
+
+
+    @Test
+    @DisplayName("로그아웃")
+    void logout() throws Exception {
+        //given
+        UserRequest.SignOut signOut = new UserRequest.SignOut();
+
+//        signOut.setAccessToken(accessToken);
+//        signOut.setRefreshToken(refreshToken);
+
+        String json = objectMapper.writeValueAsString(signOut);
+
+        // When & then
+        mockMvc.perform(post("/user/sign-out")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/sign-out",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("accessToken").description("액세스 토큰"),
+                                fieldWithPath("refreshToken").description("리프레시 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("메세지").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("패스워드 변경")
+    void changePassword() throws Exception {
+        //given
+        UserRequest.Credentials credentials = new UserRequest.Credentials();
+        credentials.setEmail(uniqueEmail);
+        credentials.setOldPassword("1234qwer!@#$");
+        credentials.setNewPassword("qwer1234@@");
+        credentials.setConfirmNewPassword("qwer1234@@");
+
+        String json = objectMapper.writeValueAsString(credentials);
+
+        //expected
+        mockMvc.perform(patch("/user/setting/security")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user/setting/security",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("oldPassword").description("전 비밀번호"),
+                                fieldWithPath("newPassword").description("새로운 비밀번호"),
+                                fieldWithPath("confirmNewPassword").description("비밀번호 확인"),
+                                fieldWithPath("passKey").description("KnowPassKey").ignored()
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
 
     //todo
     //로그아웃, 토큰 재발급, 비밀번호 변경 이메일전송, 비밀번호 초기화
