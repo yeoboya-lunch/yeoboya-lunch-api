@@ -86,7 +86,6 @@ public class UserController {
         return userService.reissue(reissue);
     }
 
-
     /**
      * 권한추가
      */
@@ -94,7 +93,6 @@ public class UserController {
     public ResponseEntity<?> authority(HttpServletRequest request) {
         return userService.authority(request);
     }
-
 
     /**
      * 비밀번호 변경 이메일 전송
