@@ -5,10 +5,12 @@ import com.yeoboya.lunch.config.security.filter.JwtAuthenticationFilter;
 import com.yeoboya.lunch.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.lunch.config.security.handler.AccessDeniedHandlerImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -16,9 +18,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.IpAddressMatcher;
 
+import javax.servlet.http.HttpServletRequest;
+
+@Slf4j
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
@@ -32,26 +39,24 @@ public class SecurityConfiguration {
     private final JwtExceptionFilter jwtExceptionFilter;
 
     private static final String[] PERMIT_URL_ARRAY = {
-
-            /* no login access*/
             "/order/recruits",
-            "/board",
-
-            /* user */
-            "/user/sign-in", "/user/sign-up", "/user/sign-out",
-            "/user/reissue", "/user/token-reissue", "/user/sendResetPasswordMail/**",
+            "/user/sign-in",
+            "/user/sign-up",
+            "/user/sign-out",
+            "/user/reissue",
+            "/user/token-reissue",
+            "/user/sendResetPasswordMail/**",
             "/user/resetPassword",
-
-            /* spring docs */
             "/docs/index.html",
-
-            /* monitor */
-            "/actuator/**", "/memory"
+            "/actuator/**",
+            "/memory"
     };
 
     private static final String[] USER_URL_ARRAY = {
-            "/order/**", "/item/**",
-            "/member/**", "/shop/**",
+            "/order/**",
+            "/item/**",
+            "/member/**",
+            "/shop/**",
             "/board/**"
     };
 
@@ -59,15 +64,15 @@ public class SecurityConfiguration {
             "/user/authority",
     };
 
+    private static final String[] TESTER_URL_ARRAY = {};
 
-    //PasswordEncoder 구현 (BCryptPasswordEncoder)
+    // BCryptPasswordEncoder bean for password encoding
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
-    //인증구현
+    // AuthenticationManager bean for handling authentication
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -80,21 +85,83 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.httpBasic().disable();
-        http.formLogin().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    public SecurityFilterChain SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable();
+        httpSecurity.httpBasic().disable();
+        httpSecurity.formLogin().disable();
+        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests()
+        httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
-                .mvcMatchers(ADMIN_URL_ARRAY).hasRole("ADMIN")
+                .mvcMatchers(ADMIN_URL_ARRAY).access("hasRole('ADMIN') and @securityConfiguration.whitelist(request)")
+                .mvcMatchers(TESTER_URL_ARRAY).hasRole("TESTER")
                 .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
-        // formLogin 방식으로 변경 할 경우 (성공/실패/로그아웃)
-        // formLogin 방식이 아닌 경우 AuthenticationSuccessHandler 에서 처리하는게 맞는지?
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
+
+        httpSecurity.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPointImpl)
+                .accessDeniedHandler(accessDeniedHandlerImpl);
+
+        return httpSecurity.build();
+    }
+
+
+    private static final String[] WHITELIST = {
+            "121.179.12.72",
+            "localhost",
+            "127.0.0.1",
+            "0:0:0:0:0:0:0:1"
+    };
+
+    private static final String[] BLACKLIST = {
+            "10.0.0.1",
+            "10.0.0.2"
+    };
+
+    public boolean whitelist(HttpServletRequest request) {
+        log.warn("white client ip : {}", request.getRemoteAddr());
+
+        IpAddressMatcher ipAddressMatcher;
+        for (String ip: WHITELIST) {
+            ipAddressMatcher = new IpAddressMatcher(ip);
+            if (ipAddressMatcher.matches(request)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean blacklist(HttpServletRequest request) {
+        log.warn("black client ip : {}", request.getRemoteAddr());
+
+        IpAddressMatcher ipAddressMatcher;
+        for (String ip: BLACKLIST) {
+            ipAddressMatcher = new IpAddressMatcher(ip);
+            if (ipAddressMatcher.matches(request)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+//    @Bean
+//    public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
+//        http.csrf().disable();
+//        http.httpBasic().disable();
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//
+//        http.authorizeRequests()
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
+//                .mvcMatchers(ADMIN_URL_ARRAY).hasRole("ADMIN")
+//                .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
+//                .anyRequest().authenticated();
+//
 //        http.formLogin()
 //                .loginPage("/user/sign-in")
 //                .usernameParameter("email")
@@ -105,19 +172,11 @@ public class SecurityConfiguration {
 //                .logout()
 //                .logoutSuccessHandler(logoutSuccessHandlerImpl)
 //                .permitAll();
-
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
-
-
-
-        http.exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPointImpl)
-                .accessDeniedHandler(accessDeniedHandlerImpl);
-
-
-        return http.build();
-    }
-
-
+//
+//        http.exceptionHandling()
+//                .authenticationEntryPoint(authenticationEntryPointImpl)
+//                .accessDeniedHandler(accessDeniedHandlerImpl);
+//
+//        return http.build();
+//    }
 }

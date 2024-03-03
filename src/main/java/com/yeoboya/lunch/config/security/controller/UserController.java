@@ -2,6 +2,7 @@ package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.config.annotation.TimeLogging;
+import com.yeoboya.lunch.config.security.reqeust.RoleRequest;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import com.yeoboya.lunch.config.security.service.UserService;
 import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
@@ -9,6 +10,7 @@ import com.yeoboya.lunch.config.security.validation.ValidationGroups.UnKnowOldPa
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,8 +92,8 @@ public class UserController {
      * 권한추가
      */
     @GetMapping("/authority")
-    public ResponseEntity<?> authority(HttpServletRequest request) {
-        return userService.authority(request);
+    public ResponseEntity<Body> authority(@RequestBody RoleRequest roleRequest, HttpServletRequest request) {
+        return userService.authority(roleRequest, request);
     }
 
     /**

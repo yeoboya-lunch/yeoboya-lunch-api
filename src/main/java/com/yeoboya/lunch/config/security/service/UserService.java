@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
+import com.yeoboya.lunch.api.v1.common.exception.AuthorityException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
@@ -17,11 +18,13 @@ import com.yeoboya.lunch.config.security.domain.Roles;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
 import com.yeoboya.lunch.config.security.repository.RolesRepository;
+import com.yeoboya.lunch.config.security.reqeust.RoleRequest;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -240,13 +243,35 @@ public class UserService {
 
 
     @Transactional
-    public ResponseEntity<Body> authority(HttpServletRequest request) {
-        String userEmail = JwtTokenProvider.getCurrentUserEmail();
-        Member member = memberRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("No authentication information."));
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Body> authority(RoleRequest roleRequest, HttpServletRequest request) {
 
-        Roles roles = rolesRepository.findByRole(Authority.ROLE_ADMIN);
+        //매니저 여부 확인
+        String adminEmail = JwtTokenProvider.getCurrentUserEmail();
+        Member member = memberRepository.findByEmail(adminEmail).orElseThrow(
+                () -> new UsernameNotFoundException("No authentication information."));
 
-        MemberRole saveMemberRole = MemberRole.createMemberRoles(member, roles);
+        List<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(member.getEmail());
+        boolean hasAdminRole = memberRoles.stream()
+                .map(MemberRole::getRoles)
+                .map(Roles::getRole)
+                .anyMatch(role -> role == Authority.ROLE_ADMIN);
+
+        if(!hasAdminRole){
+            throw new AuthorityException("User does not have the necessary authority");
+        }
+
+        //권한 부여받을 멤버
+        Member targetMember = memberRepository.findByEmail(roleRequest.getEmail()).orElseThrow(
+                () -> new UsernameNotFoundException("No authentication information."));
+
+        Roles roles = rolesRepository.findByRole(roleRequest.getRole());
+
+        if(roles.getRole().equals(Authority.ROLE_ADMIN)){
+            throw new AuthorityException("Admin role cannot be modified");
+        }
+
+        MemberRole saveMemberRole = MemberRole.createMemberRoles(targetMember, roles);
         memberRolesRepository.save(saveMemberRole);
 
         String token = jwtTokenProvider.resolveToken(request);
