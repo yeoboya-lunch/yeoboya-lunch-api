@@ -7,7 +7,6 @@ import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.repository.AccountRepository;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
-import com.yeoboya.lunch.api.v1.member.repository.procedure.MemberProcedure;
 import com.yeoboya.lunch.api.v1.member.reqeust.*;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
 import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberAccount;
@@ -27,19 +26,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final AccountRepository accountRepository;
-    private final MemberProcedure memberProcedure;
 
-
-    public MemberService(MemberRepository memberRepository, AccountRepository accountRepository, MemberProcedure memberProcedure) {
+    public MemberService(MemberRepository memberRepository, AccountRepository accountRepository) {
         this.memberRepository = memberRepository;
         this.accountRepository = accountRepository;
-        this.memberProcedure = memberProcedure;
     }
 
     @Transactional
     public Map<String, Object> memberList(Pageable pageable) {
-//        List<MemberResponseInterface> memberResponses = memberProcedure.pMemberList(pageable.getPageNumber(), pageable.getPageSize());
-
         Slice<MemberResponse> membersInPages = memberRepository.findMembersInPages(pageable);
 
         SlicePagination slicePagination = SlicePagination.builder()

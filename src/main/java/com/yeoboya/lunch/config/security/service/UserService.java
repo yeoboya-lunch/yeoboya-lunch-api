@@ -16,24 +16,19 @@ import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.Roles;
 import com.yeoboya.lunch.config.security.dto.Token;
-import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
 import com.yeoboya.lunch.config.security.repository.RolesRepository;
-import com.yeoboya.lunch.config.security.reqeust.RoleRequest;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +41,6 @@ public class UserService {
 
     private final MemberRepository memberRepository;
     private final RolesRepository rolesRepository;
-    private final MemberRolesRepository memberRolesRepository;
     private final EmailService emailService;
     private final Response response;
     private final PasswordEncoder passwordEncoder;
@@ -241,44 +235,5 @@ public class UserService {
     }
 
 
-
-    @Transactional
-//    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Body> authority(RoleRequest roleRequest, HttpServletRequest request) {
-
-        //매니저 여부 확인
-        String adminEmail = JwtTokenProvider.getCurrentUserEmail();
-        Member member = memberRepository.findByEmail(adminEmail).orElseThrow(
-                () -> new UsernameNotFoundException("No authentication information."));
-
-        List<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(member.getEmail());
-        boolean hasAdminRole = memberRoles.stream()
-                .map(MemberRole::getRoles)
-                .map(Roles::getRole)
-                .anyMatch(role -> role == Authority.ROLE_ADMIN);
-
-        if(!hasAdminRole){
-            throw new AuthorityException("User does not have the necessary authority");
-        }
-
-        //권한 부여받을 멤버
-        Member targetMember = memberRepository.findByEmail(roleRequest.getEmail()).orElseThrow(
-                () -> new UsernameNotFoundException("No authentication information."));
-
-        Roles roles = rolesRepository.findByRole(roleRequest.getRole());
-
-        if(roles.getRole().equals(Authority.ROLE_ADMIN)){
-            throw new AuthorityException("Admin role cannot be modified");
-        }
-
-        MemberRole saveMemberRole = MemberRole.createMemberRoles(targetMember, roles);
-        memberRolesRepository.save(saveMemberRole);
-
-        String token = jwtTokenProvider.resolveToken(request);
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
-
-        return this.reissue(new Reissue(token, redisRT));
-    }
 
 }

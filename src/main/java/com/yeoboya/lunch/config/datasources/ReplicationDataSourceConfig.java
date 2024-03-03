@@ -2,7 +2,6 @@ package com.yeoboya.lunch.config.datasources;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,11 +21,9 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @EnableTransactionManagement
-@MapperScan(
-        basePackages = {"com/yeoboya/lunch/api/*/*/repository"}
-)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class ReplicationDataSourceConfig {
+
     private final DataSourceKey dataSourceKey;
 
     @Bean

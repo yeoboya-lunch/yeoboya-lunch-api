@@ -4,6 +4,8 @@ import com.yeoboya.lunch.config.security.constants.Authority;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -20,6 +22,12 @@ public class Roles {
     @Enumerated(EnumType.STRING)
     @Column(unique = true)
     private Authority role;
+
+    @Column
+    private String roleDesc;
+
+    @OneToMany(mappedBy = "roles", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoleResource> roleResources = new HashSet<>();
 
     @Builder
     public Roles(Authority role) {

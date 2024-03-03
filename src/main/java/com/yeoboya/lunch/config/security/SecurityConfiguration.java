@@ -4,6 +4,10 @@ import com.yeoboya.lunch.config.security.filter.AuthenticationEntryPointImpl;
 import com.yeoboya.lunch.config.security.filter.JwtAuthenticationFilter;
 import com.yeoboya.lunch.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.lunch.config.security.handler.AccessDeniedHandlerImpl;
+import com.yeoboya.lunch.config.security.handler.AuthenticationFailureHandlerImpl;
+import com.yeoboya.lunch.config.security.handler.AuthenticationSuccessHandlerImpl;
+import com.yeoboya.lunch.config.security.handler.LogoutSuccessHandlerImpl;
+import com.yeoboya.lunch.config.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +38,7 @@ public class SecurityConfiguration {
 //    private final AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
 //    private final AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
 //    private final LogoutSuccessHandlerImpl logoutSuccessHandlerImpl;
+//    private final UserDetailsServiceImpl userDetailsService;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
@@ -99,6 +104,7 @@ public class SecurityConfiguration {
                 .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
+
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
@@ -150,19 +156,26 @@ public class SecurityConfiguration {
 
 
 //    @Bean
-//    public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
-//        http.httpBasic().disable();
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//    public SecurityFilterChain formLoginFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity.csrf().disable();
+//        httpSecurity.httpBasic().disable();
+//        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //
-//        http.authorizeRequests()
+//        httpSecurity.authorizeRequests()
 //                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 //                .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
 //                .mvcMatchers(ADMIN_URL_ARRAY).hasRole("ADMIN")
 //                .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
 //                .anyRequest().authenticated();
 //
-//        http.formLogin()
+//
+//        httpSecurity.rememberMe()
+//                .rememberMeParameter("remember-me")
+//                .tokenValiditySeconds(3600)
+//                .alwaysRemember(true)
+//                .userDetailsService(userDetailsService);
+//
+//        httpSecurity.formLogin()
 //                .loginPage("/user/sign-in")
 //                .usernameParameter("email")
 //                .passwordParameter("password")
@@ -173,10 +186,10 @@ public class SecurityConfiguration {
 //                .logoutSuccessHandler(logoutSuccessHandlerImpl)
 //                .permitAll();
 //
-//        http.exceptionHandling()
+//        httpSecurity.exceptionHandling()
 //                .authenticationEntryPoint(authenticationEntryPointImpl)
 //                .accessDeniedHandler(accessDeniedHandlerImpl);
 //
-//        return http.build();
+//        return httpSecurity.build();
 //    }
 }

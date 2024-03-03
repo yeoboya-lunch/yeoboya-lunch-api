@@ -89,14 +89,6 @@ public class UserController {
     }
 
     /**
-     * 권한추가
-     */
-    @GetMapping("/authority")
-    public ResponseEntity<Body> authority(@RequestBody RoleRequest roleRequest, HttpServletRequest request) {
-        return userService.authority(roleRequest, request);
-    }
-
-    /**
      * 비밀번호 변경 이메일 전송
      */
     @TimeLogging
