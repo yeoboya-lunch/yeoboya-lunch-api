@@ -14,8 +14,8 @@ import java.util.*;
 @Slf4j
 public class UrlSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    private LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap;
-    private SecurityResourceService securityResourceService;
+    private final LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap;
+    private final SecurityResourceService securityResourceService;
 
     public UrlSecurityMetadataSource(LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap, SecurityResourceService securityResourceService) {
         this.requestMap = requestMap;

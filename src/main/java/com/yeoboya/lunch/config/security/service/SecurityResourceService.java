@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 @Service
 public class SecurityResourceService {
 
-    private ResourcesRepository resourcesRepository;
-    private RoleHierarchyService roleHierarchyService;
+    private final ResourcesRepository resourcesRepository;
+    private final RoleHierarchyService roleHierarchyService;
     //private RoleHierarchyImpl roleHierarchy;
-    private AccessIpRepository accessIpRepository;
+    private final AccessIpRepository accessIpRepository;
 
     public SecurityResourceService(ResourcesRepository resourcesRepository, /*RoleHierarchyImpl roleHierarchy, */RoleHierarchyService roleHierarchyService, AccessIpRepository accessIpRepository/*, MapBasedMethodSecurityMetadataSource mapBasedMethodSecurityMetadataSource, AnnotationConfigServletWebServerApplicationContext applicationContext, CustomMethodSecurityInterceptor methodSecurityInterceptor*/) {
         this.resourcesRepository = resourcesRepository;

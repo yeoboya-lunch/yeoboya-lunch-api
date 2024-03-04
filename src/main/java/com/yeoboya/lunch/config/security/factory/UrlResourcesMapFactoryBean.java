@@ -2,6 +2,7 @@ package com.yeoboya.lunch.config.security.factory;
 
 import com.yeoboya.lunch.config.security.service.SecurityResourceService;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -9,6 +10,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+@Slf4j
 public class UrlResourcesMapFactoryBean implements FactoryBean<LinkedHashMap<RequestMatcher, List<ConfigAttribute>>> {
 
     @Setter
@@ -24,6 +26,7 @@ public class UrlResourcesMapFactoryBean implements FactoryBean<LinkedHashMap<Req
         if (resourcesMap == null) {
             init();
         }
+        log.warn("{}", resourcesMap);
         return resourcesMap;
     }
 

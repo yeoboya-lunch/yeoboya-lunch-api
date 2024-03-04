@@ -31,7 +31,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +45,7 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private String[] permitAllPattern = {"/", "/user/**"};
+    private final String[] permitAllPattern = {"/", "/user/**"};
 
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
     private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
@@ -78,7 +81,7 @@ public class SecurityConfiguration {
     };
 
     private static final String[] ADMIN_URL_ARRAY = {
-            "/user/authority",
+            "/authority/*",
     };
 
     private static final String[] TESTER_URL_ARRAY = {};
@@ -103,6 +106,8 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+
         httpSecurity.csrf().disable();
         httpSecurity.httpBasic().disable();
         httpSecurity.formLogin().disable();
@@ -111,10 +116,19 @@ public class SecurityConfiguration {
         httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .mvcMatchers(PERMIT_URL_ARRAY).permitAll()
-                .mvcMatchers(ADMIN_URL_ARRAY).access("hasRole('ADMIN')")
+                .mvcMatchers(ADMIN_URL_ARRAY).hasRole("ADMIN")
                 .mvcMatchers(TESTER_URL_ARRAY).hasRole("TESTER")
                 .mvcMatchers(USER_URL_ARRAY).hasAnyRole("USER", "ADMIN")
-                .anyRequest().authenticated();
+                .anyRequest()
+                .authenticated();
+
+//        httpSecurity
+//                .addFilterBefore(filter, CsrfFilter.class)
+//                .addFilterBefore(permitAllFilter(), FilterSecurityInterceptor.class);
+
+        httpSecurity.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPointImpl)
+                .accessDeniedHandler(accessDeniedHandlerImpl);
 
 
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -143,13 +157,13 @@ public class SecurityConfiguration {
         return permitAllFilter;
     }
 
-//    @Bean
-//    public FilterRegistrationBean filterRegistrationBean() {
-//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-//        filterRegistrationBean.setFilter(permitAllFilter());
-//        filterRegistrationBean.setEnabled(false);
-//        return filterRegistrationBean;
-//    }
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(permitAllFilter());
+        filterRegistrationBean.setEnabled(false);
+        return filterRegistrationBean;
+    }
 
 
     @Bean
