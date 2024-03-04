@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.config.security;
 
 import com.yeoboya.lunch.config.security.dto.Token;
-import com.yeoboya.lunch.config.security.service.UserDetailsServiceImpl;
+import com.yeoboya.lunch.config.security.service.UserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -38,9 +38,9 @@ public class JwtTokenProvider {
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 12 * 60 * 60 * 1000L;        // 12시간
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 3 * 24 * 60 * 60 * 1000L;   // 3일
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey, UserDetailsServiceImpl userDetailsService) {
+    public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey, UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);

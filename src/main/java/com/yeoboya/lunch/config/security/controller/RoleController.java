@@ -24,7 +24,7 @@ public class RoleController {
     /**
      * 권한추가
      */
-    @GetMapping("/authority")
+    @GetMapping
     public ResponseEntity<Response.Body> authority(@RequestBody RoleRequest roleRequest, HttpServletRequest request) {
         return roleService.authority(roleRequest, request);
     }

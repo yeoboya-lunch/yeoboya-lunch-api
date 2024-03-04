@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Set;
 @Getter
 @ToString(of = {"role"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Roles {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +27,12 @@ public class Roles {
     @Column
     private String roleDesc;
 
-    @OneToMany(mappedBy = "roles", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<RoleResource> roleResources = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roleSet")
+    @OrderBy("ordernum desc")
+    private Set<Resources> resourcesSet = new LinkedHashSet<>();
 
     @Builder
-    public Roles(Authority role) {
+    public Role(Authority role) {
         this.role = role;
     }
 

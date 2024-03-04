@@ -30,12 +30,12 @@ public class MemberRole {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLES_ID")
-    private Roles roles;
+    private Role role;
 
-    public static MemberRole createMemberRoles(Member member, Roles roles) {
+    public static MemberRole createMemberRoles(Member member, Role role) {
         MemberRole memberRole = new MemberRole();
         memberRole.setMember(member);
-        memberRole.setRoles(roles);
+        memberRole.setRole(role);
         return memberRole;
     }
 

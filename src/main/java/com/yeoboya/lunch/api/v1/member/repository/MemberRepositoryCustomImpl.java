@@ -18,7 +18,7 @@ import static com.yeoboya.lunch.api.v1.member.domain.QAccount.account;
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 import static com.yeoboya.lunch.api.v1.member.domain.QMemberInfo.memberInfo;
 import static com.yeoboya.lunch.config.security.domain.QMemberRole.memberRole;
-import static com.yeoboya.lunch.config.security.domain.QRoles.roles;
+import static com.yeoboya.lunch.config.security.domain.QRole.role1;
 
 
 @RequiredArgsConstructor
@@ -55,7 +55,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     public List<MemberRole> getMemberRoles(Long id) {
         return jpaQueryFactory.selectFrom(memberRole)
                 .leftJoin(memberRole.member, member)
-                .leftJoin(memberRole.roles, roles)
+                .leftJoin(memberRole.role, role1)
                 .where(memberRole.member.id.eq(id))
                 .fetch();
     }

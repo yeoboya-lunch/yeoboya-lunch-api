@@ -1,6 +1,6 @@
 package com.yeoboya.lunch.config.security;
 
-import com.yeoboya.lunch.config.security.service.UserDetailsServiceImpl;
+import com.yeoboya.lunch.config.security.service.UserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +12,7 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 @RequiredArgsConstructor
 public class WithMockCustomUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser> {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public SecurityContext createSecurityContext(WithMockCustomUser withMockCustomUser) {

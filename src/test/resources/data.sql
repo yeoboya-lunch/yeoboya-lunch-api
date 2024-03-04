@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS member_role CASCADE;
 DROP TABLE IF EXISTS member CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
 DROP TABLE IF EXISTS shop CASCADE;
-DROP TABLE IF EXISTS roles CASCADE;
+DROP TABLE IF EXISTS role CASCADE;
 
 -- 역할(Role) 테이블 생성
-CREATE TABLE roles
+CREATE TABLE role
 (
     roles_id BIGINT AUTO_INCREMENT,
     role     VARCHAR(255),
@@ -38,7 +38,7 @@ CREATE TABLE member_role
     roles_id        BIGINT,
     PRIMARY KEY (member_roles_id),
     CONSTRAINT FK_MEMBER_MEMBER_ROLE FOREIGN KEY (member_id) REFERENCES member (member_id),
-    CONSTRAINT FK_ROLES_MEMBER_ROLE FOREIGN KEY (roles_id) REFERENCES roles (roles_id),
+    CONSTRAINT FK_ROLES_MEMBER_ROLE FOREIGN KEY (roles_id) REFERENCES role (roles_id),
     CONSTRAINT UK_MEMBER_ROLE UNIQUE (member_id, roles_id)
 );
 
@@ -125,7 +125,7 @@ CREATE TABLE order_item
 
 -- 초기 데이터 삽입
 -- 역할 데이터 삽입
-INSERT INTO roles (role)
+INSERT INTO role (role)
 VALUES ('ROLE_ADMIN'),
        ('ROLE_MANGER'),
        ('ROLE_USER');

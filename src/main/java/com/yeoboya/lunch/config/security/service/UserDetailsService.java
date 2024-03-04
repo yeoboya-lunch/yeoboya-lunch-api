@@ -6,7 +6,6 @@ import com.yeoboya.lunch.config.security.dto.Users;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     private final MemberRepository memberRepository;
 
@@ -32,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserDetails createUserDetails(Member member) {
         List<String> roles = new ArrayList<>();
         memberRepository.getMemberRoles(member.getId())
-                .forEach(memberRole->roles.add(memberRole.getRoles().getRole().getAuthority()));
+                .forEach(memberRole->roles.add(memberRole.getRole().getRole().getAuthority()));
 
         return Users.builder()
                 .email(member.getEmail())

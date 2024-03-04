@@ -2,15 +2,14 @@ package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.AuthorityException;
 import com.yeoboya.lunch.api.v1.common.response.Response;
-import com.yeoboya.lunch.api.v1.common.service.EmailService;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
-import com.yeoboya.lunch.config.security.domain.Roles;
+import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
-import com.yeoboya.lunch.config.security.repository.RolesRepository;
+import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.reqeust.RoleRequest;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class RoleService {
     private final UserService userService;
     private final MemberRepository memberRepository;
     private final MemberRolesRepository memberRolesRepository;
-    private final RolesRepository rolesRepository;
+    private final RoleRepository roleRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -41,32 +40,32 @@ public class RoleService {
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Response.Body> authority(RoleRequest roleRequest, HttpServletRequest request) {
 
-        //매니저 여부 확인
-        String adminEmail = JwtTokenProvider.getCurrentUserEmail();
-        Member member = memberRepository.findByEmail(adminEmail).orElseThrow(
-                () -> new UsernameNotFoundException("No authentication information."));
-
-        List<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(member.getEmail());
-        boolean hasAdminRole = memberRoles.stream()
-                .map(MemberRole::getRoles)
-                .map(Roles::getRole)
-                .anyMatch(role -> role == Authority.ROLE_ADMIN);
-
-        if(!hasAdminRole){
-            throw new AuthorityException("User does not have the necessary authority");
-        }
+//        //매니저 여부 확인
+//        String adminEmail = JwtTokenProvider.getCurrentUserEmail();
+//        Member member = memberRepository.findByEmail(adminEmail).orElseThrow(
+//                () -> new UsernameNotFoundException("No authentication information."));
+//
+//        List<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(member.getEmail());
+//        boolean hasAdminRole = memberRoles.stream()
+//                .map(MemberRole::getRole)
+//                .map(Role::getRole)
+//                .anyMatch(role -> role == Authority.ROLE_ADMIN);
+//
+//        if(!hasAdminRole){
+//            throw new AuthorityException("User does not have the necessary authority");
+//        }
 
         //권한 부여받을 멤버
         Member targetMember = memberRepository.findByEmail(roleRequest.getEmail()).orElseThrow(
                 () -> new UsernameNotFoundException("No authentication information."));
 
-        Roles roles = rolesRepository.findByRole(roleRequest.getRole());
+        Role role = roleRepository.findByRole(roleRequest.getRole());
 
-        if(roles.getRole().equals(Authority.ROLE_ADMIN)){
+        if(role.getRole().equals(Authority.ROLE_ADMIN)){
             throw new AuthorityException("Admin role cannot be modified");
         }
 
-        MemberRole saveMemberRole = MemberRole.createMemberRoles(targetMember, roles);
+        MemberRole saveMemberRole = MemberRole.createMemberRoles(targetMember, role);
         memberRolesRepository.save(saveMemberRole);
 
         String token = jwtTokenProvider.resolveToken(request);
@@ -74,5 +73,16 @@ public class RoleService {
         String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
         return userService.reissue(new UserRequest.Reissue(token, redisRT));
+    }
+
+
+    @Transactional
+    public List<Role> getRoles() {
+        return roleRepository.findAll();
+    }
+
+    @Transactional
+    public void createRole(Role role){
+        roleRepository.save(role);
     }
 }
