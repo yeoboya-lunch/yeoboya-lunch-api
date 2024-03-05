@@ -1,4 +1,4 @@
-package com.yeoboya.lunch.config.security.controller;
+package com.yeoboya.lunch.config.security.validation;
 
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.SignUp;

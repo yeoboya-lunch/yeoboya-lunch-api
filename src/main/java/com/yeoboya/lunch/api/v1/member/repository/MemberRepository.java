@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.member.repository;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     boolean existsByEmail(String email);
 
     boolean existsMemberByEmailAndMemberInfoPhoneNumber(String email, String phoneNumber);
+
 }

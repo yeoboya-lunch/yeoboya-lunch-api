@@ -27,7 +27,7 @@ spring:
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     open-in-view: true
 
   redis:

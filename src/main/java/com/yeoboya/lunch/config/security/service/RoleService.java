@@ -1,29 +1,30 @@
 package com.yeoboya.lunch.config.security.service;
 
-import com.yeoboya.lunch.api.v1.common.exception.AuthorityException;
+import com.yeoboya.lunch.api.v1.common.response.Code;
+import com.yeoboya.lunch.api.v1.common.response.Pagination;
 import com.yeoboya.lunch.api.v1.common.response.Response;
-import com.yeoboya.lunch.api.v1.common.service.EmailService;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
-import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
-import com.yeoboya.lunch.config.security.domain.Roles;
+import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
-import com.yeoboya.lunch.config.security.repository.RolesRepository;
+import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.reqeust.RoleRequest;
-import com.yeoboya.lunch.config.security.reqeust.UserRequest;
+import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,46 +34,66 @@ public class RoleService {
     private final UserService userService;
     private final MemberRepository memberRepository;
     private final MemberRolesRepository memberRolesRepository;
-    private final RolesRepository rolesRepository;
+    private final RoleRepository roleRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
+    private final Response response;
 
     @Transactional
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Response.Body> authority(RoleRequest roleRequest, HttpServletRequest request) {
+    public ResponseEntity<Response.Body> updateAuthority(RoleRequest roleRequest) {
 
-        //매니저 여부 확인
-        String adminEmail = JwtTokenProvider.getCurrentUserEmail();
-        Member member = memberRepository.findByEmail(adminEmail).orElseThrow(
-                () -> new UsernameNotFoundException("No authentication information."));
+        Member targetMember = memberRepository.findByEmail(roleRequest.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + roleRequest.getEmail()));
 
-        List<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(member.getEmail());
-        boolean hasAdminRole = memberRoles.stream()
-                .map(MemberRole::getRoles)
-                .map(Roles::getRole)
-                .anyMatch(role -> role == Authority.ROLE_ADMIN);
+        Role role = roleRepository.findByRole(roleRequest.getRole());
 
-        if(!hasAdminRole){
-            throw new AuthorityException("User does not have the necessary authority");
+        Optional<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(targetMember.getEmail());
+
+        MemberRole memberRole;
+        if(memberRoles.isPresent()) {
+            memberRole = memberRoles.get();
+            memberRole.setRole(role);
+        } else {
+            memberRole = MemberRole.createMemberRoles(targetMember, role);
         }
 
-        //권한 부여받을 멤버
-        Member targetMember = memberRepository.findByEmail(roleRequest.getEmail()).orElseThrow(
-                () -> new UsernameNotFoundException("No authentication information."));
+        memberRolesRepository.save(memberRole);
 
-        Roles roles = rolesRepository.findByRole(roleRequest.getRole());
+//        String token = jwtTokenProvider.resolveToken(request);
+//        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
-        if(roles.getRole().equals(Authority.ROLE_ADMIN)){
-            throw new AuthorityException("Admin role cannot be modified");
-        }
-
-        MemberRole saveMemberRole = MemberRole.createMemberRoles(targetMember, roles);
-        memberRolesRepository.save(saveMemberRole);
-
-        String token = jwtTokenProvider.resolveToken(request);
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
-
-        return userService.reissue(new UserRequest.Reissue(token, redisRT));
+        return null;
     }
+
+    public ResponseEntity<Response.Body> getAuthorityList(Pageable pageable) {
+        Page<MemberRoleResponse> withRolesInPages = memberRepository.findWithRolesInPages(pageable);
+
+        Pagination pagination = new Pagination(
+                withRolesInPages.getNumber() + 1,
+                withRolesInPages.isFirst(),
+                withRolesInPages.isLast(),
+                withRolesInPages.isEmpty(),
+                withRolesInPages.getTotalPages(),
+                withRolesInPages.getTotalElements());
+
+        Map<String, Object> data = Map.of(
+                "list", withRolesInPages.getContent(),
+                "pagination", pagination);
+
+        return response.success(Code.SEARCH_SUCCESS, data);
+    }
+
+    @Transactional
+    public List<Role> getRoles() {
+        return roleRepository.findAll();
+    }
+
+    @Transactional
+    public void createRole(Role role){
+        roleRepository.save(role);
+    }
+
+
 }

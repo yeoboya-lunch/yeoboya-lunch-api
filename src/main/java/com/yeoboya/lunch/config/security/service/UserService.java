@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
-import com.yeoboya.lunch.api.v1.common.exception.AuthorityException;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
@@ -14,9 +13,9 @@ import com.yeoboya.lunch.config.annotation.Retry;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
-import com.yeoboya.lunch.config.security.domain.Roles;
+import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.dto.Token;
-import com.yeoboya.lunch.config.security.repository.RolesRepository;
+import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class UserService {
 
     private final MemberRepository memberRepository;
-    private final RolesRepository rolesRepository;
+    private final RoleRepository roleRepository;
     private final EmailService emailService;
     private final Response response;
     private final PasswordEncoder passwordEncoder;
@@ -62,8 +61,8 @@ public class UserService {
                 .build();
 
         // find and set roles
-        Roles roles = rolesRepository.findByRole(Authority.ROLE_USER);
-        List<MemberRole> memberRoles = List.of(MemberRole.createMemberRoles(build, roles));
+        Role role = roleRepository.findByRole(Authority.ROLE_USER);
+        List<MemberRole> memberRoles = List.of(MemberRole.createMemberRoles(build, role));
 
         // set member_info
         MemberInfo memberInfo = MemberInfo.createMemberInfo(build);
