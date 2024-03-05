@@ -5,9 +5,10 @@ import com.yeoboya.lunch.config.security.domain.MemberRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRolesRepository extends JpaRepository<MemberRole, Long> {
 
-    List<MemberRole> findByMemberEmail(String email);
+    Optional<MemberRole> findByMemberEmail(String email);
 
 }

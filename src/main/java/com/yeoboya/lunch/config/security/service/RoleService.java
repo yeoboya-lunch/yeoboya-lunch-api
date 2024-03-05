@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.AuthorityException;
+import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
@@ -12,8 +13,11 @@ import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.reqeust.RoleRequest;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
+import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,25 +40,12 @@ public class RoleService {
     private final RoleRepository roleRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
+    private final Response response;
 
     @Transactional
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Response.Body> authority(RoleRequest roleRequest, HttpServletRequest request) {
-
-//        //매니저 여부 확인
-//        String adminEmail = JwtTokenProvider.getCurrentUserEmail();
-//        Member member = memberRepository.findByEmail(adminEmail).orElseThrow(
-//                () -> new UsernameNotFoundException("No authentication information."));
-//
-//        List<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(member.getEmail());
-//        boolean hasAdminRole = memberRoles.stream()
-//                .map(MemberRole::getRole)
-//                .map(Role::getRole)
-//                .anyMatch(role -> role == Authority.ROLE_ADMIN);
-//
-//        if(!hasAdminRole){
-//            throw new AuthorityException("User does not have the necessary authority");
-//        }
+    //fixme
+    public ResponseEntity<Response.Body> updateAuthority(RoleRequest roleRequest) {
 
         //권한 부여받을 멤버
         Member targetMember = memberRepository.findByEmail(roleRequest.getEmail()).orElseThrow(
@@ -61,20 +53,29 @@ public class RoleService {
 
         Role role = roleRepository.findByRole(roleRequest.getRole());
 
-        if(role.getRole().equals(Authority.ROLE_ADMIN)){
-            throw new AuthorityException("Admin role cannot be modified");
+        // 권한이 이미 있는지 확인
+        Optional<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(targetMember.getEmail());
+
+        if(memberRoles.isPresent()) {
+            // 이미 존재하므로 업데이트
+        } else {
+            // 존재하지 않으므로 생성
+            MemberRole.createMemberRoles(targetMember, role));
+            memberRolesRepository.save(memberRoles);
         }
 
-        MemberRole saveMemberRole = MemberRole.createMemberRoles(targetMember, role);
-        memberRolesRepository.save(saveMemberRole);
 
-        String token = jwtTokenProvider.resolveToken(request);
-        Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
+//        String token = jwtTokenProvider.resolveToken(request);
+//        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
-        return userService.reissue(new UserRequest.Reissue(token, redisRT));
+        return null;
     }
 
+    public ResponseEntity<Response.Body> getAuthorityList(Pageable pageable) {
+        Page<MemberRoleResponse> withRolesInPages = memberRepository.findWithRolesInPages(pageable);
+        return response.success(Code.SEARCH_SUCCESS, withRolesInPages);
+    }
 
     @Transactional
     public List<Role> getRoles() {
@@ -85,4 +86,6 @@ public class RoleService {
     public void createRole(Role role){
         roleRepository.save(role);
     }
+
+
 }
