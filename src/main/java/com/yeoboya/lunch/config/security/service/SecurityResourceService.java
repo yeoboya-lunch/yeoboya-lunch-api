@@ -1,11 +1,11 @@
 package com.yeoboya.lunch.config.security.service;
 
 
+import com.yeoboya.lunch.config.security.domain.AccessIp;
 import com.yeoboya.lunch.config.security.domain.Resources;
 import com.yeoboya.lunch.config.security.repository.AccessIpRepository;
 import com.yeoboya.lunch.config.security.repository.ResourcesRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -23,18 +23,14 @@ import java.util.stream.Collectors;
 public class SecurityResourceService {
 
     private final ResourcesRepository resourcesRepository;
-    private final RoleHierarchyService roleHierarchyService;
-    //private RoleHierarchyImpl roleHierarchy;
     private final AccessIpRepository accessIpRepository;
 
-    public SecurityResourceService(ResourcesRepository resourcesRepository, /*RoleHierarchyImpl roleHierarchy, */RoleHierarchyService roleHierarchyService, AccessIpRepository accessIpRepository/*, MapBasedMethodSecurityMetadataSource mapBasedMethodSecurityMetadataSource, AnnotationConfigServletWebServerApplicationContext applicationContext, CustomMethodSecurityInterceptor methodSecurityInterceptor*/) {
+    public SecurityResourceService(ResourcesRepository resourcesRepository, AccessIpRepository accessIpRepository) {
         this.resourcesRepository = resourcesRepository;
-        //this.roleHierarchy = roleHierarchy;
-        this.roleHierarchyService = roleHierarchyService;
         this.accessIpRepository = accessIpRepository;
     }
 
-    @Cacheable(value = "resourceList")
+//    @Cacheable(value = "resourceList")
     public LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getResourceList() {
 
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> result = new LinkedHashMap<>();
@@ -49,78 +45,16 @@ public class SecurityResourceService {
                     });
                 }
         );
-        log.debug("cache test");
+        log.warn("cache test");
         return result;
     }
 
-    @Cacheable(value = "methodResourceList")
-    public LinkedHashMap<String, List<ConfigAttribute>> getMethodResourceList() {
-
-        LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
-        List<Resources> resourcesList = resourcesRepository.findAllMethodResources();
-
-        getResourceMap(result, resourcesList);
-        return result;
-    }
-
-    @Cacheable(value = "pointcutResourceList")
-    public LinkedHashMap<String, List<ConfigAttribute>> getPointcutResourceList() {
-
-        LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
-        List<Resources> resourcesList = resourcesRepository.findAllPointcutResources();
-
-        getResourceMap(result, resourcesList);
-        return result;
-    }
-
-    @Cacheable(value = "accessIpList")
+//    @Cacheable(value = "accessIpList")
     public List<String> getAccessIpList() {
 
-        List<String> accessIpList = accessIpRepository.findAll().stream().map(accessIp -> accessIp.getIpAddress()).collect(Collectors.toList());
-
-        return accessIpList;
-    }
-
-    private void getResourceMap(LinkedHashMap<String, List<ConfigAttribute>> result, List<Resources> resourcesList) {
-        resourcesList.forEach(re ->
-                {
-                    List<ConfigAttribute> configAttributeList = new ArrayList<>();
-                    re.getRoleSet().forEach(ro -> {
-                        configAttributeList.add(new SecurityConfig(ro.getRole().toString()));
-                        result.put(re.getResourceName(), configAttributeList);
-                    });
-                }
-        );
-        log.debug("cache test");
-    }
-
-    @CacheEvict(value = "resourceList")
-    public void clearCacheResourceList() {
-
-    }
-
-    @CacheEvict(value = "methodResourceList")
-    public void clearCacheMethodResourceList() {
-
-    }
-
-    @CacheEvict(value = "pointcutResourceList")
-    public void clearCachePointcutResourceList() {
-
-    }
-
-    @CacheEvict(value = "accessIpList")
-    public void clearAccessIpList() {
-
-    }
-
-    public void setRoleHierarchy() {
-        String allHierarchy = roleHierarchyService.findAllHierarchy();
-//        roleHierarchy.setHierarchy(allHierarchy);
-    }
-
-    private void init() {
-        getResourceList();
+        return accessIpRepository.findAll()
+                .stream()
+                .map(AccessIp::getIpAddress).collect(Collectors.toList());
     }
 
 }

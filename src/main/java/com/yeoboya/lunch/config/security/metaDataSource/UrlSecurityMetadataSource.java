@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.config.security.metaDataSource;
 
-
 import com.yeoboya.lunch.config.security.service.SecurityResourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.ConfigAttribute;
@@ -10,6 +9,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class UrlSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
@@ -43,15 +43,11 @@ public class UrlSecurityMetadataSource implements FilterInvocationSecurityMetada
 
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
-
-        Set<ConfigAttribute> result = new HashSet<>();
-        for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet()) {
-            List<ConfigAttribute> list = entry.getValue();
-            if (list != null) {
-                result.addAll(list);
-            }
-        }
-        return null;
+        return requestMap.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() != null)
+                .flatMap(entry -> entry.getValue().stream())
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -59,22 +55,10 @@ public class UrlSecurityMetadataSource implements FilterInvocationSecurityMetada
         return FilterInvocation.class.isAssignableFrom(clazz);
     }
 
-    public void reload() throws Exception {
-
+    public void reload() {
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> reloadedMap = securityResourceService.getResourceList();
-
-        Iterator<Map.Entry<RequestMatcher, List<ConfigAttribute>>> iterator = reloadedMap.entrySet().iterator();
-
-        // 이전 데이터 삭제
         requestMap.clear();
-
-        while (iterator.hasNext()) {
-            Map.Entry<RequestMatcher, List<ConfigAttribute>> entry = iterator.next();
-
-            requestMap.put(entry.getKey(), entry.getValue());
-        }
-
-        log.info("Secured Url Resources - Role Mappings reloaded at Runtime!");
+        requestMap.putAll(reloadedMap);
+        log.warn("Secured Url Resources - Role Mappings reloaded at Runtime!");
     }
-
 }

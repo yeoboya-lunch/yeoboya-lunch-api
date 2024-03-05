@@ -14,11 +14,9 @@ import java.util.List;
 
 public class PermitAllFilter extends FilterSecurityInterceptor {
 
-
-
     private static final String FILTER_APPLIED = "__spring_security_filterSecurityInterceptor_filterApplied";
 
-    private List<RequestMatcher> permitAllRequestMatcher = new ArrayList<>();
+    private final List<RequestMatcher> permitAllRequestMatcher = new ArrayList<>();
 
     public PermitAllFilter(String... permitAllPattern) {
         createPermitAllPattern(permitAllPattern);

@@ -26,7 +26,6 @@ public class UrlResourcesMapFactoryBean implements FactoryBean<LinkedHashMap<Req
         if (resourcesMap == null) {
             init();
         }
-        log.warn("{}", resourcesMap);
         return resourcesMap;
     }
 

@@ -21,17 +21,17 @@ public class RoleHierarchyService {
         List<RoleHierarchy> rolesHierarchy = roleHierarchyRepository.findAll();
 
         Iterator<RoleHierarchy> itr = rolesHierarchy.iterator();
-        StringBuilder concatedRoles = new StringBuilder();
+        StringBuilder concatenatedRoles = new StringBuilder();
         while (itr.hasNext()) {
             RoleHierarchy model = itr.next();
             if (model.getParentName() != null) {
-                concatedRoles.append(model.getParentName().getChildName());
-                concatedRoles.append(" > ");
-                concatedRoles.append(model.getChildName());
-                concatedRoles.append("\n");
+                concatenatedRoles.append(model.getParentName().getChildName());
+                concatenatedRoles.append(" > ");
+                concatenatedRoles.append(model.getChildName());
+                concatenatedRoles.append("\n");
             }
         }
-        return concatedRoles.toString();
+        return concatenatedRoles.toString();
 
     }
 }
