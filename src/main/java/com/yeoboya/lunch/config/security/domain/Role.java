@@ -28,7 +28,7 @@ public class Role {
     private String roleDesc;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roleSet")
-    @OrderBy("ordernum desc")
+    @OrderBy("order_num desc")
     private Set<Resources> resourcesSet = new LinkedHashSet<>();
 
     @Builder

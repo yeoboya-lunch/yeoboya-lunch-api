@@ -1,10 +1,17 @@
-INSERT INTO lunch.role (roles_id, role, role_desc) VALUES (1, 'ROLE_ADMIN', "어드민");
-INSERT INTO lunch.role (roles_id, role, role_desc) VALUES (2, 'ROLE_MANGER', "매니저");
-INSERT INTO lunch.role (roles_id, role, role_desc) VALUES (3, 'ROLE_USER', "유저");
-INSERT INTO lunch.role (roles_id, role, role_desc) VALUES (4, 'ROLE_BLOCK', "차단");
+INSERT INTO role (role_id, role_name, description)
+VALUES
+    (1, 'ROLE_ADMIN', '어드민'),
+    (2, 'ROLE_MANAGER', '매니저'),
+    (3, 'ROLE_USER', '유저'),
+    (4, 'ROLE_TESTER', '테스터'),
+    (5, 'ROLE_BLOCK', '차단');
 
-INSERT INTO lunch.role_hierarchy (rolehierarchy_id, child_name, parent_name) VALUES (1, 'ROLE_ADMIN', null);
-INSERT INTO lunch.role_hierarchy (rolehierarchy_id, child_name, parent_name) VALUES (2, 'ROLE_MANAGER', 'ROLE_ADMIN');
-INSERT INTO lunch.role_hierarchy (rolehierarchy_id, child_name, parent_name) VALUES (3, 'ROLE_USER', 'ROLE_MANAGER');
+INSERT INTO role_hierarchy (role_id, role, parent_role)
+VALUES
+    (1, 'ROLE_ADMIN', NULL),
+    (2, 'ROLE_MANAGER', 'ROLE_ADMIN'),
+    (3, 'ROLE_USER', 'ROLE_MANAGER'),
+    (4, 'ROLE_TESTER', 'ROLE_USER'),
+    (5, 'ROLE_BLOCK', 'ROLE_TESTER');
 
 INSERT INTO access_ip (id, ip_address) VALUES (1, '127.0.0.1')

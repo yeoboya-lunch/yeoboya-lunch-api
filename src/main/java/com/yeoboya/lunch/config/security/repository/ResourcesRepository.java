@@ -5,8 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ResourcesRepository extends JpaRepository<Resources, Long> {
+
+    Resources findTopByOrderByOrderNumDesc();
+
+    Optional<Resources> findByResourceName(String resourceName);
 
     Resources findByResourceNameAndHttpMethod(String resourceName, String httpMethod);
 

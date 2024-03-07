@@ -2,6 +2,7 @@ package com.yeoboya.lunch.api.v1.common.exception;
 
 import com.yeoboya.lunch.config.util.Helper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -98,6 +99,18 @@ public class ExceptionController {
                 .note(e.getMostSpecificCause().getMessage())
                 .build();
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 적절한 HTTP 상태 코드로 변경할 수 있습니다.
+    @ExceptionHandler(DataAccessException.class)
+    protected ExceptionResponse handleDataAccessException(DataAccessException e) {
+        log.error("DataAccessException", e);
+        return ExceptionResponse.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value()) // 적절한 에러 코드로 변경할 수 있습니다.
+                .message("An error occurred while accessing the database.")
+                .note(e.getMostSpecificCause().getMessage())
+                .build();
+    }
+
 
 
 //    @ResponseStatus(FORBIDDEN)

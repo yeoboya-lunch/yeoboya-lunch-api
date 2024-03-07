@@ -14,8 +14,8 @@ public class SecurityConfigChangeAspect {
 
     private final SecurityConfigChangePublisher publisher;
 
-    @AfterReturning(pointcut = "execution(* com.yeoboya.lunch.config.security.service.ResourcesService.update*(..)) " +
-            "|| execution(* com.yeoboya.lunch.config.security.service.RoleService.update*(..))")
+    @AfterReturning(pointcut = "execution(* com.yeoboya.lunch.config.security.service.ResourcesService.*(..)) " +
+            "|| execution(* com.yeoboya.lunch.config.security.service.RoleService.*(..))")
     public void afterSecurityConfigChanged(JoinPoint joinPoint) {
         publisher.publishSecurityConfigChanged();
     }
