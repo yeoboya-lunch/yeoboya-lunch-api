@@ -37,14 +37,9 @@ public class ResourceController {
      * 리소스삭제
      */
     @DeleteMapping
-    public ResponseEntity<Response.Body> deleteResource(Pageable pageable){
+    public ResponseEntity<Response.Body> deleteResource(){
         return null;
     }
-
-
-
-
-
 
 }
 

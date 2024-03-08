@@ -23,22 +23,19 @@ public class UrlSecurityMetadataSource implements FilterInvocationSecurityMetada
     }
 
     @Override
-    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-
-        Collection<ConfigAttribute> result = null;
+    public Collection<ConfigAttribute> getAttributes(Object object) {
         FilterInvocation fi = (FilterInvocation) object;
         HttpServletRequest httpServletRequest = fi.getHttpRequest();
 
-        if (requestMap != null) {
-            for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet()) {
-                RequestMatcher matcher = entry.getKey();
-                if (matcher.matches(httpServletRequest)) {
-                    result = entry.getValue();
-                    break;
-                }
-            }
+        if (requestMap == null) {
+            return null;
         }
-        return result;
+
+        return requestMap.entrySet().stream()
+                .filter(entry -> entry.getKey().matches(httpServletRequest))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

@@ -38,6 +38,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.servlet.Filter;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -59,16 +60,23 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
 
-    // BCryptPasswordEncoder bean for password encoding
+    // 1. 프로그램에서 필요한 설정과 관련된 `@Bean`을 정의하는 메소드.
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // AuthenticationManager bean for handling authentication
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public RoleHierarchyImpl roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        String rolesHierarchy = roleHierarchyService.findAllHierarchy();
+        roleHierarchy.setHierarchy(rolesHierarchy);
+        return roleHierarchy;
     }
 
     @Deprecated
@@ -84,7 +92,6 @@ public class SecurityConfiguration {
         filter.setForceEncoding(true);
 
         httpSecurity
-
                 .csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -100,27 +107,25 @@ public class SecurityConfiguration {
                     .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
                     .addFilterBefore(filter, CsrfFilter.class)
-                    .addFilterBefore(permitAllFilter(), FilterSecurityInterceptor.class);
+                    .addFilterBefore(this.createPermitAllFilter(), FilterSecurityInterceptor.class);
 
         return httpSecurity.build();
     }
 
-
+    // 2. HTTP 요청에 대응하는 필터 설정과 관련된 메소드.
     @Bean
-    public PermitAllFilter permitAllFilter() {
+    public PermitAllFilter createPermitAllFilter() {
         PermitAllFilter permitAllFilter = new PermitAllFilter(permitAllPattern);
-
         permitAllFilter.setAccessDecisionManager(affirmativeBased(securityResourceService));
         permitAllFilter.setSecurityMetadataSource(urlSecurityMetadataSource(securityResourceService));
-
         permitAllFilter.setRejectPublicInvocations(false);
         return permitAllFilter;
     }
 
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(permitAllFilter());
+    public FilterRegistrationBean<Filter> filterRegistrationBean() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(this.createPermitAllFilter());
         filterRegistrationBean.setEnabled(false);
         return filterRegistrationBean;
     }
@@ -138,6 +143,7 @@ public class SecurityConfiguration {
         return urlResourcesMapFactoryBean;
     }
 
+    // 3. 보안과 관련된 `@Bean`을 정의하는 메소드.
     @Bean
     public AccessDecisionManager affirmativeBased(SecurityResourceService securityResourceService) {
         AffirmativeBased accessDecisionManager = new AffirmativeBased(getAccessDecisionVoters(securityResourceService));
@@ -149,7 +155,6 @@ public class SecurityConfiguration {
         AuthenticatedVoter authenticatedVoter = new AuthenticatedVoter();
         WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
         IpAddressVoter ipAddressVoter = new IpAddressVoter(securityResourceService);
-
         return Arrays.asList(ipAddressVoter, authenticatedVoter, webExpressionVoter, roleVoter());
     }
 
@@ -159,14 +164,5 @@ public class SecurityConfiguration {
         roleHierarchyVoter.setRolePrefix("ROLE_");
         return roleHierarchyVoter;
     }
-
-    @Bean
-    public RoleHierarchyImpl roleHierarchy() {
-        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String rolesHierarchy = roleHierarchyService.findAllHierarchy();
-        roleHierarchy.setHierarchy(rolesHierarchy);
-        return roleHierarchy;
-    }
-
 
 }

@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.config.security;
 
+import com.yeoboya.lunch.config.security.dto.MyExtraDetails;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.service.UserDetailsService;
 import io.jsonwebtoken.*;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,8 +37,8 @@ public class JwtTokenProvider {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_TYPE = "Bearer";
     private static final String AUTHORITIES_KEY = "auth";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 12 * 60 * 60 * 1000L;        // 12시간
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 3 * 24 * 60 * 60 * 1000L;   // 3일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = TimeUnit.HOURS.toMillis(12);   // 12시간
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = TimeUnit.DAYS.toMillis(3);    // 3일
 
     private final UserDetailsService userDetailsService;
 
@@ -105,7 +107,12 @@ public class JwtTokenProvider {
 
         // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        MyExtraDetails details = new MyExtraDetails(); // 여기서 MyExtraDetails 클래스는 여러분이 정의한 클래스여야 합니다.
+        authenticationToken.setDetails(details);
+
+        return authenticationToken;
     }
 
 
@@ -127,20 +134,20 @@ public class JwtTokenProvider {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (SecurityException e) {
-            log.error("SecurityException");
-            throw new JwtException("SecurityException");
+            log.error("보안 예외가 발생하였습니다.", e);
+            throw new JwtException("보안 예외가 발생하였습니다: " + e.getMessage(), e);
         } catch (MalformedJwtException e) {
-            log.error("MalformedJwtException");
-            throw new JwtException("MalformedJwtException");
+            log.error("잘못 형식화된 JWT 예외가 발생하였습니다.", e);
+            throw new JwtException("잘못 형식화된 JWT 예외가 발생하였습니다: " + e.getMessage(), e);
         } catch (UnsupportedJwtException e) {
-            log.error("UnsupportedJwtException");
-            throw new JwtException("UnsupportedJwtException");
+            log.error("지원하지 않는 JWT 예외가 발생하였습니다.", e);
+            throw new JwtException("지원하지 않는 JWT 예외가 발생하였습니다: " + e.getMessage(), e);
         } catch (ExpiredJwtException e) {
-            log.error("ExpiredJwtException");
-            throw new JwtException("ExpiredJwtException");
+            log.error("만료된 JWT 예외가 발생하였습니다.", e);
+            throw new JwtException("만료된 JWT 예외가 발생하였습니다: " + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
-            log.error("IllegalArgumentException");
-            throw new JwtException("IllegalArgumentException");
+            log.error("잘못된 인자 예외가 발생하였습니다.", e);
+            throw new JwtException("잘못된 인자 예외가 발생하였습니다: " + e.getMessage(), e);
         }
     }
 
