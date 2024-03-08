@@ -59,9 +59,13 @@ public class UserService {
                 .name(signUp.getName())
                 .password(passwordEncoder.encode(signUp.getPassword()))
                 .build();
-
+        Role role;
+        if(build.getEmail().equals("admin@lunch.com")){
+            role = roleRepository.findByRole(Authority.ROLE_ADMIN);
+        }else {
+            role = roleRepository.findByRole(Authority.ROLE_USER);
+        }
         // find and set roles
-        Role role = roleRepository.findByRole(Authority.ROLE_USER);
         List<MemberRole> memberRoles = List.of(MemberRole.createMemberRoles(build, role));
 
         // set member_info
