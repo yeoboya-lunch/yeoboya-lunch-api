@@ -8,8 +8,10 @@ public enum Authority implements GrantedAuthority {
 
     ROLE_ADMIN,
     ROLE_MANAGER,
-    ROLE_TESTER,
-    ROLE_USER;
+    ROLE_USER,
+    ROLE_GUEST,
+    ROLE_BLOCK;
+
 
     // GrantedAuthority 인터페이스에 요구되는 메서드입니다.
     // 권한(역할)을 문자열로 반환합니다.

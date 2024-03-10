@@ -17,21 +17,16 @@ public class RoleHierarchyService {
 
     @Transactional
     public String findAllHierarchy() {
-
         List<RoleHierarchy> rolesHierarchy = roleHierarchyRepository.findAll();
-
-        Iterator<RoleHierarchy> itr = rolesHierarchy.iterator();
         StringBuilder concatenatedRoles = new StringBuilder();
-        while (itr.hasNext()) {
-            RoleHierarchy model = itr.next();
-            if (model.getParentName() != null) {
-                concatenatedRoles.append(model.getParentName().getChildName());
+        for (RoleHierarchy roleHierarchy : rolesHierarchy) {
+            if (roleHierarchy.getParentName() != null) {
+                concatenatedRoles.append(roleHierarchy.getParentName().getChildName());
                 concatenatedRoles.append(" > ");
-                concatenatedRoles.append(model.getChildName());
-                concatenatedRoles.append("\n");
+                concatenatedRoles.append(roleHierarchy.getChildName());
+                concatenatedRoles.append(System.lineSeparator());
             }
         }
         return concatenatedRoles.toString();
-
     }
 }
