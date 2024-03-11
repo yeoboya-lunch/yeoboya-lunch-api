@@ -4,6 +4,7 @@ import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
+import com.yeoboya.lunch.api.v1.common.response.SlicePagination;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import com.yeoboya.lunch.api.v1.shop.repository.ShopRepository;
 import com.yeoboya.lunch.api.v1.shop.request.ShopAndItemCreate;
@@ -70,14 +71,19 @@ public class ShopService {
                 .map(ShopResponse::from)
                 .collect(Collectors.toList());
 
+        SlicePagination slicePagination = SlicePagination.builder()
+                .pageNo(shops.getNumber() + 1)
+                .size(shops.getSize())
+                .numberOfElements(shops.getNumberOfElements())
+                .isFirst(shops.isFirst())
+                .isLast(shops.isLast())
+                .hasNext(shops.hasNext())
+                .hasPrevious(shops.hasPrevious())
+                .build();
+
         return Map.of(
-                "list", content,
-                "isFirst", shops.isFirst(),
-                "isLast", shops.isLast(),
-                "hasNext", shops.hasNext(),
-                "hasPrevious", shops.hasPrevious(),
-                "pageNo", shops.getNumber() + 1
-        );
+                "list",content,
+                "pagination", slicePagination);
     }
 
 }

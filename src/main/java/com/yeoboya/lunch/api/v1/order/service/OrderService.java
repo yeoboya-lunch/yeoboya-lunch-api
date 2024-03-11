@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.order.service;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.repository.ItemRepository;
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
+import com.yeoboya.lunch.api.v1.common.response.SlicePagination;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
@@ -67,14 +68,20 @@ public class OrderService {
                 .map(OrderRecruitmentResponse::from)
                 .collect(Collectors.toList());
 
+        SlicePagination slicePagination = SlicePagination.builder()
+                .pageNo(orders.getNumber() + 1)
+                .size(orders.getSize())
+                .numberOfElements(orders.getNumberOfElements())
+                .isFirst(orders.isFirst())
+                .isLast(orders.isLast())
+                .hasNext(orders.hasNext())
+                .hasPrevious(orders.hasPrevious())
+                .build();
+
         return Map.of(
-                "list", orderRecruitmentResponses,
-                "isFirst", orders.isFirst(),
-                "isLast", orders.isLast(),
-                "hasNext", orders.hasNext(),
-                "hasPrevious", orders.hasPrevious(),
-                "pageNo", orders.getNumber() + 1
-        );
+                "list",orderRecruitmentResponses,
+                "pagination", slicePagination);
+
     }
 
     public Map<String, Object> findLunchOrderByOrderId(Long orderNo) {
@@ -124,14 +131,20 @@ public class OrderService {
                 .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
                 .collect(Collectors.toList());
 
+        SlicePagination slicePagination = SlicePagination.builder()
+                .pageNo(groupOrders.getNumber() + 1)
+                .size(groupOrders.getSize())
+                .numberOfElements(groupOrders.getNumberOfElements())
+                .isFirst(groupOrders.isFirst())
+                .isLast(groupOrders.isLast())
+                .hasNext(groupOrders.hasNext())
+                .hasPrevious(groupOrders.hasPrevious())
+                .build();
+
         return Map.of(
-                "list", groupOrderResponses,
-                "isFirst", groupOrders.isFirst(),
-                "isLast", groupOrders.isLast(),
-                "hasNext", groupOrders.hasNext(),
-                "hasPrevious", groupOrders.hasPrevious(),
-                "pageNo", groupOrders.getNumber() + 1
-        );
+                "list",groupOrderResponses,
+                "pagination", slicePagination);
+
     }
 
     public Map<String, Object> getMyJoinHistoryByToken(Pageable pageable){
@@ -142,14 +155,20 @@ public class OrderService {
                 .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
                 .collect(Collectors.toList());
 
+        SlicePagination slicePagination = SlicePagination.builder()
+                .pageNo(groupOrders.getNumber() + 1)
+                .size(groupOrders.getSize())
+                .numberOfElements(groupOrders.getNumberOfElements())
+                .isFirst(groupOrders.isFirst())
+                .isLast(groupOrders.isLast())
+                .hasNext(groupOrders.hasNext())
+                .hasPrevious(groupOrders.hasPrevious())
+                .build();
+
         return Map.of(
-                "list", groupOrderResponses,
-                "isFirst", groupOrders.isFirst(),
-                "isLast", groupOrders.isLast(),
-                "hasNext", groupOrders.hasNext(),
-                "hasPrevious", groupOrders.hasPrevious(),
-                "pageNo", groupOrders.getNumber() + 1
-        );
+                "list",groupOrderResponses,
+                "pagination", slicePagination);
+
     }
 
     public List<OrderDetailResponse> getMyRecruitmentOrderHistoryByEmail(String email ,Pageable pageable) {
@@ -205,15 +224,19 @@ public class OrderService {
                 .map(GroupOrderRecruitmentResponse::from)
                 .collect(Collectors.toList());
 
-        return Map.of(
-                "list", groupOrderRecruitmentResponses,
-                "isFirst", groupOrders.isFirst(),
-                "isLast", groupOrders.isLast(),
-                "hasNext", groupOrders.hasNext(),
-                "hasPrevious", groupOrders.hasPrevious(),
-                "pageNo", groupOrders.getNumber() + 1
-        );
-    }
+        SlicePagination slicePagination = SlicePagination.builder()
+                .pageNo(groupOrders.getNumber() + 1)
+                .size(groupOrders.getSize())
+                .numberOfElements(groupOrders.getNumberOfElements())
+                .isFirst(groupOrders.isFirst())
+                .isLast(groupOrders.isLast())
+                .hasNext(groupOrders.hasNext())
+                .hasPrevious(groupOrders.hasPrevious())
+                .build();
 
+        return Map.of(
+                "list",groupOrderRecruitmentResponses,
+                "pagination", slicePagination);
+    }
 
 }
