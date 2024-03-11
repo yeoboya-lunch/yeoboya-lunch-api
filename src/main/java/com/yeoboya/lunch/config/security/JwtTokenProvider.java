@@ -1,7 +1,8 @@
 package com.yeoboya.lunch.config.security;
 
-import com.yeoboya.lunch.config.security.dto.MyExtraDetails;
 import com.yeoboya.lunch.config.security.dto.Token;
+import com.yeoboya.lunch.config.security.reqeust.ClientRequestInfo;
+import com.yeoboya.lunch.config.security.service.CustomAuthenticationDetailsBuilder;
 import com.yeoboya.lunch.config.security.service.UserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private final Key key;
-
+    private final CustomAuthenticationDetailsBuilder customAuthenticationDetailsBuilder;
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_TYPE = "Bearer";
     private static final String AUTHORITIES_KEY = "auth";
@@ -42,7 +43,8 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
-    public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey, UserDetailsService userDetailsService) {
+    public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey, CustomAuthenticationDetailsBuilder customAuthenticationDetailsBuilder, UserDetailsService userDetailsService) {
+        this.customAuthenticationDetailsBuilder = customAuthenticationDetailsBuilder;
         this.userDetailsService = userDetailsService;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
@@ -91,6 +93,31 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
+    public Authentication getAuthentication(String token, HttpServletRequest request) {
+        // 토큰 복호화
+        Claims claims = this.parseClaims(token);
+
+        if (claims.get(AUTHORITIES_KEY) == null) {
+            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+        }
+
+        // 클레임에서 권한 정보 가져오기
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(String.valueOf(claims.get(AUTHORITIES_KEY)).split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+        // UserDetails 객체를 만들어서 Authentication 리턴
+        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(principal, token, authorities);
+
+        ClientRequestInfo clientRequestInfo = customAuthenticationDetailsBuilder.buildDetails(request);
+        authenticationToken.setDetails(clientRequestInfo);
+
+        return authenticationToken;
+    }
+
+    // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String token) {
         // 토큰 복호화
         Claims claims = this.parseClaims(token);
@@ -108,11 +135,7 @@ public class JwtTokenProvider {
         // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(principal, token, authorities);
-        MyExtraDetails details = new MyExtraDetails(); // 여기서 MyExtraDetails 클래스는 여러분이 정의한 클래스여야 합니다.
-        authenticationToken.setDetails(details);
-
-        return authenticationToken;
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
 

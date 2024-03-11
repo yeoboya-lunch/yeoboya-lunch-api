@@ -97,17 +97,17 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
-                    .formLogin().disable()
-                    .httpBasic().disable()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(authenticationEntryPointImpl)
-                    .accessDeniedHandler(accessDeniedHandlerImpl)
+                .formLogin().disable()
+                .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPointImpl)
+                .accessDeniedHandler(accessDeniedHandlerImpl)
 
                 .and()
-                    .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
-                    .addFilterBefore(filter, CsrfFilter.class)
-                    .addFilterBefore(this.createPermitAllFilter(), FilterSecurityInterceptor.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
+                .addFilterBefore(filter, CsrfFilter.class)
+                .addFilterBefore(this.createPermitAllFilter(), FilterSecurityInterceptor.class);
 
         return httpSecurity.build();
     }
@@ -152,9 +152,9 @@ public class SecurityConfiguration {
     }
 
     private List<AccessDecisionVoter<?>> getAccessDecisionVoters(SecurityResourceService securityResourceService) {
+        IpAddressVoter ipAddressVoter = new IpAddressVoter(securityResourceService);
         AuthenticatedVoter authenticatedVoter = new AuthenticatedVoter();
         WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
-        IpAddressVoter ipAddressVoter = new IpAddressVoter(securityResourceService);
         return Arrays.asList(ipAddressVoter, authenticatedVoter, webExpressionVoter, roleVoter());
     }
 

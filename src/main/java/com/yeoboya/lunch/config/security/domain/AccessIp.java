@@ -24,4 +24,7 @@ public class AccessIp implements Serializable {
     @Column(name = "IP_ADDRESS", nullable = false)
     private String ipAddress;
 
+    @Column(name = "BLOCK", nullable = false)
+    private boolean block;
+
 }

@@ -50,11 +50,8 @@ public class SecurityResourceService {
     }
 
 //    @Cacheable(value = "accessIpList")
-    public List<String> getAccessIpList() {
-
-        return accessIpRepository.findAll()
-                .stream()
-                .map(AccessIp::getIpAddress).collect(Collectors.toList());
+    public List<AccessIp> getAccessIpList() {
+        return accessIpRepository.findAll();
     }
 
 }
