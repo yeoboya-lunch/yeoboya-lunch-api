@@ -2,26 +2,35 @@ package com.yeoboya.lunch.api.v1.Item.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+@Setter
 @Getter
 @Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ItemResponse {
 
+    private Long itemId;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private final String shopName;
-    private final String name;
-    private final int price;
-
+    private String shopName;
+    private String name;
+    private int price;
 
     public static ItemResponse from(Item item) {
-        return new ItemResponse(item.getShop().getName(), item.getName(), item.getPrice());
+        return ItemResponse.builder()
+                .itemId(item.getId())
+                .shopName(item.getShop().getName())
+                .name(item.getName())
+                .price(item.getPrice())
+                .build();
     }
 
     public static ItemResponse of(String name, int price){
-        return new ItemResponse("", name, price);
+        return ItemResponse.builder()
+                .name(name)
+                .price(price)
+                .build();
     }
 }

@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @RestController
@@ -42,10 +41,9 @@ public class ItemController {
     /**
      * 아이템 리스트 조회
      */
-    @GetMapping
-    public ResponseEntity<Body> getList(Pageable pageable) {
-        List<ItemResponse> itemResponses = itemService.getList(pageable);
-        return response.success(Code.SEARCH_SUCCESS, itemResponses);
+    @GetMapping("/shop/{shopName}")
+    public ResponseEntity<Body> getItemsByShop(@PathVariable String shopName, Pageable pageable) {
+        return response.success(Code.SEARCH_SUCCESS, itemService.getItemsByShop(shopName, pageable));
     }
 
     /**

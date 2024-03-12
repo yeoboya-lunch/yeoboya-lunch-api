@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 String isLogout = (String) redisTemplate.opsForValue().get("LOT:" + token);
                 if (ObjectUtils.isEmpty(isLogout)) {
-                    Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                    Authentication authentication = jwtTokenProvider.getAuthentication(token, request);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     log.debug("=================================  토큰 컨텍스트에서 통과 정보  ============================================");
                     log.debug(authentication.getPrincipal() + " : " + authentication);

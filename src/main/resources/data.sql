@@ -32,3 +32,8 @@ INSERT INTO role_resources(RESOURCE_ID, ROLE_ID) VALUES
                                                      (5, 3), -- User has access to item
                                                      (6, 3), -- User has access to order
                                                      (7, 3); -- User has access to board
+
+-- Define ip access
+INSERT INTO lunch.access_ip (ip_id, ip_address, block) VALUES
+                                                           (0, '0:0:0:0:0:0:0:1', false),
+                                                           (1, '127.0.0.1', false)
