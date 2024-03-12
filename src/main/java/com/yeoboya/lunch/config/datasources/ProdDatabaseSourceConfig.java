@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.config.datasources;
 
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.pool.HikariPool;
 import org.json.JSONObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,12 @@ public class ProdDatabaseSourceConfig {
         dataSource.setJdbcUrl("jdbc:mariadb://yeoboya-lunch-db.cc1j8x3t3gto.ap-northeast-2.rds.amazonaws.com:3306/lunch?characterEncoding=UTF-8");
         dataSource.setUsername(secretString.getString("username"));
         dataSource.setPassword(secretString.getString("password"));
+
+        dataSource.setMaximumPoolSize(10);
+        dataSource.setMinimumIdle(2);
+        dataSource.setIdleTimeout(300000); // 5 minutes
+        dataSource.setMaxLifetime(600000); // 10 minutes
+        dataSource.setPoolName("lunchHikariPool");
 
         return dataSource;
     }
