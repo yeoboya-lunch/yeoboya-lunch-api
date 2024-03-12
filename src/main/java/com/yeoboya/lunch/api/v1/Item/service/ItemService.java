@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 public class ItemService {
@@ -49,10 +49,8 @@ public class ItemService {
                 .build();
     }
 
-    public List<ItemResponse> getList(Pageable pageable) {
-        return itemRepository.getList(pageable).stream()
-                .map(ItemResponse::from)
-                .collect(Collectors.toList());
+    public Map<String, List<ItemResponse>> getItemsByShop(String shopName, Pageable pageable) {
+        return itemRepository.getItemsByShop(shopName, pageable);
     }
 
 
