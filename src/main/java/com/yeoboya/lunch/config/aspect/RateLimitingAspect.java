@@ -42,7 +42,7 @@ public class RateLimitingAspect {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(sra).getRequest();
         MemberProjections.MemberApiKey memberApiKey = memberRepository.findByEmail("admin@lunch.com", MemberProjections.MemberApiKey.class);
-        String apiKey=memberApiKey.getApiKey();
+        String apiKey= memberApiKey.getApiKey();
 
         long numTokens=rateLimited.limit();
         Bucket bucket = pricingPlanService.resolveBucket(apiKey);

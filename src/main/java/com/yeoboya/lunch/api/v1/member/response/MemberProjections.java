@@ -29,6 +29,11 @@ public class MemberProjections {
     }
 
     public interface MemberApiKey{
-        String getApiKey();
+        @JsonIgnore
+        String getApiKey_ApiKey();
+
+        default String getApiKey(){
+            return getApiKey_ApiKey();
+        }
     }
 }
