@@ -12,7 +12,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 
     Optional<Member> findByEmail(String email);
 
-    <T> List<T> findByEmail(String email, Class<T> type);
+    <T> T findByEmail(String email, Class<T> type);
 
     boolean existsByEmail(String email);
 

@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface ShopRepositoryCustom {
 
-//    @Cacheable(cacheNames = "cacheShop")
     Slice<Shop> pageShops(ShopSearch search, Pageable pageable);
 
     List<Shop> shops(ShopSearch search, Pageable pageable);

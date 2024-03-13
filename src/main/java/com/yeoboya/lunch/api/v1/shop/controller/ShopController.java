@@ -48,7 +48,6 @@ public class ShopController {
     /**
      * 상점 조회
      */
-//    @Cacheable(cacheNames = "cacheShop")
     @GetMapping
     public ResponseEntity<Body> shop(ShopSearch search, Pageable pageable) {
         return response.success(Code.SEARCH_SUCCESS, service.shop(search, pageable));

@@ -1,19 +1,15 @@
 package com.yeoboya.lunch.config.cache.constants;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum CacheType {
 
-    CACHE_SHOP("cacheShop", 60, 10000),
-    CACHE_ITEM("cacheItem", 10, 10000),
-    RANDOM("random", 60, 10000);
-
-    CacheType(String cacheName, int expiredAfterWrite, int maximumSize) {
-        this.cacheName = cacheName;
-        this.expiredAfterWrite = expiredAfterWrite;
-        this.maximumSize = maximumSize;
-    }
+    RANDOM("random", 60, 10000),
+    RESOURCE("resourceList", 60, 10000),
+    ACCESS_IP("accessIpList", 60, 10000);
 
     private final String cacheName;
     private final int expiredAfterWrite;

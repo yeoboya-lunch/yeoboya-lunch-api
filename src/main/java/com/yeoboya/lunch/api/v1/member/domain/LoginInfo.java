@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.member.domain;
 
-import com.yeoboya.lunch.config.security.reqeust.ClientRequestInfo;
 import com.yeoboya.lunch.config.util.IPUtils;
 import lombok.*;
 
@@ -27,7 +26,7 @@ public class LoginInfo {
     private Locale locale;
     private String requestUri;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 

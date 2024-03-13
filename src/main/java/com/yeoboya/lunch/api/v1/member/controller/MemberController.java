@@ -7,9 +7,6 @@ import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
-import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberAccount;
-import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberSummary;
-import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,14 +37,12 @@ public class MemberController {
 
     @GetMapping("{memberEmail}/summary")
     public ResponseEntity<Body> getMemberSummary(@PathVariable String memberEmail) {
-        List<MemberSummary> memberSummary = memberService.memberSummary(memberEmail);
-        return response.success(Code.SEARCH_SUCCESS, memberSummary);
+        return response.success(Code.SEARCH_SUCCESS, memberService.memberSummary(memberEmail));
     }
 
     @GetMapping("{memberEmail}/profile")
     public ResponseEntity<Body> getMemberProfile(@PathVariable String memberEmail) {
-        MemberResponse memberResponse = memberService.memberProfile(memberEmail);
-        return response.success(Code.SEARCH_SUCCESS, memberResponse);
+        return response.success(Code.SEARCH_SUCCESS, memberService.memberProfile(memberEmail));
     }
 
     /**
@@ -55,10 +50,8 @@ public class MemberController {
      */
     @GetMapping("/account/{memberEmail}")
     public ResponseEntity<Body> findAccountMember(@PathVariable String memberEmail) {
-        List<MemberAccount> memberAccount = memberService.memberAccount(memberEmail);
-        return response.success(Code.SEARCH_SUCCESS, memberAccount);
+        return response.success(Code.SEARCH_SUCCESS, memberService.memberAccount(memberEmail));
     }
-
 
     /**
      * 멤버 상세 정보 수정

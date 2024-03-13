@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.member.domain;
 
 import com.yeoboya.lunch.api.v1.common.domain.BaseTimeEntity;
+import com.yeoboya.lunch.config.pricingPlan.domain.ApiKey;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import lombok.*;
 
@@ -38,8 +39,12 @@ public class Member extends BaseTimeEntity {
     @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST)
     private MemberInfo memberInfo;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<LoginInfo> loginInfos;
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-    private LoginInfo loginInfo;
+    private ApiKey apiKey;
+
 
     //연관관계 편의 메소드
     public static Member createMember(Member pMember, MemberInfo memberInfo, List<MemberRole> memberRoles){

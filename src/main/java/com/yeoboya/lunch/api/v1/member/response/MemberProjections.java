@@ -27,4 +27,8 @@ public class MemberProjections {
         @JsonIgnore
         String getAccountAccountNumber();
     }
+
+    public interface MemberApiKey{
+        String getApiKey();
+    }
 }

@@ -51,14 +51,13 @@ public class MemberService {
                 "pagination", slicePagination);
     }
 
-    public List<MemberSummary> memberSummary(String email){
+    public MemberSummary memberSummary(String email){
         return memberRepository.findByEmail(email, MemberSummary.class);
     }
 
-    public List<MemberAccount> memberAccount(String email){
+    public MemberAccount memberAccount(String email){
         return memberRepository.findByEmail(email, MemberAccount.class);
     }
-
 
     @Transactional
     public MemberResponse memberProfile(String memberEmail) {
