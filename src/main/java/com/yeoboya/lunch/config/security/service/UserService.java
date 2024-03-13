@@ -6,8 +6,10 @@ import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.common.service.EmailService;
+import com.yeoboya.lunch.api.v1.member.domain.LoginInfo;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
+import com.yeoboya.lunch.api.v1.member.repository.LoginInfoRepository;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.annotation.Retry;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
@@ -28,8 +30,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -38,12 +42,20 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserService {
 
+    // Repository related fields
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
+    private final LoginInfoRepository loginInfoRepository;
+
+    // Service fields
     private final EmailService emailService;
-    private final Response response;
+
+    // Utility and Security fields used for the project
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
+    // Other fields
+    private final Response response;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -78,10 +90,12 @@ public class UserService {
         return response.success(Code.SAVE_SUCCESS);
     }
 
-    public ResponseEntity<Body> signIn(SignIn signIn) {
-        if (memberRepository.findByEmail(signIn.getEmail()).isEmpty()) {
-            return response.fail(ErrorCode.USER_NOT_FOUND);
-        }
+    public ResponseEntity<Body> signIn(SignIn signIn, HttpServletRequest httpServletRequest) {
+        Optional<Member> matchedMember = memberRepository.findByEmail(signIn.getEmail());
+        matchedMember.ifPresentOrElse(member -> {
+            LoginInfo loginInfo = LoginInfo.buildLoginInfo(member, httpServletRequest);
+            loginInfoRepository.save(loginInfo);
+        }, () -> response.fail(ErrorCode.USER_NOT_FOUND));
 
         // loadUserByUsername
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(signIn.toAuthentication());
@@ -118,33 +132,6 @@ public class UserService {
         return response.success("로그아웃 되었습니다.");
     }
 
-    public ResponseEntity<Body> tokenReissue(Reissue reissue) {
-        if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
-            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
-        }
-
-        Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
-
-        String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
-
-        if (ObjectUtils.isEmpty(redisRT)) {
-            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
-        }
-
-        if (!redisRT.equals(reissue.getRefreshToken())) {
-            return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
-        }
-
-        Token token = jwtTokenProvider.generateToken(authentication);
-
-        redisTemplate.opsForValue().set("RT:" + authentication.getName(),
-                token.getRefreshToken(),
-                token.getRefreshTokenExpirationTime(),
-                TimeUnit.MILLISECONDS);
-
-        return response.success(Code.UPDATE_SUCCESS, token);
-    }
-
     public ResponseEntity<Body> reissue(Reissue reissue) {
         if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
             return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
@@ -171,7 +158,6 @@ public class UserService {
 
         return response.success(Code.UPDATE_SUCCESS, token);
     }
-
 
     @Transactional
     public ResponseEntity<Body> changePassword(Credentials credentials) {

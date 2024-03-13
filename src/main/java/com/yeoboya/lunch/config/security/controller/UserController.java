@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Slf4j
@@ -41,8 +42,8 @@ public class UserController {
      * 로그인
      */
     @PostMapping("/sign-in")
-    public ResponseEntity<?> signIn(@Valid @RequestBody SignIn signIn) {
-        return userService.signIn(signIn);
+    public ResponseEntity<?> signIn(@Valid @RequestBody SignIn signIn, HttpServletRequest httpServletRequest) {
+        return userService.signIn(signIn, httpServletRequest);
     }
 
     /**
@@ -67,15 +68,6 @@ public class UserController {
     @PatchMapping("/resetPassword")
     public ResponseEntity<Body> resetPassword(@Validated(UnKnowOldPassword.class) @RequestBody Credentials credentials){
         return userService.resetPassword(credentials);
-    }
-
-    /**
-     * 토큰 재발급
-     */
-    @Deprecated
-    @PostMapping("/token-reissue")
-    public ResponseEntity<?> tokenReissue(@Valid @RequestBody Reissue reissue) {
-        return userService.tokenReissue(reissue);
     }
 
     /**

@@ -42,7 +42,7 @@ server:
 
 management:
   server:
-    port: 9292 # 관리 서버의 포트를 9292로 설정합니다.
+    port: 4463 # 관리 서버의 포트를 9292로 설정합니다.
   info:
     java:
       enabled: true # Java 관련 정보도 출력될 수 있게 합니다.

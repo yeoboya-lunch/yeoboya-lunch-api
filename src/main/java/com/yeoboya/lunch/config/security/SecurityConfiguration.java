@@ -49,7 +49,10 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private final String[] permitAllPattern = {"/order/recruits"};
+    private final String[] permitAllPattern = {
+            "/order/recruits",
+            "/board"
+    };
 
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
     private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;

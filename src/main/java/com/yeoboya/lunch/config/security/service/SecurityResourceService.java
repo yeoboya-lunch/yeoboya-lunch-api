@@ -6,7 +6,6 @@ import com.yeoboya.lunch.config.security.domain.Resources;
 import com.yeoboya.lunch.config.security.repository.AccessIpRepository;
 import com.yeoboya.lunch.config.security.repository.ResourcesRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -45,12 +43,13 @@ public class SecurityResourceService {
                     });
                 }
         );
-        log.warn("cache test");
+        log.warn("cache test resourceList");
         return result;
     }
 
 //    @Cacheable(value = "accessIpList")
     public List<AccessIp> getAccessIpList() {
+        log.warn("cache test accessIpList");
         return accessIpRepository.findAll();
     }
 

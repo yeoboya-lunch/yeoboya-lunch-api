@@ -38,6 +38,8 @@ public class Member extends BaseTimeEntity {
     @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST)
     private MemberInfo memberInfo;
 
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private LoginInfo loginInfo;
 
     //연관관계 편의 메소드
     public static Member createMember(Member pMember, MemberInfo memberInfo, List<MemberRole> memberRoles){
