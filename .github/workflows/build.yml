@@ -29,16 +29,19 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build with Gradle # Gradle로 빌드하는 작업
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build -x test -Dspring.profiles.active=prod
 
       - name: Upload to S3
-        uses: actions/aws/cli@master
+        uses: aws-actions/aws-s3-sync-action@master
         with:
-          script: |
-            aws s3 cp build/libs/yaoboya-lunch-api.jar s3://yeoboya-lunch-s3
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          source: ./build/libs
+          bucket: yeoboya-lunch-s3
+          region: ap-northeast-2
+          key: yaoboya-lunch-api.jar
+          args: --acl public-read --follow-symlinks
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Check Secrets
         run: |
