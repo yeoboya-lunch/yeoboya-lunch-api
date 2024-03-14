@@ -17,21 +17,19 @@ INSERT INTO role(ROLES_ID, ROLE, ROLE_DESC) VALUES
 -- Define all resources
 INSERT INTO resource(RESOURCES_ID, HTTP_METHOD, ORDER_NUM, RESOURCE_NAME, RESOURCE_TYPE) VALUES
                                                                                              (1, null, 1, '/authority/**', 'url'),
-                                                                                             (2, null, 2, '/member/**', 'url'),
-                                                                                             (3, null, 3, '/user/**', 'url'),
-                                                                                             (4, null, 4, '/shop/**', 'url'),
-                                                                                             (5, null, 5, '/item/**', 'url'),
-                                                                                             (6, null, 6, '/order/**', 'url'),
-                                                                                             (7, null, 7, '/board/**', 'url');
+                                                                                             (2, null, 2, '/resource/**', 'url'),
+                                                                                             (3, null, 3, '/member/**', 'url'),
+                                                                                             (4, null, 4, '/user/**', 'url'),
+                                                                                             (5, null, 5, '/shop/**', 'url'),
+                                                                                             (6, null, 6, '/item/**', 'url'),
+                                                                                             (7, null, 7, '/order/**', 'url'),
+                                                                                             (8, null, 8, '/board/**', 'url');
 
 -- Define resource access per role
 INSERT INTO role_resources(RESOURCE_ID, ROLE_ID) VALUES
-                                                     (1, 1), -- Admin has access to authority
-                                                     (2, 2), -- Manager has access to member
-                                                     (4, 3), -- User has access to shop
-                                                     (5, 3), -- User has access to item
-                                                     (6, 3), -- User has access to order
-                                                     (7, 3); -- User has access to board
+                                                     (1, 1),
+                                                     (2, 2);
+
 
 -- Define ip access
 INSERT INTO lunch.access_ip (ip_id, ip_address, block) VALUES

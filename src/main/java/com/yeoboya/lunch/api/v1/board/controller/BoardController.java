@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.board.service.BoardService;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.config.annotation.RateLimited;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ public class BoardController {
     /**
      * 게시글 작성
      */
+    @RateLimited(limit = 1)
     @PostMapping("/write")
     public ResponseEntity<Body> create(@RequestBody @Valid BoardCreate boardCreate) {
         return boardService.saveBoard(boardCreate);

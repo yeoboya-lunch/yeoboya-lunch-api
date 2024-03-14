@@ -26,6 +26,7 @@ public class ApiKey {
     private String apiKey;
 
     @Column(name="pricing_plan", nullable=false)
+    @Enumerated(EnumType.ORDINAL)
     private PricingPlan pricingPlan;
 
     @OneToOne(fetch = FetchType.LAZY)

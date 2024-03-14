@@ -7,8 +7,6 @@ import com.yeoboya.lunch.api.v1.Item.service.ItemService;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
-import com.yeoboya.lunch.config.pricingPlan.service.PricingPlanService;
-import com.yeoboya.lunch.config.annotation.RateLimited;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,6 @@ public class ItemController {
 
     private final Response response;
     private final ItemService itemService;
-    private final PricingPlanService pricingPlanService;
 
 
     /**
@@ -47,7 +44,6 @@ public class ItemController {
     /**
      * 아이템 단건 조회
      */
-    @RateLimited(limit = 1)
     @GetMapping("/{itemId}")
     public ResponseEntity<Body> get(@PathVariable Long itemId) {
         ItemResponse itemResponse = itemService.get(itemId);

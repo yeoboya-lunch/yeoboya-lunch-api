@@ -51,7 +51,7 @@ public class SecurityConfiguration {
 
     private final String[] permitAllPattern = {
             "/order/recruits",
-            "/board"
+//            "/board"
     };
 
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;

@@ -94,15 +94,11 @@ public class ReplyService {
 
         List<Reply> allReplies = pagedReplies.getContent();
 
-        List<Reply> parentReplies = allReplies.stream()
-                .filter(reply -> reply.getParentReply() == null)
-                .collect(Collectors.toList());
-
         List<Reply> childReplies = allReplies.stream()
                 .filter(reply -> reply.getParentReply() != null)
                 .collect(Collectors.toList());
 
-        List<ReplyResponse> replyResponses = parentReplies.stream()
+        List<ReplyResponse> replyResponses = childReplies.stream()
                 .map(parentReply -> ReplyResponse.of(parentReply.getMember(), parentReply, childReplies))
                 .collect(Collectors.toList());
 

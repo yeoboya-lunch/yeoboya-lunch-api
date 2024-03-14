@@ -6,30 +6,24 @@ import java.time.Duration;
 
 public enum PricingPlan {
 
-    // 무제한 요금제: 1시간에 최대 3회 사용 가능
     FREE {
         @Override
         public Bandwidth getLimit() {
-            // 1시간마다 3토큰을 채우는 제한 대역폭을 반환합니다.
-            return Bandwidth.classic(3, Refill.intervally(3, Duration.ofHours(1)));
+            return Bandwidth.classic(10, Refill.intervally( 10, Duration.ofMinutes(1)));
         }
     },
 
-    // Basic 요금제: 1시간에 최대 5회 사용 가능
     BASIC {
         @Override
         public Bandwidth getLimit() {
-            // 1시간마다 5토큰을 채우는 제한 대역폭을 반환합니다.
-            return Bandwidth.classic(5, Refill.intervally(5, Duration.ofHours(1)));
+            return Bandwidth.classic(20, Refill.intervally(20, Duration.ofMinutes(1)));
         }
     },
 
-    // Professional 요금제: 1시간에 최대 10회 사용 가능
     PROFESSIONAL {
         @Override
         public Bandwidth getLimit() {
-            // 1시간마다 10토큰을 채우는 제한 대역폭을 반환합니다.
-            return Bandwidth.classic(10, Refill.intervally(10, Duration.ofHours(1)));
+            return Bandwidth.classic(50, Refill.intervally(50, Duration.ofMinutes(1)));
         }
     };
 

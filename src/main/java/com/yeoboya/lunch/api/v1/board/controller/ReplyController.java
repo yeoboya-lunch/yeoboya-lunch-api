@@ -4,6 +4,7 @@ import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.ReplyCreateRequest;
 import com.yeoboya.lunch.api.v1.board.service.ReplyService;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.config.annotation.RateLimited;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class ReplyController {
     /**
      * 댓글작성
      */
+    @RateLimited(limit = 1)
     @PostMapping("/write")
     public ResponseEntity<Response.Body> createComment(@RequestBody ReplyCreateRequest replyCreateRequest) {
         return replyService.createReply(replyCreateRequest);
