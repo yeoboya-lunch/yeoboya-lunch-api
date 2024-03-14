@@ -1,32 +1,46 @@
-name: yeoboya-lunch-api CI
+name: yeoboya-lunch-api CI # 워크플로우 이름
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ] # main 브랜치에 푸시가 발생하면 작업 실행
   pull_request:
-    branches: [ main ]
+    branches: [ main ] # main 브랜치에 Pull Request가 생기면 작업 실행
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 작업이 실행될 운영체제를 선택합니다. 여기서는 가장 최신의 ubuntu를 사용합니다.
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - uses: actions/checkout@v2 # 저장소를 가져오는 작업
+      - name: Set up JDK 11 # JDK 11을 준비하는 작업
         uses: actions/setup-java@v1
         with:
           java-version: 11
 
-      - name: Grant execute permission for gradlew
+      - name: Grant execute permission for gradlew # gradlew에 대한 실행 권한을 부여하는 작업
         run: chmod +x gradlew
 
-      - name: Cache Gradle packages
+      - name: Cache Gradle packages # Gradle 패키지를 캐싱하는 작업
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build with Gradle
+      - name: Build with Gradle # Gradle로 빌드하는 작업
         run: ./gradlew clean build -x test
+
+      - name: Upload to S3
+        uses: actions/aws/cli@master
+        with:
+          script: |
+            aws s3 cp build/libs/yaoboya-lunch-api.jar s3://yeoboya-lunch-s3
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Check Secrets
+        run: |
+          echo "Length of AWS Access Key ID: ${#{{ secrets.AWS_ACCESS_KEY_ID }}}"
+          echo "Length of AWS Secret Access Key: ${#{{ secrets.AWS_SECRET_ACCESS_KEY }}}
