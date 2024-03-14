@@ -102,23 +102,27 @@ dependencies {
     testImplementation "org.testcontainers:mariadb:1.17.6"
 }
 
-// Spring Boot 애플리케이션 실행 시 Jasypt 암호화 키 전달
 bootRun {
-//    systemProperty "jasypt.encryptor.password", findProperty("jasypt.encryptor.password")
 }
 
-// 테스트 실행 시 Jasypt 암호화 키 전달 및 추가 설정
 test {
     useJUnitPlatform()
-//    systemProperty 'jasypt.encryptor.password', findProperty("jasypt.encryptor.password")
+
+    doFirst {
+        new File('build/generated-snippets').mkdirs()
+    }
+
     outputs.dir file('build/generated-snippets')
 }
 
-// AsciiDoc 문서 생성 설정
 asciidoctor {
-    inputs.dir file('build/generated-snippets')
     configurations 'asciidoctorExt'
     dependsOn test
+
+    doFirst {
+        // inputs.dir에 대한 File 인스턴스를 만듭니다.
+        new File('build/generated-snippets').mkdirs()
+    }
 }
 
 // AsciiDoc 문서를 정적 리소스로 복사하는 작업 정의

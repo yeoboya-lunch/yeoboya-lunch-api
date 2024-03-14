@@ -28,6 +28,7 @@ public class RoleHierarchy implements Serializable {
     @JoinColumn(name = "parent_name", referencedColumnName = "child_name")
     private RoleHierarchy parentName;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parentName", cascade={CascadeType.ALL})
-    private Set<RoleHierarchy> roleHierarchy = new HashSet<RoleHierarchy>();
+    private Set<RoleHierarchy> roleHierarchy = new HashSet<>();
 }
