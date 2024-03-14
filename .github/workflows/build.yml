@@ -47,9 +47,5 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Sync output files to S3
-        uses: aws-actions/amazon-s3-sync@v0.5 # 이 부분에서 가장 최신 또는 안정적인 릴리스 버전을 확인 후 사용
-        with:
-          source: build/libs/
-          bucket: yeoboya-lunch-s3
-          key-prefix: "yeoboya-lunch-api/" # S3 내에서의 폴더 경로를 지정
+        run: aws s3 sync build/libs/ s3://yeoboya-lunch-s3/yaoboya-lunch-api.jar
 
