@@ -44,7 +44,6 @@ public class SecurityResourceService {
                     });
                 }
         );
-        log.error("{}", result);
         return result;
     }
 
