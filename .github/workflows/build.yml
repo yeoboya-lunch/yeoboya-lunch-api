@@ -39,10 +39,8 @@ jobs:
           echo "Length of AWS Access Key ID: ${#AWS_ACCESS_KEY_ID}"
           echo "Length of AWS Access Key ID: ${#AWS_SECRET_ACCESS_KEY}"
 
-      - name: Check current directory and list files
-        run: |
-          pwd
-          ls -l
+      - name: List files in build/libs
+        run: ls -l build/libs/
 
       - name: Checkout code
         uses: actions/checkout@v2
