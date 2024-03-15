@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest # 작업이 실행될 운영체제를 선택합니다. 여기서는 가장 최신의 ubuntu를 사용합니다.
 
     steps:
@@ -45,9 +44,6 @@ jobs:
       - name: List files in build/libs
         run: ls -l build/libs/
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -56,6 +52,5 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Sync output files to S3
-        run: aws s3 cp build/libs/yeoboya-lunch-api-0.0.1-SNAPSHOT.jar s3://yeoboya-lunch-s3/yeoboya-lunch-api.jar
-        working-directory: ./
+        run: aws s3 cp build/libs/yaoboya-lunch-api-0.0.1-SNAPSHOT.jar s3://yeoboya-lunch-s3/yaoboya-lunch-api.jar
 
