@@ -29,7 +29,6 @@ repositories {
 
 // Spring Boot의 실행 가능한 JAR 파일 생성 설정
 bootJar {
-    archiveBaseName = 'yeoboya-lunch-api'
     dependsOn asciidoctor // asciidoctor 작업이 먼저 실행되도록 설정
     copy {
         from asciidoctor.outputDir // AsciiDoc로 생성된 문서를 복사
