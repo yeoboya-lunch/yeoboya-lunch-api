@@ -39,6 +39,9 @@ jobs:
           echo "Length of AWS Access Key ID: ${#AWS_ACCESS_KEY_ID}"
           echo "Length of AWS Access Key ID: ${#AWS_SECRET_ACCESS_KEY}"
 
+      - name: Ensure file is accessible
+        run: chmod +r build/libs/yeoboya-lunch-api-0.0.1-SNAPSHOT.jar
+
       - name: List files in build/libs
         run: ls -l build/libs/
 
@@ -54,4 +57,5 @@ jobs:
 
       - name: Sync output files to S3
         run: aws s3 cp build/libs/yeoboya-lunch-api-0.0.1-SNAPSHOT.jar s3://yeoboya-lunch-s3/yeoboya-lunch-api.jar
+        working-directory: ./
 
