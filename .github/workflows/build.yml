@@ -31,10 +31,13 @@ jobs:
       - name: Build with Gradle # Gradle로 빌드하는 작업
         run: ./gradlew clean build -x test -Dspring.profiles.active=prod
 
-      - name: Check Secrets
+      - name: Check AWS Secrets Access Key
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          echo "Length of AWS Access Key ID: ${#{{ secrets.AWS_ACCESS_KEY_ID }}}"
-          echo "Length of AWS Secret Access Key: ${#{{ secrets.AWS_SECRET_ACCESS_KEY }}}
+          echo "Length of AWS Access Key ID: ${#AWS_ACCESS_KEY_ID}"
+          echo "Length of AWS Access Key ID: ${#AWS_SECRET_ACCESS_KEY}"
 
       - name: Checkout code
         uses: actions/checkout@v2
