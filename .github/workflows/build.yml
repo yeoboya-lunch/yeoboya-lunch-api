@@ -58,5 +58,5 @@ jobs:
         run: pwd
 
       - name: Sync output files to S3
-        run: aws s3 cp build/libs/yaoboya-lunch-api-0.0.1-SNAPSHOT.jar s3://yeoboya-lunch-s3/yaoboya-lunch-api.jar
+        run: aws s3 cp /home/runner/work/yeoboya-lunch-api/yeoboya-lunch-api/build/libs/yeoboya-lunch-api-0.0.1-SNAPSHOT.jar s3://yeoboya-lunch-s3/yeoboya-lunch-api.jarr
 
