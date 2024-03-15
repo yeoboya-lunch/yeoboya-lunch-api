@@ -41,6 +41,12 @@ jobs:
       - name: Sync output files to S3 # 빌드 결과물을 S3로 동기화합니다.
         run: aws s3 cp /home/runner/work/yeoboya-lunch-api/yeoboya-lunch-api/build/libs/yeoboya-lunch-api-0.0.1-SNAPSHOT.jar s3://yeoboya-lunch-s3/yeoboya-lunch-api.jar
 
+      - name: Convert JAR to ZIP
+        run: jar -cMf yeoboya-lunch-api.zip -C /home/runner/work/yeoboya-lunch-api/yeoboya-lunch-api/build/libs/ yeoboya-lunch-api-0.0.1-SNAPSHOT.jar
+
+      - name: Sync output files to S3
+        run: aws s3 cp yeoboya-lunch-api.zip s3://yeoboya-lunch-s3/yeoboya-lunch-api.zip
+
       - name: Deploy to AWS EC2 using AWS CodeDeploy
         run: |
           aws deploy create-deployment \
@@ -48,5 +54,5 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name yeoboya-lunch-code-deploy-group \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=yeoboya-lunch-s3,bundleType=jar,key=yeoboya-lunch-api.jar \
+          --s3-location bucket=yeoboya-lunch-s3,bundleType=zip,key=yeoboya-lunch-api.zip \
           --region ap-northeast-2 \
