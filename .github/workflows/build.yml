@@ -38,8 +38,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Print working directory
-        run: pwd
-
       - name: Sync output files to S3 # 빌드 결과물을 S3로 동기화합니다.
         run: aws s3 cp /home/runner/work/yeoboya-lunch-api/yeoboya-lunch-api/build/libs/yeoboya-lunch-api-0.0.1-SNAPSHOT.jar s3://yeoboya-lunch-s3/yeoboya-lunch-api.jar
+
+      - name: Deploy to AWS EC2 using AWS CodeDeploy
+        run: |
+          aws deploy create-deployment \
+          --application-name yeoboya-lunch-code-deploy \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name yeoboya-lunch-code-deploy-group \
+          --file-exists-behavior OVERWRITE \
+          --s3-location bucket=yeoboya-lunch-s3,bundleType=jar,key=yeoboya-lunch-api.jar \
+          --region ap-northeast-2 \
