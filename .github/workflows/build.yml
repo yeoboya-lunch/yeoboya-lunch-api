@@ -47,7 +47,7 @@ jobs:
       - name: Deploy to AWS EC2 using AWS CodeDeploy
         run: |
           aws deploy create-deployment \
-          --application-name yeoboya-lunch-code-deploy \
+          --application-name yeoboya-lunch \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name yeoboya-lunch-code-deploy-group \
           --file-exists-behavior OVERWRITE \
