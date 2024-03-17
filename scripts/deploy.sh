@@ -20,4 +20,4 @@ unzip $BUILD_ZIP -d /home/ec2-user/build/
 
 DEPLOY_JAR=$(ls /home/ec2-user/build/*.jar)
 echo "> Deploy $DEPLOY_JAR" >> /home/ec2-user/build/deploy.log
-nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>>/home/ec2-user/build/deploy_err.log &
+nohup java -jar -Dspring.profiles.active=prod $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>>/home/ec2-user/build/deploy_err.log &

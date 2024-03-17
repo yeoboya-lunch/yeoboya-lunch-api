@@ -44,12 +44,12 @@ jobs:
       - name: Sync output files to S3
         run: aws s3 cp yeoboya-lunch-api.zip s3://yeoboya-lunch-s3/yeoboya-lunch-api.zip
 
-      - name: Deploy to AWS EC2 using AWS CodeDeploy
+      - name: AWS EC2에 AWS CodeDeploy를 사용하여 배포
         run: |
-          aws deploy create-deployment \
-          --application-name yeoboya-lunch-code-deploy \
-          --deployment-config-name CodeDeployDefault.AllAtOnce \
-          --deployment-group-name yeoboya-lunch-code-deploy-group \
-          --file-exists-behavior OVERWRITE \
-          --s3-location bucket=yeoboya-lunch-s3,bundleType=zip,key=yeoboya-lunch-api.zip \
-          --region ap-northeast-2 \
+          aws deploy create-deployment \ # AWS CodeDeploy를 사용하여 신규 배포 생성
+          --application-name yeoboya-lunch-code-deploy \ # AWS CodeDeploy에 등록된 애플리케이션 이름 지정
+          --deployment-config-name CodeDeployDefault.AllAtOnce \ # 배포 설정 이름 지정 (여기서는 모든 인스턴스에 동시 배포)
+          --deployment-group-name yeoboya-lunch-code-deploy-group \ # 배포 그룹 이름 지정
+          --file-exists-behavior OVERWRITE \ # 대상 위치에 이미 파일이 있을 경우 덮어쓰기 옵션
+          --s3-location bucket=yeoboya-lunch-s3,bundleType=zip,key=yeoboya-lunch-api.zip \ # S3 버킷과 버킷 내의 파일 경로 지정
+          --region ap-northeast-2 \ # 사용할 AWS 리전 지정
