@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# /home/ec2-user/build/libs 디렉토리에 있는 zip 파일을 찾아서 BUILD_ZIP 변수에 할당합니다.
-BUILD_ZIP=$(ls /home/ec2-user/build/libs/*.zip)
+# /home/ec2-user/build/build/libs 디렉토리에 있는 zip 파일을 찾아서 BUILD_ZIP 변수에 할당합니다.
+BUILD_ZIP=$(ls /home/ec2-user/build/build/libs/*.zip)
 
 # BUILD_ZIP 경로에서 파일 이름만 추출하여 ZIP_NAME 변수에 할당합니다.
 ZIP_NAME=$(basename $BUILD_ZIP)
