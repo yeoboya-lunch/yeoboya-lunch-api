@@ -37,6 +37,8 @@ public class UserController {
 //    @RateLimited(limit = 1)
     @PostMapping("/sign-up")
     public ResponseEntity<Body> signUp(@Valid @RequestBody SignUp signUp) {
+        log.error("{}", signUp);
+        log.warn("{}", signUp);
         return userService.signUp(signUp);
     }
 
