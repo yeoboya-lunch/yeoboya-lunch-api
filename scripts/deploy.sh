@@ -23,11 +23,7 @@ echo -e "\n> Build 파일 복사"
 cp $REPOSITORY/build/libs/*.jar $REPOSITORY/
 
 # JAR 실행 파일 이름 확인
-JAR_NAME=$(ls -tr $REPOSITORY/jar/ |grep 'yeoboya-lunch-api' | tail -n 1)
-echo -e "\n> $JAR_NAME 에 실행권한 추가"
-
-# 해당 JAR 파일에 실행권한 추가
-chmod +x $REPOSITORY/jar/$JAR_NAME
+JAR_NAME=$(ls -tr $REPOSITORY/ |grep 'yeoboya-lunch-api' | tail -n 1)
 echo -e "\n> JAR_NAME: $JAR_NAME"
 
 # JAR 실행
