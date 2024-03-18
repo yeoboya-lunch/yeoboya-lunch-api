@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app/
+REPOSITORY=/home/ec2-user/app
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
@@ -26,4 +26,4 @@ JAR_NAME=$(ls $REPOSITORY/jar/ |grep 'yeoboya-lunch-api' | tail -n 1)
 
 echo "> JAR Name: $JAR_NAME"
 
-nohup java -jar $REPOSITORY/jar/$JAR_NAME &
+nohup java -jar -Dspring.profiles.active=prod $REPOSITORY/jar/$JAR_NAME &
