@@ -24,5 +24,7 @@ echo "> Build 파일 복사"
 cp $REPOSITORY/build/libs/*.jar $REPOSITORY/jar/
 
 JAR_NAME=$(ls -tr $REPOSITORY/jar/ |grep 'yeoboya-lunch-api' | tail -n 1)
+echo "> $JAR_NAME 에 실행권한 추가"
+chmod +x $JAR_NAME
 echo "> JAR Name: $JAR_NAME"
 nohup java -jar -Dspring.profiles.active=prod $REPOSITORY/jar/$JAR_NAME &
