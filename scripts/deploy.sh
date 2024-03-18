@@ -15,15 +15,14 @@ else
     kill -15 $CURRENT_PID
     sleep 5
 fi
-
 echo "> 새 어플리케이션 배포"
 
-echo "> Build 파일 복사"
+echo "> 필요한 디렉터리가 있는지 확인 후 생성"
+mkdir -p $REPOSITORY/jar/
 
+echo "> Build 파일 복사"
 cp $REPOSITORY/build/libs/*.jar $REPOSITORY/jar/
 
-JAR_NAME=$(ls $REPOSITORY/jar/ |grep 'yeoboya-lunch-api' | tail -n 1)
-
+JAR_NAME=$(ls -tr $REPOSITORY/jar/ |grep 'yeoboya-lunch-api' | tail -n 1)
 echo "> JAR Name: $JAR_NAME"
-
 nohup java -jar -Dspring.profiles.active=prod $REPOSITORY/jar/$JAR_NAME &
