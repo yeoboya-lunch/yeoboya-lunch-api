@@ -30,7 +30,7 @@ spring:
       initialize-schema: never
 
 server:
-  port: 4463
+#  port: 4463
   servlet:
     encoding:
       charset: UTF-8
