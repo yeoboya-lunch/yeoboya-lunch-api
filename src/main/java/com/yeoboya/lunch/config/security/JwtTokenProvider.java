@@ -152,20 +152,20 @@ public class JwtTokenProvider {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (SecurityException e) {
-            log.error("보안 예외가 발생하였습니다.", e);
-            throw new JwtException("보안 예외가 발생하였습니다: " + e.getMessage(), e);
+            log.error("보안 예외가 발생하였습니다.");
+            throw new JwtException("보안 예외가 발생하였습니다: " + e.getMessage());
         } catch (MalformedJwtException e) {
-            log.error("잘못 형식화된 JWT 예외가 발생하였습니다.", e);
-            throw new JwtException("잘못 형식화된 JWT 예외가 발생하였습니다: " + e.getMessage(), e);
+            log.error("잘못 형식화된 JWT 예외가 발생하였습니다.");
+            throw new JwtException("잘못 형식화된 JWT 예외가 발생하였습니다: " + e.getMessage());
         } catch (UnsupportedJwtException e) {
-            log.error("지원하지 않는 JWT 예외가 발생하였습니다.", e);
-            throw new JwtException("지원하지 않는 JWT 예외가 발생하였습니다: " + e.getMessage(), e);
+            log.error("지원하지 않는 JWT 예외가 발생하였습니다.");
+            throw new JwtException("지원하지 않는 JWT 예외가 발생하였습니다: " + e.getMessage());
         } catch (ExpiredJwtException e) {
-            log.error("만료된 JWT 예외가 발생하였습니다.", e);
-            throw new JwtException("만료된 JWT 예외가 발생하였습니다: " + e.getMessage(), e);
+            log.error("만료된 JWT 예외가 발생하였습니다.");
+            throw new JwtException("만료된 JWT 예외가 발생하였습니다: " + e.getMessage());
         } catch (IllegalArgumentException e) {
-            log.error("잘못된 인자 예외가 발생하였습니다.", e);
-            throw new JwtException("잘못된 인자 예외가 발생하였습니다: " + e.getMessage(), e);
+            log.error("잘못된 인자 예외가 발생하였습니다.");
+            throw new JwtException("잘못된 인자 예외가 발생하였습니다: " + e.getMessage());
         }
     }
 

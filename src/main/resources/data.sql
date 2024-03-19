@@ -35,3 +35,8 @@ INSERT INTO role_resources(RESOURCE_ID, ROLE_ID) VALUES
 INSERT INTO lunch.access_ip (ip_id, ip_address, block) VALUES
                                                            (0, '0:0:0:0:0:0:0:1', false),
                                                            (1, '127.0.0.1', false)
+
+
+INSERT INTO token_ignore_urls (token_ignore_id, is_ignore, url) VALUES (1, true, '/splash');
+INSERT INTO token_ignore_urls (token_ignore_id, is_ignore, url) VALUES (2, true, '/order/recruits');
+INSERT INTO token_ignore_urls (token_ignore_id, is_ignore, url) VALUES (3, true, '/board');
