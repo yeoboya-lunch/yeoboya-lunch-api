@@ -7,8 +7,10 @@ import com.yeoboya.lunch.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.lunch.config.security.filter.PermitAllFilter;
 import com.yeoboya.lunch.config.security.handler.AccessDeniedHandlerImpl;
 import com.yeoboya.lunch.config.security.metaDataSource.UrlSecurityMetadataSource;
+import com.yeoboya.lunch.config.security.repository.TokenIgnoreUrlRepository;
 import com.yeoboya.lunch.config.security.service.RoleHierarchyService;
 import com.yeoboya.lunch.config.security.service.SecurityResourceService;
+import com.yeoboya.lunch.config.security.voter.IgnoreUrlVoter;
 import com.yeoboya.lunch.config.security.voter.IpAddressVoter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +51,10 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private final String[] permitAllPattern = {};
+    private final String[] permitAllPattern = {
+//            "/order/recruits",
+//            "/board"
+    };
 
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
     private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
@@ -153,9 +158,10 @@ public class SecurityConfiguration {
 
     private List<AccessDecisionVoter<?>> getAccessDecisionVoters(SecurityResourceService securityResourceService) {
         IpAddressVoter ipAddressVoter = new IpAddressVoter(securityResourceService);
+        IgnoreUrlVoter ignoreUrlVoter = new IgnoreUrlVoter(securityResourceService);
         AuthenticatedVoter authenticatedVoter = new AuthenticatedVoter();
         WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
-        return Arrays.asList(ipAddressVoter, authenticatedVoter, webExpressionVoter, roleVoter());
+        return Arrays.asList(ipAddressVoter, ignoreUrlVoter, authenticatedVoter, webExpressionVoter, roleVoter());
     }
 
     @Bean

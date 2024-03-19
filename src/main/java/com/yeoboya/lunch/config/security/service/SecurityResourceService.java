@@ -5,6 +5,7 @@ import com.yeoboya.lunch.config.security.domain.AccessIp;
 import com.yeoboya.lunch.config.security.domain.Resources;
 import com.yeoboya.lunch.config.security.repository.AccessIpRepository;
 import com.yeoboya.lunch.config.security.repository.ResourcesRepository;
+import com.yeoboya.lunch.config.security.repository.TokenIgnoreUrlRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.ConfigAttribute;
@@ -13,6 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,10 +25,12 @@ public class SecurityResourceService {
 
     private final ResourcesRepository resourcesRepository;
     private final AccessIpRepository accessIpRepository;
+    private final TokenIgnoreUrlRepository tokenIgnoreUrlRepository;
 
-    public SecurityResourceService(ResourcesRepository resourcesRepository, AccessIpRepository accessIpRepository) {
+    public SecurityResourceService(ResourcesRepository resourcesRepository, AccessIpRepository accessIpRepository, TokenIgnoreUrlRepository tokenIgnoreUrlRepository) {
         this.resourcesRepository = resourcesRepository;
         this.accessIpRepository = accessIpRepository;
+        this.tokenIgnoreUrlRepository = tokenIgnoreUrlRepository;
     }
 
     @Cacheable(value = "resourceList")
@@ -51,6 +55,12 @@ public class SecurityResourceService {
     public List<AccessIp> getAccessIpList() {
         log.warn("cache test accessIpList");
         return accessIpRepository.findAll();
+    }
+
+    public boolean shouldIgnore(String url) {
+        return tokenIgnoreUrlRepository.getTokenIgnoreUrls()
+                .stream()
+                .anyMatch(r -> url.startsWith(r.getUrl()) && Boolean.TRUE.equals(r.getIsIgnore()));
     }
 
 }

@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.config.security.filter;
 
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
-import com.yeoboya.lunch.config.security.domain.TokenIgnoreUrl;
 import com.yeoboya.lunch.config.security.repository.TokenIgnoreUrlRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,8 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -27,7 +25,7 @@ import java.util.List;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
     private final TokenIgnoreUrlRepository tokenIgnoreUrlRepository;
 
     @Override
@@ -35,28 +33,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = jwtTokenProvider.resolveToken(request);
 
-        if (token != null && !shouldIgnore(request) && jwtTokenProvider.validateToken(token)) {
-            String isLogout = (String) redisTemplate.opsForValue().get("LOT:" + token);
+        if (!shouldIgnore(request) && jwtTokenProvider.validateToken(token)) {
+            String isLogout = redisTemplate.opsForValue().get("LOT:" + token);
             if (ObjectUtils.isEmpty(isLogout)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token, request);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                log.info("=================================  토큰 컨텍스트에서 통과 정보  ============================================");
-                log.info(authentication.getPrincipal() + " : " + authentication);
-                log.info(token);
-                log.info("=====================================================================================================");
+                log.debug("=================================  토큰 컨텍스트에서 통과 정보  ============================================");
+                log.debug(authentication.getPrincipal() + " : " + authentication);
+                log.debug(token);
+                log.debug("=====================================================================================================");
             }
         }
         filterChain.doFilter(request, response);
     }
 
     private boolean shouldIgnore(HttpServletRequest request) {
+        AntPathMatcher matcher = new AntPathMatcher();
         String uri = request.getRequestURI();
 
         return tokenIgnoreUrlRepository.getTokenIgnoreUrls()
                 .stream()
-                .anyMatch(tokenIgnoreUrl ->
-                        uri.equals(tokenIgnoreUrl.getUrl())
-                                && Boolean.TRUE.equals(tokenIgnoreUrl.getIsIgnore()));
+                .anyMatch(r -> matcher.match(r.getUrl(), uri) && Boolean.TRUE.equals(r.getIsIgnore()));
     }
 
 }
