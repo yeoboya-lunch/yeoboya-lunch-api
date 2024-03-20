@@ -7,7 +7,6 @@ import com.yeoboya.lunch.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.lunch.config.security.filter.PermitAllFilter;
 import com.yeoboya.lunch.config.security.handler.AccessDeniedHandlerImpl;
 import com.yeoboya.lunch.config.security.metaDataSource.UrlSecurityMetadataSource;
-import com.yeoboya.lunch.config.security.repository.TokenIgnoreUrlRepository;
 import com.yeoboya.lunch.config.security.service.RoleHierarchyService;
 import com.yeoboya.lunch.config.security.service.SecurityResourceService;
 import com.yeoboya.lunch.config.security.voter.IgnoreUrlVoter;

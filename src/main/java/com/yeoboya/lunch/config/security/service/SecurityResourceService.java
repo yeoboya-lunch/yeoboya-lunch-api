@@ -13,8 +13,10 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,9 +60,12 @@ public class SecurityResourceService {
     }
 
     public boolean shouldIgnore(String url) {
+        AntPathMatcher matcher = new AntPathMatcher();
+        String uri = URI.create(url).getPath();
+
         return tokenIgnoreUrlRepository.getTokenIgnoreUrls()
                 .stream()
-                .anyMatch(r -> url.startsWith(r.getUrl()) && Boolean.TRUE.equals(r.getIsIgnore()));
+                .anyMatch(r -> matcher.match(r.getUrl(), uri) && Boolean.TRUE.equals(r.getIsIgnore()));
     }
 
 }
