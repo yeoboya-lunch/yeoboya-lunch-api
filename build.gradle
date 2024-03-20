@@ -29,9 +29,10 @@ repositories {
 
 // Spring Boot의 실행 가능한 JAR 파일 생성 설정
 bootJar {
-    dependsOn asciidoctor
-    from("${asciidoctor.outputDir}") {
-        into "static/docs"
+    dependsOn asciidoctor // asciidoctor 작업이 먼저 실행되도록 설정
+    copy {
+        from asciidoctor.outputDir // AsciiDoc로 생성된 문서를 복사
+        into "src/main/resources/static/docs" // 복사 목적지 설정
     }
 }
 
@@ -118,14 +119,18 @@ test {
 asciidoctor {
     configurations 'asciidoctorExt'
     dependsOn test
-    inputs.dir file('build/generated-snippets')
+
+    doFirst {
+        // inputs.dir에 대한 File 인스턴스를 만듭니다.
+        new File('build/generated-snippets').mkdirs()
+    }
 }
 
 // AsciiDoc 문서를 정적 리소스로 복사하는 작업 정의
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
-    from file("${asciidoctor.outputDir}")
-    into file("build/resources/main/static")
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
 }
 
 // 빌드 과정에서 문서 복사 작업을 의존성에 추가
