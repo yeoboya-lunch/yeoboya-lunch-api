@@ -39,11 +39,9 @@ public class ShopController {
      */
     @PostMapping("/create")
     public ResponseEntity<Body> createShopAndAddItem(@RequestBody @Valid ShopAndItemCreate create) {
-        System.out.println("create = " + create);
         List<ItemResponse> shopAndAddItem = service.createShopAndAddItem(create);
         return response.success(Code.SAVE_SUCCESS, shopAndAddItem);
     }
-
 
     /**
      * 상점 조회

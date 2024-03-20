@@ -1,8 +1,8 @@
 package com.yeoboya.lunch.api.v1.Item.repository;
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
@@ -27,21 +27,20 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-
     public Map<String, List<ItemResponse>> getItemsByShop(String shopName, Pageable pageable) {
+        // Your original conditions
+        Predicate conditions = shop.name.eq(shopName);
 
-        QueryResults<Item> results = jpaQueryFactory.selectFrom(item)
+        // First, fetch results based on pageable
+        List<Item> items = jpaQueryFactory.selectFrom(item)
                 .join(item.shop, shop)
+                .where(conditions)
+                .orderBy(this.sort(pageable).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .where(
-                        shop.name.eq(shopName)
-                )
-                .orderBy(this.sort(pageable).toArray(OrderSpecifier[]::new))
-                .fetchResults();
+                .fetch();
 
-        List<Item> items = results.getResults();
-
+        // Continue with your logic
         Map<Shop, List<Item>> map = items.stream()
                 .collect(Collectors.groupingBy(Item::getShop));
 
@@ -52,9 +51,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                                 .map(ItemResponse::from)
                                 .collect(Collectors.toList())
                 ));
-
     }
-
 
     private List<OrderSpecifier> sort(Pageable pageable) {
 

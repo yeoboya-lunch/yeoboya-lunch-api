@@ -121,7 +121,7 @@ public class SecurityConfiguration {
     public PermitAllFilter createPermitAllFilter() {
         PermitAllFilter permitAllFilter = new PermitAllFilter(permitAllPattern);
         permitAllFilter.setAccessDecisionManager(affirmativeBased(securityResourceService));
-        permitAllFilter.setSecurityMetadataSource(urlSecurityMetadataSource(securityResourceService));
+        permitAllFilter.setSecurityMetadataSource(filterInvocationSecurityMetadataSource(securityResourceService));
         permitAllFilter.setRejectPublicInvocations(false);
         return permitAllFilter;
     }
@@ -135,7 +135,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public FilterInvocationSecurityMetadataSource urlSecurityMetadataSource(SecurityResourceService securityResourceService) {
+    public FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource(SecurityResourceService securityResourceService) {
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> object = this.urlResourcesMapFactoryBean(securityResourceService).getObject();
         return new UrlSecurityMetadataSource(object, securityResourceService);
     }

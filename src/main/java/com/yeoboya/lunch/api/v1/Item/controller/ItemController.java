@@ -35,7 +35,9 @@ public class ItemController {
 
     /**
      * 아이템 리스트 조회
+     * fixme This method should be shop
      */
+    @Deprecated
     @GetMapping("/shop/{shopName}")
     public ResponseEntity<Body> getItemsByShop(@PathVariable String shopName, Pageable pageable) {
         return response.success(Code.SEARCH_SUCCESS, itemService.getItemsByShop(shopName, pageable));

@@ -20,8 +20,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.StringUtils;
 
+import javax.transaction.Transactional;
 import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -36,9 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.yeoboya-lunch.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-@WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 @ContextConfiguration(initializers = SecretsManagerInitializer.class)
 class UserControllerDocTest {
 
@@ -200,7 +201,7 @@ class UserControllerDocTest {
     }
 
     @Test
-    @DisplayName("패스워드 변경")
+    @DisplayName("비밀번호 변경")
     void changePassword() throws Exception {
         //given
         UserRequest.Credentials credentials = new UserRequest.Credentials();
@@ -292,11 +293,11 @@ class UserControllerDocTest {
     }
 
     @Test
-    @DisplayName("비밀번호 재설정 이메일 보내기")
+    @DisplayName("비밀번호 초기화 링크")
     public void sendResetPasswordMail() throws Exception {
         //given
         UserRequest.ResetPassword resetPassword = new UserRequest.ResetPassword();
-        resetPassword.setEmail("khjzzm@gmail.com");
+        resetPassword.setEmail("logout@gmail.com");
         resetPassword.setPhone("010-0000-0000");
         resetPassword.setAuthorityLink("localhost");
 
@@ -324,5 +325,47 @@ class UserControllerDocTest {
                 ));
     }
 
+    @Test
+    @DisplayName("비밀번호 초기화")
+    public void resetPassword() throws Exception {
+        // Arrange
+        UserRequest.Credentials credentials = new UserRequest.Credentials();
+        credentials.setEmail("logout@gmail.com");
+        credentials.setOldPassword("oldPassword123!");  // Assuming old password
+        credentials.setNewPassword("newPassword123!");
+        credentials.setConfirmNewPassword("newPassword123!");
+        credentials.setPassKey("passKey123");  // Assuming you have a passKey
+
+        String json = objectMapper.writeValueAsString(credentials);
+
+        // Act
+        ResultActions result = mockMvc.perform(
+                patch("/user/resetPassword")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json)
+        );
+
+        // Assert
+        result
+                .andDo(print())
+//                .andExpect(status().isOk())
+                .andDo(document(
+                        "user/resetPassword",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("oldPassword").description("이전 비밀번호"),
+                                fieldWithPath("newPassword").description("새 비밀번호"),
+                                fieldWithPath("confirmNewPassword").description("새 비밀번호 확인"),
+                                fieldWithPath("passKey").description("비밀번호 재설정용 키")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("코드").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("메시지").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
 
 }

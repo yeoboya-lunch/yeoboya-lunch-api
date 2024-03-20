@@ -17,7 +17,7 @@
 여보야 점심 API를 사용하기 위한 기본적인 가이드를 제공합니다.
 
 == User
-NOTE: 로그아웃, 토큰 재발급, 비밀번호 초기화 이메일전송, 비밀번호 초기화는 문서화 안했습니다.
+NOTE: ROLE_GUEST
 
 === 회원가입
 ==== http-request
@@ -43,24 +43,69 @@ include::{snippets}/user/setting/security/request-fields.adoc[]
 include::{snippets}/user/setting/security/http-response.adoc[]
 include::{snippets}/user/setting/security/response-fields.adoc[]
 
+=== 토큰 재발급
+==== http-request
+include::{snippets}/user/reissue/http-request.adoc[]
+include::{snippets}/user/reissue/request-fields.adoc[]
+==== http-response
+include::{snippets}/user/reissue/http-response.adoc[]
+include::{snippets}/user/reissue/response-fields.adoc[]
+
+=== 로그아웃
+==== http-request
+include::{snippets}/user/sign-out/http-request.adoc[]
+include::{snippets}/user/sign-out/request-fields.adoc[]
+==== http-response
+include::{snippets}/user/sign-out/http-response.adoc[]
+include::{snippets}/user/sign-out/response-fields.adoc[]
+
+=== 비밀번호 초기화 메일발송
+==== http-request
+include::{snippets}/user/sendResetPasswordMail/http-request.adoc[]
+include::{snippets}/user/sendResetPasswordMail/request-fields.adoc[]
+==== http-response
+include::{snippets}/user/sendResetPasswordMail/http-response.adoc[]
+include::{snippets}/user/sendResetPasswordMail/response-fields.adoc[]
+
+=== 비밀번호 초기화
+==== http-request
+include::{snippets}/user/resetPassword/http-request.adoc[]
+include::{snippets}/user/resetPassword/request-fields.adoc[]
+==== http-response
+include::{snippets}/user/resetPassword/http-response.adoc[]
+include::{snippets}/user/resetPassword/response-fields.adoc[]
 
 
 == Member
-NOTE: 멤버 상세 정보 수정, 멤버 정보 검색(기본),멤버 정보 검색(기본/계좌) 문서화 안했습니다.
+NOTE: ROLE_USER
 
 === 회원 목록
 ==== http-request
-include::{snippets}/member/get/list/http-request.adoc[]
-include::{snippets}/member/get/list/request-parameters.adoc[]
+include::{snippets}/member/list/http-request.adoc[]
+include::{snippets}/member/list/request-parameters.adoc[]
 ==== http-response
-include::{snippets}/member/get/list/http-response.adoc[]
-include::{snippets}/member/get/list/response-fields.adoc[]
+include::{snippets}/member/list/http-response.adoc[]
+include::{snippets}/member/list/response-fields.adoc[]
+
+=== 회원검색
+==== http-request
+include::{snippets}/member/profile/http-request.adoc[]
+==== http-response
+include::{snippets}/member/profile/http-response.adoc[]
+include::{snippets}/member/profile/response-fields.adoc[]
+
+=== 회원정보수정
+==== http-request
+include::{snippets}/member/setting/request-body.adoc[]
+include::{snippets}/member/setting/request-fields.adoc[]
+==== http-response
+include::{snippets}/member/setting/http-response.adoc[]
+include::{snippets}/member/setting/response-fields.adoc[]
 
 === 계좌 등록
 ==== http-request
 include::{snippets}/member/post/http-request.adoc[]
 include::{snippets}/member/post/request-fields.adoc[]
-
 ==== http-response
 include::{snippets}/member/post/http-response.adoc[]
 include::{snippets}/member/post/response-fields.adoc[]
@@ -93,6 +138,13 @@ include::{snippets}/shop/get/request-parameters.adoc[]
 include::{snippets}/shop/get/http-response.adoc[]
 include::{snippets}/shop/get/response-fields.adoc[]
 
+=== 상점등록 및 아이템등록
+include::{snippets}/shop/create/http-request.adoc[]
+include::{snippets}/shop/create/request-fields.adoc[]
+==== http-response
+include::{snippets}/shop/create/http-response.adoc[]
+include::{snippets}/shop/create/response-fields.adoc[]
+
 
 == Item
 
@@ -111,14 +163,6 @@ include::{snippets}/item/get/path-parameters.adoc[]
 ==== http-response
 include::{snippets}/item/get/http-response.adoc[]
 include::{snippets}/item/get/response-fields.adoc[]
-
-=== 아이템 리스트 조회
-==== http-request
-include::{snippets}/item/get/list/http-request.adoc[]
-include::{snippets}/item/get/list/request-parameters.adoc[]
-==== http-response
-include::{snippets}/item/get/list/http-response.adoc[]
-include::{snippets}/item/get/list/response-fields.adoc[]
 
 === 아이템 수정
 ==== http-request
@@ -210,6 +254,14 @@ include::{snippets}/board/write/request-fields.adoc[]
 include::{snippets}/board/write/http-response.adoc[]
 include::{snippets}/board/write/response-fields.adoc[]
 
+=== 게시글 등록(파일첨부)
+==== http-request
+include::{snippets}/board/write/photo/http-request.adoc[]
+include::{snippets}/board/write/photo/request-fields.adoc[]
+==== http-response
+include::{snippets}/board/write/photo/http-response.adoc[]
+include::{snippets}/board/write/photo/response-fields.adoc[]
+
 === 게시글 리스트 조회
 ==== http-request
 include::{snippets}/board/http-request.adoc[]
@@ -217,3 +269,44 @@ include::{snippets}/board/request-parameters.adoc[]
 ==== http-response
 include::{snippets}/board/http-response.adoc[]
 include::{snippets}/board/response-fields.adoc[]
+
+=== 게시글 단건 조회
+==== http-request
+include::{snippets}/board/get/http-request.adoc[]
+include::{snippets}/board/get/path-parameters.adoc[]
+==== http-response
+include::{snippets}/board/get/http-response.adoc[]
+include::{snippets}/board/get/response-fields.adoc[]
+
+=== 게시글 댓글 작성
+==== http-request
+include::{snippets}/board/reply/write/http-request.adoc[]
+include::{snippets}/board/reply/write/request-fields.adoc[]
+==== http-response
+include::{snippets}/board/reply/write/http-response.adoc[]
+include::{snippets}/board/reply/write/response-fields.adoc[]
+
+=== 게시글 댓글 조회
+==== http-request
+include::{snippets}/board/reply/http-request.adoc[]
+include::{snippets}/board/reply/request-parameters.adoc[]
+==== http-response
+include::{snippets}/board/reply/http-response.adoc[]
+include::{snippets}/board/reply/response-fields.adoc[]
+
+
+=== 게시글 대댓글 작성
+==== http-request
+include::{snippets}/board/nestedComment/write/http-request.adoc[]
+include::{snippets}/board/nestedComment/write/request-fields.adoc[]
+==== http-response
+include::{snippets}/board/nestedComment/write/http-response.adoc[]
+include::{snippets}/board/nestedComment/write/response-fields.adoc[]
+
+=== 게시글 대댓글 조회
+==== http-request
+include::{snippets}/board/nestedComment/reply/http-request.adoc[]
+include::{snippets}/board/nestedComment/reply/request-parameters.adoc[]
+==== http-response
+include::{snippets}/board/nestedComment/reply/http-response.adoc[]
+include::{snippets}/board/nestedComment/reply/response-fields.adoc[]

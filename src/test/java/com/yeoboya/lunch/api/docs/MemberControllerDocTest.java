@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
+import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,9 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.yeoboya-lunch.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-@WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 @ContextConfiguration(initializers = SecretsManagerInitializer.class)
 class MemberControllerDocTest {
 
@@ -49,7 +49,7 @@ class MemberControllerDocTest {
     void member() throws Exception {
         mockMvc.perform(get("/member"))
                 .andExpect(status().is2xxSuccessful())
-                .andDo(document("member/get/list",
+                .andDo(document("member/list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestParameters(
@@ -72,6 +72,7 @@ class MemberControllerDocTest {
                                 fieldWithPath("data.list[].name").description("이름"),
                                 fieldWithPath("data.list[].nickName").optional().description("닉네임"),
                                 fieldWithPath("data.list[].phoneNumber").optional().description("전화번호"),
+                                fieldWithPath("data.list[].bio").optional().description("소개"),
                                 fieldWithPath("data.list[].account").description("계좌 존재 여부"),
                                 fieldWithPath("data.list[].bankName").optional().description("은행 이름"),
                                 fieldWithPath("data.list[].accountNumber").optional().description("계좌 번호")
@@ -85,7 +86,7 @@ class MemberControllerDocTest {
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
-                .email("khjzzm@gmail.com")
+                .email("account@test.com")
                 .bankName("카카오뱅크")
                 .accountNumber("3333-01-123456")
                 .build();
@@ -128,40 +129,6 @@ class MemberControllerDocTest {
 
 
     @Test
-    @DisplayName("프로필조회")
-    public void getMemberProfile() throws Exception {
-
-        String memberEmail = "khjzzm@gmail.com";
-
-        mockMvc.perform(get("/member/{memberEmail}/profile", memberEmail)
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("member/get/list",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        responseFields(
-                                fieldWithPath("code").description("code")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.email").description("Email of the user")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.name").description("Name of the user")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.nickName").description("Nickname of the user")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.phoneNumber").description("Phone number of the user")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.account").description("Account status of the user")
-                                        .type(JsonFieldType.BOOLEAN)
-                        )
-                ));
-    }
-
-
-    @Test
     @DisplayName("계좌수정")
     void accountUpdate() throws Exception {
         //given
@@ -170,7 +137,7 @@ class MemberControllerDocTest {
                 .accountNumber("010-8349-0706")
                 .build();
 
-        String memberEmail = "khjzzm@gmail.com";
+        String memberEmail = "member@test.com";
 
         String json = objectMapper.writeValueAsString(request);
 
@@ -204,9 +171,94 @@ class MemberControllerDocTest {
                 ));
     }
 
-    //todo
-    //멤버 상세 정보 수정
-    //멤버 정보 검색(기본)
-    //멤버 정보 검색(기본/계좌)
+
+    @Test
+    @DisplayName("회원검색 (profile)")
+    public void getMemberProfile() throws Exception {
+
+        String memberEmail = "member@test.com";
+
+        mockMvc.perform(get("/member/{memberEmail}/profile", memberEmail)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("member/profile",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.email").description("이메일")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.name").description("이름")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.nickName").description("닉네임")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.phoneNumber").description("휴대폰")
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data.bio").description("소개")
+                                        .type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.bankName").description("은행")
+                                        .type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.accountNumber").description("계좌번호")
+                                        .type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.account").description("계좌등록유무")
+                                        .type(JsonFieldType.BOOLEAN)
+                        )
+                ));
+    }
+
+
+    @Test
+    @DisplayName("회원정보수정")
+    void editMemberInfo() throws Exception {
+        // Given
+        MemberInfoEdit request = MemberInfoEdit.builder()
+                .phoneNumber("010-8349-0706")
+                .bio("노력과인내가필요")
+                .nickName("테스터")
+                .build();
+
+        String memberEmail = "member@test.com";
+
+        String json = objectMapper.writeValueAsString(request);
+
+        // Expected
+        mockMvc.perform(patch("/member/setting/info/{memberEmail}", memberEmail)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andDo(document("member/setting",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberEmail").description("이메일")
+                        ),
+                        requestFields(
+                                fieldWithPath("phoneNumber").description("수정할 전화번호")
+                                        .type(JsonFieldType.STRING)
+                                        .attributes(key("length").value("11"))
+                                        .optional(),
+                                fieldWithPath("bio").description("수정할 설명")
+                                        .type(JsonFieldType.STRING)
+                                        .attributes(key("length").value("200"))
+                                        .optional(),
+                                fieldWithPath("nickName").description("수정할 닉네임")
+                                        .type(JsonFieldType.STRING)
+                                        .attributes(key("length").value("20"))
+                                        .optional()
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
+    }
 
 }

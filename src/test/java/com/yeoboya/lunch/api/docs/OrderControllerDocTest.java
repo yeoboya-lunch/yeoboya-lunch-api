@@ -38,9 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.yeoboya-lunch.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-@WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 @ContextConfiguration(initializers = SecretsManagerInitializer.class)
 class OrderControllerDocTest {
 
@@ -60,11 +59,11 @@ class OrderControllerDocTest {
 
         //given
         OrderRecruitmentCreate order = OrderRecruitmentCreate.builder()
-                .email("khj@gmail.com")
-                .title("맥도날드 먹는날")
+                .email("order@test.com")
+                .title("맥도날드 드실분")
                 .lastOrderTime(lastOrderTime)
-                .memo("신상버거 나왔습니다 ㅋㅋ")
-                .deliveryFee(2500)
+                .memo("신상버거 나왔습니다!!")
+                .deliveryFee(1000)
                 .shopName("맥도날드")
                 .build();
 
@@ -137,10 +136,15 @@ class OrderControllerDocTest {
                                 fieldWithPath("code").description("The response code").type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("The response message").type(JsonFieldType.STRING),
                                 fieldWithPath("data").description("The main data object").type(JsonFieldType.OBJECT),
-                                fieldWithPath("data.hasNext").description("Whether there are more pages").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.isFirst").description("Whether request page is the first").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.hasPrevious").description("Whether there are previous pages").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.isLast").description("Whether request page is the last").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination").description("Pagination information").type(JsonFieldType.OBJECT),
+                                fieldWithPath("data.pagination.pageNo").description("Page number").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pagination.size").description("Total number of elements on page").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pagination.numberOfElements").description("Current number of elements").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pagination.isFirst").description("Whether the page is the first page").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination.isLast").description("Whether the page is the last page").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination.hasNext").description("Whether there are more pages").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination.hasPrevious").description("Whether there are previous pages").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.list[]").description("List of orders").type(JsonFieldType.ARRAY),
                                 fieldWithPath("data.list[]").description("List of orders").type(JsonFieldType.ARRAY),
                                 fieldWithPath("data.list[].orderId").description("Order ID").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.list[].orderMemberEmail").description("Order member Email").type(JsonFieldType.STRING),
@@ -149,17 +153,16 @@ class OrderControllerDocTest {
                                 fieldWithPath("data.list[].title").description("Order title").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].lastOrderTime").description("Last order time").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].orderStatus").description("Order status").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].groupCount").description("Group count").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.pageNo").description("Page number").type(JsonFieldType.NUMBER)
+                                fieldWithPath("data.list[].groupCount").description("Group count").type(JsonFieldType.NUMBER)
                         )
                 ));
     }
 
     @Test
-    @DisplayName("주문번호로 점심 주문 조회")
+    @DisplayName("주문번호로 점심 주문 정보 조회")
     void findLunchOrderByOrderId() throws Exception {
         // when & then
-        mockMvc.perform(get("/order/recruits/", 22)
+        mockMvc.perform(get("/order/recruits/", 1)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
@@ -170,6 +173,7 @@ class OrderControllerDocTest {
                                 parameterWithName("page").description("페이지").optional(),
                                 parameterWithName("size").description("사이즈").optional()
                         ),
+
                         responseFields(
                                 fieldWithPath("code").description("Response Code").type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("Response Message").type(JsonFieldType.STRING),
@@ -181,31 +185,33 @@ class OrderControllerDocTest {
                                 fieldWithPath("data.list[].lastOrderTime").description("Order Last Time").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].orderStatus").description("Order status").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].groupCount").description("Group count").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.isLast").description("Whether request page is the last").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.hasPrevious").description("Whether there are previous pages").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.isFirst").description("Whether request page is the first").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.hasNext").description("Whether there are more pages").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.pageNo").description("Page number").type(JsonFieldType.NUMBER)
+                                fieldWithPath("data.pagination.isLast").description("Whether request page is the last").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination.hasPrevious").description("Whether there are previous pages").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination.isFirst").description("Whether request page is the first").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination.hasNext").description("Whether there are more pages").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.pagination.pageNo").description("The page number").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pagination.size").description("The size of the page").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pagination.numberOfElements").description("The number of elements on this page").type(JsonFieldType.NUMBER)
                         )
                 ));
     }
 
     @Test
-    @DisplayName("점심 주문 모집 참여")
+    @DisplayName("점심 주문 모집에 참여")
     @Transactional
     void participateInLunchJoinRecruitment() throws Exception {
         // given
         List<OrderItemCreate> orderItemsList = new ArrayList<>();
 
         OrderItemCreate testItem = OrderItemCreate.builder()
-                .itemName("조명")
+                .itemName("아이템7711")
                 .orderQuantity(1)
                 .build();
         orderItemsList.add(testItem);
 
         GroupOrderJoin groupOrderJoin = GroupOrderJoin.builder()
-                .orderNo(23L)
-                .email("khj3103@gmail.com")
+                .orderNo(1L)
+                .email("join2@test.com")
                 .orderItems(orderItemsList)
                 .build();
 
@@ -240,7 +246,7 @@ class OrderControllerDocTest {
     @DisplayName("내 주문 내역 조회 (이메일)")
     void getMyJoinHistoryByEmail() throws Exception {
         //given
-        String email = "1@1.com";
+        String email = "join@test.com";
 
         //expected
         mockMvc.perform(get("/order/recruit/join-history/{email}", email)
@@ -256,36 +262,40 @@ class OrderControllerDocTest {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("response message")
                                         .type(JsonFieldType.STRING),
-                                fieldWithPath("data.isLast").description("is it the last page")
+                                fieldWithPath("data.pagination.isLast").description("is it the last page")
                                         .type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.hasPrevious").description("does it have previous page")
+                                fieldWithPath("data.pagination.hasPrevious").description("does it have previous page")
                                         .type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.isFirst").description("is it the first page")
+                                fieldWithPath("data.pagination.isFirst").description("is it the first page")
                                         .type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.hasNext").description("does it have next page")
+                                fieldWithPath("data.pagination.hasNext").description("does it have next page")
                                         .type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.pageNo").description("page number")
+                                fieldWithPath("data.pagination.pageNo").description("page number")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pagination.size").description("Total number of elements on page")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.pagination.numberOfElements").description("Current number of elements")
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.list[].orderId").description("Order ID")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].groupOrderId").description("ID of group order")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].title").description("Title of the order")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].email").description("email of the user")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].name").description("name of the user")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].orderItem[].itemName").description("name of the item")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].orderItem[].orderPrice").description("price per item ordered")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].orderItem[].orderQuantity").description("quantity of item ordered")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].orderItem[].totalPrice").description("total price for this item")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].totalPrice").description("total price of the order")
-                                        .type(JsonFieldType.NUMBER)
+                                        .type(JsonFieldType.NUMBER).optional()
                         )
                 ));
     }
@@ -294,7 +304,7 @@ class OrderControllerDocTest {
     @DisplayName("내 주문 모집 내역 조회 (이메일)")
     void getMyRecruitmentOrderHistory() throws Exception {
         //given
-        String email = "v@v.com";
+        String email = "order@test.com";
 
         //expected
         mockMvc.perform(get("/order/recruit/history/{email}", email)
@@ -322,24 +332,26 @@ class OrderControllerDocTest {
                                         .type(JsonFieldType.STRING),
                                 fieldWithPath("data[].deliveryFee").description("Delivery fee of the order")
                                         .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data[].joinMember[]").description("Joined members' order info")
+                                        .type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data[].joinMember[].orderId").description("Joined member's order ID")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data[].joinMember[].groupOrderId").description("ID of group order")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data[].joinMember[].title").description("Title of join member's order")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data[].joinMember[].email").description("Join member's email")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data[].joinMember[].name").description("Join member's name")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data[].joinMember[].orderItem[].itemName").description("Name of item in join member's order")
-                                        .type(JsonFieldType.STRING),
+                                        .type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data[].joinMember[].orderItem[].orderPrice").description("Price per item in join member's order")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data[].joinMember[].orderItem[].orderQuantity").description("Quantity of item in join member's order")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data[].joinMember[].orderItem[].totalPrice").description("Total price of join member's order item")
-                                        .type(JsonFieldType.NUMBER),
+                                        .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data[].joinMember[].totalPrice").description("Total price of join member's order")
                                         .type(JsonFieldType.NUMBER)
                         )
@@ -349,16 +361,17 @@ class OrderControllerDocTest {
 
     @Test
     @DisplayName("주문모집 상태변경")
+    @Transactional
     void changeRecruitmentOrderStatus() throws Exception {
         //given
-        String orderId = "20";  //Provide the orderId
+        String orderId = "2";  //Provide the orderId
         OrderEdit orderEdit = new OrderEdit();
         orderEdit.setStatus(OrderStatus.END.name());
 
         String jsonRequest = objectMapper.writeValueAsString(orderEdit);
 
         //expected
-        mockMvc.perform(patch("/order/recruit/{orderId", orderId)
+        mockMvc.perform(patch("/order/recruit/{orderId}", orderId)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(jsonRequest))
@@ -380,11 +393,11 @@ class OrderControllerDocTest {
     }
 
     @Test
-    @DisplayName("점심 주문 취소")
+    @DisplayName("점심 주문 취소 (주문나가기)")
     @Transactional
     void cancelLunchOrder() throws Exception {
         // given
-        Long groupOrderId = 14L;  // provide the groupOrderId you want to cancel
+        Long groupOrderId = 4L;  // provide the groupOrderId you want to cancel
 
         // when & then
         mockMvc.perform(delete("/order/recruit/join/{groupOrderId}", groupOrderId)

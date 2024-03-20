@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -35,9 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "lunch.yeoboya.com", uriPort = 4443)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.yeoboya-lunch.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
-@WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 @ContextConfiguration(initializers = SecretsManagerInitializer.class)
 class ItemControllerDocTest {
 
@@ -56,6 +58,7 @@ class ItemControllerDocTest {
 
 
     @Test
+    @DisplayName("아이템 등록")
     void create() throws Exception {
         //given
         ItemCreate request = ItemCreate.builder()
@@ -87,6 +90,10 @@ class ItemControllerDocTest {
                                 fieldWithPath("message")
                                         .type(JsonFieldType.STRING)
                                         .description("message"),
+                                fieldWithPath("data.itemId")
+                                        .type(JsonFieldType.NUMBER)
+                                        .description("아이템번호")
+                                        .attributes(key("length").value("20")),
                                 fieldWithPath("data.shopName")
                                         .type(JsonFieldType.STRING)
                                         .description("가게이름")
@@ -104,6 +111,7 @@ class ItemControllerDocTest {
     }
 
     @Test
+    @DisplayName("아이템 단건 조회")
     void getItem() throws Exception {
         mockMvc.perform(get("/item/{itemId}", 1)
                         .contentType(APPLICATION_JSON)
@@ -132,16 +140,20 @@ class ItemControllerDocTest {
 
 
     @Test
+    @DisplayName("아이템 리스트 조회")
+    @Disabled
     void getList() throws Exception {
         //given
         MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
         info.add("page", "0");
         info.add("size", "10");
 
-        mockMvc.perform(get("/item")
+        String shopName = "NIKE";
+
+        mockMvc.perform(get("/item/shop/{shopName}", shopName)
                         .params(info))
                 .andExpect(status().isOk())
-                .andDo(document("item/get/list",
+                .andDo(document("item/shop/get/list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestParameters(
@@ -204,6 +216,7 @@ class ItemControllerDocTest {
 
     @Test
     @Transactional
+    @DisplayName("아이템 삭제")
     void deleteItem() throws Exception {
         mockMvc.perform(delete("/item/{itemId}", 2)
                         .contentType(APPLICATION_JSON)

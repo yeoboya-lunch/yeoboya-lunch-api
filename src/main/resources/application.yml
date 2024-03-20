@@ -41,8 +41,6 @@ server:
       enabled: true
 
 management:
-  server:
-#    port: 4463 #
   info:
     java:
       enabled: true # Java 관련 정보도 출력될 수 있게 합니다.
