@@ -29,6 +29,10 @@ bootJar {
     }
 }
 
+jar {
+    enabled = false // 기본 JAR 작업 비활성화 (bootJar 사용)
+}
+
 dependencies {
     // Spring Boot 스타터 및 프레임워크 관련 의존성
     implementation 'org.springframework.boot:spring-boot-starter-web'
