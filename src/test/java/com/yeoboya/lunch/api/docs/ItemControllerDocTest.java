@@ -41,7 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.yeoboya-lunch.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
 @ContextConfiguration(initializers = SecretsManagerInitializer.class)
-@Disabled
 class ItemControllerDocTest {
 
     @Autowired

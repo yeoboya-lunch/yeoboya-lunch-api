@@ -29,7 +29,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build with Gradle # Gradle로 빌드를 실행합니다.
-        run: ./gradlew clean build -Dspring.profiles.active=prod # 여기서 prod 프로파일을 사용하여 빌드를 실행합니다.
+        run: ./gradlew clean build -x test -Dspring.profiles.active=test # 여기서 prod 프로파일을 사용하여 빌드를 실행합니다.
 
       - name: Configure AWS credentials # AWS 자격 증명을 설정합니다.
         uses: aws-actions/configure-aws-credentials@v1

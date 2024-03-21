@@ -170,7 +170,6 @@ class UserControllerDocTest {
 
     @Test
     @DisplayName("로그아웃")
-    @Disabled
     void logout() throws Exception {
         //given
         Pair<String, String> tokens = performLoginAndGetTokens();
@@ -242,7 +241,6 @@ class UserControllerDocTest {
 
     @Test
     @DisplayName("토큰 재발급")
-    @Disabled
     public void reIssueToken() throws Exception {
         //given
         Pair<String, String> tokens = performLoginAndGetTokens();
@@ -297,7 +295,6 @@ class UserControllerDocTest {
 
     @Test
     @DisplayName("비밀번호 초기화 링크")
-    @Disabled
     public void sendResetPasswordMail() throws Exception {
         //given
         UserRequest.ResetPassword resetPassword = new UserRequest.ResetPassword();
