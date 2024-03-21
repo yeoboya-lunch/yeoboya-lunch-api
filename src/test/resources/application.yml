@@ -3,16 +3,16 @@ logging:
 
 spring:
   profiles:
-    active: "test"
-
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/lunch
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-    console:
-      enabled: true
-      path: /h2-console
+    active: "prod"
+#
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/lunch
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#    console:
+#      enabled: true
+#      path: /h2-console
   jpa:
     properties:
       hibernate:
@@ -34,15 +34,16 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
-  redis:
-    master:
-      host: 127.0.0.1
-      port: 6379
-    slaves:
-      - host: 127.0.0.1
-        port: 6380
-    password: redistestpassword
-    database: 12
+#  redis:
+#    master:
+#      host: ENC(XL/QSgTlRwOUfVRZSOZbSaDCaI2VNJxXoE3nWPrOYsovA/t3rf00N5tGw6YU8W0wJxw387AsK36bKVPfA/2stNtxdb2CdneC)
+#      port: 10143
+#    slaves:
+#      - host: ENC(XL/QSgTlRwOUfVRZSOZbSaDCaI2VNJxXoE3nWPrOYsovA/t3rf00N5tGw6YU8W0wJxw387AsK36bKVPfA/2stNtxdb2CdneC)
+#        port: 10143
+#    password: ENC(ZMI0vFbTTHnB6wP3MXLNZzvTbb5RnlY1nj8a3uH7He5YoS8vAd1UA/JcssiLrS7x)
+#    database: 0
+#
 
   sql:
     init:

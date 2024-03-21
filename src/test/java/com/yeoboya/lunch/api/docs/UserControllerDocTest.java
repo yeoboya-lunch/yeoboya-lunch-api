@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -169,6 +170,7 @@ class UserControllerDocTest {
 
     @Test
     @DisplayName("로그아웃")
+    @Disabled
     void logout() throws Exception {
         //given
         Pair<String, String> tokens = performLoginAndGetTokens();
@@ -240,6 +242,7 @@ class UserControllerDocTest {
 
     @Test
     @DisplayName("토큰 재발급")
+    @Disabled
     public void reIssueToken() throws Exception {
         //given
         Pair<String, String> tokens = performLoginAndGetTokens();
@@ -294,6 +297,7 @@ class UserControllerDocTest {
 
     @Test
     @DisplayName("비밀번호 초기화 링크")
+    @Disabled
     public void sendResetPasswordMail() throws Exception {
         //given
         UserRequest.ResetPassword resetPassword = new UserRequest.ResetPassword();

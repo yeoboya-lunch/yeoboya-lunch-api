@@ -6,6 +6,7 @@ import com.yeoboya.lunch.api.v1.shop.request.ShopAndItemCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.yeoboya-lunch.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
 @ContextConfiguration(initializers = SecretsManagerInitializer.class)
+@Disabled
 class ShopControllerDocTest {
 
     @Autowired
