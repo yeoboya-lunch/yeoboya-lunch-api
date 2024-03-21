@@ -37,6 +37,9 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.Filter;
@@ -50,10 +53,7 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private final String[] permitAllPattern = {
-//            "/order/recruits",
-//            "/board"
-    };
+    private final String[] permitAllPattern = {};
 
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
     private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
@@ -101,6 +101,9 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
+                .cors()
+
+                .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
@@ -117,6 +120,24 @@ public class SecurityConfiguration {
     }
 
     // 2. HTTP 요청에 대응하는 필터 설정과 관련된 메소드.
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://api.yeoboya-lunch.com"));
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("PATCH");
+        config.addAllowedMethod("DELETE");
+        config.setMaxAge(3600L);
+        config.setAllowedHeaders(Arrays.asList("x-requested-with", "Content-Type", "Authorization"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
     @Bean
     public PermitAllFilter createPermitAllFilter() {
         PermitAllFilter permitAllFilter = new PermitAllFilter(permitAllPattern);
