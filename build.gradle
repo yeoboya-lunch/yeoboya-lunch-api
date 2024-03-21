@@ -108,18 +108,17 @@ asciidoctor {
     }
 }
 
-// AsciiDoc 문서를 정적 리소스로 복사하는 작업 정의
-task copyDocument(type: Copy) {
-    dependsOn asciidoctor
-    from file("${asciidoctor.outputDir}")
-    into file("src/main/resources/static/docs")
-}
+//task copyDocument(type: Copy) {
+//    dependsOn asciidoctor
+//    from file("${asciidoctor.outputDir}")
+//    into file("src/main/resources/static/docs")
+//}
 
-build {
-    dependsOn copyDocument
-}
+//build {
+//    dependsOn copyDocument
+//}
 
 clean {
-    delete file("src/main/resources/static/docs")
+//    delete file("src/main/resources/static/docs")
     delete file('src/main/generated')
 }
