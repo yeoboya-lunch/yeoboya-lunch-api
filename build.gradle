@@ -23,10 +23,10 @@ repositories {
 }
 
 bootJar {
-    dependsOn asciidoctor
-    from("${asciidoctor.outputDir}") {
-        into "static/docs"
-    }
+//    dependsOn asciidoctor
+//    from("${asciidoctor.outputDir}") {
+//        into "static/docs"
+//    }
 }
 
 jar {
@@ -97,16 +97,16 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    outputs.dir file('build/generated-snippets')
+//    outputs.dir file('build/generated-snippets')
 }
 
-asciidoctor {
-    configurations 'asciidoctorExt'
-    dependsOn test
-    doFirst {
-        new File('build/generated-snippets').mkdirs()
-    }
-}
+//asciidoctor {
+//    configurations 'asciidoctorExt'
+//    dependsOn test
+//    doFirst {
+//        new File('build/generated-snippets').mkdirs()
+//    }
+//}
 
 //task copyDocument(type: Copy) {
 //    dependsOn asciidoctor
