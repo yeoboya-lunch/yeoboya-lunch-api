@@ -565,7 +565,7 @@ Content-Length: 93
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "test8209@example.com",
+  "email" : "test4395@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$"
 }</code></pre>
@@ -618,11 +618,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -688,7 +686,7 @@ Content-Length: 93
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "test8209@example.com",
+  "email" : "test4395@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$"
 }</code></pre>
@@ -741,11 +739,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -811,7 +807,7 @@ Content-Length: 163
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "test8209@example.com",
+  "email" : "test4395@example.com",
   "oldPassword" : "1234qwer!@#$",
   "newPassword" : "qwer1234@@",
   "confirmNewPassword" : "qwer1234@@",
@@ -873,11 +869,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -944,7 +938,7 @@ Host: api.yeoboya-lunch.com
 
 {
   "accessToken" : null,
-  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTExODM3NjcsInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.MTV1xyEGxcV-0GrXcr4m1oHcddrVkTj1VQFAZXmyftI"
+  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTEyNTc5NzksInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.UnKWsQ9ZQbMNAtI3TmkLYMNz-6afFUeSXyuGAimSmVc"
 }</code></pre>
 </div>
 </div>
@@ -988,11 +982,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1008,14 +1000,14 @@ Content-Length: 813
   "message" : "업데이트",
   "data" : {
     "subject" : "logout@gmail.com",
-    "id" : "1d03df9a-9f55-44de-89f5-cbd413440381",
+    "id" : "e9ba4b1f-cad2-406a-a355-6e61b3194a93",
     "issuer" : "yeoboya",
-    "issueDAt" : "Wed Mar 20 17:49:27 KST 2024",
-    "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2dvdXRAZ21haWwuY29tIiwianRpIjoiMWQwM2RmOWEtOWY1NS00NGRlLTg5ZjUtY2JkNDEzNDQwMzgxIiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTcxMDkyNDU2NywiZXhwIjoxNzEwOTY3NzY3LCJhdXRoIjoiUk9MRV9VU0VSIn0.dzxPqKQcMyMTyeDL8_Sad9M9vT_4lO9wZzXZ2OjEpBU",
-    "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTExODM3NjcsInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.MTV1xyEGxcV-0GrXcr4m1oHcddrVkTj1VQFAZXmyftI",
-    "tokenExpirationTime" : "2024-03-21 05:49:27",
-    "refreshTokenExpirationTime" : 1711183767393,
-    "refreshTokenExpirationTimeStr" : "2024-03-23 17:49:27"
+    "issueDAt" : "Thu Mar 21 14:26:19 KST 2024",
+    "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2dvdXRAZ21haWwuY29tIiwianRpIjoiZTliYTRiMWYtY2FkMi00MDZhLWEzNTUtNmU2MWIzMTk0YTkzIiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTcxMDk5ODc3OSwiZXhwIjoxNzExMDQxOTc5LCJhdXRoIjoiUk9MRV9VU0VSIn0.nIl22DvrbgzSaD54t_4_CEeF8Pq-cmDKHQrmws4MACc",
+    "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTEyNTc5NzksInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.UnKWsQ9ZQbMNAtI3TmkLYMNz-6afFUeSXyuGAimSmVc",
+    "tokenExpirationTime" : "2024-03-22 02:26:19",
+    "refreshTokenExpirationTime" : 1711257979213,
+    "refreshTokenExpirationTimeStr" : "2024-03-24 14:26:19"
   }
 }</code></pre>
 </div>
@@ -1132,8 +1124,8 @@ Content-Length: 422
 Host: api.yeoboya-lunch.com
 
 {
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2dvdXRAZ21haWwuY29tIiwianRpIjoiODZhNTMxMTEtOTNhZC00M2JhLWJlMjgtZGY5NDM1YTY0YzQ4IiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTcxMDkyNDU2NiwiZXhwIjoxNzEwOTY3NzY2LCJhdXRoIjoiUk9MRV9VU0VSIn0.7bW1luG53z4LdUFVR7b7G5hENPwk5yZatJ32gq-TCS8",
-  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTExODM3NjYsInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.272pqyysLnYOfanwWM4q-2kblPPic5rHuoeZx5aB8eI"
+  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2dvdXRAZ21haWwuY29tIiwianRpIjoiYWViZGNiYjgtMTM3OC00YWZhLWJkNjItYzE4YWI5ZWViNjE5IiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTcxMDk5ODc3OCwiZXhwIjoxNzExMDQxOTc4LCJhdXRoIjoiUk9MRV9VU0VSIn0.C-v6SULhP2WMyV4E9OrhHK_CZSw1WsEYoihRbGewqT8",
+  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTEyNTc5NzgsInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.PxxaRVLw8BBLQ1fB2bl6W6CwR8fpg0EDnj5jniNp7BQ"
 }</code></pre>
 </div>
 </div>
@@ -1177,11 +1169,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1300,11 +1290,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1439,11 +1427,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1559,11 +1545,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -1578,6 +1562,15 @@ Content-Length: 3754
   "code" : 200,
   "message" : "조회",
   "data" : {
+    "pagination" : {
+      "pageNo" : 1,
+      "size" : 20,
+      "numberOfElements" : 20,
+      "isFirst" : true,
+      "isLast" : false,
+      "hasNext" : true,
+      "hasPrevious" : false
+    },
     "list" : [ {
       "email" : "order@test.com",
       "name" : "김현진",
@@ -1702,16 +1695,7 @@ Content-Length: 3754
       "nickName" : "#25610",
       "phoneNumber" : "010-0000-0000",
       "account" : false
-    } ],
-    "pagination" : {
-      "pageNo" : 1,
-      "size" : 20,
-      "numberOfElements" : 20,
-      "isFirst" : true,
-      "isLast" : false,
-      "hasNext" : true,
-      "hasPrevious" : false
-    }
+    } ]
   }
 }</code></pre>
 </div>
@@ -1875,11 +1859,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2058,11 +2040,9 @@ Content-Length: 309
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
@@ -2182,11 +2162,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2336,11 +2314,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
@@ -2408,11 +2384,11 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /shop HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 31
+Content-Length: 30
 Host: api.yeoboya-lunch.com
 
 {
-  "shopName" : "상점4075"
+  "shopName" : "상점707"
 }</code></pre>
 </div>
 </div>
@@ -2449,11 +2425,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2462,13 +2436,13 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 90
+Content-Length: 89
 
 {
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "shopName" : "상점4075"
+    "shopName" : "상점707"
   }
 }</code></pre>
 </div>
@@ -2522,7 +2496,7 @@ Content-Length: 90
 <h4 id="_http_request_14"><a class="link" href="#_http_request_14">5.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%904075&amp;page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%90707&amp;page=0&amp;size=10 HTTP/1.1
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -2568,11 +2542,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2581,14 +2553,23 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 581
+Content-Length: 580
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
+    "pagination" : {
+      "pageNo" : 1,
+      "size" : 10,
+      "numberOfElements" : 1,
+      "isFirst" : true,
+      "isLast" : true,
+      "hasNext" : false,
+      "hasPrevious" : false
+    },
     "list" : [ {
-      "shopName" : "상점4075",
+      "shopName" : "상점707",
       "items" : [ {
         "name" : "광어",
         "price" : 2500
@@ -2602,16 +2583,7 @@ Content-Length: 581
         "name" : "계란",
         "price" : 2000
       } ]
-    } ],
-    "pagination" : {
-      "pageNo" : 1,
-      "size" : 10,
-      "numberOfElements" : 1,
-      "isFirst" : true,
-      "isLast" : true,
-      "hasNext" : false,
-      "hasPrevious" : false
-    }
+    } ]
   }
 }</code></pre>
 </div>
@@ -2728,11 +2700,11 @@ Content-Length: 581
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /shop/create HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 354
+Content-Length: 353
 Host: api.yeoboya-lunch.com
 
 {
-  "shopName" : "상점4075",
+  "shopName" : "상점707",
   "items" : [ {
     "shopName" : null,
     "itemName" : "광어",
@@ -2813,11 +2785,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2826,29 +2796,29 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 460
+Content-Length: 456
 
 {
   "code" : 201,
   "message" : "저장",
   "data" : [ {
-    "itemId" : 128,
-    "shopName" : "상점4075",
+    "itemId" : 213,
+    "shopName" : "상점707",
     "name" : "광어",
     "price" : 2500
   }, {
-    "itemId" : 129,
-    "shopName" : "상점4075",
+    "itemId" : 214,
+    "shopName" : "상점707",
     "name" : "우럭",
     "price" : 2500
   }, {
-    "itemId" : 130,
-    "shopName" : "상점4075",
+    "itemId" : 215,
+    "shopName" : "상점707",
     "name" : "소고기",
     "price" : 3000
   }, {
-    "itemId" : 131,
-    "shopName" : "상점4075",
+    "itemId" : 216,
+    "shopName" : "상점707",
     "name" : "계란",
     "price" : 2000
   } ]
@@ -2938,8 +2908,8 @@ Host: api.yeoboya-lunch.com
 
 {
   "shopName" : "맥도날드",
-  "itemName" : "아이템9604",
-  "price" : 9604
+  "itemName" : "아이템3355",
+  "price" : 3355
 }</code></pre>
 </div>
 </div>
@@ -2990,11 +2960,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -3009,10 +2977,10 @@ Content-Length: 162
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "itemId" : 127,
+    "itemId" : 212,
     "shopName" : "맥도날드",
-    "name" : "아이템9604",
-    "price" : 9604
+    "name" : "아이템3355",
+    "price" : 3355
   }
 }</code></pre>
 </div>
@@ -3120,11 +3088,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -3282,11 +3248,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -3323,11 +3287,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -3365,7 +3327,7 @@ Host: api.yeoboya-lunch.com
   "shopName" : "맥도날드",
   "title" : "맥도날드 드실분",
   "deliveryFee" : 1000,
-  "lastOrderTime" : "2024-03-20T09:19",
+  "lastOrderTime" : "2024-03-21T05:56",
   "memo" : "신상버거 나왔습니다!!"
 }</code></pre>
 </div>
@@ -3438,11 +3400,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -3571,11 +3531,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -3590,97 +3548,6 @@ Content-Length: 3324
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "orderId" : 30,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 18:10",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 29,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 18:07",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 28,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 18:03",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 27,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:53",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 26,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:51",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 25,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:36",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 24,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:34",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 23,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:32",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 22,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:28",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 21,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:16",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    } ],
     "pagination" : {
       "pageNo" : 1,
       "size" : 10,
@@ -3689,7 +3556,98 @@ Content-Length: 3324
       "isLast" : false,
       "hasNext" : true,
       "hasPrevious" : false
-    }
+    },
+    "list" : [ {
+      "orderId" : 47,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:54",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 46,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:51",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 45,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:47",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 44,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:44",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 43,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:26",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 42,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:25",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 41,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:25",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 40,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:23",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 39,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:22",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 38,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:19",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    } ]
   }
 }</code></pre>
 </div>
@@ -3786,13 +3744,6 @@ Content-Length: 3324
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.pagination.hasPrevious</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Whether there are previous pages</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of orders</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -3911,11 +3862,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -3924,202 +3873,166 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 6374
+Content-Length: 5154
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "orderId" : 30,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 18:10",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 29,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 18:07",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 28,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 18:03",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 27,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:53",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 26,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:51",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 25,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:36",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 24,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:34",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 23,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:32",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 22,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:28",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 21,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 17:16",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 20,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:57",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 19,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:55",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 18,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:54",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 17,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:52",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 16,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:50",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 15,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:46",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 14,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:43",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 13,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:32",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 12,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:29",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 11,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "03월 20일 오후 16:27",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    } ],
     "pagination" : {
       "pageNo" : 1,
       "size" : 20,
-      "numberOfElements" : 20,
+      "numberOfElements" : 16,
       "isFirst" : true,
-      "isLast" : false,
-      "hasNext" : true,
+      "isLast" : true,
+      "hasNext" : false,
       "hasPrevious" : false
-    }
+    },
+    "list" : [ {
+      "orderId" : 47,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:54",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 46,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:51",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 45,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:47",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 44,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:44",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 43,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:26",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 42,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:25",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 41,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:25",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 40,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:23",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 39,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:22",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 38,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:19",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 37,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 14:09",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 36,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 13:50",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 35,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 13:44",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 34,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 13:43",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 33,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 13:41",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 32,
+      "orderMemberEmail" : "order@test.com",
+      "orderMemberName" : "김현진",
+      "shopName" : "맥도날드",
+      "title" : "맥도날드 드실분",
+      "lastOrderTime" : "03월 21일 오후 13:39",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    } ]
   }
 }</code></pre>
 </div>
@@ -4341,11 +4254,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -4416,11 +4327,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
@@ -4798,11 +4707,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
@@ -5212,11 +5119,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -5286,11 +5191,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -5362,7 +5265,7 @@ Host: api.yeoboya-lunch.com
 
 {
   "email" : "board@test.com",
-  "title" : "Test board title No is 4775",
+  "title" : "Test board title No is 6591",
   "hashTag" : [ "snatch", "clean&amp;jerk", "크로스핏" ],
   "content" : "Test content",
   "pin" : 1234,
@@ -5438,11 +5341,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -5601,11 +5502,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -5706,11 +5605,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -5719,231 +5616,231 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 5840
+Content-Length: 5841
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "boardId" : 57,
-      "title" : "Test board title No is 4775",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:49",
-      "hashTags" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 56,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:40",
-      "hashTags" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240320174052173358.png",
-        "filePath" : "./file/null/2024/03/20/1",
-        "extension" : "png",
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 55,
-      "title" : "Test board title No is 5105",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:40",
-      "hashTags" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 54,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:37",
-      "hashTags" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240320173704373831.png",
-        "filePath" : "./file/null/2024/03/20/1",
-        "extension" : "png",
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 53,
-      "title" : "Test board title No is 2072",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:37",
-      "hashTags" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 52,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:33",
-      "hashTags" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240320173358787329.png",
-        "filePath" : "./file/null/2024/03/20/1",
-        "extension" : "png",
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 51,
-      "title" : "Test board title No is 4955",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:33",
-      "hashTags" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 50,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:23",
-      "hashTags" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240320172344660346.png",
-        "filePath" : "./file/null/2024/03/20/1",
-        "extension" : "png",
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 49,
-      "title" : "Test board title No is 6605",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:23",
-      "hashTags" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0
-    }, {
-      "boardId" : 48,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "03월 20일 오후 17:21",
-      "hashTags" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240320172157705074.png",
-        "filePath" : "./file/null/2024/03/20/1",
-        "extension" : "png",
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0
-    } ],
     "pagination" : {
       "page" : 1,
-      "totalPages" : 6,
-      "totalElements" : 57,
+      "totalPages" : 10,
+      "totalElements" : 91,
       "empty" : false,
       "first" : true,
       "last" : false
-    }
+    },
+    "list" : [ {
+      "boardId" : 91,
+      "title" : "Test board title No is 6591",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "board@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:26",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 90,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "file@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:24",
+      "hashTags" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240321142458931514.png",
+        "filePath" : "./file/null/2024/03/21/1",
+        "extension" : "png",
+        "size" : 23032
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 89,
+      "title" : "Test board title No is 3507",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "board@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:24",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 88,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "file@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:21",
+      "hashTags" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240321142118675356.png",
+        "filePath" : "./file/null/2024/03/21/1",
+        "extension" : "png",
+        "size" : 23032
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 87,
+      "title" : "Test board title No is 4978",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "board@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:21",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 86,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "file@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:17",
+      "hashTags" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240321141746494023.png",
+        "filePath" : "./file/null/2024/03/21/1",
+        "extension" : "png",
+        "size" : 23032
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 85,
+      "title" : "Test board title No is 9924",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "board@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:17",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 84,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "file@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:14",
+      "hashTags" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240321141408995370.png",
+        "filePath" : "./file/null/2024/03/21/1",
+        "extension" : "png",
+        "size" : 23032
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 83,
+      "title" : "Test board title No is 5614",
+      "content" : "Test content",
+      "secret" : false,
+      "email" : "board@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 14:14",
+      "hashTags" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0
+    }, {
+      "boardId" : 82,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "email" : "file@test.com",
+      "name" : "김현진",
+      "createDate" : "03월 21일 오후 13:56",
+      "hashTags" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240321135613089565.png",
+        "filePath" : "./file/null/2024/03/21/1",
+        "extension" : "png",
+        "size" : 23032
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0
+    } ]
   }
 }</code></pre>
 </div>
@@ -6246,11 +6143,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -6261,7 +6156,7 @@ Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
 Content-Length: 2825
 
-{"code":200,"message":"조회","data":{"boardId":1,"title":"Test board title No is 2247","content":"Test content","secret":false,"email":"board@test.com","name":"김현진","createDate":"03월 20일 오후 14:44","hashTags":[{"tag":"snatch"},{"tag":"clean&amp;jerk"},{"tag":"크로스핏"}],"files":[],"replies":[{"replyId":1,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T05:45:41.452+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"parentId":1,"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"parentId":1,"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"parentId":1,"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"parentId":1,"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"},{"parentId":1,"replyId":12,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:34:00.230+00:00"},{"parentId":1,"replyId":14,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:59:24.143+00:00"},{"parentId":1,"replyId":16,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:02:12.286+00:00"},{"parentId":1,"replyId":18,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:13:13.821+00:00"},{"parentId":1,"replyId":20,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:16:45.929+00:00"}]},{"replyId":3,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:13:05.047+00:00"},{"replyId":5,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:14:30.836+00:00"},{"replyId":7,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:23:45.011+00:00"},{"replyId":9,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:33:25.649+00:00"},{"replyId":11,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:34:00.090+00:00"},{"replyId":13,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:59:24.026+00:00"},{"replyId":15,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T07:02:12.137+00:00"},{"replyId":17,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T07:13:13.508+00:00"},{"replyId":19,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T07:16:45.813+00:00"}],"replyCount":51}}</code></pre>
+{"code":200,"message":"조회","data":{"boardId":1,"title":"Test board title No is 2247","content":"Test content","secret":false,"email":"board@test.com","name":"김현진","createDate":"03월 20일 오후 14:44","hashTags":[{"tag":"snatch"},{"tag":"clean&amp;jerk"},{"tag":"크로스핏"}],"files":[],"replies":[{"replyId":1,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T05:45:41.452+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"parentId":1,"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"parentId":1,"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"parentId":1,"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"parentId":1,"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"},{"parentId":1,"replyId":12,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:34:00.230+00:00"},{"parentId":1,"replyId":14,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:59:24.143+00:00"},{"parentId":1,"replyId":16,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:02:12.286+00:00"},{"parentId":1,"replyId":18,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:13:13.821+00:00"},{"parentId":1,"replyId":20,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:16:45.929+00:00"}]},{"replyId":3,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:13:05.047+00:00"},{"replyId":5,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:14:30.836+00:00"},{"replyId":7,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:23:45.011+00:00"},{"replyId":9,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:33:25.649+00:00"},{"replyId":11,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:34:00.090+00:00"},{"replyId":13,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:59:24.026+00:00"},{"replyId":15,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T07:02:12.137+00:00"},{"replyId":17,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T07:13:13.508+00:00"},{"replyId":19,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T07:16:45.813+00:00"}],"replyCount":85}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -6500,11 +6395,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -6610,11 +6503,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -6625,7 +6516,7 @@ Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
 Content-Length: 1400
 
-{"code":200,"message":"조회","data":{"list":[{"replyId":1,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T05:45:41.452+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"parentId":1,"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"parentId":1,"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"parentId":1,"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"parentId":1,"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"}]},{"replyId":3,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:13:05.047+00:00"},{"replyId":5,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:14:30.836+00:00"},{"replyId":7,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:23:45.011+00:00"},{"replyId":9,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:33:25.649+00:00"}],"pagination":{"page":1,"totalPages":6,"totalElements":52,"empty":false,"first":true,"last":false}}}</code></pre>
+{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":9,"totalElements":86,"empty":false,"first":true,"last":false},"list":[{"replyId":1,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T05:45:41.452+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"parentId":1,"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"parentId":1,"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"parentId":1,"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"parentId":1,"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"}]},{"replyId":3,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:13:05.047+00:00"},{"replyId":5,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:14:30.836+00:00"},{"replyId":7,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:23:45.011+00:00"},{"replyId":9,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:33:25.649+00:00"}]}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -6843,11 +6734,9 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -6953,11 +6842,9 @@ Host: api.yeoboya-lunch.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: POST, GET, OPTIONS, PATCH, DELETE
-Access-Control-Max-Age: 3600
-Access-Control-Allow-Credentials: true
-Access-Control-Allow-Headers: x-requested-with, Content-Type, Authorization
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -6968,7 +6855,7 @@ Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
 Content-Length: 1433
 
-{"code":200,"message":"조회","data":{"list":[{"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"},{"replyId":12,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:34:00.230+00:00"},{"replyId":14,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:59:24.143+00:00"},{"replyId":16,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:02:12.286+00:00"},{"replyId":18,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:13:13.821+00:00"},{"replyId":20,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:16:45.929+00:00"}],"pagination":{"page":1,"totalPages":5,"totalElements":50,"empty":false,"first":true,"last":false}}}</code></pre>
+{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":9,"totalElements":84,"empty":false,"first":true,"last":false},"list":[{"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"},{"replyId":12,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:34:00.230+00:00"},{"replyId":14,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:59:24.143+00:00"},{"replyId":16,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:02:12.286+00:00"},{"replyId":18,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:13:13.821+00:00"},{"replyId":20,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:16:45.929+00:00"}]}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">

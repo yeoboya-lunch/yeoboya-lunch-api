@@ -1,43 +1,32 @@
 plugins {
-    // Spring Boot 플러그인 제공 (애플리케이션 실행 및 패키징 용이)
     id 'org.springframework.boot' version '2.7.4'
-    // Spring 의존성 관리 플러그인 (버전 관리 자동화)
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
-    // AsciiDoc 파일을 HTML 등으로 변환
     id "org.asciidoctor.jvm.convert" version "3.3.2"
-    // Git 정보를 프로젝트에 포함 (예: 최근 커밋 해시)
     id "com.gorylenko.gradle-git-properties" version "2.4.1"
-    // Java 플러그인 (자바 소스 코드 컴파일 및 빌드)
     id 'java'
 }
 
-group = 'com.yeoboya' // 프로젝트 그룹 ID
-version = '0.0.1-SNAPSHOT' // 프로젝트 버전
-sourceCompatibility = JavaVersion.VERSION_11 // 사용할 Java 소스 코드 호환 버전
-targetCompatibility = JavaVersion.VERSION_11 // 컴파일된 코드의 타겟 Java 버전
+group = 'com.yeoboya'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 configurations {
     compileOnly {
-        extendsFrom annotationProcessor // 컴파일 타임 의존성에 애노테이션 프로세서 추가
+        extendsFrom annotationProcessor
     }
-    asciidoctorExt // AsciiDoctor 확장 설정
+    asciidoctorExt
 }
 
 repositories {
-    mavenCentral() // Maven 중앙 저장소에서 의존성 검색
+    mavenCentral()
 }
 
-// Spring Boot의 실행 가능한 JAR 파일 생성 설정
 bootJar {
-    dependsOn asciidoctor // asciidoctor 작업이 먼저 실행되도록 설정
-    copy {
-        from asciidoctor.outputDir // AsciiDoc로 생성된 문서를 복사
-        into "src/main/resources/static/docs" // 복사 목적지 설정
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into "static/docs"
     }
-}
-
-jar {
-    enabled = false // 기본 JAR 작업 비활성화 (bootJar 사용)
 }
 
 dependencies {
@@ -102,26 +91,18 @@ dependencies {
     testImplementation "org.testcontainers:mariadb:1.17.6"
 }
 
-bootRun {
-    systemProperty "spring.profiles.active", "prod"
-}
-
 test {
     useJUnitPlatform()
-
     doFirst {
         new File('build/generated-snippets').mkdirs()
     }
-
     outputs.dir file('build/generated-snippets')
 }
 
 asciidoctor {
     configurations 'asciidoctorExt'
     dependsOn test
-
     doFirst {
-        // inputs.dir에 대한 File 인스턴스를 만듭니다.
         new File('build/generated-snippets').mkdirs()
     }
 }
@@ -133,18 +114,11 @@ task copyDocument(type: Copy) {
     into file("src/main/resources/static/docs")
 }
 
-// 빌드 과정에서 문서 복사 작업을 의존성에 추가
 build {
     dependsOn copyDocument
 }
 
-// clean 작업 정의 (문서와 생성된 코드 삭제)
 clean {
     delete file("src/main/resources/static/docs")
     delete file('src/main/generated')
-}
-
-// Spring Boot 빌드 정보 생성
-springBoot {
-    buildInfo()
 }
