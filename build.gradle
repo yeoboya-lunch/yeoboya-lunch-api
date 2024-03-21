@@ -97,18 +97,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    doFirst {
-        new File('build/generated-snippets').mkdirs()
-    }
     outputs.dir file('build/generated-snippets')
 }
 
 asciidoctor {
     configurations 'asciidoctorExt'
     dependsOn test
-    doFirst {
-        new File('build/generated-snippets').mkdirs()
-    }
+//    doFirst {
+//        new File('build/generated-snippets').mkdirs()
+//    }
 }
 
 // AsciiDoc 문서를 정적 리소스로 복사하는 작업 정의
