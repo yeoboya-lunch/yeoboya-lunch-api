@@ -22,17 +22,9 @@ repositories {
     mavenCentral()
 }
 
-bootJar {
-    dependsOn asciidoctor
-    from("${asciidoctor.outputDir}") {
-        into "static/docs"
-    }
-}
-
 jar {
     enabled = false // 기본 JAR 작업 비활성화 (bootJar 사용)
 }
-
 dependencies {
     // Spring Boot 스타터 및 프레임워크 관련 의존성
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -95,31 +87,44 @@ dependencies {
     testImplementation "org.testcontainers:mariadb:1.17.6"
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets') // 스니펫이 생성되는 디렉터리 경로를 설정
+}
+
 test {
     useJUnitPlatform()
-    outputs.dir file('build/generated-snippets')
+    outputs.dir snippetsDir // 스니펫이 생성되는 디렉터리를 설정
 }
 
-asciidoctor {
-    configurations 'asciidoctorExt'
-    dependsOn test
-//    doFirst {
-//        new File('build/generated-snippets').mkdirs()
-//    }
+asciidoctor { // Gradle이 asciidoctor Task를 수행하는 설정 (함수 선언)
+    configurations 'asciidoctorExt' // asciidoctor 확장 설정
+    baseDirFollowsSourceFile() // .adoc 파일을 include 하면서 사용하기 위한 설정
+    inputs.dir snippetsDir // 스니펫을 불러올 위치 설정
+    dependsOn test // Gradle의 test Task 이후 asciidoctor를 수행
 }
 
-// AsciiDoc 문서를 정적 리소스로 복사하는 작업 정의
-task copyDocument(type: Copy) {
-    dependsOn asciidoctor
+asciidoctor.doFirst { // asciidoctor Task가 수행될 때 가장 먼저 수행
+    delete file('src/main/resources/static/docs')
+}
+
+task copyDocument(type: Copy) { // 생성된 html 파일을 옮긴다
+    dependsOn asciidoctor // Gradle의 asciidoctor Task 이후 수행
     from file("${asciidoctor.outputDir}")
     into file("src/main/resources/static/docs")
 }
 
 build {
-    dependsOn copyDocument
+    dependsOn copyDocument // build 이후 html 파일 복사
 }
 
-clean {
-    delete file("src/main/resources/static/docs")
-    delete file('src/main/generated')
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into "static/docs"
+    }
 }
+
+//clean {
+//    delete file("src/main/resources/static/docs")
+//    delete file('src/main/generated')
+//}
