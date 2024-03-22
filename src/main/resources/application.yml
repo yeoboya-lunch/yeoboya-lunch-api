@@ -41,6 +41,8 @@ server:
       enabled: true
 
 management:
+  server:
+    port: 9000
   info:
     java:
       enabled: true # Java 관련 정보도 출력될 수 있게 합니다.
@@ -59,6 +61,9 @@ management:
     web:
       exposure:
         include: "*" # 모든 웹 기반 end point가 사용 가능하게 보이도록 설정합니다.
+  health:
+    db:
+      enabled: true
 
 file:
   upload:

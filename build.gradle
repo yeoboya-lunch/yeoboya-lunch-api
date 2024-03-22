@@ -22,13 +22,6 @@ repositories {
     mavenCentral()
 }
 
-bootJar {
-//    dependsOn asciidoctor
-//    from("${asciidoctor.outputDir}") {
-//        into "static/docs"
-//    }
-}
-
 jar {
     enabled = false // 기본 JAR 작업 비활성화 (bootJar 사용)
 }
@@ -63,6 +56,7 @@ dependencies {
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     implementation 'org.json:json:20210307'
     implementation 'software.amazon.awssdk:secretsmanager:2.24.12'
+    implementation 'org.hibernate:hibernate-micrometer:5.4.32.Final'
 
     //monitor
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
@@ -95,30 +89,34 @@ dependencies {
     testImplementation "org.testcontainers:mariadb:1.17.6"
 }
 
-test {
-    useJUnitPlatform()
-//    outputs.dir file('build/generated-snippets')
-}
 
-//asciidoctor {
-//    configurations 'asciidoctorExt'
-//    dependsOn test
-//    doFirst {
-//        new File('build/generated-snippets').mkdirs()
-//    }
-//}
-
-//task copyDocument(type: Copy) {
-//    dependsOn asciidoctor
-//    from file("${asciidoctor.outputDir}")
-//    into file("src/main/resources/static/docs")
-//}
-
-//build {
-//    dependsOn copyDocument
-//}
+//clean -> test -> asciidoctor -> copyDocument -> build
 
 clean {
-//    delete file("src/main/resources/static/docs")
-    delete file('src/main/generated')
+    delete file('src/main/generated') // 'src/main/generated' 디렉토리 삭제
+//    delete file("src/main/resources/static/docs") // 'src/main/resources/static/docs' 디렉토리 삭제
 }
+
+test {
+//    useJUnitPlatform() // JUnit 플랫폼을 사용하도록 설정
+//    outputs.dir file('build/generated-snippets') // 테스트 출력 디렉토리를 'build/generated-snippets'로 설정
+}
+
+asciidoctor {
+//    configurations 'asciidoctorExt' // 'asciidoctorExt' 설정을 사용
+//    dependsOn test // 'test' 작업이 먼저 실행되어야 함을 설정
+//    doFirst { // 작업이 실행되기 전에 먼저 수행할 동작을 설정
+//        new File('build/generated-snippets').mkdirs() // 디렉토리 'build/generated-snippets' 생성
+//    }
+}
+
+task copyDocument(type: Copy) {
+//    dependsOn asciidoctor // 'asciidoctor' 작업이 먼저 실행되어야 함을 설정
+//    from file("${asciidoctor.outputDir}") // 복사할 원본 파일의 위치를 asciidoctor 출력 디렉토리로 설정
+//    into file("src/main/resources/static/docs") // 복사할 대상 위치를 'src/main/resources/static/docs'로 설정
+}
+
+build {
+    dependsOn copyDocument // 'copyDocument' 작업이 먼저 실행되어야 함을 설정
+}
+
