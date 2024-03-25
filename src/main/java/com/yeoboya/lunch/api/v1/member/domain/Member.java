@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.member.domain;
 import com.yeoboya.lunch.api.v1.common.domain.BaseTimeEntity;
 import com.yeoboya.lunch.config.pricingPlan.domain.ApiKey;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
+import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,9 +46,12 @@ public class Member extends BaseTimeEntity {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private ApiKey apiKey;
 
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private UserSecurityStatus userSecurityStatus;
 
     //연관관계 편의 메소드
-    public static Member createMember(Member pMember, MemberInfo memberInfo, List<MemberRole> memberRoles){
+    public static Member createMember(Member pMember, MemberInfo memberInfo, List<MemberRole> memberRoles,
+                                      UserSecurityStatus userSecurityStatus){
         Member member = new Member();
         member.setEmail(pMember.getEmail());
         member.setName(pMember.getName());
@@ -56,6 +60,7 @@ public class Member extends BaseTimeEntity {
         for(MemberRole roles : memberRoles) {
             member.addMemberRole(roles);
         }
+        member.addUserSecurityStatus(userSecurityStatus);
         return member;
     }
 
@@ -67,5 +72,10 @@ public class Member extends BaseTimeEntity {
     public void addMemberInfo(MemberInfo memberInfo){
         this.setMemberInfo(memberInfo);
         memberInfo.setMember(this);
+    }
+
+    public void addUserSecurityStatus(UserSecurityStatus userSecurityStatus){
+        this.setUserSecurityStatus(userSecurityStatus);
+        userSecurityStatus.setMember(this);
     }
 }

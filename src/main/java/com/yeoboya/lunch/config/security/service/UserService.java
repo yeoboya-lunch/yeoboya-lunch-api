@@ -16,6 +16,7 @@ import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.Role;
+import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
@@ -83,8 +84,11 @@ public class UserService {
         // set member_info
         MemberInfo memberInfo = MemberInfo.createMemberInfo(build);
 
+        // set UserSecurityStatus
+        UserSecurityStatus userSecurityStatus = UserSecurityStatus.createUserSecurityStatus(build);
+
         // save member
-        Member saveMember = Member.createMember(build, memberInfo, memberRoles);
+        Member saveMember = Member.createMember(build, memberInfo, memberRoles, userSecurityStatus);
         memberRepository.save(saveMember);
 
         return response.success(Code.SAVE_SUCCESS);

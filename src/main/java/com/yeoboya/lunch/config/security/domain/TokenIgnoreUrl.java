@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class TokenIgnoreUrl {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "token_ignore_id", nullable = false)
     private Long id;
 

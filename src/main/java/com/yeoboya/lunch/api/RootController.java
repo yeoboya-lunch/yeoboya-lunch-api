@@ -22,6 +22,12 @@ public class RootController {
         this.env = env;
     }
 
+    @GetMapping("/profile")
+    public String getProfile () {
+        return Arrays.stream(env.getActiveProfiles())
+                .findFirst()
+                .orElse("");
+    }
 
     @GetMapping("/")
     public Map<String, String> getRootInfo() {
