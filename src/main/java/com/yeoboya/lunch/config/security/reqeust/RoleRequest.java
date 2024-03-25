@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoleRequest {
-
     private String email;
-
     private Authority role;
+    private boolean isEnabled;
+    private boolean isAccountNonLocked;
 }

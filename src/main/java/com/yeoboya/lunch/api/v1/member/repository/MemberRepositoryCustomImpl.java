@@ -19,6 +19,7 @@ import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 import static com.yeoboya.lunch.api.v1.member.domain.QMemberInfo.memberInfo;
 import static com.yeoboya.lunch.config.security.domain.QMemberRole.memberRole;
 import static com.yeoboya.lunch.config.security.domain.QRole.role1;
+import static com.yeoboya.lunch.config.security.domain.QUserSecurityStatus.userSecurityStatus;
 
 
 @RequiredArgsConstructor
@@ -88,12 +89,14 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     public Page<MemberRoleResponse> findWithRolesInPages(Pageable pageable) {
         List<MemberRoleResponse> content = jpaQueryFactory.select(
                         new QMemberRoleResponse(
-                                member.email, member.name, role1.roleDesc
+                                member.email, member.name, role1.roleDesc,
+                                userSecurityStatus.isEnabled, userSecurityStatus.isAccountNonLocked
                         )
                 )
                 .from(member)
                 .join(member.memberRoles, memberRole)
                 .join(memberRole.role, role1)
+                .join(member.userSecurityStatus, userSecurityStatus)
                 .distinct()
                 .limit(pageable.getPageSize() + 1)  //페이지 사이즈
                 .offset(pageable.getOffset())   //페이지번호

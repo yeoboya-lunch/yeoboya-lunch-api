@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.config.security.domain;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
-import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import lombok.*;
 
 import javax.persistence.*;

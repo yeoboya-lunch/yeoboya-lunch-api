@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -23,6 +24,11 @@ public class RoleController {
     @PostMapping("/update")
     public ResponseEntity<Response.Body> updateAuthority(@RequestBody RoleRequest roleRequest) {
         return roleService.updateAuthority(roleRequest);
+    }
+
+    @PostMapping("/security")
+    public ResponseEntity<Response.Body> updateSecurity(@RequestBody RoleRequest roleRequest){
+        return roleService.updateSecurityStatus(roleRequest);
     }
 
     /**

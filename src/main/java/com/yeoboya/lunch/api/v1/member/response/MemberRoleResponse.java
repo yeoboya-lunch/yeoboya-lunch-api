@@ -13,21 +13,16 @@ public class MemberRoleResponse {
     private String email;
     private String name;
     private String roleDesc;
-
+    private boolean isEnabled;
+    private boolean isAccountNonLocked;
 
     @QueryProjection
-    public MemberRoleResponse(String email, String name, String roleDesc){
+    public MemberRoleResponse(String email, String name, String roleDesc, boolean isEnabled, boolean isAccountNonLocked){
         this.email = email;
         this.name = name;
         this.roleDesc = roleDesc;
+        this.isEnabled = isEnabled;
+        this.isAccountNonLocked = isAccountNonLocked;
     }
 
-    @Override
-    public String toString() {
-        return "MemberRoleResponse{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", roleDesc='" + roleDesc + '\'' +
-                '}';
-    }
 }
