@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.member.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
@@ -10,6 +11,7 @@ import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -25,11 +27,11 @@ import static com.yeoboya.lunch.config.security.domain.QUserSecurityStatus.userS
 @RequiredArgsConstructor
 public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
-    private final JPAQueryFactory jpaQueryFactory;
+    private final JPAQueryFactory query;
 
     @Override
     public Slice<MemberResponse> findMembersInPages(Pageable pageable) {
-        List<MemberResponse> content = jpaQueryFactory.select(
+        List<MemberResponse> content = query.select(
                         new QMemberResponse(
                                 member.email, member.name,
                                 account.bankName, account.accountNumber,
@@ -42,6 +44,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .limit(pageable.getPageSize() + 1)  //페이지 사이즈
                 .offset(pageable.getOffset())   //페이지번호
                 .fetch();
+
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {
             content.remove(pageable.getPageSize());
@@ -54,7 +57,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     @Override
     public List<MemberRole> getMemberRoles(Long id) {
-        return jpaQueryFactory.selectFrom(memberRole)
+        return query.selectFrom(memberRole)
                 .leftJoin(memberRole.member, member)
                 .leftJoin(memberRole.role, role1)
                 .where(memberRole.member.id.eq(id))
@@ -63,7 +66,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     @Override
     public MemberInfo getMemberInfo(String email) {
-        return jpaQueryFactory.selectFrom(memberInfo)
+        return query.selectFrom(memberInfo)
                 .leftJoin(memberInfo.member, member)
                 .where(memberInfo.member.email.eq(email))
                 .fetchOne();
@@ -71,7 +74,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     @Override
     public MemberResponse memberProfile(String memberEmail) {
-        return jpaQueryFactory.select(
+        return query.select(
                         new QMemberResponse(
                                 member.email, member.name,
                                 account.bankName, account.accountNumber,
@@ -87,31 +90,28 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     @Override
     public Page<MemberRoleResponse> findWithRolesInPages(Pageable pageable) {
-        List<MemberRoleResponse> content = jpaQueryFactory.select(
+        List<MemberRoleResponse> content = query.select(
                         new QMemberRoleResponse(
                                 member.email, member.name, role1.roleDesc,
                                 userSecurityStatus.isEnabled, userSecurityStatus.isAccountNonLocked
                         )
                 )
                 .from(member)
-                .join(member.memberRoles, memberRole)
-                .join(memberRole.role, role1)
-                .join(member.userSecurityStatus, userSecurityStatus)
-                .distinct()
-                .limit(pageable.getPageSize() + 1)  //페이지 사이즈
+                .leftJoin(member.memberRoles, memberRole)
+                .leftJoin(memberRole.role, role1)
+                .leftJoin(member.userSecurityStatus, userSecurityStatus)
+                .limit(pageable.getPageSize())  //페이지 사이즈
                 .offset(pageable.getOffset())   //페이지번호
+                .distinct()
                 .fetch();
 
-        long totalCount = jpaQueryFactory
-                .select(member)
+        JPAQuery<Long> countQuery = query
+                .select(member.countDistinct())
                 .from(member)
-                .join(member.memberRoles, memberRole)
-                .join(memberRole.role, role1)
-                .distinct()
-                .fetch()
-                .size();
-
-        return new PageImpl<>(content, pageable, totalCount);
+                .leftJoin(member.memberRoles, memberRole)
+                .leftJoin(memberRole.role, role1)
+                .leftJoin(member.userSecurityStatus, userSecurityStatus);
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
 

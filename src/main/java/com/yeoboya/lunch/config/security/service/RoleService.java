@@ -12,8 +12,9 @@ import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.repository.UserSecurityStatusRepository;
-import com.yeoboya.lunch.config.security.reqeust.RoleRequest;
+import com.yeoboya.lunch.config.security.reqeust.AuthorityRequest;
 import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
+import com.yeoboya.lunch.config.security.reqeust.SecurityRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,7 @@ public class RoleService {
 
     @Transactional
 //    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Response.Body> updateAuthority(RoleRequest roleRequest) {
+    public ResponseEntity<Response.Body> updateAuthority(AuthorityRequest roleRequest) {
 
         Member targetMember = memberRepository.findByEmail(roleRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + roleRequest.getEmail()));
@@ -66,18 +67,15 @@ public class RoleService {
         return null;
     }
 
-    public ResponseEntity<Response.Body> updateSecurityStatus(RoleRequest roleRequest) {
+    public ResponseEntity<Response.Body> updateSecurityStatus(SecurityRequest securityRequest) {
 
-        log.info("roleRequest->{}", roleRequest);
-
-        Member member = memberRepository.findByEmail(roleRequest.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Member with email " + roleRequest.getEmail() + " is not found"));
+        Member member = memberRepository.findByEmail(securityRequest.getEmail())
+                .orElseThrow(() -> new EntityNotFoundException("Member with email " + securityRequest.getEmail() + " is not found"));
 
         UserSecurityStatus userSecuritystatus = member.getUserSecurityStatus();
-        userSecuritystatus.setEnabled(roleRequest.isEnabled());
-        userSecuritystatus.setAccountNonLocked(roleRequest.isAccountNonLocked());
+        userSecuritystatus.setEnabled(securityRequest.isEnabled());
+        userSecuritystatus.setAccountNonLocked(securityRequest.isAccountNonLocked());
         userSecurityStatusRepository.save(userSecuritystatus);
-
 
         return null;
     }
