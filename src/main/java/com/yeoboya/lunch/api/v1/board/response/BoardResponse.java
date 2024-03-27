@@ -35,7 +35,7 @@ public class BoardResponse {
                 board.getId(), board.getTitle(), board.getContent(), board.isSecret(), board.getMember().getEmail(),
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
-                board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
+                board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
                 board.getReplies().stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
     }
@@ -52,7 +52,7 @@ public class BoardResponse {
                 board.getId(), board.getTitle(), board.getContent(), board.isSecret(), board.getMember().getEmail(),
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
-                board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
+                board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
                 parentReplies.stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);
@@ -76,7 +76,7 @@ public class BoardResponse {
                 board.getMember().getName(),
                 simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
-                board.getFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
+                board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
                 parentReplies.stream().map(r -> ReplyResponse.of(board.getMember(), r, allReplies)).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);

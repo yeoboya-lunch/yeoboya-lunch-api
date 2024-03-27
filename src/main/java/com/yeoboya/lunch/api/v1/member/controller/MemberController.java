@@ -1,11 +1,13 @@
 package com.yeoboya.lunch.api.v1.member.controller;
 
+import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
+import com.yeoboya.lunch.api.v1.member.reqeust.MemberProfile;
 import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
 import com.yeoboya.lunch.api.v1.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -79,6 +83,11 @@ public class MemberController {
     public ResponseEntity<Body> accountUpdate(@PathVariable String memberEmail, @RequestBody AccountEdit accountEdit) {
         memberService.editAccount(memberEmail, accountEdit);
         return response.success(Code.UPDATE_SUCCESS);
+    }
+
+    @PostMapping(value = "/profile-image")
+    public ResponseEntity<Body> updateProfileImage(@RequestParam("file") MultipartFile file, @RequestPart @Valid MemberProfile memberProfile, HttpServletRequest httpServletRequest) {
+        return memberService.updateProfileImage(file, memberProfile, httpServletRequest);
     }
 
 }

@@ -17,7 +17,7 @@ import static com.yeoboya.lunch.api.v1.board.domain.QBoard.board;
 import static com.yeoboya.lunch.api.v1.board.domain.QBoardHashTag.boardHashTag;
 import static com.yeoboya.lunch.api.v1.board.domain.QHashTag.hashTag;
 import static com.yeoboya.lunch.api.v1.board.domain.QReply.reply;
-import static com.yeoboya.lunch.api.v1.file.domain.QFile.file;
+import static com.yeoboya.lunch.api.v1.file.domain.QBoardFile.boardFile;
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 
 @Repository
@@ -43,7 +43,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
                 .leftJoin(board.boardHashTags, boardHashTag)
                 .leftJoin(boardHashTag.hashTag, hashTag)
                 .leftJoin(board.member, member)
-                .leftJoin(board.files, file)
+                .leftJoin(board.boardFiles, boardFile)
                 .leftJoin(board.replies, reply)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
@@ -59,7 +59,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
                 .leftJoin(board.boardHashTags, boardHashTag)
                 .leftJoin(boardHashTag.hashTag, hashTag)
                 .leftJoin(board.member, member)
-                .leftJoin(board.files, file)
+                .leftJoin(board.boardFiles, boardFile)
                 .leftJoin(board.replies, reply);
 
         // PageableExecutionUtils.getPage 메소드를 사용하여 필요할 때만 카운트 쿼리를 실행합니다.

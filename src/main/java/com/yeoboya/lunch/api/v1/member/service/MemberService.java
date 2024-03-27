@@ -1,7 +1,13 @@
 package com.yeoboya.lunch.api.v1.member.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
+import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
+import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.SlicePagination;
+import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
+import com.yeoboya.lunch.api.v1.file.repository.MemberProfileFileRepository;
+import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
+import com.yeoboya.lunch.api.v1.file.service.FileServiceS3;
 import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
@@ -14,22 +20,33 @@ import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberSummary;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class MemberService {
 
+    private final Response response;
+    private final FileServiceS3 fileServiceS3;
     private final MemberRepository memberRepository;
     private final AccountRepository accountRepository;
+    private final MemberProfileFileRepository memberProfileFileRepository;
 
-    public MemberService(MemberRepository memberRepository, AccountRepository accountRepository) {
+    public MemberService(Response response, MemberRepository memberRepository, AccountRepository accountRepository, FileServiceS3 fileServiceS3, MemberProfileFileRepository memberProfileFileRepository) {
+        this.response = response;
         this.memberRepository = memberRepository;
         this.accountRepository = accountRepository;
+        this.fileServiceS3 = fileServiceS3;
+        this.memberProfileFileRepository = memberProfileFileRepository;
     }
 
     @Transactional
@@ -61,6 +78,9 @@ public class MemberService {
 
     @Transactional
     public MemberResponse memberProfile(String memberEmail) {
+        Member member = memberRepository.findByEmail(memberEmail).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + memberEmail));
+
         MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
         if(StringUtils.hasText(memberResponse.getAccountNumber())){
             memberResponse.setAccount(true);
@@ -135,5 +155,22 @@ public class MemberService {
         }
     }
 
+    //fixme return
+    public ResponseEntity<Response.Body> updateProfileImage(MultipartFile file, MemberProfile memberProfile, HttpServletRequest httpServletRequest) {
+
+        Member member = memberRepository.findByEmail(memberProfile.getEmail()).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + memberProfile.getEmail()));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
+        if (!memberProfile.getEmail().equals(name)) {
+            return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
+        }
+
+        FileUploadResponse upload = fileServiceS3.upload(file, memberProfile.getSubDirectory());
+        MemberProfileFile build = MemberProfileFile.builder().member(member).fileUploadResponse(upload).build();
+
+        return null;
+    }
 }
 

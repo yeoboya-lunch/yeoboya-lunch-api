@@ -16,9 +16,9 @@ import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Pagination;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
-import com.yeoboya.lunch.api.v1.file.domain.File;
+import com.yeoboya.lunch.api.v1.file.domain.BoardFile;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
-import com.yeoboya.lunch.api.v1.file.service.FileService;
+import com.yeoboya.lunch.api.v1.file.service.FileServiceBasic;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +50,7 @@ public class BoardService {
     private final ReplyRepository replyRepository;
 
     // Services
-    private final FileService fileService;
+    private final FileServiceBasic fileService;
 
     // Others
     private final Response response;
@@ -107,9 +107,9 @@ public class BoardService {
 
 
         FileUploadResponse upload = fileService.upload(file, fileBoardCreate.getUploadType());
-        File fileBuild = File.builder().fileUploadResponse(upload).build();
+        BoardFile boardFileBuild = BoardFile.builder().fileUploadResponse(upload).build();
 
-        Board board = Board.createBoard(member, fileBoardCreate, boardHashTags, fileBuild);
+        Board board = Board.createBoard(member, fileBoardCreate, boardHashTags, boardFileBuild);
         boardRepository.save(board);
         return response.success(Code.SAVE_SUCCESS);
     }

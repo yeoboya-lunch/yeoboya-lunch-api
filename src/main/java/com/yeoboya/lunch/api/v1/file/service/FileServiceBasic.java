@@ -37,7 +37,7 @@ public class FileServiceBasic implements FileService {
         byte[] bytes = null;
         String originalFileName = null;
 
-        //fixme  MultipartFile / File / dataURL / ImageURL
+        //fixme  MultipartFile / BoardFile / dataURL / ImageURL
         try {
             fileSize = multipartFile.getBytes().length;
             bytes = multipartFile.getBytes();

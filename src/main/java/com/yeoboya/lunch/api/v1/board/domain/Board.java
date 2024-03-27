@@ -2,7 +2,7 @@ package com.yeoboya.lunch.api.v1.board.domain;
 
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.common.domain.BaseEntity;
-import com.yeoboya.lunch.api.v1.file.domain.File;
+import com.yeoboya.lunch.api.v1.file.domain.BoardFile;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.*;
 
@@ -42,7 +42,7 @@ public class Board extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<File> files = new ArrayList<>();
+    private List<BoardFile> boardFiles = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -67,7 +67,7 @@ public class Board extends BaseEntity {
     }
 
 
-    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags, File file) {
+    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags, BoardFile boardFile) {
         Board board = new Board();
         board.setMember(member);
         board.setTitle(boardCreate.getTitle());
@@ -78,7 +78,7 @@ public class Board extends BaseEntity {
         for (BoardHashTag boardHashTag : boardHashTags) {
             board.addBoardHashTag(boardHashTag);
         }
-        board.addFile(file);
+        board.addFile(boardFile);
         return board;
     }
 
@@ -87,10 +87,10 @@ public class Board extends BaseEntity {
         boardHashTag.setBoard(this);
     }
 
-    private void addFile(File file) {
-        this.files.add(file);
-        if (file.getBoard() != this) {
-            file.setBoard(this);
+    private void addFile(BoardFile boardFile) {
+        this.boardFiles.add(boardFile);
+        if (boardFile.getBoard() != this) {
+            boardFile.setBoard(this);
         }
     }
 }

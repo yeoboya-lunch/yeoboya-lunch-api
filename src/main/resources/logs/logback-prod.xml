@@ -20,7 +20,7 @@
     </appender>
 
     <appender name="WARN_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}_warn.log</file>
+        <boardFile>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}_warn.log</boardFile>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>WARN</level>
             <onMatch>ACCEPT</onMatch>
@@ -36,7 +36,7 @@
     </appender>
 
     <appender name="ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}_error.log</file>
+        <boardFile>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}_error.log</boardFile>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>

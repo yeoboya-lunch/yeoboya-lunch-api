@@ -1,6 +1,8 @@
 package com.yeoboya.lunch.api.v1.member.domain;
 
 import com.yeoboya.lunch.api.v1.common.domain.BaseTimeEntity;
+import com.yeoboya.lunch.api.v1.file.domain.BoardFile;
+import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
 import com.yeoboya.lunch.config.pricingPlan.domain.ApiKey;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
@@ -42,6 +44,10 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<LoginInfo> loginInfos;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MemberProfileFile> memberProfileFiles = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private ApiKey apiKey;

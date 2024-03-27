@@ -24,7 +24,6 @@ public class AuthAspect {
         stopWatch.start();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("authentication = " + authentication.getName());
 
         Object result = pjp.proceed();
         stopWatch.stop();

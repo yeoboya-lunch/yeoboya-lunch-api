@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class File {
+public class BoardFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FILE_ID", nullable = false)
+    @Column(name = "BOARD_FILE_ID", nullable = false)
     private Long id;
 
     private String originalFileName;
@@ -33,7 +33,7 @@ public class File {
     private Board board;
 
     @Builder
-    public File(Board board, FileUploadResponse fileUploadResponse) {
+    public BoardFile(Board board, FileUploadResponse fileUploadResponse) {
         this.board = board;
         this.originalFileName = fileUploadResponse.getOriginalFileName();
         this.fileName = fileUploadResponse.getFileName();
@@ -44,8 +44,8 @@ public class File {
 
     public void serBoard(Board board) {
         this.board = board;
-        if (!board.getFiles().contains(this)) {
-            board.getFiles().add(this);
+        if (!board.getBoardFiles().contains(this)) {
+            board.getBoardFiles().add(this);
         }
     }
 }
