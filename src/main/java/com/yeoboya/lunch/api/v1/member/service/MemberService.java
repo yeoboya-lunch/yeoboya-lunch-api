@@ -169,6 +169,7 @@ public class MemberService {
 
         FileUploadResponse upload = fileServiceS3.upload(file, memberProfile.getSubDirectory());
         MemberProfileFile build = MemberProfileFile.builder().member(member).fileUploadResponse(upload).build();
+        memberProfileFileRepository.save(build);
 
         return null;
     }
