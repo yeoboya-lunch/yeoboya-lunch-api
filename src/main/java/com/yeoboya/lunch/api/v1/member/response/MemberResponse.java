@@ -2,10 +2,12 @@ package com.yeoboya.lunch.api.v1.member.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
+import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -21,9 +23,11 @@ public class MemberResponse {
     private String nickName;
     private String phoneNumber;
     private boolean isAccount;
+    private String profileImg;
+    private List<String> profileImages;
 
     @QueryProjection
-    public MemberResponse(String email, String name, String bankName, String accountNumber, String bio, String nickName, String phoneNumber) {
+    public MemberResponse(String email, String name, String bankName, String accountNumber, String bio, String nickName, String phoneNumber){
         this.email = email;
         this.name = name;
         this.bankName = bankName;
@@ -31,6 +35,18 @@ public class MemberResponse {
         this.bio = bio;
         this.nickName = nickName;
         this.phoneNumber = phoneNumber;
+    }
+
+    @QueryProjection
+    public MemberResponse(String email, String name, String bankName, String accountNumber, String bio, String nickName, String phoneNumber, List<String> profileImages) {
+        this.email = email;
+        this.name = name;
+        this.bankName = bankName;
+        this.accountNumber = accountNumber;
+        this.bio = bio;
+        this.nickName = nickName;
+        this.phoneNumber = phoneNumber;
+        this.profileImages = profileImages;
     }
 
     public MemberResponse(String email, String name, String nickName, String phoneNumber) {

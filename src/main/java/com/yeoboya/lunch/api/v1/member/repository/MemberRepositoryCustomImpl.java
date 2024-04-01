@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.member.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.response.QMemberResponse;
@@ -10,12 +11,16 @@ import com.yeoboya.lunch.api.v1.member.response.QMemberRoleResponse;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Check;
 import org.springframework.data.domain.*;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static com.yeoboya.lunch.api.v1.file.domain.QMemberProfileFile.memberProfileFile;
 import static com.yeoboya.lunch.api.v1.member.domain.QAccount.account;
 import static com.yeoboya.lunch.api.v1.member.domain.QMember.member;
 import static com.yeoboya.lunch.api.v1.member.domain.QMemberInfo.memberInfo;
@@ -74,7 +79,22 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     @Override
     public MemberResponse memberProfile(String memberEmail) {
-        return query.select(
+        List<MemberProfileFile> memberProfileFiles = query
+                .select(memberProfileFile)
+                .from(member)
+                .leftJoin(member.memberProfileFiles, memberProfileFile)
+                .where(member.email.eq(memberEmail).and(memberProfileFile.isNotNull()))
+                .fetch();
+
+        //Processing the data to generate profileImg for each MemberProfileFile
+        //Check if profile files is not null else return empty list
+        List<String> profileImages = !memberProfileFiles.isEmpty() ? memberProfileFiles.stream()
+                .map(file -> file.getFilePath() + "/" + file.getFileName())
+                .collect(Collectors.toList()) : Collections.emptyList();
+
+
+        // Based on your current implementation, assuming we can still fetch one record for the rest
+        MemberResponse memberResponse = query.select(
                         new QMemberResponse(
                                 member.email, member.name,
                                 account.bankName, account.accountNumber,
@@ -84,9 +104,32 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .from(member)
                 .leftJoin(member.account, account)
                 .leftJoin(member.memberInfo, memberInfo)
-                .where(memberInfo.member.email.eq(memberEmail))
+                .where(member.email.eq(memberEmail))
                 .fetchOne();
+
+        // Attach the profileImages to memberResponse
+        if (memberResponse != null) {
+            memberResponse.setProfileImages(profileImages);
+        }
+        return memberResponse;
     }
+
+//    @Override
+//    public MemberResponse memberProfile(String memberEmail) {
+//        return query.select(
+//                        new QMemberResponse(
+//                                member.email, member.name,
+//                                account.bankName, account.accountNumber,
+//                                memberInfo.bio, memberInfo.nickName, memberInfo.phoneNumber, memberProfileFile.filePath, memberProfileFile.fileName
+//                        )
+//                )
+//                .from(member)
+//                .leftJoin(member.account, account)
+//                .leftJoin(member.memberInfo, memberInfo)
+//                .leftJoin(member.memberProfileFiles, memberProfileFile)
+//                .where(memberInfo.member.email.eq(memberEmail))
+//                .fetchOne();
+//    }
 
     @Override
     public Page<MemberRoleResponse> findWithRolesInPages(Pageable pageable) {

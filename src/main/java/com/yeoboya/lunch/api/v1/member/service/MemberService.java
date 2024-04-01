@@ -78,10 +78,12 @@ public class MemberService {
 
     @Transactional
     public MemberResponse memberProfile(String memberEmail) {
-        Member member = memberRepository.findByEmail(memberEmail).orElseThrow(
+        memberRepository.findByEmail(memberEmail).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + memberEmail));
 
         MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
+
+
         if(StringUtils.hasText(memberResponse.getAccountNumber())){
             memberResponse.setAccount(true);
         }

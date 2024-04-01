@@ -44,6 +44,10 @@ public class MemberController {
         return response.success(Code.SEARCH_SUCCESS, memberService.memberSummary(memberEmail));
     }
 
+
+    /**
+     * 회원검색 (계좌/프로필사진)
+     */
     @GetMapping("{memberEmail}/profile")
     public ResponseEntity<Body> getMemberProfile(@PathVariable String memberEmail) {
         return response.success(Code.SEARCH_SUCCESS, memberService.memberProfile(memberEmail));
