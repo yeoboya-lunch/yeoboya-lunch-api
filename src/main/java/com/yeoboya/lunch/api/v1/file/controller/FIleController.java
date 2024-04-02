@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class FIleController {
      * AWS 파일 업로드
      */
     @PostMapping("/s3-upload")
-    public ResponseEntity<Body> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam String subDirectory) {
+    public ResponseEntity<Body> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam String subDirectory) throws IOException {
         FileUploadResponse upload = fileServiceS3.upload(file, subDirectory);
         return response.success(Code.SAVE_SUCCESS, upload);
     }

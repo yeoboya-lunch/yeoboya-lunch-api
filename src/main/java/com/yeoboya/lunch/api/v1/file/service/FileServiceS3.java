@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.file.service;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import com.yeoboya.lunch.config.aws.AwsSecretsManagerClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +17,12 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-
 import java.io.File;
-import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -27,6 +31,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FileServiceS3 implements FileService{
 
     private final S3Client s3Client;
@@ -45,39 +50,58 @@ public class FileServiceS3 implements FileService{
     }
 
     @Override
-    public FileUploadResponse upload(MultipartFile multipartFile, String subDirectory) {
+    public FileUploadResponse upload(MultipartFile multipartFile, String subDirectory) throws IOException {
         // Validation
         String originalFileName = multipartFile.getOriginalFilename();
         String extension = Objects.requireNonNull(originalFileName).substring(originalFileName.lastIndexOf('.') + 1);
+
         if (!validationExtension(extension)) {
-            try {
-                throw new IOException("Invalid file extension");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            throw new IOException("Invalid file extension");
         }
 
         // Directory and BoardFile Name Generation
-        String directory = makeNewDirectory(subDirectory);
-        String fileName = makeNewFileName(extension);
+        String directory = this.makeNewDirectory(subDirectory);
+        String fileName = this.makeNewFileName(extension);
 
         try {
+            //---------------------------------------------------------------------
             Path tempFile = Files.createTempFile(fileName, "");
             Files.write(tempFile, multipartFile.getBytes(), StandardOpenOption.WRITE);
-
             String objectKey = directory + "/" + fileName;
-
             s3Client.putObject(PutObjectRequest.builder()
                             .bucket(S3_BUCKET_NAME)
                             .key(objectKey)
                             .build(),
                     RequestBody.fromFile(tempFile));
             Files.delete(tempFile); // 임시 파일 삭제
+            //-------------------------------------------------------------------
+
+            // create a thumbnail
+            BufferedImage originalImage = ImageIO.read(multipartFile.getInputStream());
+            BufferedImage thumbnailImage = this.createThumbnail(originalImage);
+            byte[] thumbnailBytes = this.imageToBytes(thumbnailImage, extension);
+
+            // save the thumbnail file
+            String thumbnailFileName = "thumbnail_" + fileName;
+            String thumbnailObjectKey = directory + "/" + thumbnailFileName;
+            Path thumbnailTempFile = Files.createTempFile(thumbnailFileName, "");
+            Files.write(thumbnailTempFile, thumbnailBytes, StandardOpenOption.WRITE);
+
+            PutObjectRequest putRequest = PutObjectRequest.builder()
+                    .bucket(S3_BUCKET_NAME)
+                    .key(thumbnailObjectKey)
+                    .build();
+            s3Client.putObject(putRequest, RequestBody.fromFile(thumbnailTempFile.toFile()));
+
+            Files.delete(thumbnailTempFile);
+            //-------------------------------------------------------------------
+
 
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                     .bucket(S3_BUCKET_NAME)
                     .key(objectKey)
                     .build();
+
 
             // Get metadata
             GetObjectResponse metadata = s3Client.getObject(getObjectRequest).response();
@@ -138,5 +162,23 @@ public class FileServiceS3 implements FileService{
         ResponseBytes<GetObjectResponse> objectBytes = s3Client.getObjectAsBytes(getObjectRequest);
         return object;
 
+    }
+
+    // create a thumbnail from an image
+    private BufferedImage createThumbnail(BufferedImage originalImage) {
+        int thumbnailWidth = 100;
+        int thumbnailHeight = 100;
+        BufferedImage thumbnail = new BufferedImage(thumbnailWidth, thumbnailHeight, originalImage.getType());
+        Graphics2D graphics2D = thumbnail.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, thumbnailWidth, thumbnailHeight, null);
+        graphics2D.dispose();
+        return thumbnail;
+    }
+
+    // convert image to bytes
+    private byte[] imageToBytes(BufferedImage image, String formatName) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, formatName, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 }

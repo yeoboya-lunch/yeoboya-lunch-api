@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -169,7 +170,12 @@ public class MemberService {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
 
-        FileUploadResponse upload = fileServiceS3.upload(file, memberProfile.getSubDirectory());
+        FileUploadResponse upload;
+        try {
+            upload = fileServiceS3.upload(file, memberProfile.getSubDirectory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         MemberProfileFile build = MemberProfileFile.builder().member(member).fileUploadResponse(upload).build();
         memberProfileFileRepository.save(build);
 
