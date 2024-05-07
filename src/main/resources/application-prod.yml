@@ -22,10 +22,10 @@ spring:
 
   redis:
     master:
-      host: ENC(XL/QSgTlRwOUfVRZSOZbSaDCaI2VNJxXoE3nWPrOYsovA/t3rf00N5tGw6YU8W0wJxw387AsK36bKVPfA/2stNtxdb2CdneC)
-      port: 10143
+      host: ENC(dde2b6o4JTKvD+pAdnOrZn/F6iYkdLUBy2XYFqBchvBeMUoT6wlxrT6reXyFIx4yiBysRQ/Y6BxwCyZwwqwKmszmmKxXEo74)
+      port: 11545
     slaves:
-      - host: ENC(XL/QSgTlRwOUfVRZSOZbSaDCaI2VNJxXoE3nWPrOYsovA/t3rf00N5tGw6YU8W0wJxw387AsK36bKVPfA/2stNtxdb2CdneC)
-        port: 10143
-    password: ENC(ZMI0vFbTTHnB6wP3MXLNZzvTbb5RnlY1nj8a3uH7He5YoS8vAd1UA/JcssiLrS7x)
+      - host: ENC(dde2b6o4JTKvD+pAdnOrZn/F6iYkdLUBy2XYFqBchvBeMUoT6wlxrT6reXyFIx4yiBysRQ/Y6BxwCyZwwqwKmszmmKxXEo74)
+        port: 11545
+    password: ENC(Mqlonk2wItWUWJXeBUOUA+PIWap0KbGH7EKyA7oNYXM/Hjg5+aMfuDytHSH/OdD9)
     database: 0

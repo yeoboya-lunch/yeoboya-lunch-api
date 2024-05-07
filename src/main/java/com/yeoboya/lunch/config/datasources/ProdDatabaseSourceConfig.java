@@ -17,10 +17,12 @@ public class ProdDatabaseSourceConfig {
 
     @Bean
     public DataSource dataSource() {
-        JSONObject secretString = getSecret("rds!db-23f8738b-047f-42ae-9d1e-6d2199409c2c");
+//        JSONObject secretString = getSecret("rds!db-23f8738b-047f-42ae-9d1e-6d2199409c2c");
+        JSONObject secretString = getSecret("rds!db-bd13758f-b81d-417c-846a-e653052e5172");
 
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:mariadb://yeoboya-lunch-db.cc1j8x3t3gto.ap-northeast-2.rds.amazonaws.com:3306/lunch?characterEncoding=UTF-8");
+//        dataSource.setJdbcUrl("jdbc:mariadb://yeoboya-lunch-db.cc1j8x3t3gto.ap-northeast-2.rds.amazonaws.com:3306/lunch?characterEncoding=UTF-8");
+        dataSource.setJdbcUrl("jdbc:mariadb://yeoboya-lunch-db.cjesccmwu6cr.ap-northeast-2.rds.amazonaws.com:3306/lunch?characterEncoding=UTF-8");
         dataSource.setUsername(secretString.getString("username"));
         dataSource.setPassword(secretString.getString("password"));
 
