@@ -124,7 +124,13 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://api.yeoboya-lunch.com"));
+        config.setAllowedOrigins(
+                Arrays.asList(
+                        "http://localhost:3000",
+                        "https://api.yeoboya-lunch.com",
+                        "https://www.yeoboya-lunch.com",
+                        "https://yeoboya-lunch.com")
+        );
         config.addAllowedMethod("POST");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("OPTIONS");
