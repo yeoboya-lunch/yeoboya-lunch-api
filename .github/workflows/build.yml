@@ -38,19 +38,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Make zip file # 소스코드를 Zip파일로 만듭니다.
+      - name: Make zip file
         run: zip -qq -r ./$GITHUB_SHA.zip .
         shell: bash
 
-      - name: Sync output files to S3 # 빌드한 소스코드를 S3로 전송합니다.
+      - name: Sync output files to S3
         run: aws s3 cp ./$GITHUB_SHA.zip s3://yeoboya-lunch-s3-bucket/yeoboya-lunch-api.zip
 
-      - name: Deploy to AWS EC2 using AWS CodeDeploy # AWS CodeDeploy를 이용해 EC2로 배포합니다.
+      - name: Deploy to AWS EC2 using AWS CodeDeploy
         run: |
           aws deploy create-deployment \
-          --application-name yeoboya-lunch \  # 어플리케이션 이름을 지정합니다.
-          --deployment-config-name CodeDeployDefault.AllAtOnce \  # 배포 설정 이름을 지정합니다.
-          --deployment-group-name yeoboya-lunch-code-deploy-group \  # 배포 그룹 이름을 지정합니다.
-          --file-exists-behavior OVERWRITE \  # 파일이 이미 존재할 경우 덮어쓰기를 합니다.
-          --s3-location bucket=yeoboya-lunch-s3-bucket,bundleType=zip,key=yeoboya-lunch-api.zip \  # S3 버킷 위치와, 번들 타입, 키를 지정합니다.
-          --region ap-northeast-2 \  # AWS 리전을 지정합니다.
+          --application-name yeoboya-lunch \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name yeoboya-lunch-code-deploy-group \
+          --file-exists-behavior OVERWRITE \
+          --s3-location bucket=yeoboya-lunch-s3-bucket,bundleType=zip,key=yeoboya-lunch-api.zip \
+          --region ap-northeast-2 \
