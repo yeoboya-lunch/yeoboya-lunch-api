@@ -1,7 +1,9 @@
 package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.config.annotation.Reload;
 import com.yeoboya.lunch.config.security.reqeust.ResourcesRequest;
+import com.yeoboya.lunch.config.security.reqeust.TokenIgnoreUrlRequest;
 import com.yeoboya.lunch.config.security.service.ResourcesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ public class ResourceController {
     /**
      * 리소스추가
      */
+    @Reload
     @PostMapping("/add")
     public ResponseEntity<Response.Body> addResource(@RequestBody ResourcesRequest resourcesRequest) {
         return resourcesService.addResources(resourcesRequest);
@@ -36,10 +39,18 @@ public class ResourceController {
     /**
      * 리소스삭제
      */
+    @Reload
     @DeleteMapping
     public ResponseEntity<Response.Body> deleteResource(){
         return null;
     }
 
+    /**
+     * JWT 토큰 (url) 관리
+     */
+    @PostMapping("/token-ignore-url")
+    public  ResponseEntity<Response.Body> tokenIgnoreUrl(@RequestBody TokenIgnoreUrlRequest tokenIgnoreUrlRequest){
+        return resourcesService.tokenIgnoreUrl(tokenIgnoreUrlRequest);
+    }
 }
 

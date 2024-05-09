@@ -4,6 +4,7 @@ import com.yeoboya.lunch.config.security.metaDataSource.UrlSecurityMetadataSourc
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +15,7 @@ public class SecurityConfigChangeAspect {
 
     private final UrlSecurityMetadataSource urlSecurityMetadataSource;
 
-    @AfterReturning(pointcut = "execution(* com.yeoboya.lunch.config.security.service.ResourcesService.*(..)) " +
-            "|| execution(* com.yeoboya.lunch.config.security.service.RoleService.*(..))")
+    @AfterReturning("@annotation(com.yeoboya.lunch.config.annotation.Reload)")
     public void afterSecurityConfigChanged(JoinPoint joinPoint) {
         urlSecurityMetadataSource.reload();
     }

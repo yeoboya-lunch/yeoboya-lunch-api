@@ -2,11 +2,15 @@ package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.config.annotation.Reload;
 import com.yeoboya.lunch.config.security.domain.Resources;
 import com.yeoboya.lunch.config.security.domain.Role;
+import com.yeoboya.lunch.config.security.domain.TokenIgnoreUrl;
 import com.yeoboya.lunch.config.security.repository.ResourcesRepository;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
+import com.yeoboya.lunch.config.security.repository.TokenIgnoreUrlRepository;
 import com.yeoboya.lunch.config.security.reqeust.ResourcesRequest;
+import com.yeoboya.lunch.config.security.reqeust.TokenIgnoreUrlRequest;
 import com.yeoboya.lunch.config.security.response.ResourcesDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +31,7 @@ public class ResourcesService {
 
     private final ResourcesRepository resourcesRepository;
     private final RoleRepository roleRepository;
+    private final TokenIgnoreUrlRepository tokenIgnoreUrlRepository;
     private final Response response;
 
 
@@ -92,5 +98,10 @@ public class ResourcesService {
     private int getLastOrderNum() {
         Resources lastResource = resourcesRepository.findTopByOrderByOrderNumDesc();
         return lastResource != null ? lastResource.getOrderNum() : 0;
+    }
+
+    public ResponseEntity<Response.Body> tokenIgnoreUrl(TokenIgnoreUrlRequest tokenIgnoreUrlRequest) {
+        int i = tokenIgnoreUrlRepository.insertOrUpdateTokenIgnoreUrl(tokenIgnoreUrlRequest);
+        return response.success(i);
     }
 }
