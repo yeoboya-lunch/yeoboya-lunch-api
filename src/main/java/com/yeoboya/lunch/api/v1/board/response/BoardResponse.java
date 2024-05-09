@@ -53,7 +53,7 @@ public class BoardResponse {
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
-                parentReplies.stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
+                parentReplies.stream().map(r -> ReplyResponse.of(r.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);
         return response;
@@ -77,7 +77,7 @@ public class BoardResponse {
                 simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
-                parentReplies.stream().map(r -> ReplyResponse.of(board.getMember(), r, allReplies)).collect(Collectors.toList())
+                parentReplies.stream().map(r -> ReplyResponse.of(r.getMember(), r, allReplies)).collect(Collectors.toList())
         );
         response.setReplyCount(replyCount);
         return response;
