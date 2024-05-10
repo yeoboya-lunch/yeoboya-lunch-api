@@ -46,13 +46,13 @@ public class Board extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<BoardHashTag> boardHashTags = new ArrayList<>();
+    private List<BoardHashTag> boardHashTag = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Reply> replies = new ArrayList<>();
 
-    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags) {
+    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashtag) {
         Board board = new Board();
         board.setMember(member);
         board.setTitle(boardCreate.getTitle());
@@ -60,14 +60,14 @@ public class Board extends BaseEntity {
         board.setPin(boardCreate.getPin());
         board.setSecret(boardCreate.isSecret());
         board.setCreateDate(new Date());
-        for (BoardHashTag boardHashTag : boardHashTags) {
+        for (BoardHashTag boardHashTag : boardHashtag) {
             board.addBoardHashTag(boardHashTag);
         }
         return board;
     }
 
 
-    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashTags, BoardFile boardFile) {
+    public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashtag, BoardFile boardFile) {
         Board board = new Board();
         board.setMember(member);
         board.setTitle(boardCreate.getTitle());
@@ -75,7 +75,7 @@ public class Board extends BaseEntity {
         board.setPin(boardCreate.getPin());
         board.setSecret(boardCreate.isSecret());
         board.setCreateDate(new Date());
-        for (BoardHashTag boardHashTag : boardHashTags) {
+        for (BoardHashTag boardHashTag : boardHashtag) {
             board.addBoardHashTag(boardHashTag);
         }
         board.addFile(boardFile);
@@ -83,7 +83,7 @@ public class Board extends BaseEntity {
     }
 
     private void addBoardHashTag(BoardHashTag boardHashTag) {
-        this.boardHashTags.add(boardHashTag);
+        this.boardHashTag.add(boardHashTag);
         boardHashTag.setBoard(this);
     }
 

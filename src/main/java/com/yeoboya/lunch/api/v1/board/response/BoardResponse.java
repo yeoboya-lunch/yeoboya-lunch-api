@@ -24,7 +24,7 @@ public class BoardResponse {
     private final String email;
     private final String name;
     private final String createDate;
-    private final List<HashTagResponse> hashTags;
+    private final List<HashTagResponse> hashTag;
     private final List<FileUploadResponse> files;
     private final List<ReplyResponse> replies;
     private long replyCount;
@@ -34,7 +34,7 @@ public class BoardResponse {
         return new BoardResponse(
                 board.getId(), board.getTitle(), board.getContent(), board.isSecret(), board.getMember().getEmail(),
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
-                board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
+                board.getBoardHashTag().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
                 board.getReplies().stream().map(r -> ReplyResponse.of(board.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
@@ -51,7 +51,7 @@ public class BoardResponse {
         BoardResponse response = new BoardResponse(
                 board.getId(), board.getTitle(), board.getContent(), board.isSecret(), board.getMember().getEmail(),
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
-                board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
+                board.getBoardHashTag().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
                 parentReplies.stream().map(r -> ReplyResponse.of(r.getMember(), r, r.getBoard().getReplies())).collect(Collectors.toList())
         );
@@ -75,7 +75,7 @@ public class BoardResponse {
                 board.getMember().getEmail(),
                 board.getMember().getName(),
                 simpleDateFormat.format(board.getCreateDate()),
-                board.getBoardHashTags().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
+                board.getBoardHashTag().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
                 parentReplies.stream().map(r -> ReplyResponse.of(r.getMember(), r, allReplies)).collect(Collectors.toList())
         );

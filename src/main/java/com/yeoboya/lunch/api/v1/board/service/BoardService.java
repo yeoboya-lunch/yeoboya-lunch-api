@@ -66,7 +66,7 @@ public class BoardService {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
 
-        List<BoardHashTag> boardHashTags = Optional.ofNullable(boardCreate.getHashTag())
+        List<BoardHashTag> boardHashtag = Optional.ofNullable(boardCreate.getHashTag())
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(tag -> hashTagRepository.existsHashTagByTag(tag)
@@ -75,7 +75,7 @@ public class BoardService {
                 .map(BoardHashTag::createBoardHashTag)
                 .collect(Collectors.toList());
 
-        Board board = Board.createBoard(member, boardCreate, boardHashTags);
+        Board board = Board.createBoard(member, boardCreate, boardHashtag);
         try {
             Board save = boardRepository.save(board);
         } catch (DataAccessException ignored) {
@@ -96,7 +96,7 @@ public class BoardService {
 //            return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
 //        }
 
-        List<BoardHashTag> boardHashTags = Optional.ofNullable(fileBoardCreate.getHashTag())
+        List<BoardHashTag> boardHashtag = Optional.ofNullable(fileBoardCreate.getHashTag())
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(tag -> hashTagRepository.existsHashTagByTag(tag)
@@ -109,7 +109,7 @@ public class BoardService {
         FileUploadResponse upload = fileService.upload(file, fileBoardCreate.getUploadType());
         BoardFile boardFileBuild = BoardFile.builder().fileUploadResponse(upload).build();
 
-        Board board = Board.createBoard(member, fileBoardCreate, boardHashTags, boardFileBuild);
+        Board board = Board.createBoard(member, fileBoardCreate, boardHashtag, boardFileBuild);
         boardRepository.save(board);
         return response.success(Code.SAVE_SUCCESS);
     }

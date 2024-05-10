@@ -40,7 +40,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
     public Page<Board> boardList(BoardSearch boardSearch, Pageable pageable) {
         // 메인 콘텐츠 쿼리: 콘텐츠 조회
         List<Board> content = query.selectFrom(board)
-                .leftJoin(board.boardHashTags, boardHashTag)
+                .leftJoin(board.boardHashTag, boardHashTag)
                 .leftJoin(boardHashTag.hashTag, hashTag)
                 .leftJoin(board.member, member)
                 .leftJoin(board.boardFiles, boardFile)
@@ -56,7 +56,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
         JPAQuery<Long> countQuery = query
                 .select(board.countDistinct())
                 .from(board)
-                .leftJoin(board.boardHashTags, boardHashTag)
+                .leftJoin(board.boardHashTag, boardHashTag)
                 .leftJoin(boardHashTag.hashTag, hashTag)
                 .leftJoin(board.member, member)
                 .leftJoin(board.boardFiles, boardFile)
