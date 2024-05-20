@@ -92,7 +92,7 @@ public class OrderService {
 
         //주문참가자정보
         List<GroupOrderResponse> groupOrderResponse = order.getGroupOrders().stream()
-                .map((r) -> GroupOrderResponse.from(r, r.getMember(), r.getOrderItems()))
+                .map((r) -> GroupOrderResponse.of(r, r.getMember(), r.getOrderItems()))
                 .collect(Collectors.toList());
 
         //식당정보
@@ -125,10 +125,20 @@ public class OrderService {
     }
 
 
-    public Map<String, Object> getMyJoinHistoryByEmail(String email, Pageable pageable){
-        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoryByEmail(email, pageable);
+    public Object updateGroupOrder(String groupOrderId, GroupOrderJoinEdit groupOrderJoinEdit) {
+        return null;
+    }
+
+    public GroupOrderResponse getMyJoinHistoryByOrderId(Long groupOrderId){
+        return groupOrderRepository.findById(groupOrderId)
+                .map(GroupOrderResponse::of)
+                .orElseThrow(() -> new RuntimeException("모임 주문을 찾을 수 없습니다."));
+    }
+
+    public Map<String, Object> getMyJoinHistoriesByEmail(String email, Pageable pageable){
+        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoriesByEmail(email, pageable);
         List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
-                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
+                .map(groupOrder -> GroupOrderResponse.of(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
                 .collect(Collectors.toList());
 
         SlicePagination slicePagination = SlicePagination.builder()
@@ -150,9 +160,9 @@ public class OrderService {
     public Map<String, Object> getMyJoinHistoryByToken(Pageable pageable){
         String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
 
-        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoryByEmail(currentUserEmail, pageable);
+        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoriesByEmail(currentUserEmail, pageable);
         List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
-                .map(groupOrder -> GroupOrderResponse.from(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
+                .map(groupOrder -> GroupOrderResponse.of(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
                 .collect(Collectors.toList());
 
         SlicePagination slicePagination = SlicePagination.builder()
@@ -171,7 +181,7 @@ public class OrderService {
 
     }
 
-    public List<OrderDetailResponse> getMyRecruitmentOrderHistoryByEmail(String email ,Pageable pageable) {
+    public List<OrderDetailResponse> getMyRecruitmentOrderHistoriesByEmail(String email , Pageable pageable) {
         Slice<Order> orderHistory = orderRepository.findByMemberEmail(email, pageable);
 
         return orderHistory.stream()
@@ -179,7 +189,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDetailResponse> getMyRecruitmentOrderHistoryByToken(Pageable pageable) {
+    public List<OrderDetailResponse> getMyRecruitmentOrderHistoriesByToken(Pageable pageable) {
         String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
         Slice<Order> orderHistory = orderRepository.findByMemberEmail(currentUserEmail, pageable);
 

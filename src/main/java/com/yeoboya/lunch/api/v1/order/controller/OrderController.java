@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
 import com.yeoboya.lunch.api.v1.order.request.*;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
@@ -14,7 +15,6 @@ import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,36 +80,56 @@ public class OrderController {
     }
 
     /**
-     * 내 주문 내역 조회 (이메일)
+     * 내 점심 주문 모집 수정
+     * todo
      */
-    @GetMapping("/recruit/join-history/{email}")
+    @PatchMapping("/recruit/join/{groupOrderId}")
+    public ResponseEntity<Body> updateGroupOrder(@PathVariable String groupOrderId, @RequestBody GroupOrderJoinEdit groupOrderJoinEdit){
+        return response.success(Code.UPDATE_SUCCESS, orderService.updateGroupOrder(groupOrderId, groupOrderJoinEdit));
+    }
+
+
+    /**
+     * 내 점심 주문 내역 (단건)
+     * -groupOrderId 로 조회
+     */
+    @GetMapping("/recruit/history/join/{groupOrderId}")
+    public  ResponseEntity<Body> getMyJoinHistoryByOrderId(@PathVariable Long groupOrderId){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoryByOrderId(groupOrderId));
+    }
+
+
+    /**
+     * 내 주문 내역 리스트 조회 (이메일)
+     */
+    @GetMapping("/recruit/histories/join/{email}")
     public ResponseEntity<Body> getMyJoinHistoryByEmail(@PathVariable String email, Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoryByEmail(email, pageable));
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoriesByEmail(email, pageable));
     }
 
     /**
-     * 내 주문 내역 조회 (토큰)
+     * 내 주문 내역 리스트 조회 (토큰)
      */
-    @GetMapping("/recruit/join-history")
+    @GetMapping("/recruit/histories/join")
     public ResponseEntity<Body> getMyJoinHistoryByToken(Pageable pageable){
         return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoryByToken(pageable));
     }
 
     /**
-     * 내 주문 모집 내역 조회 (이메일)
+     * 내 주문 모집 내역 리스트 조회 (이메일)
      */
-    @GetMapping("/recruit/history/{email}")
+    @GetMapping("/recruit/histories/{email}")
     public ResponseEntity<Body> getMyRecruitmentOrderHistory(@PathVariable String email, Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoryByEmail(email, pageable));
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoriesByEmail(email, pageable));
     }
 
 
     /**
-     * 내 주문 모집 내역 조회 (토큰)
+     * 내 주문 모집 내역 리스트 조회 (토큰)
      */
-    @GetMapping("/recruit/history")
+    @GetMapping("/recruit/histories")
     public ResponseEntity<Body> getMyRecruitmentOrderHistory(Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoryByToken(pageable));
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoriesByToken(pageable));
     }
 
     /**

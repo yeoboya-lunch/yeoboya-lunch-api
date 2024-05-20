@@ -50,7 +50,7 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
     }
 
     @Override
-    public Slice<GroupOrder> getJoinHistoryByEmail(String email, Pageable pageable) {
+    public Slice<GroupOrder> getJoinHistoriesByEmail(String email, Pageable pageable) {
         List<GroupOrder> content = query.selectFrom(groupOrder)
                 .leftJoin(groupOrder.member, member)
                 .leftJoin(groupOrder.orderItems, orderItem)

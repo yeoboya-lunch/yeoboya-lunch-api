@@ -22,7 +22,7 @@ public class GroupOrderResponse {
     private List<OrderItemResponse> orderItem;
     private int totalPrice;
 
-    public static GroupOrderResponse from(GroupOrder groupOrder, Member member, List<OrderItem> orderItems) {
+    public static GroupOrderResponse of(GroupOrder groupOrder, Member member, List<OrderItem> orderItems) {
         GroupOrderResponse groupOrderResponse = new GroupOrderResponse();
         groupOrderResponse.setGroupOrderId(groupOrder.getId());
         groupOrderResponse.setOrderId(groupOrder.getOrder().getId());
@@ -32,6 +32,25 @@ public class GroupOrderResponse {
         groupOrderResponse.setOrderItem(orderItems.stream().map(OrderItemResponse::new).collect(Collectors.toList()));
         groupOrderResponse.setTotalPrice(orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum());
         return groupOrderResponse;
+    }
+
+    public static GroupOrderResponse of(GroupOrder groupOrder) {
+        GroupOrderResponse groupOrderResponse = new GroupOrderResponse();
+        groupOrderResponse.setGroupOrderId(groupOrder.getId());
+        groupOrderResponse.setOrderId(groupOrder.getOrder().getId());
+        groupOrderResponse.setTitle(groupOrder.getOrder().getTitle());
+        groupOrderResponse.setEmail(groupOrder.getMember().getEmail());
+        groupOrderResponse.setName(groupOrder.getMember().getName());
+
+        List<OrderItem> orderItems = groupOrder.getOrderItems();
+        groupOrderResponse.setOrderItem(orderItems.stream().map(OrderItemResponse::new).collect(Collectors.toList()));
+        groupOrderResponse.setTotalPrice(totalPriceCalculate(orderItems));
+
+        return groupOrderResponse;
+    }
+
+    private static int totalPriceCalculate(List<OrderItem> orderItems) {
+        return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
     }
 
 }

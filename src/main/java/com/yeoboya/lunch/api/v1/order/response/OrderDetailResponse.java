@@ -32,7 +32,7 @@ public class OrderDetailResponse {
         int deliveryFee = order.getDeliveryFee();
 
         List<GroupOrderResponse> groupOrderResponses = order.getGroupOrders().stream()
-                .map(r -> GroupOrderResponse.from(r, r.getMember(), r.getOrderItems()))
+                .map(r -> GroupOrderResponse.of(r, r.getMember(), r.getOrderItems()))
                 .collect(Collectors.toList());
 
         return new OrderDetailResponse(orderId, title, formattedLastOrderTime, statusTitle, memo, deliveryFee, groupOrderResponses);
