@@ -1,10 +1,7 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -54,9 +51,21 @@ public class GroupOrder {
         return groupOrder;
     }
 
+
     public void addOrderItem(OrderItem orderItem, Order order) {
         this.orderItems.add(orderItem);
         orderItem.setGroupOrder(this);
         orderItem.setOrder(order);
+    }
+
+    @Override
+    public String toString() {
+        return "GroupOrder{" +
+                "id=" + id +
+                ", order=" + order +
+                ", member=" + member +
+                ", orderItems=" + orderItems +
+                ", orderDate=" + orderDate +
+                '}';
     }
 }

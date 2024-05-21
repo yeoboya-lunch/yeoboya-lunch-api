@@ -5,7 +5,6 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
-import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
 import com.yeoboya.lunch.api.v1.order.request.*;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
@@ -81,11 +80,11 @@ public class OrderController {
 
     /**
      * 내 점심 주문 모집 수정
-     * todo
      */
-    @PatchMapping("/recruit/join/{groupOrderId}")
-    public ResponseEntity<Body> updateGroupOrder(@PathVariable String groupOrderId, @RequestBody GroupOrderJoinEdit groupOrderJoinEdit){
-        return response.success(Code.UPDATE_SUCCESS, orderService.updateGroupOrder(groupOrderId, groupOrderJoinEdit));
+    @PatchMapping("/recruit/join")
+    public ResponseEntity<Body> updateGroupOrder(@RequestBody GroupOrderJoinEdit groupOrderJoinEdit){
+        orderService.updateGroupOrder(groupOrderJoinEdit);
+        return response.success(Code.UPDATE_SUCCESS);
     }
 
 

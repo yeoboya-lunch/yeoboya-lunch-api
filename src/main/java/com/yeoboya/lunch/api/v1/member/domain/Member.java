@@ -84,4 +84,12 @@ public class Member extends BaseTimeEntity {
         this.setUserSecurityStatus(userSecurityStatus);
         userSecurityStatus.setMember(this);
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

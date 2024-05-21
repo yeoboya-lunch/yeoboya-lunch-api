@@ -10,21 +10,13 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@ToString
 public class GroupOrderJoinEdit {
 
-
-    @NotBlank(message = "주문자를 입력해주세요.")
-    @Email(message = "Valid email is required.")
+    private Long orderId;
+    private Long groupOrderId;
     private String email;
 
     @NotNull(message = "상품정보를 입력해주세요.")
     private List<OrderItemCreateEdit> orderItems;
-
-    @Builder
-    public GroupOrderJoinEdit(String email, List<OrderItemCreateEdit> orderItems) {
-        this.email = email;
-        this.orderItems = orderItems;
-    }
 
 }

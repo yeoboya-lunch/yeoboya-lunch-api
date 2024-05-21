@@ -38,6 +38,7 @@ public class OrderItem {
         orderItem.setOrder(order);
         orderItem.setOrderPrice(orderPrice);
         orderItem.setOrderQuantity(count);
+
         return orderItem;
     }
 
@@ -48,6 +49,9 @@ public class OrderItem {
         return getOrderPrice() * getOrderQuantity();
     }
 
+    public void updateQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
+    }
 
     @Override
     public String toString() {

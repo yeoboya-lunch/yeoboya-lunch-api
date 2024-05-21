@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class GroupOrderJoin {
 
-    private Long orderNo;
+    private Long orderId;
 
     @NotBlank(message = "주문자를 입력해주세요.")
     @Email(message = "Valid email is required.")
@@ -23,8 +23,8 @@ public class GroupOrderJoin {
     private List<OrderItemCreate> orderItems;
 
     @Builder
-    public GroupOrderJoin(Long orderNo, String email, List<OrderItemCreate> orderItems) {
-        this.orderNo = orderNo;
+    public GroupOrderJoin(Long orderId, String email, List<OrderItemCreate> orderItems) {
+        this.orderId = orderId;
         this.email = email;
         this.orderItems = orderItems;
     }
