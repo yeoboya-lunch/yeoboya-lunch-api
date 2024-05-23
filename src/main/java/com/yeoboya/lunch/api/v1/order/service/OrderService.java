@@ -112,7 +112,7 @@ public class OrderService {
         );
     }
 
-    public void participateInLunchJoinRecruitment(GroupOrderJoin groupOrderJoin) {
+    public void joinGroupOrder(GroupOrderJoin groupOrderJoin) {
         Order order = orderRepository.findById(groupOrderJoin.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found - " + groupOrderJoin.getOrderId()));
         Member member = memberRepository.findByEmail(groupOrderJoin.getEmail())
@@ -122,7 +122,8 @@ public class OrderService {
                 .map(orderItemCreate -> {
                     Item item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), orderItemCreate.getItemName())
                             .orElseThrow(() -> new EntityNotFoundException("Item not found - " + orderItemCreate.getItemName()));
-                    return OrderItem.createOrderItem(item, order, item.getPrice(), orderItemCreate.getOrderQuantity());
+
+                    return OrderItem.createOrderItem(item, order, null, item.getPrice(), orderItemCreate.getOrderQuantity());
                 })
                 .collect(Collectors.toList());
 
@@ -132,36 +133,33 @@ public class OrderService {
 
 
     public void updateGroupOrder(GroupOrderJoinEdit groupOrderJoinEdit) {
-        // 1. 원래의 GroupOrder 찾기
         Order order = orderRepository.findById(groupOrderJoinEdit.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다 - " + groupOrderJoinEdit.getOrderId()));
         GroupOrder existingGroupOrder = groupOrderRepository.findById(groupOrderJoinEdit.getGroupOrderId())
                 .orElseThrow(() -> new RuntimeException("그룹 주문을 찾을 수 없습니다"));
         Member member = memberRepository.findByEmail(groupOrderJoinEdit.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Member not found - " + groupOrderJoinEdit.getEmail()));
-//
-//        existingGroupOrder.setMember(member);
+                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다. - " + groupOrderJoinEdit.getEmail()));
 
-        List<OrderItem> orderItems = new ArrayList<>();
+
+        List<OrderItem> updatedOrderItems = new ArrayList<>();
         for (OrderItemCreateEdit orderItemCreate : groupOrderJoinEdit.getOrderItems()) {
-            Item item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), orderItemCreate.getItemName())
-                    .orElseThrow(() -> new EntityNotFoundException("Item not found - " + orderItemCreate.getItemName()));
 
-            OrderItem orderItem = orderItemRepository.findByOrderAndItem(order, item)
+            Item item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), orderItemCreate.getItemName())
+                    .orElseThrow(() -> new EntityNotFoundException("아이템을 찾을 수 없습니다. - " + orderItemCreate.getItemName()));
+
+            OrderItem orderItem = orderItemRepository.findByOrderAndItemAndGroupOrderMember(order, item, member)
                     .map(existingOrderItem -> {
                         existingOrderItem.updateQuantity(orderItemCreate.getOrderQuantity());
                         return existingOrderItem;
                     })
-                    .orElseGet(() -> OrderItem.createOrderItem(item, order, item.getPrice(), orderItemCreate.getOrderQuantity()));
-
-            orderItems.add(orderItem);
-
+                    .orElseGet(() -> OrderItem.createOrderItem(item, order, existingGroupOrder, item.getPrice(), orderItemCreate.getOrderQuantity()));
+            updatedOrderItems.add(orderItem);
         }
-        existingGroupOrder.setOrderItems(orderItems);
 
-        //fixme member 정보
+        List<OrderItem> byOrderAndGroupOrderMember = orderItemRepository.findByOrderAndGroupOrderMember(order, member);
+        // byOrderAndGroupOrderMember　여기랑  groupOrderJoinEdit 의 orderItems 내용 비교해서 있는 경우 없는 경우 분기 처리하고싶어
 
-//        existingGroupOrder = GroupOrder.createGroupOrder(order, member, orderItems);
+        existingGroupOrder.setOrderItems(updatedOrderItems);
         groupOrderRepository.save(existingGroupOrder);
     }
 

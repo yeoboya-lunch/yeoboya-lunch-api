@@ -73,8 +73,8 @@ public class OrderController {
      * 점심 주문 모집 참여
      */
     @PostMapping("/recruit/join")
-    public ResponseEntity<Body> participateInLunchJoinRecruitment(@RequestBody @Valid GroupOrderJoin groupOrderJoin){
-        orderService.participateInLunchJoinRecruitment(groupOrderJoin);
+    public ResponseEntity<Body> joinGroupOrder(@RequestBody @Valid GroupOrderJoin groupOrderJoin){
+        orderService.joinGroupOrder(groupOrderJoin);
         return response.success(Code.SAVE_SUCCESS);
     }
 
