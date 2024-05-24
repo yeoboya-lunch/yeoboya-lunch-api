@@ -131,38 +131,45 @@ public class OrderService {
         groupOrderRepository.save(groupOrder);
     }
 
-
-    public void updateGroupOrder(GroupOrderJoinEdit groupOrderJoinEdit) {
+    @Transactional
+    public void editGroupOrder(GroupOrderJoinEdit groupOrderJoinEdit) {
         Order order = orderRepository.findById(groupOrderJoinEdit.getOrderId())
-                .orElseThrow(() -> new EntityNotFoundException("주문을 찾을 수 없습니다 - " + groupOrderJoinEdit.getOrderId()));
-        GroupOrder existingGroupOrder = groupOrderRepository.findById(groupOrderJoinEdit.getGroupOrderId())
-                .orElseThrow(() -> new RuntimeException("그룹 주문을 찾을 수 없습니다"));
-        Member member = memberRepository.findByEmail(groupOrderJoinEdit.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다. - " + groupOrderJoinEdit.getEmail()));
+                .orElseThrow(() -> new EntityNotFoundException("Order not found - " + groupOrderJoinEdit.getOrderId()));
+//        Member member = memberRepository.findByEmail(groupOrderJoinEdit.getEmail())
+//                .orElseThrow(() -> new EntityNotFoundException("Member not found - " + groupOrderJoinEdit.getEmail()));
+        GroupOrder groupOrder = groupOrderRepository.findById(groupOrderJoinEdit.getGroupOrderId())
+                .orElseThrow(() -> new EntityNotFoundException("Group order not found - " + groupOrderJoinEdit.getGroupOrderId()));
 
+        Map<String, OrderItem> existingItems = groupOrder.getOrderItems().stream()
+                .collect(Collectors.toMap(orderItem -> orderItem.getItem().getName(), orderItem -> orderItem));
 
-        List<OrderItem> updatedOrderItems = new ArrayList<>();
-        for (OrderItemCreateEdit orderItemCreate : groupOrderJoinEdit.getOrderItems()) {
-
-            Item item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), orderItemCreate.getItemName())
-                    .orElseThrow(() -> new EntityNotFoundException("아이템을 찾을 수 없습니다. - " + orderItemCreate.getItemName()));
-
-            OrderItem orderItem = orderItemRepository.findByOrderAndItemAndGroupOrderMember(order, item, member)
-                    .map(existingOrderItem -> {
-                        existingOrderItem.updateQuantity(orderItemCreate.getOrderQuantity());
+        List<OrderItem> updatedOrderItems = groupOrderJoinEdit.getOrderItems().stream()
+                .map(orderItemCreateEdit -> {
+                    String itemName = orderItemCreateEdit.getItemName();
+                    int orderQuantity = orderItemCreateEdit.getOrderQuantity();
+                    if (existingItems.containsKey(itemName)) {
+                        OrderItem existingOrderItem = existingItems.remove(itemName);
+                        existingOrderItem.updateQuantity(orderQuantity);
                         return existingOrderItem;
-                    })
-                    .orElseGet(() -> OrderItem.createOrderItem(item, order, existingGroupOrder, item.getPrice(), orderItemCreate.getOrderQuantity()));
-            updatedOrderItems.add(orderItem);
-        }
+                    } else {
+                        Item item = itemRepository.getItemByShopNameAndName(order.getShop().getName(), itemName)
+                                .orElseThrow(() -> new EntityNotFoundException("Item not found - " + itemName));
+                        return OrderItem.createOrderItem(item, order, groupOrder, item.getPrice(), orderQuantity);
+                    }
+                })
+                .collect(Collectors.toList());
 
-        List<OrderItem> byOrderAndGroupOrderMember = orderItemRepository.findByOrderAndGroupOrderMember(order, member);
-        // byOrderAndGroupOrderMember　여기랑  groupOrderJoinEdit 의 orderItems 내용 비교해서 있는 경우 없는 경우 분기 처리하고싶어
+        // Remove items not in the request
+        existingItems.values().forEach(orderItem -> {
+            orderItem.setGroupOrder(null);
+            orderItem.setOrder(null);
+            orderItemRepository.delete(orderItem);
+        });
 
-        existingGroupOrder.setOrderItems(updatedOrderItems);
-        groupOrderRepository.save(existingGroupOrder);
+        groupOrder.getOrderItems().clear();
+        groupOrder.getOrderItems().addAll(updatedOrderItems);
+        groupOrderRepository.save(groupOrder);
     }
-
 
     public GroupOrderResponse getMyJoinHistoryByOrderId(Long groupOrderId) {
         return groupOrderRepository.findById(groupOrderId)

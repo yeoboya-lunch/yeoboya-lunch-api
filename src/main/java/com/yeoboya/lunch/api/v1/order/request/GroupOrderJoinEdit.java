@@ -14,7 +14,6 @@ public class GroupOrderJoinEdit {
 
     private Long orderId;
     private Long groupOrderId;
-    private String email;
 
     @NotNull(message = "상품정보를 입력해주세요.")
     private List<OrderItemCreateEdit> orderItems;

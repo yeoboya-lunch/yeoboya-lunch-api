@@ -39,7 +39,6 @@ public class OrderItem {
         orderItem.setGroupOrder(groupOrder);
         orderItem.setOrderPrice(orderPrice);
         orderItem.setOrderQuantity(count);
-
         return orderItem;
     }
 

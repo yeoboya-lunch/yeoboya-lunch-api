@@ -83,7 +83,7 @@ public class OrderController {
      */
     @PatchMapping("/recruit/join")
     public ResponseEntity<Body> updateGroupOrder(@RequestBody GroupOrderJoinEdit groupOrderJoinEdit){
-        orderService.updateGroupOrder(groupOrderJoinEdit);
+        orderService.editGroupOrder(groupOrderJoinEdit);
         return response.success(Code.UPDATE_SUCCESS);
     }
 
