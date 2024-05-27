@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.board.controller;
 
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
+import com.yeoboya.lunch.api.v1.board.request.BoardEdit;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.board.service.BoardService;
@@ -58,5 +59,10 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public ResponseEntity<Body> findBoardById(@PathVariable Long boardId, Pageable pageable) {
         return boardService.findBoardById(boardId, pageable);
+    }
+
+    @PatchMapping("/edit")
+    public ResponseEntity<Body> edit(@RequestBody BoardEdit boardEdit){
+        return boardService.editBoard(boardEdit);
     }
 }

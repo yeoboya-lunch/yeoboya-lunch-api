@@ -7,6 +7,7 @@ import com.yeoboya.lunch.api.v1.board.repository.BoardRepository;
 import com.yeoboya.lunch.api.v1.board.repository.HashTagRepository;
 import com.yeoboya.lunch.api.v1.board.repository.ReplyRepository;
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
+import com.yeoboya.lunch.api.v1.board.request.BoardEdit;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.board.response.BoardResponse;
@@ -144,5 +145,9 @@ public class BoardService {
         BoardResponse boardResponse = BoardResponse.of(board, replyRepository.countByBoard_Id(boardId), replyRepository.findByBoardId(boardId, pageable));
 
         return response.success(Code.SEARCH_SUCCESS, boardResponse);
+    }
+
+    public ResponseEntity<Body> editBoard(BoardEdit boardEdit) {
+        return null;
     }
 }
