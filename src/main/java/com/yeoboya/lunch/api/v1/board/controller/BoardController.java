@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/board")
@@ -62,7 +63,7 @@ public class BoardController {
     }
 
     @PatchMapping("/edit")
-    public ResponseEntity<Body> edit(@RequestBody BoardEdit boardEdit){
-        return boardService.editBoard(boardEdit);
+    public ResponseEntity<Body> edit(@RequestBody BoardEdit boardEdit, Principal principal){
+        return boardService.editBoard(boardEdit, principal);
     }
 }

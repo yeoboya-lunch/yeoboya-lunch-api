@@ -27,12 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -147,7 +149,27 @@ public class BoardService {
         return response.success(Code.SEARCH_SUCCESS, boardResponse);
     }
 
-    public ResponseEntity<Body> editBoard(BoardEdit boardEdit) {
-        return null;
+    public ResponseEntity<Body> editBoard(BoardEdit boardEdit, Principal principal) {
+        return boardRepository.findById(boardEdit.getBoardId())
+                .map(board -> {
+                    String loggedInUser = principal.getName();
+                    if (!board.getMember().getEmail().equals(loggedInUser)) {
+                        return response.fail(ErrorCode.FORBIDDEN_FAIL);
+                    }
+
+                    //fixme 비밀글 관리
+//                    if (board.isSecret() && board.getPin() != boardEdit.getPin()) {
+//                        return response.fail(ErrorCode.FORBIDDEN_FAIL);
+//                    }
+
+                    board.setTitle(boardEdit.getTitle());
+                    board.setContent(boardEdit.getContent());
+                    board.setPin(boardEdit.getPin());
+                    board.setSecret(boardEdit.isSecret());
+                    boardRepository.save(board);
+                    return response.success(Code.UPDATE_SUCCESS);
+                })
+                .orElse(response.fail(ErrorCode.NOT_FOUND_FAIL));
     }
+
 }

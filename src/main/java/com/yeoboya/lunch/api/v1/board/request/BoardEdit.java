@@ -22,6 +22,7 @@ import java.util.List;
 @ToString
 public class BoardEdit {
 
+    private Long boardId;
     private String title;             //제목
     private List<String> hashTag;     //해시태그
     private String content;           //콘텐츠
