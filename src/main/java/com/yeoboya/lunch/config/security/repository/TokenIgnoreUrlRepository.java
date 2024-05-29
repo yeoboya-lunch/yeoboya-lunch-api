@@ -3,14 +3,10 @@ package com.yeoboya.lunch.config.security.repository;
 import com.yeoboya.lunch.config.security.domain.TokenIgnoreUrl;
 import com.yeoboya.lunch.config.security.reqeust.TokenIgnoreUrlRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,14 +30,14 @@ public class TokenIgnoreUrlRepository {
 
     public Optional<TokenIgnoreUrl> findTokenIgnoreUrlByUrl(String url) {
         String sql = "SELECT * FROM token_ignore_urls WHERE url = ?";
-        List<TokenIgnoreUrl> results = jdbcTemplate.query(sql, new Object[]{url},
+        List<TokenIgnoreUrl> results = jdbcTemplate.query(sql,
                 (rs, rowNum) -> {
                     TokenIgnoreUrl tokenIgnoreUrl = new TokenIgnoreUrl();
                     tokenIgnoreUrl.setId(rs.getLong("token_ignore_id"));
                     tokenIgnoreUrl.setUrl(rs.getString("url"));
                     tokenIgnoreUrl.setIsIgnore(rs.getBoolean("is_ignore"));
                     return tokenIgnoreUrl;
-                });
+                },  url);
 
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }

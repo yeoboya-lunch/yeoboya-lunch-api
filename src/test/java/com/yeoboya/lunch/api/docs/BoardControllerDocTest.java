@@ -1,13 +1,9 @@
 package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
-import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
-import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
-import com.yeoboya.lunch.api.v1.board.request.ReplyCreateRequest;
+import com.yeoboya.lunch.api.v1.board.request.*;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,14 +12,10 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
@@ -106,6 +98,46 @@ class BoardControllerDocTest {
     }
 
     @Test
+    @DisplayName("게시판 수정")
+    void updateBoardTest() throws Exception {
+
+        BoardEdit boardEdit = BoardEdit.builder()
+                .boardId(1L)
+                .title("Test board title No is " + unique)
+                .content("Test content")
+                .hashTag(Arrays.asList("snatch", "clean&jerk", "크로스핏", "달리기"))
+                .secret(false)
+                .pin(1234)
+                .build();
+
+        String json = objectMapper.writeValueAsString(boardEdit);
+
+        mockMvc.perform(patch("/board/edit")
+                        .with(user("board@test.com"))
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("board/update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("boardId").description("게시글 번호").type(JsonFieldType.NUMBER),
+                                fieldWithPath("title").description("게시글 제목").type(JsonFieldType.STRING),
+                                fieldWithPath("content").description("게시글 내용").type(JsonFieldType.STRING),
+                                fieldWithPath("hashTag").description("해시태그").type(JsonFieldType.ARRAY),
+                                fieldWithPath("secret").description("게시글 공개여부").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("pin").description("게시글 비밀번호").type(JsonFieldType.NUMBER)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("게시글 조회")
     void listBoardTest() throws Exception {
 
@@ -138,14 +170,15 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.list[].email").description("게시글 작성자 이메일").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].name").description("게시글 작성자 이름").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].createDate").description("게시글 작성일").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].Hashta[].tag").description("해시태그").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].boardFiles").description("첨부 파일").type(JsonFieldType.ARRAY).optional(),
-                                fieldWithPath("data.list[].boardFiles[]").description("첨부 파일 리스트").type(JsonFieldType.ARRAY).optional(),
-                                fieldWithPath("data.list[].boardFiles[].originalFileName").description("원본 파일명").type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.list[].boardFiles[].fileName").description("저장된 파일명").type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.list[].boardFiles[].filePath").description("파일 경로").type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.list[].boardFiles[].extension").description("파일 확장자").type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.list[].boardFiles[].size").description("파일 크기").type(JsonFieldType.NUMBER).optional(),
+                                fieldWithPath("data.list[].hashTag[].tag").description("해시태그").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].files").description("첨부 파일").type(JsonFieldType.ARRAY).optional(),
+                                fieldWithPath("data.list[].files[]").description("첨부 파일 리스트").type(JsonFieldType.ARRAY).optional(),
+                                fieldWithPath("data.list[].files[].originalFileName").description("원본 파일명").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.list[].files[].fileName").description("저장된 파일명").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.list[].files[].filePath").description("파일 경로").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.list[].files[].extension").description("파일 확장자").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.list[].files[].size").description("파일 크기").type(JsonFieldType.NUMBER).optional(),
+                                fieldWithPath("data.list[].files[].externalForm").description("externalForm").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].replies").description("댓글 리스트").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].replies[].replyId").description("댓글 ID").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].replies[].writer").description("댓글 작성자").type(JsonFieldType.STRING).optional(),
@@ -236,8 +269,15 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.email").description("게시판 작성자 이메일").type(JsonFieldType.STRING),
                                 fieldWithPath("data.name").description("게시판 작성자 이름").type(JsonFieldType.STRING),
                                 fieldWithPath("data.createDate").description("게시글 작성일").type(JsonFieldType.STRING),
-                                fieldWithPath("data.Hashta[].tag").description("해시태그").type(JsonFieldType.STRING),
-                                fieldWithPath("data.boardFiles").description("첨부 파일").type(JsonFieldType.ARRAY),
+                                fieldWithPath("data.hashTag[].tag").description("해시태그").type(JsonFieldType.STRING),
+                                fieldWithPath("data.files").description("첨부 파일").type(JsonFieldType.ARRAY).optional(),
+                                fieldWithPath("data.files[]").description("첨부 파일 리스트").type(JsonFieldType.ARRAY).optional(),
+                                fieldWithPath("data.files[].originalFileName").description("원본 파일명").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.files[].fileName").description("저장된 파일명").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.files[].filePath").description("파일 경로").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.files[].extension").description("파일 확장자").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.files[].size").description("파일 크기").type(JsonFieldType.NUMBER).optional(),
+                                fieldWithPath("data.files[].externalForm").description("externalForm").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.replies[].replyId").description("댓글 ID").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.replies[].writer").description("댓글 작성자").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.replies[].content").description("댓글 내용").type(JsonFieldType.STRING).optional(),
