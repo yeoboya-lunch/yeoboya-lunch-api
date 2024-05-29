@@ -2,7 +2,6 @@ package com.yeoboya.lunch.api.v1.member.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
-import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;

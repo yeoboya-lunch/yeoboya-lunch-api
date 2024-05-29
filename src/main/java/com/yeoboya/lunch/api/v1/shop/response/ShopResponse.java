@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.api.v1.shop.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import lombok.AllArgsConstructor;

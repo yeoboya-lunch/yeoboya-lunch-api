@@ -17,12 +17,13 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import java.io.File;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -35,7 +36,7 @@ import java.util.*;
 public class FileServiceS3 implements FileService{
 
     private final S3Client s3Client;
-    final String S3_BUCKET_NAME = "yeoboya-lunch-s3";
+    final String S3_BUCKET_NAME = "yeoboya-lunch-s3-bucket";
 
     public FileServiceS3() {
         JSONObject secret = AwsSecretsManagerClient.getSecret("prod/lunch");

@@ -2,10 +2,7 @@ package com.yeoboya.lunch.config.security.service;
 
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
-import com.yeoboya.lunch.config.annotation.Reload;
 import com.yeoboya.lunch.config.security.domain.Resources;
-import com.yeoboya.lunch.config.security.domain.Role;
-import com.yeoboya.lunch.config.security.domain.TokenIgnoreUrl;
 import com.yeoboya.lunch.config.security.repository.ResourcesRepository;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.repository.TokenIgnoreUrlRepository;
@@ -18,9 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 

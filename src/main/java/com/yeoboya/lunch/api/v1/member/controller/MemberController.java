@@ -1,6 +1,5 @@
 package com.yeoboya.lunch.api.v1.member.controller;
 
-import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 
 @RestController

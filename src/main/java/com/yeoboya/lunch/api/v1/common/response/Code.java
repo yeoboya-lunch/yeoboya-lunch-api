@@ -3,7 +3,8 @@ package com.yeoboya.lunch.api.v1.common.response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @Getter
 public enum Code {

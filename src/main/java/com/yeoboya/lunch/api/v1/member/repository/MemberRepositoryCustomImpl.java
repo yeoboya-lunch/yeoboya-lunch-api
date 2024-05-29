@@ -6,13 +6,15 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
+import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
 import com.yeoboya.lunch.api.v1.member.response.QMemberResponse;
 import com.yeoboya.lunch.api.v1.member.response.QMemberRoleResponse;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
-import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Check;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 

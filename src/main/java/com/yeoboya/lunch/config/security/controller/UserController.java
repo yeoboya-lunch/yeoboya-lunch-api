@@ -1,7 +1,6 @@
 package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
-import com.yeoboya.lunch.config.annotation.RateLimited;
 import com.yeoboya.lunch.config.annotation.TimeLogging;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import com.yeoboya.lunch.config.security.service.UserService;

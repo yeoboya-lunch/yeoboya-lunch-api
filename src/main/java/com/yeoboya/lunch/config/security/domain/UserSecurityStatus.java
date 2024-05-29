@@ -1,7 +1,9 @@
 package com.yeoboya.lunch.config.security.domain;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 

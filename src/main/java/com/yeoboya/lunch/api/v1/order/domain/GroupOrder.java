@@ -1,7 +1,10 @@
 package com.yeoboya.lunch.api.v1.order.domain;
 
 import com.yeoboya.lunch.api.v1.member.domain.Member;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;

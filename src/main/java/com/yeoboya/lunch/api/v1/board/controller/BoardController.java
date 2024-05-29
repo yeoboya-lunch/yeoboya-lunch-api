@@ -6,8 +6,6 @@ import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.FileBoardCreate;
 import com.yeoboya.lunch.api.v1.board.service.BoardService;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
-import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
-import com.yeoboya.lunch.api.v1.file.service.FileServiceS3;
 import com.yeoboya.lunch.config.annotation.RateLimited;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.security.Principal;
 
 @RestController
@@ -27,7 +24,6 @@ import java.security.Principal;
 public class BoardController {
 
     private final BoardService boardService;
-    private final FileServiceS3 fileServiceS3;
 
     /**
      * 게시글 작성

@@ -1,13 +1,13 @@
 package com.yeoboya.lunch.config.pricingPlan.domain;
 
-import javax.persistence.*;
-
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.config.pricingPlan.constants.PricingPlan;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @Builder

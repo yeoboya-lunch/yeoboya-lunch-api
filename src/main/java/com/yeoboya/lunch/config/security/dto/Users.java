@@ -1,10 +1,7 @@
 package com.yeoboya.lunch.config.security.dto;
 
 import com.yeoboya.lunch.api.v1.common.exception.AuthorityException;
-import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
 import lombok.*;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

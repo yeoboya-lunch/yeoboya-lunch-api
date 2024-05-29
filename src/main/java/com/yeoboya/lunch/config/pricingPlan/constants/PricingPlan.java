@@ -2,6 +2,7 @@ package com.yeoboya.lunch.config.pricingPlan.constants;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Refill;
+
 import java.time.Duration;
 
 public enum PricingPlan {
