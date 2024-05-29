@@ -8,11 +8,13 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@Builder
 public class OrderItemCreateEdit {
 
     @NotNull(message = "메뉴를 입력해주세요.")
     private String itemName;
 
     @NotNull(message = "주문 수량을 입력해주세요.")
+    @Builder.Default
     private int orderQuantity = 1;
 }

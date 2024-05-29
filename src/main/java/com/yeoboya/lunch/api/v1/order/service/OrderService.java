@@ -131,7 +131,7 @@ public class OrderService {
         groupOrderRepository.save(groupOrder);
     }
 
-    @Transactional
+//    @Transactional
     public void editGroupOrder(GroupOrderJoinEdit groupOrderJoinEdit) {
         Order order = orderRepository.findById(groupOrderJoinEdit.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found - " + groupOrderJoinEdit.getOrderId()));

@@ -53,7 +53,7 @@ class OrderControllerDocTest {
 
     @Test
     @DisplayName("점심 주문 모집 시작")
-    void startLunchOrderRecruitment() throws Exception {
+    void testStartLunchOrderRecruitment() throws Exception {
         // 현재 시간에 30분을 추가
         LocalDateTime localDateTimePlus30Mins = LocalDateTime.now().plusMinutes(30);
         Timestamp lastOrderTime = Timestamp.valueOf(localDateTimePlus30Mins);
@@ -99,7 +99,7 @@ class OrderControllerDocTest {
 
     @Test
     @DisplayName("점심 주문 모집 리스트")
-    void getLunchOrderRecruitmentList() throws Exception {
+    void testListLunchOrderRecruitment() throws Exception {
         OrderSearch search = new OrderSearch();
         search.setOrderStatus(OrderStatus.valueOf("ORDER_START"));
         search.setOrderName("김현진");
@@ -160,7 +160,7 @@ class OrderControllerDocTest {
 
     @Test
     @DisplayName("주문번호로 점심 주문 정보 조회")
-    void findLunchOrderByOrderId() throws Exception {
+    void testRetrieveLunchOrderInfoByOrderId() throws Exception {
         // when & then
         mockMvc.perform(get("/order/recruits/", 1)
                         .contentType(APPLICATION_JSON)
@@ -199,7 +199,7 @@ class OrderControllerDocTest {
     @Test
     @DisplayName("점심 주문 모집에 참여")
     @Transactional
-    void participateInLunchJoinRecruitment() throws Exception {
+    void testParticipationInLunchOrderRecruitment() throws Exception {
         // given
         List<OrderItemCreate> orderItemsList = new ArrayList<>();
 
@@ -210,7 +210,7 @@ class OrderControllerDocTest {
         orderItemsList.add(testItem);
 
         GroupOrderJoin groupOrderJoin = GroupOrderJoin.builder()
-                .orderNo(1L)
+                .orderId(1L)
                 .email("join2@test.com")
                 .orderItems(orderItemsList)
                 .build();
@@ -228,7 +228,7 @@ class OrderControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("orderNo").description("Order number").type(JsonFieldType.NUMBER),
+                                fieldWithPath("orderId").description("Order number").type(JsonFieldType.NUMBER),
                                 fieldWithPath("email").description("Email of the order").type(JsonFieldType.STRING),
                                 fieldWithPath("orderItems[].itemName").description("Name of the order item").type(JsonFieldType.STRING),
                                 fieldWithPath("orderItems[].orderQuantity").description("Quantity of the order item").type(JsonFieldType.NUMBER)
@@ -243,18 +243,64 @@ class OrderControllerDocTest {
     }
 
     @Test
+    @DisplayName("점심 주문 모집에 참여 후 주문 수정")
+    @Transactional
+    void testEditParticipationInLunchOrderRecruitment() throws Exception {
+        // 주문 항목 생성
+        List<OrderItemCreateEdit> orderItemsList = new ArrayList<>();
+
+        OrderItemCreateEdit testItem = OrderItemCreateEdit.builder()
+                .itemName("우럭")
+                .orderQuantity(3)
+                .build();
+
+        orderItemsList.add(testItem);
+
+        // 주문 수정 데이터 생성
+        GroupOrderJoinEdit groupOrderJoinEdit = new GroupOrderJoinEdit();
+        groupOrderJoinEdit.setOrderId(64L);
+        groupOrderJoinEdit.setGroupOrderId(74L);
+        groupOrderJoinEdit.setOrderItems(orderItemsList);
+
+        // 객체를 JSON으로 변환
+        String json = objectMapper.writeValueAsString(groupOrderJoinEdit);
+
+        // when & then
+        mockMvc.perform(patch("/order/recruit/join")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("order/recruit/join/update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("orderId").description("주문 번호").type(JsonFieldType.NUMBER),
+                                fieldWithPath("groupOrderId").description("모임 주문 번호").type(JsonFieldType.NUMBER),
+                                fieldWithPath("orderItems[].itemName").description("주문 상품 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("orderItems[].orderQuantity").description("주문 상품 수량").type(JsonFieldType.NUMBER)
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("응답 메세지").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("내 주문 내역 조회 (이메일)")
-    void getMyJoinHistoryByEmail() throws Exception {
+    void testRetrieveMyOrderHistoryByEmail() throws Exception {
         //given
         String email = "join@test.com";
 
         //expected
-        mockMvc.perform(get("/order/recruit/join-history/{email}", email)
+        mockMvc.perform(get("/order/recruit/histories/join/{email}", email)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("order/recruit/history/email",
+                .andDo(document("order/recruit/histories/join/email",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
@@ -302,17 +348,17 @@ class OrderControllerDocTest {
 
     @Test
     @DisplayName("내 주문 모집 내역 조회 (이메일)")
-    void getMyRecruitmentOrderHistory() throws Exception {
+    void testRetrieveMyOrderRecruitmentHistoryByEmail() throws Exception {
         //given
         String email = "order@test.com";
 
         //expected
-        mockMvc.perform(get("/order/recruit/history/{email}", email)
+        mockMvc.perform(get("/order/recruit/histories/{email}", email)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("order/recruit/history/email",
+                .andDo(document("order/recruit/histories/email",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(

@@ -20,6 +20,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@Builder
 public class BoardEdit {
 
     private Long boardId;
