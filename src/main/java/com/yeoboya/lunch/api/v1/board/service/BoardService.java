@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BoardService {
 
-    // Repositories
+    // Repositorieslunch
     private final BoardRepository boardRepository;
     private final HashTagRepository hashTagRepository;
     private final MemberRepository memberRepository;
@@ -53,10 +53,10 @@ public class BoardService {
 
     // Services
     private final FileServiceBasic fileService;
+    private final LikeService likeService;
 
     // Others
     private final Response response;
-
 
     public ResponseEntity<Body> saveBoard(BoardCreate boardCreate) {
         Member member = memberRepository.findByEmail(boardCreate.getEmail()).orElseThrow(
@@ -65,7 +65,7 @@ public class BoardService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
         if (!boardCreate.getEmail().equals(name)) {
-            return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
+            return response.fail(ErrorCode.INVALID_AUTH_TOKEN, "정상적인 방법으로 글을 작성해주세요");
         }
 
         List<BoardHashTag> boardHashtag = Optional.ofNullable(boardCreate.getHashTag())
@@ -121,7 +121,7 @@ public class BoardService {
 
         List<BoardResponse> boardResponses = boards
                 .stream()
-                .map(board -> BoardResponse.of(board, replyRepository.countByBoard_Id(board.getId())))
+                .map(BoardResponse::from)
                 .collect(Collectors.toList());
 
         Pagination pagination = new Pagination(
@@ -143,7 +143,13 @@ public class BoardService {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new EntityNotFoundException("Board not found - " + boardId));
 
-        BoardResponse boardResponse = BoardResponse.of(board, replyRepository.countByBoard_Id(boardId), replyRepository.findByBoardId(boardId, pageable));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        BoardResponse boardResponse = BoardResponse.from(
+                board,
+                replyRepository.findByBoardId(boardId, pageable),
+                likeService.hasLiked(authentication.getName(), boardId)
+        );
 
         return response.success(Code.SEARCH_SUCCESS, boardResponse);
     }

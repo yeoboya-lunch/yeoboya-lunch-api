@@ -7,4 +7,5 @@ public interface HashTagRepository extends JpaRepository<HashTag, Long> {
 
     boolean existsHashTagByTag(String tag);
     HashTag findHashTagByTag(String tag);
+
 }

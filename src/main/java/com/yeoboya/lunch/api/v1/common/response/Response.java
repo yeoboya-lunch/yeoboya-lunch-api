@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Component
 public class Response {
@@ -18,6 +19,7 @@ public class Response {
     public static class Body {
         private final int code;
         private final String message;
+        private String detail;
         private Object data;
     }
 
@@ -36,6 +38,16 @@ public class Response {
         Body body = Body.builder()
                 .code(errorCode.getHttpStatus().value())
                 .message(errorCode.getMsg())
+                .build();
+        return  ResponseEntity.status(errorCode.getHttpStatus()).body(body);
+    }
+
+    /** 실패 */
+    public ResponseEntity<Body> fail(ErrorCode errorCode, String detail) {
+        Body body = Body.builder()
+                .code(errorCode.getHttpStatus().value())
+                .message(errorCode.getMsg())
+                .detail(detail)
                 .build();
         return  ResponseEntity.status(errorCode.getHttpStatus()).body(body);
     }

@@ -16,8 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -36,6 +38,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -190,6 +193,8 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.list[].replies[].childReplies[].content").description("대댓글 내용").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].replies[].childReplies[].date").description("대댓글 작성일").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].replyCount").description("댓글 숫자").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[].likeCount").description("좋아요 숫자").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[].clickLiked").description("좋아요 클릭 여부").type(JsonFieldType.BOOLEAN),
                                 fieldWithPath("data.pagination.first").description("첫 페이지 여부").type(JsonFieldType.BOOLEAN),
                                 fieldWithPath("data.pagination.last").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
                                 fieldWithPath("data.pagination.empty").description("페이지 존재 여부").type(JsonFieldType.BOOLEAN),
@@ -249,8 +254,9 @@ class BoardControllerDocTest {
 
     @Test
     @DisplayName("게시글 단건 조회")
+    @WithMockUser(username = "board@test.com", roles = "USER")
     public void testFindBoardById() throws Exception {
-        Long boardId = 1L;
+        Long boardId = 154L;
         mockMvc.perform(get("/board/{id}", boardId)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -287,14 +293,16 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.replies[].childReplies[].writer").description("대댓글 작성자").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.replies[].childReplies[].content").description("대댓글 내용").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.replies[].childReplies[].date").description("대댓글 작성일").type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.replyCount").description("댓글 숫자").type(JsonFieldType.NUMBER)
+                                fieldWithPath("data.replyCount").description("댓글 숫자").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.likeCount").description("좋아요 숫자").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.clickLiked").description("좋아요 클릭여부").type(JsonFieldType.BOOLEAN)
                         )
                 ));
     }
 
     @Test
     @DisplayName("댓글작성")
-    public void createCommentTest() throws Exception{
+    public void createCommentTest() throws Exception {
         ReplyCreateRequest request = new ReplyCreateRequest();
         request.setEmail("reply@test.com");
         request.setBoardId(1L);
@@ -326,7 +334,7 @@ class BoardControllerDocTest {
 
     @Test
     @DisplayName("대댓글작성")
-    public void createCommentnestedCommentTest() throws Exception{
+    public void createCommentnestedCommentTest() throws Exception {
         ReplyCreateRequest request = new ReplyCreateRequest();
         request.setEmail("reply@test.com");
         request.setBoardId(1L);
@@ -443,5 +451,51 @@ class BoardControllerDocTest {
                 ));
     }
 
+    @Test
+    @Transactional
+    @DisplayName("게시글 좋아요")
+    @WithMockUser(username = "like@test.com", roles = "USER")
+    public void send_board_like() throws Exception {
+
+        mockMvc.perform(post("/board/like/{boardId}", 154)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("board/like",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("boardId").description("게시글 번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+
+    @Test
+    @Transactional
+    @DisplayName("게시글 좋아요 취소")
+    @WithMockUser(username = "unlike@test.com", roles = "USER")
+    void deleteItem() throws Exception {
+        mockMvc.perform(delete("/board/like/{boardId}", 154)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("board/like/delete",
+                        pathParameters(
+                                parameterWithName("boardId").description("게시글 번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code")
+                                        .type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message")
+                                        .type(JsonFieldType.STRING)
+                        )
+                ));
+    }
 
 }

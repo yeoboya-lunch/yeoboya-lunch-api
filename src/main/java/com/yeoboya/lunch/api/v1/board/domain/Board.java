@@ -52,6 +52,10 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Reply> replies = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Like> likes = new ArrayList<>();
+
     public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashtag) {
         Board board = new Board();
         board.setMember(member);
@@ -65,7 +69,6 @@ public class Board extends BaseEntity {
         }
         return board;
     }
-
 
     public static Board createBoard(Member member, BoardCreate boardCreate, List<BoardHashTag> boardHashtag, BoardFile boardFile) {
         Board board = new Board();
@@ -92,5 +95,15 @@ public class Board extends BaseEntity {
         if (boardFile.getBoard() != this) {
             boardFile.setBoard(this);
         }
+    }
+
+    public void addLike(Like like) {
+        this.likes.add(like);
+        like.setBoard(this);
+    }
+
+    public void removeLike(Like like) {
+        this.likes.remove(like);
+        like.setBoard(null);
     }
 }

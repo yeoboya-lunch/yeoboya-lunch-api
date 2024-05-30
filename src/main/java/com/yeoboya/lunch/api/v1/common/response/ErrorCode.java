@@ -14,7 +14,6 @@ public enum ErrorCode {
     INVALID_AUTH_TOKEN("권한 정보가 없는 토큰입니다", UNAUTHORIZED),
 //    UNAUTHORIZED_MEMBER(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
 
-
     USER_DUPLICATE_EMAIL("사용중인 이메일 입니다.", CONFLICT),
     USER_NOT_FOUND("아이디 또는 비밀번호를 잘못 입력했습니다", UNAUTHORIZED),
 
