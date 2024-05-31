@@ -10,9 +10,6 @@ p6spy 적용하기
 1.	알림 및 푸시 메시지 관리 (Notifications Management)
  - 알림 설정 (Notification Settings): 사용자가 알림을 설정하거나 끌 수 있도록 함.
  - 푸시 메시지 전송 (Send Push Notifications): 주문 상태 변경, 새 게시물, 댓글 등 중요한 이벤트에 대한 푸시 알림 전송.
-2.	리뷰 및 평점 (Reviews and Ratings)
- - 리뷰 작성 (Write Review): 사용자들이 가게나 아이템에 대한 리뷰를 작성.
- - 평점 부여 (Rate Items/Shops): 사용자들이 가게나 아이템에 평점을 부여.
 3.	추천 시스템 (Recommendation System)
  - 개인화 추천 (Personalized Recommendations): 사용자 취향에 맞춘 가게 및 메뉴 추천.
 4.	결제 관리 (Payment Management)

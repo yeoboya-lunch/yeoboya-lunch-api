@@ -13,6 +13,7 @@ import java.util.List;
 @ToString
 public class GroupOrderJoin {
 
+    @NotNull(message = "주분번호를 입력해주세요.")
     private Long orderId;
 
     @NotBlank(message = "주문자를 입력해주세요.")

@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.order.domain;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.request.OrderRecruitmentCreate;
+import com.yeoboya.lunch.api.v1.review.domain.Review;
 import com.yeoboya.lunch.api.v1.shop.domain.Shop;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +49,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GroupOrder> groupOrders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews;
+
     //연관관계 편의 메소드
     public static Order recruit(Member member, Shop shop, OrderRecruitmentCreate create) {
         Order order = new Order();
@@ -65,6 +69,8 @@ public class Order {
     public void setMember(Member member) {
         this.member = member;
     }
+
+
 
     @Override
     public String toString() {

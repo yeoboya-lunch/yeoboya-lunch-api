@@ -246,6 +246,47 @@ include::{snippets}/order/recruit/join/cancel/http-request.adoc[]
 include::{snippets}/order/recruit/join/cancel/http-response.adoc[]
 include::{snippets}/order/recruit/join/cancel/response-fields.adoc[]
 
+== Review
+
+=== 리뷰 추가
+==== http-request
+include::{snippets}/review/add/http-request.adoc[]
+==== http-response
+include::{snippets}/review/add/http-response.adoc[]
+include::{snippets}/review/add/request-fields.adoc[]
+include::{snippets}/review/add/response-fields.adoc[]
+
+=== 리뷰 수정
+==== http-request
+include::{snippets}/review/update/http-request.adoc[]
+==== http-response
+include::{snippets}/review/update/http-response.adoc[]
+include::{snippets}/review/update/request-fields.adoc[]
+include::{snippets}/review/update/response-fields.adoc[]
+
+=== 리뷰 삭제
+==== http-request
+include::{snippets}/review/delete/http-request.adoc[]
+==== http-response
+include::{snippets}/review/delete/http-response.adoc[]
+include::{snippets}/review/delete/response-fields.adoc[]
+
+=== 리뷰 통계 조회
+==== http-request
+include::{snippets}/review/stats/http-request.adoc[]
+==== http-response
+include::{snippets}/review/stats/http-response.adoc[]
+include::{snippets}/review/stats/response-fields.adoc[]
+
+=== 리뷰 내용 조회
+==== http-request
+include::{snippets}/review/sorted/http-request.adoc[]
+==== http-response
+include::{snippets}/review/sorted/http-response.adoc[]
+include::{snippets}/review/sorted/request-parameters.adoc[]
+include::{snippets}/review/sorted/response-fields.adoc[]
+
+
 
 
 == Board
