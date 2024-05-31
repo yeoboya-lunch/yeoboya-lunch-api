@@ -4,6 +4,7 @@ package com.yeoboya.lunch.api.v1.shop.domain;
 import com.yeoboya.lunch.api.v1.Item.domain.Item;
 import com.yeoboya.lunch.api.v1.common.domain.BaseEntity;
 import com.yeoboya.lunch.api.v1.order.domain.Order;
+import com.yeoboya.lunch.api.v1.review.domain.Review;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class Shop extends BaseEntity {
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private final List<Item> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private final List<Review> reviews = new ArrayList<>();
 
     @Builder
     public Shop(String name) {

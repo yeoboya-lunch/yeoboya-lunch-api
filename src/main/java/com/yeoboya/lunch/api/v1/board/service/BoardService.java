@@ -22,6 +22,7 @@ import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import com.yeoboya.lunch.api.v1.file.service.FileServiceBasic;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
+import com.yeoboya.lunch.config.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -62,9 +63,9 @@ public class BoardService {
         Member member = memberRepository.findByEmail(boardCreate.getEmail()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + boardCreate.getEmail()));
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
-        if (!boardCreate.getEmail().equals(name)) {
+        boolean currentUser = SecurityUtils.isCurrentUser(boardCreate.getEmail());
+
+        if(!currentUser){
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN, "정상적인 방법으로 글을 작성해주세요");
         }
 
