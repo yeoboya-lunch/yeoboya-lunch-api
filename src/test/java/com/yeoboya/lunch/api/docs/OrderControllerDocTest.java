@@ -175,6 +175,7 @@ class OrderControllerDocTest {
                         responseFields(
                                 fieldWithPath("code").description("Response Code").type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("Response Message").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[]").description("Order List").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].orderId").description("Order ID").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].orderMemberEmail").description("Order member Email").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].orderMemberName").description("Order member Name").type(JsonFieldType.STRING),

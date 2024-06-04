@@ -40,7 +40,7 @@ spring:
       port: 6379
     slaves:
       - host: 127.0.0.1
-        port: 6380
+        port: 6379
     password: redistestpassword
     database: 12
 

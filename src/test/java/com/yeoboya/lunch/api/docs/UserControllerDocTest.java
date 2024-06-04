@@ -241,6 +241,7 @@ class UserControllerDocTest {
     public void reIssueToken() throws Exception {
         //given
         Pair<String, String> tokens = performLoginAndGetTokens();
+        System.out.println(tokens.getFirst() + " | " +tokens.getSecond());
 
         UserRequest.Reissue reissue = new UserRequest.Reissue();
         reissue.setRefreshToken(tokens.getSecond());
