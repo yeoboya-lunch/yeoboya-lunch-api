@@ -401,6 +401,7 @@ include::{snippets}/review/delete/response-fields.adoc[]
 ==== http-request
 
 include::{snippets}/review/stats/http-request.adoc[]
+include::{snippets}/review/stats/path-parameters.adoc[]
 
 ==== http-response
 
@@ -412,6 +413,7 @@ include::{snippets}/review/stats/response-fields.adoc[]
 ==== http-request
 
 include::{snippets}/review/sorted/http-request.adoc[]
+include::{snippets}/review/sorted/path-parameters.adoc[]
 
 ==== http-response
 
@@ -560,11 +562,11 @@ include::{snippets}/board/like/delete/response-fields.adoc[]
 ==== http-request
 
 include::{snippets}/support/inquiry/http-request.adoc[]
+include::{snippets}/support/inquiry/request-fields.adoc[]
 
 ==== http-response
 
 include::{snippets}/support/inquiry/http-response.adoc[]
-include::{snippets}/support/inquiry/request-fields.adoc[]
 include::{snippets}/support/inquiry/response-fields.adoc[]
 
 === FAQ 및 도움말
@@ -577,6 +579,31 @@ include::{snippets}/support/faq/http-request.adoc[]
 
 include::{snippets}/support/faq/http-response.adoc[]
 include::{snippets}/support/faq/response-fields.adoc[]
+
+== 이벤트
+
+=== 배너 이벤트 등록
+
+==== http-request
+
+include::{snippets}/banner/create/http-request.adoc[]
+include::{snippets}/banner/create/request-fields.adoc[]
+
+==== http-response
+
+include::{snippets}/banner/create/http-response.adoc[]
+include::{snippets}/banner/create/response-fields.adoc[]
+
+=== 배너 이벤트 리스트
+
+==== http-request
+
+include::{snippets}/banner/get/http-request.adoc[]
+
+==== http-response
+
+include::{snippets}/banner/get/http-response.adoc[]
+include::{snippets}/banner/get/response-fields.adoc[]
 
 == Resource
 
