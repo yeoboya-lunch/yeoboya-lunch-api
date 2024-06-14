@@ -78,8 +78,15 @@ public class OrderController {
         return response.success(Code.SAVE_SUCCESS);
     }
 
+
     /**
-     * 내 점심 주문 모집 수정
+     * Updates a group order based on the given GroupOrderJoinEdit object.
+     *
+     * @param groupOrderJoinEdit The GroupOrderJoinEdit object containing the updated group order details.
+     *                           It must have the orderId, groupOrderId, and orderItems fields set.
+     *                           The orderItems list must contain OrderItemCreateEdit objects representing the updated order items.
+     * @return The ResponseEntity object that represents the HTTP response with the updated group order details.
+     *         The response body will contain a success code.
      */
     @PatchMapping("/recruit/join")
     public ResponseEntity<Body> updateGroupOrder(@RequestBody GroupOrderJoinEdit groupOrderJoinEdit){
@@ -95,7 +102,6 @@ public class OrderController {
     public  ResponseEntity<Body> getMyJoinHistoryByOrderId(@PathVariable Long groupOrderId){
         return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoryByOrderId(groupOrderId));
     }
-
 
     /**
      * 내 주문 내역 리스트 조회 (이메일)
@@ -120,7 +126,6 @@ public class OrderController {
     public ResponseEntity<Body> getMyRecruitmentOrderHistory(@PathVariable String email, Pageable pageable){
         return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoriesByEmail(email, pageable));
     }
-
 
     /**
      * 내 주문 모집 내역 리스트 조회 (토큰)

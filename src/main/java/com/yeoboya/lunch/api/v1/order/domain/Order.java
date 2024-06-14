@@ -66,11 +66,9 @@ public class Order {
         return order;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
-    }
-
-
+//    public void setMember(Member member) {
+//        this.member = member;
+//    }
 
     @Override
     public String toString() {

@@ -125,12 +125,12 @@ public class RedisUtil {
         return values;
     }
 
-    public Long delHashAsterOps(String key){
+    public long delHashAsterOps(String key){
         RedisConnection redisConnection = redisConnectionFactory.getConnection();
         ScanOptions options = ScanOptions.scanOptions().count(10).match("*").build();
         Cursor<byte[]> outCursor = redisConnection.scan(options);
 
-        Long resultCode = 0L;
+        long resultCode = 0L;
 
         // out key
         while (outCursor.hasNext()){

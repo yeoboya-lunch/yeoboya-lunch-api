@@ -89,9 +89,9 @@ public class UserService {
 
         // save member
         Member saveMember = Member.createMember(build, memberInfo, memberRoles, userSecurityStatus);
-        memberRepository.save(saveMember);
+        Member save = memberRepository.save(saveMember);
 
-        return response.success(Code.SAVE_SUCCESS);
+        return response.success(Code.SAVE_SUCCESS, save.getId());
     }
 
     public ResponseEntity<Body> signIn(SignIn signIn, HttpServletRequest httpServletRequest) {

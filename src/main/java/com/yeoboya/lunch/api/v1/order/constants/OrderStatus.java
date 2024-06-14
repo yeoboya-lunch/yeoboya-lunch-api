@@ -1,5 +1,8 @@
 package com.yeoboya.lunch.api.v1.order.constants;
 
+import lombok.Getter;
+
+@Getter
 public enum OrderStatus {
     ORDER_START(0, "모집시작"),
     END(1, "모집종료"),
@@ -14,11 +17,4 @@ public enum OrderStatus {
         this.title = title;
     }
 
-    public int getKey() {
-        return key;
-    }
-
-    public String getTitle() {
-        return title;
-    }
 }

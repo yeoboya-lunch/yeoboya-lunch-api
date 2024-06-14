@@ -40,10 +40,14 @@ public class UserController {
     }
 
     /**
-     * 로그인
+     * Signs in a user with the provided credentials.
+     *
+     * @param signIn                The sign in credentials.
+     * @param httpServletRequest    The HTTP servlet request.
+     * @return A ResponseEntity containing the response body.
      */
     @PostMapping("/sign-in")
-    public ResponseEntity<?> signIn(@Valid @RequestBody SignIn signIn, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Body> signIn(@Valid @RequestBody SignIn signIn, HttpServletRequest httpServletRequest) {
         return userService.signIn(signIn, httpServletRequest);
     }
 

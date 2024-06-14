@@ -40,7 +40,7 @@ public class MemberInfoEditor {
         public MemberInfoEditorBuilder bio(final String bio) {
             if (bio != null) {
                 this.bio = bio;
-            };
+            }
             return this;
         }
 

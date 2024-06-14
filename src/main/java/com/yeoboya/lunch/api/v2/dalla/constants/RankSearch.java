@@ -1,5 +1,8 @@
 package com.yeoboya.lunch.api.v2.dalla.constants;
 
+import lombok.Getter;
+
+@Getter
 public enum RankSearch {
 
     //BJ=1 / FAN=2 / CUPID=3
@@ -9,11 +12,11 @@ public enum RankSearch {
     BJ_WEEK("1", "2", "BJ 주간랭킹 "),
     BJ_MONTH("1", "3", "BJ 월간랭킹 "),
     BJ_YEAR("1", "4", "BJ 연간랭킹 "),
-    
+
     FAN_DAILY("2", "1","FAN 일간랭킹 "),
     FAN_WEEK("2", "2", "FAN 주간랭킹 "),
     FAN_MONTH("2", "3", "FAN 월간랭킹 ");
-        
+
     private final String rankSlct;
     private final String rankType;
     private final String message;
@@ -23,17 +26,5 @@ public enum RankSearch {
         this.rankSlct = s;
         this.rankType = s1;
         this.message = s2;
-    }
-
-    public String getRankSlct() {
-        return rankSlct;
-    }
-
-    public String getRankType() {
-        return rankType;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

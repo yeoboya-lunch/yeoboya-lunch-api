@@ -73,7 +73,7 @@ public class SocketService {
         } catch (IOException e){
             log.error("sendSocketPost", e);
         } catch (Exception e){
-            result.append(e.toString());
+            result.append(e);
             e.getStackTrace();
         }
 

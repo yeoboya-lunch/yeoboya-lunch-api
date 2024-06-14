@@ -15,6 +15,6 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
-        log.debug("login fail");;
+        log.debug("login fail");
     }
 }
