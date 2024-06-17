@@ -12,9 +12,6 @@ public class BannerRequest {
     @NotBlank(message = "Title is mandatory")
     private String title;  // 배너 제목
 
-    @NotBlank(message = "Image URL is mandatory")
-    private String imageUrl;  // 배너 이미지 URL
-
     @Min(value = 0, message = "Display order must be a positive number")
     private int displayOrder;  // 배너 이미지 순서
 

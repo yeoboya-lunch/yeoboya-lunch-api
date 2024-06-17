@@ -11,11 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -23,8 +28,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,26 +53,39 @@ class BannerControllerDocTest {
     void createBanner() throws Exception {
         BannerRequest bannerRequest = new BannerRequest();
         bannerRequest.setTitle("Spring Sale");
-        bannerRequest.setImageUrl("https://example.com/banner1.jpg");
         bannerRequest.setDisplayOrder(1);
         bannerRequest.setStartDate(LocalDateTime.now().minusDays(1));
         bannerRequest.setEndDate(LocalDateTime.now().plusDays(30));
         bannerRequest.setDisplayLocation(Banner.DisplayLocation.MAIN_PAGE);
 
-        String json = objectMapper.writeValueAsString(bannerRequest);
+        File fileResource = new ClassPathResource("images/test.jpg").getFile();
+        byte[] fileBytes = Files.readAllBytes(fileResource.toPath());
+        MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", fileBytes);
 
-        mockMvc.perform(post("/banners")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .content(json))
+
+        // Convert BannerRequest object to String
+        String jsonBannerRequest = objectMapper.writeValueAsString(bannerRequest);
+        MockMultipartFile bannerRequestPart = new MockMultipartFile(
+                "bannerRequest",
+                "",
+                "application/json",
+                jsonBannerRequest.getBytes());
+
+        mockMvc.perform(multipart("/banners")
+                        .file(file)
+                        .file(bannerRequestPart)
+                        .accept(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("banner/create",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestFields(
+                        requestParts(
+                                partWithName("file").description("배너 이미지 파일"),
+                                partWithName("bannerRequest").description("배너 정보")
+                        ),
+                        requestPartFields("bannerRequest",
                                 fieldWithPath("title").description("배너 제목").type(JsonFieldType.STRING),
-                                fieldWithPath("imageUrl").description("배너 이미지 URL").type(JsonFieldType.STRING),
                                 fieldWithPath("displayOrder").description("배너 이미지 순서").type(JsonFieldType.NUMBER),
                                 fieldWithPath("startDate").description("배너 표시 시작일자").type(JsonFieldType.STRING),
                                 fieldWithPath("endDate").description("배너 표시 종료일자").type(JsonFieldType.STRING),
@@ -101,11 +118,18 @@ class BannerControllerDocTest {
                                 fieldWithPath("message").description("message").type(JsonFieldType.STRING),
                                 fieldWithPath("data[].id").description("배너 ID").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data[].title").description("배너 제목").type(JsonFieldType.STRING),
-                                fieldWithPath("data[].imageUrl").description("배너 이미지 URL").type(JsonFieldType.STRING),
                                 fieldWithPath("data[].displayOrder").description("배너 이미지 순서").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data[].startDate").description("배너 표시 시작일자").type(JsonFieldType.STRING),
                                 fieldWithPath("data[].endDate").description("배너 표시 종료일자").type(JsonFieldType.STRING),
-                                fieldWithPath("data[].displayLocation").description("배너 표시 위치").type(JsonFieldType.STRING)
+                                fieldWithPath("data[].displayLocation").description("배너 표시 위치").type(JsonFieldType.STRING),
+                                fieldWithPath("data[].bannerFiles[]").description("배너 파일").type(JsonFieldType.ARRAY),
+                                fieldWithPath("data[].bannerFiles[].id").description("배너 파일 ID").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data[].bannerFiles[].originalFileName").description("배너 원본 파일 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("data[].bannerFiles[].fileName").description("배너 파일 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("data[].bannerFiles[].filePath").description("배너 파일경로").type(JsonFieldType.STRING),
+                                fieldWithPath("data[].bannerFiles[].extension").description("배너 파일 확장자").type(JsonFieldType.STRING),
+                                fieldWithPath("data[].bannerFiles[].size").description("배너 파일 크기").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data[].bannerFiles[].url").description("배너 이미지 URL").type(JsonFieldType.STRING)
                         )
                 ));
     }
@@ -116,7 +140,6 @@ class BannerControllerDocTest {
         // given
         Banner banner = Banner.builder()
                 .title("Spring Sale")
-                .imageUrl("https://example.com/banner1.jpg")
                 .displayOrder(1)
                 .startDate(LocalDateTime.now().minusDays(1))
                 .endDate(LocalDateTime.now().plusDays(30))

@@ -612,9 +612,11 @@ include::{snippets}/support/notices/get-all-with-read-status/response-fields.ado
 === 배너 이벤트 등록
 
 ==== http-request
+NOTE: MultipartFile file 파일첨부 가능
+include::{snippets}/banner/create/curl-request.adoc[]
+include::{snippets}/banner/create/httpie-request.adoc[]
+include::{snippets}/banner/create/request-part-bannerRequest-fields.adoc[]
 
-include::{snippets}/banner/create/http-request.adoc[]
-include::{snippets}/banner/create/request-fields.adoc[]
 
 ==== http-response
 

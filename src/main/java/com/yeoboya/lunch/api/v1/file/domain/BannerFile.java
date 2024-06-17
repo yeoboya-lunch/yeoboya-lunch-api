@@ -1,7 +1,7 @@
 package com.yeoboya.lunch.api.v1.file.domain;
 
 
-import com.yeoboya.lunch.api.v1.board.domain.Board;
+import com.yeoboya.lunch.api.v1.event.domain.Banner;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import lombok.*;
 
@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardFile {
+public class BannerFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BOARD_FILE_ID", nullable = false)
+    @Column(name = "BANNER_FILE_ID", nullable = false)
     private Long id;
 
     private String originalFileName;
@@ -29,12 +29,12 @@ public class BoardFile {
     private Long size;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BOARD_ID")
-    private Board board;
+    @JoinColumn(name = "BANNER_ID")
+    private Banner banner;
 
     @Builder
-    public BoardFile(Board board, FileUploadResponse fileUploadResponse) {
-        this.board = board;
+    public BannerFile(Banner banner, FileUploadResponse fileUploadResponse) {
+        this.banner = banner;
         this.originalFileName = fileUploadResponse.getOriginalFileName();
         this.fileName = fileUploadResponse.getFileName();
         this.filePath = fileUploadResponse.getFilePath();
@@ -42,10 +42,10 @@ public class BoardFile {
         this.size = fileUploadResponse.getSize();
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-        if (!board.getBoardFiles().contains(this)) {
-            board.getBoardFiles().add(this);
+    public void setBoard(Banner banner) {
+        this.banner = banner;
+        if (!banner.getBannerFiles().contains(this)) {
+            banner.getBannerFiles().add(this);
         }
     }
 }

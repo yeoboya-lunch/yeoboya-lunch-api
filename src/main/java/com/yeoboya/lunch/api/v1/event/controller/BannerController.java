@@ -7,6 +7,7 @@ import com.yeoboya.lunch.api.v1.event.service.BannerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -18,14 +19,14 @@ public class BannerController {
 
     private final BannerService bannerService;
 
+    @PostMapping
+    public ResponseEntity<Response.Body> createBanner(@RequestPart(value = "file", required = false) MultipartFile file, @RequestPart("bannerRequest") @Valid BannerRequest bannerRequest) {
+        return bannerService.saveBanner(file, bannerRequest);
+    }
+
     @GetMapping
     public ResponseEntity<Response.Body> getBanners(@RequestParam(required = false) Banner.DisplayLocation displayLocation) {
         return bannerService.getBanners(Optional.ofNullable(displayLocation));
-    }
-
-    @PostMapping
-    public ResponseEntity<Response.Body> createBanner(@Valid @RequestBody BannerRequest bannerRequest) {
-        return bannerService.saveBanner(bannerRequest);
     }
 
     @DeleteMapping("/{id}")

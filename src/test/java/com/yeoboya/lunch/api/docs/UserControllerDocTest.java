@@ -85,7 +85,9 @@ class UserControllerDocTest {
                                 fieldWithPath("code").description("code")
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING)
+                                        .type(JsonFieldType.STRING),
+                                fieldWithPath("data").description("User ID")
+                                        .type(JsonFieldType.NUMBER)
                         )
                 ));
     }
