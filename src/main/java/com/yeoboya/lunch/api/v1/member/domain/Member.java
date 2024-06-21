@@ -54,6 +54,9 @@ public class Member extends BaseTimeEntity {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private UserSecurityStatus userSecurityStatus;
 
+    private String provider;
+    private String providerId;
+
     //연관관계 편의 메소드
     public static Member createMember(Member pMember, MemberInfo memberInfo, List<MemberRole> memberRoles,
                                       UserSecurityStatus userSecurityStatus){

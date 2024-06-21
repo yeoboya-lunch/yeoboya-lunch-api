@@ -6,7 +6,9 @@ import com.yeoboya.lunch.config.security.filter.JwtAuthenticationFilter;
 import com.yeoboya.lunch.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.lunch.config.security.filter.PermitAllFilter;
 import com.yeoboya.lunch.config.security.handler.AccessDeniedHandlerImpl;
+import com.yeoboya.lunch.config.security.handler.CustomOAuth2AuthenticationSuccessHandler;
 import com.yeoboya.lunch.config.security.metaDataSource.UrlSecurityMetadataSource;
+import com.yeoboya.lunch.config.security.service.CustomOAuth2UserService;
 import com.yeoboya.lunch.config.security.service.RoleHierarchyService;
 import com.yeoboya.lunch.config.security.service.SecurityResourceService;
 import com.yeoboya.lunch.config.security.voter.IgnoreUrlVoter;
@@ -23,6 +25,7 @@ import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -63,6 +66,8 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
+
+    private final CustomOAuth2AuthenticationSuccessHandler customOAuth2AuthenticationSuccessHandler;
 
     // 1. 프로그램에서 필요한 설정과 관련된 `@Bean`을 정의하는 메소드.
     @Bean
@@ -114,7 +119,10 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
                 .addFilterBefore(filter, CsrfFilter.class)
-                .addFilterBefore(this.createPermitAllFilter(), FilterSecurityInterceptor.class);
+                .addFilterBefore(this.createPermitAllFilter(), FilterSecurityInterceptor.class)
+                .oauth2Login()
+                .successHandler(customOAuth2AuthenticationSuccessHandler);
+                ;
 
         return httpSecurity.build();
     }
@@ -168,7 +176,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UrlResourcesMapFactoryBean urlResourcesMapFactoryBean(SecurityResourceService securityResourceService){
+    public UrlResourcesMapFactoryBean urlResourcesMapFactoryBean(SecurityResourceService securityResourceService) {
         UrlResourcesMapFactoryBean urlResourcesMapFactoryBean = new UrlResourcesMapFactoryBean();
         urlResourcesMapFactoryBean.setSecurityResourceService(securityResourceService);
         return urlResourcesMapFactoryBean;

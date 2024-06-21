@@ -1,21 +1,21 @@
 package com.yeoboya.lunch.api.v1.common.domain;
 
-
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class BaseEntity extends BaseTimeEntity {
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseEntity {
 
-    @Column(updatable = false)
     @CreatedBy
-    protected String createBy;
+    private String createdBy;
 
     @LastModifiedBy
-    protected String lastModifiedBy;
+    private String lastModifiedBy;
 
-
+    // Getters and Setters
 }

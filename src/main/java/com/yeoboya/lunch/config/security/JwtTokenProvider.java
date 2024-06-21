@@ -50,6 +50,7 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     public Token generateToken(Authentication authentication) {
         // 권한 가져오기
