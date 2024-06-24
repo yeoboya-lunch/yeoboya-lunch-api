@@ -7,38 +7,67 @@ import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
-import com.yeoboya.lunch.config.security.dto.CustomOAuth2User;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
+import com.yeoboya.lunch.config.security.response.OAuth2Attribute;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
-    private final HttpSession httpSession;
 
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User oAuth2User = super.loadUser(userRequest);
-        String email = oAuth2User.getAttribute("email");
-        boolean memberExists = memberRepository.findByEmail(email).isPresent();
 
-        if (!memberExists) {
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+
+        OAuth2Attribute oAuth2Attribute =
+                OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+
+        Map<String, Object> memberAttribute = oAuth2Attribute.convertToMap();
+        String email = (String) memberAttribute.get("email");
+        String name = (String) memberAttribute.get("name");
+
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+
+        SimpleGrantedAuthority authority;
+
+        if (findMember.isPresent()) {
+            memberAttribute.put("memberExists", true);
+            Member member = findMember.get();
+            Role role = member.getMemberRoles().get(0).getRole();
+            authority = new SimpleGrantedAuthority(String.valueOf(role));
+
+        } else {
+            memberAttribute.put("memberExists", false);
+            authority = new SimpleGrantedAuthority("ROLE_USER");
+
             Member build = Member.builder()
                     .email(email)
-                    .name(oAuth2User.getAttribute("name"))
+                    .name(name)
                     .provider(userRequest.getClientRegistration().getRegistrationId())
                     .providerId(oAuth2User.getName())
                     .build();
@@ -51,11 +80,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberRepository.save(saveMember);
         }
 
-        httpSession.setAttribute("memberExists", memberExists);
+        return new DefaultOAuth2User(
+                Collections.singleton(authority), memberAttribute, "email"
+        );
 
-        return new CustomOAuth2User(
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")),
-                oAuth2User.getAttributes(),
-                "email");
+
     }
 }

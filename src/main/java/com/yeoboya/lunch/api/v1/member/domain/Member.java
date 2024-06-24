@@ -63,6 +63,8 @@ public class Member extends BaseTimeEntity {
         Member member = new Member();
         member.setEmail(pMember.getEmail());
         member.setName(pMember.getName());
+        member.setProvider(pMember.getProvider());
+        member.setProviderId(pMember.getProviderId());
         member.setPassword(pMember.getPassword());
         member.addMemberInfo(memberInfo);
         for(MemberRole roles : memberRoles) {
