@@ -19,4 +19,19 @@ public class Token {
     private long refreshTokenExpirationTime;    //refresh token 유효기간
     private String refreshTokenExpirationTimeStr;    //refresh token 유효기간
 
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "subject='" + subject + '\'' +
+                ", id='" + id + '\'' +
+                ", issuer='" + issuer + '\'' +
+                ", issueDAt='" + issueDAt + '\'' +
+                ", accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", tokenExpirationTime='" + tokenExpirationTime + '\'' +
+                ", refreshTokenExpirationTime=" + refreshTokenExpirationTime +
+                ", refreshTokenExpirationTimeStr='" + refreshTokenExpirationTimeStr + '\'' +
+                '}';
+    }
 }
