@@ -15,7 +15,7 @@ public interface BannerRepository extends JpaRepository<Banner, Long> {
                     "FROM Banner b " +
                     "WHERE b.startDate <= :now " +
                     "AND b.endDate >= :now " +
-                    "ORDER BY b.displayOrder"
+                    "ORDER BY b.displayOrder, b.endDate"
     )
     List<Banner> findAllByDateRange(
             @Param("now") LocalDateTime now);
@@ -26,7 +26,7 @@ public interface BannerRepository extends JpaRepository<Banner, Long> {
                     "WHERE b.displayLocation = :displayLocation " +
                     "AND b.startDate <= :now " +
                     "AND b.endDate >= :now " +
-                    "ORDER BY b.displayOrder"
+                    "ORDER BY b.displayOrder, b.endDate"
     )
     List<Banner> findAllByDisplayLocationAndDateRange(
             @Param("displayLocation") Banner.DisplayLocation displayLocation,

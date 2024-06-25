@@ -43,8 +43,8 @@ public class NoticeService {
     }
 
     @Transactional
-    public void markNoticeAsRead(Long noticeId, String email) {
-        Member member = memberRepository.findByEmail(email)
+    public void markNoticeAsRead(Long noticeId, String loginId) {
+        Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new RuntimeException("Notice not found"));
@@ -69,8 +69,8 @@ public class NoticeService {
 
 
     @Transactional(readOnly = true)
-    public List<NoticeResponseDTO> getAllNoticesWithReadStatus(String email) {
-        Member member = memberRepository.findByEmail(email)
+    public List<NoticeResponseDTO> getAllNoticesWithReadStatus(String loginId) {
+        Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
         List<Notice> notices = noticeRepository.findAll();

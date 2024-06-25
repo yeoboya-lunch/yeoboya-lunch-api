@@ -45,6 +45,7 @@ public class MemberProfileFile {
         this.size = fileUploadResponse.getSize();
     }
 
+
     public void saveMember(Member member) {
         this.member = member;
         if (!member.getMemberProfileFiles().contains(this)) {

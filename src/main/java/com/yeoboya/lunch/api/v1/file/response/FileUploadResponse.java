@@ -28,6 +28,7 @@ public class FileUploadResponse {
     private String extension;
     private String externalForm;
     private Long size;
+    private String url;
 
 
     public static FileUploadResponse from(BoardFile files) {
@@ -37,6 +38,7 @@ public class FileUploadResponse {
         fileUploadResponse.setFilePath(files.getFilePath());
         fileUploadResponse.setExtension(files.getExtension());
         fileUploadResponse.setSize(files.getSize());
+        fileUploadResponse.setUrl("https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/" + files.getFilePath() + "/" + files.getFileName());
         return fileUploadResponse;
     }
 
@@ -48,6 +50,20 @@ public class FileUploadResponse {
         fileUploadResponse.setExtension(files.getExtension());
         fileUploadResponse.setExternalForm(files.getExternalForm());
         fileUploadResponse.setSize(files.getSize());
+        fileUploadResponse.setUrl("https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/" + files.getFilePath() + "/" + files.getFileName());
         return fileUploadResponse;
+    }
+
+    @Override
+    public String toString() {
+        return "FileUploadResponse{" +
+                "originalFileName='" + originalFileName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", extension='" + extension + '\'' +
+                ", externalForm='" + externalForm + '\'' +
+                ", size=" + size +
+                ", url='" + url + '\'' +
+                '}';
     }
 }

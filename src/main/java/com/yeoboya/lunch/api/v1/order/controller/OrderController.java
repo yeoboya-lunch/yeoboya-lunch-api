@@ -106,9 +106,9 @@ public class OrderController {
     /**
      * 내 주문 내역 리스트 조회 (이메일)
      */
-    @GetMapping("/recruit/histories/join/{email}")
-    public ResponseEntity<Body> getMyJoinHistoryByEmail(@PathVariable String email, Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoriesByEmail(email, pageable));
+    @GetMapping("/recruit/histories/join/{loginId}")
+    public ResponseEntity<Body> getMyJoinHistoryByLoginId(@PathVariable String loginId, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoriesByLoginId(loginId, pageable));
     }
 
     /**
@@ -122,9 +122,9 @@ public class OrderController {
     /**
      * 내 주문 모집 내역 리스트 조회 (이메일)
      */
-    @GetMapping("/recruit/histories/{email}")
-    public ResponseEntity<Body> getMyRecruitmentOrderHistory(@PathVariable String email, Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoriesByEmail(email, pageable));
+    @GetMapping("/recruit/histories/{loginId}")
+    public ResponseEntity<Body> getMyRecruitmentOrderHistory(@PathVariable String loginId, Pageable pageable){
+        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoriesByLoginId(loginId, pageable));
     }
 
     /**

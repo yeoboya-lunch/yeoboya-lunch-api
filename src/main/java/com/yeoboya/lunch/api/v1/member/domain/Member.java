@@ -17,6 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                columnNames = {"email", "provider"}
+        )
+})
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -25,6 +30,9 @@ public class Member extends BaseTimeEntity {
     private Long id;
 
     @Column(unique = true)
+    private String loginId;
+
+    @Column
     private String email;
 
     private String name;
@@ -54,7 +62,9 @@ public class Member extends BaseTimeEntity {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private UserSecurityStatus userSecurityStatus;
 
+    @Column
     private String provider;
+
     private String providerId;
 
     //연관관계 편의 메소드
@@ -62,6 +72,7 @@ public class Member extends BaseTimeEntity {
                                       UserSecurityStatus userSecurityStatus){
         Member member = new Member();
         member.setEmail(pMember.getEmail());
+        member.setLoginId(pMember.getLoginId());
         member.setName(pMember.getName());
         member.setProvider(pMember.getProvider());
         member.setProviderId(pMember.getProviderId());
@@ -92,8 +103,10 @@ public class Member extends BaseTimeEntity {
     @Override
     public String toString() {
         return "Member{" +
-                "email='" + email + '\'' +
+                "loginId='" + loginId + '\'' +
+                ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
+                ", provider='" + provider + '\'' +
                 '}';
     }
 }

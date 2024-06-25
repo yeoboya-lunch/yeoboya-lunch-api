@@ -36,12 +36,12 @@ public class ReplyService {
     @Transactional
     public ResponseEntity<Response.Body> createReply(ReplyCreateRequest replyCreateRequest) {
         Member member = memberRepository
-                .findByEmail(replyCreateRequest.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Member not found - " + replyCreateRequest.getEmail()));
+                .findByLoginId(replyCreateRequest.getLoginId())
+                .orElseThrow(() -> new EntityNotFoundException("Member not found - " + replyCreateRequest.getLoginId()));
 
         Board board = boardRepository
                 .findById(replyCreateRequest.getBoardId())
-                .orElseThrow(() -> new EntityNotFoundException("Board not found - " + replyCreateRequest.getEmail()));
+                .orElseThrow(() -> new EntityNotFoundException("Board not found - " + replyCreateRequest.getBoardId()));
 
         Reply parentReply = null;
         if (replyCreateRequest.getParentReplyId() != null) {

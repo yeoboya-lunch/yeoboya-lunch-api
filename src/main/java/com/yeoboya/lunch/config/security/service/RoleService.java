@@ -43,12 +43,12 @@ public class RoleService {
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Response.Body> updateAuthority(AuthorityRequest roleRequest) {
 
-        Member targetMember = memberRepository.findByEmail(roleRequest.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + roleRequest.getEmail()));
+        Member targetMember = memberRepository.findByLoginId(roleRequest.getLoginId())
+                .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + roleRequest.getLoginId()));
 
         Role role = roleRepository.findByRole(roleRequest.getRole());
 
-        Optional<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(targetMember.getEmail());
+        Optional<MemberRole> memberRoles = memberRolesRepository.findByMemberLoginId(targetMember.getLoginId());
 
         MemberRole memberRole;
         if(memberRoles.isPresent()) {
@@ -69,8 +69,8 @@ public class RoleService {
 
     public ResponseEntity<Response.Body> updateSecurityStatus(SecurityRequest securityRequest) {
 
-        Member member = memberRepository.findByEmail(securityRequest.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Member with email " + securityRequest.getEmail() + " is not found"));
+        Member member = memberRepository.findByLoginId(securityRequest.getLoginId())
+                .orElseThrow(() -> new EntityNotFoundException("Member with loginId " + securityRequest.getLoginId() + " is not found"));
 
         UserSecurityStatus userSecuritystatus = member.getUserSecurityStatus();
         userSecuritystatus.setEnabled(securityRequest.isEnabled());

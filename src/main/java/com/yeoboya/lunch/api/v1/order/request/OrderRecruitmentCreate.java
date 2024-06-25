@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 public class OrderRecruitmentCreate {
 
     @NotBlank(message = "주문자를 입력해주세요.")
-    private String email;
+    private String loginId;
 
     @NotNull(message = "상점을 입력해주세요.")
     private String shopName;
@@ -32,8 +32,8 @@ public class OrderRecruitmentCreate {
 
 
     @Builder
-    public OrderRecruitmentCreate(String email, String shopName, String title, int deliveryFee, Timestamp lastOrderTime, String memo) {
-        this.email = email;
+    public OrderRecruitmentCreate(String loginId, String shopName, String title, int deliveryFee, Timestamp lastOrderTime, String memo) {
+        this.loginId = loginId;
         this.shopName = shopName;
         this.title = title;
         this.deliveryFee = deliveryFee;

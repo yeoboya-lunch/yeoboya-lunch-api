@@ -35,7 +35,7 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
         List<GroupOrder> content = query.selectFrom(groupOrder)
                 .orderBy(groupOrder.id.desc())
                 .where(
-                        eqEmail(orderSearch.getOrderEmail())
+                        eqLoginId(orderSearch.getOrderLoginId())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -50,11 +50,11 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
     }
 
     @Override
-    public Slice<GroupOrder> getJoinHistoriesByEmail(String email, Pageable pageable) {
+    public Slice<GroupOrder> getJoinHistoriesByLoginId(String loginIdmail, Pageable pageable) {
         List<GroupOrder> content = query.selectFrom(groupOrder)
                 .leftJoin(groupOrder.member, member)
                 .leftJoin(groupOrder.orderItems, orderItem)
-                .where(member.email.eq(email))
+                .where(member.loginId.eq(loginIdmail))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .distinct()
@@ -67,9 +67,9 @@ public class GroupOrderRepositoryCustomImpl implements GroupOrderRepositoryCusto
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
-    private BooleanExpression eqEmail(String orderEmail) {
-        if (StringUtils.hasText(orderEmail)) {
-            return groupOrder.member.email.eq(orderEmail);
+    private BooleanExpression eqLoginId(String loginId) {
+        if (StringUtils.hasText(loginId)) {
+            return groupOrder.member.loginId.eq(loginId);
         }
         return null;
     }

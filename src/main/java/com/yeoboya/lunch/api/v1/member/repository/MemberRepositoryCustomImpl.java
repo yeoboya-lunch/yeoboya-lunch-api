@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
+import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
 import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.yeoboya.lunch.api.v1.file.domain.QMemberProfileFile.memberProfileFile;
@@ -40,8 +42,8 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     public Slice<MemberResponse> findMembersInPages(Pageable pageable) {
         List<MemberResponse> content = query.select(
                         new QMemberResponse(
-                                member.email, member.name,
-                                account.bankName, account.accountNumber,
+                                member.loginId, member.email, member.provider,
+                                member.name, account.bankName, account.accountNumber,
                                 memberInfo.bio, memberInfo.nickName, memberInfo.phoneNumber
                         )
                 )
@@ -80,25 +82,17 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public MemberResponse memberProfile(String memberEmail) {
+    public MemberResponse memberProfile(String loginId) {
         List<MemberProfileFile> memberProfileFiles = query
                 .select(memberProfileFile)
                 .from(member)
                 .leftJoin(member.memberProfileFiles, memberProfileFile)
-                .where(member.email.eq(memberEmail).and(memberProfileFile.isNotNull()))
+                .where(member.loginId.eq(loginId).and(memberProfileFile.isNotNull()))
                 .fetch();
 
-        //Processing the data to generate profileImg for each MemberProfileFile
-        //Check if profile files is not null else return empty list
-        List<String> profileImages = !memberProfileFiles.isEmpty() ? memberProfileFiles.stream()
-                .map(file -> file.getFilePath() + "/" + file.getFileName())
-                .collect(Collectors.toList()) : Collections.emptyList();
-
-
-        // Based on your current implementation, assuming we can still fetch one record for the rest
         MemberResponse memberResponse = query.select(
                         new QMemberResponse(
-                                member.email, member.name,
+                                member.loginId, member.email, member.provider, member.name,
                                 account.bankName, account.accountNumber,
                                 memberInfo.bio, memberInfo.nickName, memberInfo.phoneNumber
                         )
@@ -106,13 +100,12 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .from(member)
                 .leftJoin(member.account, account)
                 .leftJoin(member.memberInfo, memberInfo)
-                .where(member.email.eq(memberEmail))
+                .where(member.loginId.eq(loginId))
                 .fetchOne();
 
         // Attach the profileImages to memberResponse
-        if (memberResponse != null) {
-            memberResponse.setProfileImages(profileImages);
-        }
+        List<FileUploadResponse> collect = memberProfileFiles.stream().map(FileUploadResponse::from).collect(Collectors.toList());
+        Objects.requireNonNull(memberResponse).setFileUploadResponses(collect);
         return memberResponse;
     }
 
@@ -137,7 +130,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     public Page<MemberRoleResponse> findWithRolesInPages(Pageable pageable) {
         List<MemberRoleResponse> content = query.select(
                         new QMemberRoleResponse(
-                                member.email, member.name, role1.roleDesc,
+                                member.loginId, member.email, member.provider, member.name, role1.roleDesc,
                                 userSecurityStatus.isEnabled, userSecurityStatus.isAccountNonLocked
                         )
                 )

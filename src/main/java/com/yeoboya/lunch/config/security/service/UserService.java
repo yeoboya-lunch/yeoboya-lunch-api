@@ -62,18 +62,24 @@ public class UserService {
 
     @Retry(value = 4)
     public ResponseEntity<Body> signUp(SignUp signUp) {
-        if(memberRepository.existsByEmail(signUp.getEmail())){
+        if(memberRepository.existsMemberByLoginId(signUp.getLoginId())){
+            return response.fail(ErrorCode.USER_DUPLICATE_ID);
+        }
+
+        if(memberRepository.existsByEmailAndProvider(signUp.getEmail(), signUp.getProvider())){
             return response.fail(ErrorCode.USER_DUPLICATE_EMAIL);
         }
 
         // create member
         Member build = Member.builder()
+                .loginId(signUp.getLoginId())
                 .email(signUp.getEmail())
                 .name(signUp.getName())
                 .password(passwordEncoder.encode(signUp.getPassword()))
+                .provider(signUp.getProvider())
                 .build();
         Role role;
-        if(build.getEmail().equals("admin@lunch.com")){
+        if(build.getLoginId().equals("admin")){
             role = roleRepository.findByRole(Authority.ROLE_ADMIN);
         }else {
             role = roleRepository.findByRole(Authority.ROLE_USER);
@@ -95,7 +101,7 @@ public class UserService {
     }
 
     public ResponseEntity<Body> signIn(SignIn signIn, HttpServletRequest httpServletRequest) {
-        Optional<Member> matchedMember = memberRepository.findByEmail(signIn.getEmail());
+        Optional<Member> matchedMember = memberRepository.findByLoginId(signIn.getLoginId());
         matchedMember.ifPresentOrElse(member -> {
             LoginInfo loginInfo = LoginInfo.buildLoginInfo(member, httpServletRequest);
             loginInfoRepository.save(loginInfo);

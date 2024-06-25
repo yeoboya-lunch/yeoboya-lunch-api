@@ -138,6 +138,7 @@ public class JwtTokenProvider {
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthenticationWithLoadUserByUsername(String refreshToken) {
         Claims claims = this.parseClaims(refreshToken);
+        log.info("{}", claims.getSubject());
         UserDetails userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
         return new UsernamePasswordAuthenticationToken(userDetails, refreshToken, userDetails.getAuthorities());
     }
@@ -186,8 +187,8 @@ public class JwtTokenProvider {
         return null;
     }
 
-    // SecurityContext 에 담겨 있는 authentication userEmail 정보
-    public static String getCurrentUserEmail() {
+    // SecurityContext 에 담겨 있는 authentication userLoginId 정보
+    public static String getCurrentUserLoginId() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getName() == null) {
             throw new RuntimeException("No authentication information.");

@@ -44,8 +44,8 @@ public class NoticeController {
      * @return A ResponseEntity with a success status.
      */
     @PostMapping("/notices/{noticeId}/mark-as-read")
-    public ResponseEntity<Response.Body> markNoticeAsRead(@PathVariable Long noticeId, @RequestParam String email) {
-        noticeService.markNoticeAsRead(noticeId, email);
+    public ResponseEntity<Response.Body> markNoticeAsRead(@PathVariable Long noticeId, @RequestParam String loginId) {
+        noticeService.markNoticeAsRead(noticeId, loginId);
         return response.success(Code.SEARCH_SUCCESS);
     }
 
@@ -56,8 +56,8 @@ public class NoticeController {
      * @return A ResponseEntity with the list of NoticeResponseDTO objects as the body.
      */
     @GetMapping("/notices")
-    public ResponseEntity<Response.Body> getAllBoardsWithReadStatus(@RequestParam String email) {
-        List<NoticeResponseDTO> notices = noticeService.getAllNoticesWithReadStatus(email);
+    public ResponseEntity<Response.Body> getAllBoardsWithReadStatus(@RequestParam String loginId) {
+        List<NoticeResponseDTO> notices = noticeService.getAllNoticesWithReadStatus(loginId);
         return response.success(Code.SEARCH_SUCCESS, notices);
     }
 }

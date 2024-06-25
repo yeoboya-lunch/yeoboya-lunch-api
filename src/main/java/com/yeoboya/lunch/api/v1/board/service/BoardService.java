@@ -17,9 +17,11 @@ import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Pagination;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.file.domain.BannerFile;
 import com.yeoboya.lunch.api.v1.file.domain.BoardFile;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import com.yeoboya.lunch.api.v1.file.service.FileServiceBasic;
+import com.yeoboya.lunch.api.v1.file.service.FileServiceS3;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.util.SecurityUtils;
@@ -34,6 +36,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -53,17 +56,17 @@ public class BoardService {
     private final ReplyRepository replyRepository;
 
     // Services
-    private final FileServiceBasic fileService;
+    private final FileServiceS3 fileService;
     private final LikeService likeService;
 
     // Others
     private final Response response;
 
     public ResponseEntity<Body> saveBoard(BoardCreate boardCreate) {
-        Member member = memberRepository.findByEmail(boardCreate.getEmail()).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + boardCreate.getEmail()));
+        Member member = memberRepository.findByLoginId(boardCreate.getLoginId()).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + boardCreate.getLoginId()));
 
-        boolean currentUser = SecurityUtils.isCurrentUser(boardCreate.getEmail());
+        boolean currentUser = SecurityUtils.isCurrentUser(boardCreate.getLoginId());
 
         if(!currentUser){
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN, "정상적인 방법으로 글을 작성해주세요");
@@ -90,8 +93,8 @@ public class BoardService {
 
 
     public ResponseEntity<Body> saveBoardPhoto(MultipartFile file, FileBoardCreate fileBoardCreate) {
-        Member member = memberRepository.findByEmail(fileBoardCreate.getEmail()).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + fileBoardCreate.getEmail()));
+        Member member = memberRepository.findByLoginId(fileBoardCreate.getLoginId()).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + fileBoardCreate.getLoginId()));
 
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
@@ -109,8 +112,15 @@ public class BoardService {
                 .collect(Collectors.toList());
 
 
-        FileUploadResponse upload = fileService.upload(file, fileBoardCreate.getUploadType());
-        BoardFile boardFileBuild = BoardFile.builder().fileUploadResponse(upload).build();
+        BoardFile boardFileBuild = null;
+        if (file != null && !file.isEmpty()) {
+            try {
+                FileUploadResponse upload = fileService.upload(file, fileBoardCreate.getUploadType());
+                boardFileBuild = BoardFile.builder().fileUploadResponse(upload).build();
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to upload file", e);
+            }
+        }
 
         Board board = Board.createBoard(member, fileBoardCreate, boardHashtag, boardFileBuild);
         boardRepository.save(board);

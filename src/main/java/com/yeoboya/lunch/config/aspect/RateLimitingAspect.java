@@ -35,8 +35,8 @@ public class RateLimitingAspect {
     @Around("@annotation(rateLimited)")
     public Object rateLimit(ProceedingJoinPoint pjp, RateLimited rateLimited) throws Throwable {
 
-        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
-        MemberProjections.MemberApiKey memberApiKey = memberRepository.findByEmail(currentUserEmail, MemberProjections.MemberApiKey.class);
+        String currentUserLoginId = JwtTokenProvider.getCurrentUserLoginId();
+        MemberProjections.MemberApiKey memberApiKey = memberRepository.findByLoginId(currentUserLoginId, MemberProjections.MemberApiKey.class);
         String apiKey = "";
         if (memberApiKey != null && memberApiKey.getApiKey() != null) {
             apiKey = memberApiKey.getApiKey();

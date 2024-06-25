@@ -21,7 +21,7 @@ public class BoardResponse {
     private final String title;
     private final String content;
     private final boolean secret;
-    private final String email;
+    private final String loginId;
     private final String name;
     private final String createDate;
     private final List<HashTagResponse> hashTag;
@@ -39,7 +39,7 @@ public class BoardResponse {
                 .collect(Collectors.toList());
 
         BoardResponse response = new BoardResponse(
-                board.getId(), board.getTitle(), board.getContent(), board.isSecret(), board.getMember().getEmail(),
+                board.getId(), board.getTitle(), board.getContent(), board.isSecret(), board.getMember().getLoginId(),
                 board.getMember().getName(), simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTag().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),
                 board.getBoardFiles().stream().map(FileUploadResponse::from).collect(Collectors.toList()),
@@ -63,7 +63,7 @@ public class BoardResponse {
                 board.getTitle(),
                 board.getContent(),
                 board.isSecret(),
-                board.getMember().getEmail(),
+                board.getMember().getLoginId(),
                 board.getMember().getName(),
                 simpleDateFormat.format(board.getCreateDate()),
                 board.getBoardHashTag().stream().map(r -> HashTagResponse.from(r.getHashTag())).collect(Collectors.toList()),

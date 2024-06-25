@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/role")
@@ -24,7 +26,7 @@ public class RoleController {
      */
     @Reload
     @PostMapping("/authority-update")
-    public ResponseEntity<Response.Body> updateAuthority(@RequestBody AuthorityRequest authorityRequest) {
+    public ResponseEntity<Response.Body> updateAuthority(@RequestBody @Valid AuthorityRequest authorityRequest) {
         return roleService.updateAuthority(authorityRequest);
     }
 
@@ -41,7 +43,7 @@ public class RoleController {
      */
     @Reload
     @PostMapping("/security-update")
-    public ResponseEntity<Response.Body> updateSecurity(@RequestBody SecurityRequest securityRequest){
+    public ResponseEntity<Response.Body> updateSecurity(@RequestBody @Valid SecurityRequest securityRequest){
         return roleService.updateSecurityStatus(securityRequest);
     }
 

@@ -19,7 +19,7 @@ public class GroupOrderSearch {
     @DateTimeFormat(pattern = "yyyyMMdd")
     private LocalDate endDate;
 
-    private String orderEmail;
+    private String orderLoginId;
     private String orderName;
     private OrderStatus orderStatus;
 

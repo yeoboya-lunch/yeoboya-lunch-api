@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> memberAttribute = oAuth2Attribute.convertToMap();
         String email = (String) memberAttribute.get("email");
         String name = (String) memberAttribute.get("name");
-
+//todo
         Optional<Member> findMember = memberRepository.findByEmail(email);
 
         SimpleGrantedAuthority authority;
@@ -66,6 +63,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             authority = new SimpleGrantedAuthority("ROLE_USER");
 
             Member build = Member.builder()
+                    .loginId(String.valueOf(UUID.randomUUID()))
                     .email(email)
                     .name(name)
                     .provider(userRequest.getClientRegistration().getRegistrationId())

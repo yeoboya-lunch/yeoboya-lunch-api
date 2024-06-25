@@ -24,7 +24,8 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberRepository.findByEmail(username)
+        log.warn("username is {}", username);
+        return memberRepository.findByLoginId(username)
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + username));
     }
@@ -35,12 +36,12 @@ public class UserDetailsService implements org.springframework.security.core.use
         memberRepository.getMemberRoles(member.getId())
                 .forEach(memberRole->roles.add(memberRole.getRole().getRole().getAuthority()));
 
-        UserSecurityStatus userSecurityStatus = memberRepository.findByEmail(member.getEmail())
+        UserSecurityStatus userSecurityStatus = memberRepository.findByLoginId(member.getLoginId())
                 .map(Member::getUserSecurityStatus)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return Users.builder()
-                .email(member.getEmail())
+                .loginId(member.getLoginId())
                 .password(member.getPassword())
                 .enabled(userSecurityStatus.isEnabled())
                 .lock(userSecurityStatus.isAccountNonLocked())

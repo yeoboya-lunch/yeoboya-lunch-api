@@ -17,16 +17,15 @@ public class GroupOrderJoin {
     private Long orderId;
 
     @NotBlank(message = "주문자를 입력해주세요.")
-    @Email(message = "Valid email is required.")
-    private String email;
+    private String loginId;
 
     @NotNull(message = "상품정보를 입력해주세요.")
     private List<OrderItemCreate> orderItems;
 
     @Builder
-    public GroupOrderJoin(Long orderId, String email, List<OrderItemCreate> orderItems) {
+    public GroupOrderJoin(Long orderId, String loginId, List<OrderItemCreate> orderItems) {
         this.orderId = orderId;
-        this.email = email;
+        this.loginId = loginId;
         this.orderItems = orderItems;
     }
 
