@@ -50,21 +50,27 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
-    public Token generateToken(Authentication authentication) {
-        // 권한 가져오기
+    public Token generateToken(Authentication authentication, String provider, String loginId) {
+
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+
+        String subject = "";
+        if (provider.equals("yeoboya")) {
+            subject = authentication.getName();
+        } else {
+            subject = loginId;
+        }
 
         long now = new Date().getTime();
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(subject)
                 .setId(String.valueOf(UUID.randomUUID()))
-                .setIssuer("yeoboya")
+                .setIssuer(provider)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(accessTokenExpiresIn)
                 .claim(AUTHORITIES_KEY, authorities)
@@ -75,13 +81,13 @@ public class JwtTokenProvider {
         Date refreshAccessTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
         String refreshToken = Jwts.builder()
                 .setExpiration(refreshAccessTokenExpiresIn)
-                .setSubject(authentication.getName())
+                .setSubject(subject)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         Claims claims = this.parseClaims(accessToken);
         return Token.builder()
-                .subject(claims.getSubject())
+                .subject(subject)
                 .id(claims.getId())
                 .issuer(claims.getIssuer())
                 .issueDAt(String.valueOf(claims.getIssuedAt()))
@@ -92,6 +98,7 @@ public class JwtTokenProvider {
                 .refreshTokenExpirationTimeStr(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(refreshAccessTokenExpiresIn))
                 .build();
     }
+
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String token, HttpServletRequest request) {
@@ -138,7 +145,6 @@ public class JwtTokenProvider {
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthenticationWithLoadUserByUsername(String refreshToken) {
         Claims claims = this.parseClaims(refreshToken);
-        log.info("{}", claims.getSubject());
         UserDetails userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
         return new UsernamePasswordAuthenticationToken(userDetails, refreshToken, userDetails.getAuthorities());
     }
@@ -196,7 +202,7 @@ public class JwtTokenProvider {
         return authentication.getName();
     }
 
-    public String getJwtTokenSubject(HttpServletRequest request){
+    public String getJwtTokenSubject(HttpServletRequest request) {
         String token = this.resolveToken(request);
         Claims claims = this.parseClaims(token);
         return claims.getSubject();

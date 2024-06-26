@@ -7,10 +7,8 @@ import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
-import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
-import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.repository.UserSecurityStatusRepository;
 import com.yeoboya.lunch.config.security.reqeust.AuthorityRequest;
@@ -34,7 +32,6 @@ import java.util.Optional;
 public class RoleService {
 
     private final MemberRepository memberRepository;
-    private final MemberRolesRepository memberRolesRepository;
     private final UserSecurityStatusRepository userSecurityStatusRepository;
     private final RoleRepository roleRepository;
     private final Response response;
@@ -48,17 +45,6 @@ public class RoleService {
 
         Role role = roleRepository.findByRole(roleRequest.getRole());
 
-        Optional<MemberRole> memberRoles = memberRolesRepository.findByMemberLoginId(targetMember.getLoginId());
-
-        MemberRole memberRole;
-        if(memberRoles.isPresent()) {
-            memberRole = memberRoles.get();
-            memberRole.setRole(role);
-        } else {
-            memberRole = MemberRole.createMemberRoles(targetMember, role);
-        }
-
-        memberRolesRepository.save(memberRole);
 
 //        String token = jwtTokenProvider.resolveToken(request);
 //        Authentication authentication = jwtTokenProvider.getAuthentication(token);

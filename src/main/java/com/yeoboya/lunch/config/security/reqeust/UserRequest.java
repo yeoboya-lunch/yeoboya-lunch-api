@@ -103,14 +103,19 @@ public class UserRequest {
     @NoArgsConstructor
     @ToString
     public static class Reissue {
-        private String accessToken;
+        @NotEmpty(message = "로그인 아이디를 입력해주세요.")
+        private String loginId;
 
         @NotEmpty(message = "refreshToken 을 입력해주세요.")
         private String refreshToken;
 
-        public Reissue(String accessToken, String refreshToken) {
-            this.accessToken = accessToken;
+        @NotEmpty(message = "로그인 유형을 입력해주세요.")
+        private String provider;
+
+        public Reissue(String loginId, String refreshToken, String provider) {
+            this.loginId = loginId;
             this.refreshToken = refreshToken;
+            this.provider = provider;
         }
     }
 

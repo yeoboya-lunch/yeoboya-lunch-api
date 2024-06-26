@@ -14,17 +14,15 @@ public class MemberRoleResponse {
     private String email;
     private String provider;
     private String name;
-    private String roleDesc;
     private boolean isEnabled;
     private boolean isAccountNonLocked;
 
     @QueryProjection
-    public MemberRoleResponse(String loginId, String email, String provider, String name, String roleDesc, boolean isEnabled, boolean isAccountNonLocked){
+    public MemberRoleResponse(String loginId, String email, String provider, String name, boolean isEnabled, boolean isAccountNonLocked){
         this.loginId = loginId;
         this.email = email;
         this.provider = provider;
         this.name = name;
-        this.roleDesc = roleDesc;
         this.isEnabled = isEnabled;
         this.isAccountNonLocked = isAccountNonLocked;
     }

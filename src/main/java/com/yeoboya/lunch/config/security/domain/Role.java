@@ -30,9 +30,5 @@ public class Role {
     @OrderBy("order_num desc")
     private Set<Resources> resourcesSet = new LinkedHashSet<>();
 
-    @Builder
-    public Role(Authority role) {
-        this.role = role;
-    }
 
 }

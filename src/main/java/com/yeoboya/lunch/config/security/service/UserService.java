@@ -14,7 +14,6 @@ import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.annotation.Retry;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
-import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import com.yeoboya.lunch.config.security.dto.Token;
@@ -84,8 +83,6 @@ public class UserService {
         }else {
             role = roleRepository.findByRole(Authority.ROLE_USER);
         }
-        // find and set roles
-        List<MemberRole> memberRoles = List.of(MemberRole.createMemberRoles(build, role));
 
         // set member_info
         MemberInfo memberInfo = MemberInfo.createMemberInfo(build);
@@ -94,7 +91,7 @@ public class UserService {
         UserSecurityStatus userSecurityStatus = UserSecurityStatus.createUserSecurityStatus(build);
 
         // save member
-        Member saveMember = Member.createMember(build, memberInfo, memberRoles, userSecurityStatus);
+        Member saveMember = Member.createMember(build, memberInfo, role, userSecurityStatus);
         Member save = memberRepository.save(saveMember);
 
         return response.success(Code.SAVE_SUCCESS, save.getId());
@@ -109,7 +106,7 @@ public class UserService {
 
         // loadUserByUsername
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(signIn.toAuthentication());
-        Token token = jwtTokenProvider.generateToken(authentication);
+        Token token = jwtTokenProvider.generateToken(authentication, "yeoboya", signIn.getLoginId());
 
         // save redis refreshToken
         redisTemplate.opsForValue().set("RT:" + authentication.getName(),
@@ -159,7 +156,7 @@ public class UserService {
             return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        Token token = jwtTokenProvider.generateToken(authentication);
+        Token token = jwtTokenProvider.generateToken(authentication, reissue.getProvider(), reissue.getLoginId());
 
         redisTemplate.opsForValue().set("RT:" + authentication.getName(),
                 token.getRefreshToken(),

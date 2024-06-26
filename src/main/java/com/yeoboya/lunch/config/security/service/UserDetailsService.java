@@ -11,8 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @Service
 @Slf4j
@@ -24,28 +23,22 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.warn("username is {}", username);
         return memberRepository.findByLoginId(username)
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + username));
     }
 
     private UserDetails createUserDetails(Member member) {
-        List<String> roles = new ArrayList<>();
-
-        memberRepository.getMemberRoles(member.getId())
-                .forEach(memberRole->roles.add(memberRole.getRole().getRole().getAuthority()));
-
         UserSecurityStatus userSecurityStatus = memberRepository.findByLoginId(member.getLoginId())
                 .map(Member::getUserSecurityStatus)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("UserSecurityStatus not found"));
 
         return Users.builder()
                 .loginId(member.getLoginId())
+                .roles(Collections.singletonList(member.getRole().getRole().name()))
                 .password(member.getPassword())
                 .enabled(userSecurityStatus.isEnabled())
                 .lock(userSecurityStatus.isAccountNonLocked())
-                .roles(roles)
                 .build();
     }
 

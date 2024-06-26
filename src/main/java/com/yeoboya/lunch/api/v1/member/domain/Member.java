@@ -3,7 +3,7 @@ package com.yeoboya.lunch.api.v1.member.domain;
 import com.yeoboya.lunch.api.v1.common.domain.BaseTimeEntity;
 import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
 import com.yeoboya.lunch.config.pricingPlan.domain.ApiKey;
-import com.yeoboya.lunch.config.security.domain.MemberRole;
+import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import lombok.*;
 
@@ -39,9 +39,8 @@ public class Member extends BaseTimeEntity {
 
     private String password;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<MemberRole> memberRoles = new ArrayList<>();
+    @ManyToOne
+    private Role role;
 
     @OneToOne(mappedBy = "member")
     private Account account;
@@ -68,8 +67,7 @@ public class Member extends BaseTimeEntity {
     private String providerId;
 
     //연관관계 편의 메소드
-    public static Member createMember(Member pMember, MemberInfo memberInfo, List<MemberRole> memberRoles,
-                                      UserSecurityStatus userSecurityStatus){
+    public static Member createMember(Member pMember, MemberInfo memberInfo, Role role, UserSecurityStatus userSecurityStatus){
         Member member = new Member();
         member.setEmail(pMember.getEmail());
         member.setLoginId(pMember.getLoginId());
@@ -77,17 +75,10 @@ public class Member extends BaseTimeEntity {
         member.setProvider(pMember.getProvider());
         member.setProviderId(pMember.getProviderId());
         member.setPassword(pMember.getPassword());
+        member.setRole(role);
         member.addMemberInfo(memberInfo);
-        for(MemberRole roles : memberRoles) {
-            member.addMemberRole(roles);
-        }
         member.addUserSecurityStatus(userSecurityStatus);
         return member;
-    }
-
-    public void addMemberRole(MemberRole memberRole) {
-        this.memberRoles.add(memberRole);
-        memberRole.setMember(this);
     }
 
     public void addMemberInfo(MemberInfo memberInfo){

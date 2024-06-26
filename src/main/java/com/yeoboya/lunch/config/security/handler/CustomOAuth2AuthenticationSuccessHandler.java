@@ -1,10 +1,19 @@
 package com.yeoboya.lunch.config.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.v1.member.domain.Member;
+import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
+import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
+import com.yeoboya.lunch.config.security.constants.Authority;
+import com.yeoboya.lunch.config.security.domain.Role;
+import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import com.yeoboya.lunch.config.security.dto.Token;
+import com.yeoboya.lunch.config.security.repository.RoleRepository;
+import com.yeoboya.lunch.config.security.service.OAuth2UserImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -16,70 +25,55 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    private final RoleRepository roleRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final ObjectMapper objectMapper;
+    private final RedisTemplate<String, String> redisTemplate;
+    private final MemberRepository memberRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        Member member = ((OAuth2UserImpl) authentication.getPrincipal()).getMember();
 
-        // OAuth2User로 캐스팅하여 인증된 사용자 정보를 가져온다.
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-
-        // 사용자 이메일을 가져온다.
-        String email = oAuth2User.getAttribute("email");
-
-        // 서비스 제공 플랫폼(GOOGLE, KAKAO, NAVER)이 어디인지 가져온다.
-        String provider = oAuth2User.getAttribute("provider");
-
-        // CustomOAuth2UserService에서 셋팅한 로그인한 회원 존재 여부를 가져온다.
-        boolean isExist = Boolean.TRUE.equals(oAuth2User.getAttribute("memberExists"));
-
-        // OAuth2User로 부터 Role을 얻어온다.
-        String role = oAuth2User.getAuthorities().stream().
-                findFirst() // 첫번째 Role을 찾아온다.
-                .orElseThrow(IllegalAccessError::new) // 존재하지 않을 시 예외를 던진다.
-                .getAuthority(); // Role을 가져온다.
-
-        // 회원이 존재할경우
-        if (isExist) {
-            // 회원이 존재하면 jwt token 발행을 시작한다.
-            Token token = jwtTokenProvider.generateToken(authentication);
-            log.warn("jwtToken = {}", token);
-
-            // accessToken을 쿼리스트링에 담는 url을 만들어준다.
-            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/")
-                    .queryParam("token", token)
+        String redirectURL;
+        if (member.getRole().getRole().equals(roleRepository.findByRole(Authority.ROLE_GUEST).getRole())) {
+            redirectURL = UriComponentsBuilder.fromUriString("http://localhost:8080/oauth2/signUp")
+                    .queryParam("email", member.getEmail())
+                    .queryParam("provider", member.getProvider())
+                    .queryParam("providerId", member.getProviderId())
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();
-            // 로그인 확인 페이지로 리다이렉트 시킨다.
-            getRedirectStrategy().sendRedirect(request, response, targetUrl);
+
+            MemberInfo memberInfo = MemberInfo.createMemberInfo(member);
+            UserSecurityStatus userSecurityStatus = UserSecurityStatus.createUserSecurityStatus(member);
+            Member saveMember = Member.createMember(member, memberInfo, roleRepository.findByRole(Authority.ROLE_USER), userSecurityStatus);
+            memberRepository.save(saveMember);
 
         } else {
+            Token token = jwtTokenProvider.generateToken(authentication, member.getProvider(), member.getLoginId());
+            response.addHeader("AccessToken", token.getAccessToken());
+            response.addHeader("RefreshToken", token.getRefreshToken());
 
-            // 회원이 존재하지 않을경우, 서비스 제공자와 email을 쿼리스트링으로 전달하는 url을 만들어준다j.
-            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/auth/signup/")
-                    .queryParam("email", (String) oAuth2User.getAttribute("email"))
-                    .queryParam("provider", provider)
+            redisTemplate.opsForValue().set("RT:" + member.getLoginId(),
+                    token.getRefreshToken(),
+                    token.getRefreshTokenExpirationTime() - new Date().getTime(),
+                    TimeUnit.MILLISECONDS);
+
+            redirectURL = UriComponentsBuilder.fromUriString("http://localhost:8080/")
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();
-            // 회원가입 페이지로 리다이렉트 시킨다.
-            getRedirectStrategy().sendRedirect(request, response, targetUrl);
         }
 
+        getRedirectStrategy().sendRedirect(request, response, redirectURL);
 
-//        response.setContentType("application/json;charset=UTF-8");
-//        if (memberExists) {
-//            response.getWriter().write("{\"message\": \"이미 가입된 회원 입니다.\", \"token\": " + tokenJson + ", \"user\": " + oAuth2UserJson + "}");
-//        } else {
-//            response.getWriter().write("{\"message\": \"회원가입을 진행 해주세요.\", \"email\": " + token.getSubject() + ", \"user\": " + oAuth2UserJson + "}");
-//        }
     }
 }
