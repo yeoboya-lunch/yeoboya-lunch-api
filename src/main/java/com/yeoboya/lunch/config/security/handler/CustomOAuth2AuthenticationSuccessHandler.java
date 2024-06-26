@@ -42,36 +42,26 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         Member member = ((OAuth2UserImpl) authentication.getPrincipal()).getMember();
 
-        String redirectURL;
         if (member.getRole().getRole().equals(roleRepository.findByRole(Authority.ROLE_GUEST).getRole())) {
-            redirectURL = UriComponentsBuilder.fromUriString("http://localhost:8080/oauth2/signUp")
-                    .queryParam("email", member.getEmail())
-                    .queryParam("provider", member.getProvider())
-                    .queryParam("providerId", member.getProviderId())
-                    .build()
-                    .encode(StandardCharsets.UTF_8)
-                    .toUriString();
-
             MemberInfo memberInfo = MemberInfo.createMemberInfo(member);
             UserSecurityStatus userSecurityStatus = UserSecurityStatus.createUserSecurityStatus(member);
             Member saveMember = Member.createMember(member, memberInfo, roleRepository.findByRole(Authority.ROLE_USER), userSecurityStatus);
             memberRepository.save(saveMember);
-
-        } else {
-            Token token = jwtTokenProvider.generateToken(authentication, member.getProvider(), member.getLoginId());
-            response.addHeader("AccessToken", token.getAccessToken());
-            response.addHeader("RefreshToken", token.getRefreshToken());
-
-            redisTemplate.opsForValue().set("RT:" + member.getLoginId(),
-                    token.getRefreshToken(),
-                    token.getRefreshTokenExpirationTime() - new Date().getTime(),
-                    TimeUnit.MILLISECONDS);
-
-            redirectURL = UriComponentsBuilder.fromUriString("http://localhost:8080/")
-                    .build()
-                    .encode(StandardCharsets.UTF_8)
-                    .toUriString();
         }
+
+        Token token = jwtTokenProvider.generateToken(authentication, member.getProvider(), member.getLoginId());
+        response.addHeader("AccessToken", token.getAccessToken());
+        response.addHeader("RefreshToken", token.getRefreshToken());
+
+        redisTemplate.opsForValue().set("RT:" + member.getLoginId(),
+                token.getRefreshToken(),
+                token.getRefreshTokenExpirationTime() - new Date().getTime(),
+                TimeUnit.MILLISECONDS);
+
+        String redirectURL = UriComponentsBuilder.fromUriString("https://yeoboya-lunch.com")
+                .build()
+                .encode(StandardCharsets.UTF_8)
+                .toUriString();
 
         getRedirectStrategy().sendRedirect(request, response, redirectURL);
 
