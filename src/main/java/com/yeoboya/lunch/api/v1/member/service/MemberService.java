@@ -69,21 +69,20 @@ public class MemberService {
                 "pagination", slicePagination);
     }
 
-    public MemberSummary memberSummary(String email){
-        return memberRepository.findByEmail(email, MemberSummary.class);
+    public MemberSummary memberSummary(String loginId){
+        return memberRepository.findByLoginId(loginId, MemberSummary.class);
     }
 
-    public MemberAccount memberAccount(String email){
-        return memberRepository.findByEmail(email, MemberAccount.class);
+    public MemberAccount memberAccount(String loginId){
+        return memberRepository.findByLoginId(loginId, MemberAccount.class);
     }
 
     @Transactional
-    public MemberResponse memberProfile(String memberEmail) {
-        memberRepository.findByEmail(memberEmail).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + memberEmail));
+    public MemberResponse memberProfile(String memberLoginId) {
+        memberRepository.findByLoginId(memberLoginId).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + memberLoginId));
 
-        MemberResponse memberResponse = memberRepository.memberProfile(memberEmail);
-
+        MemberResponse memberResponse = memberRepository.memberProfile(memberLoginId);
 
         if(StringUtils.hasText(memberResponse.getAccountNumber())){
             memberResponse.setAccount(true);
@@ -94,22 +93,22 @@ public class MemberService {
     /**
      * editMemberInfo 메소드는 사용자가 자신의 프로필을 수정하는 요청을 처리합니다.
      *
-     * @param memberEmail 사용자의 이메일. 이메일을 통해 특정 사용자를 식별합니다.
+     * @param memberLoginId 사용자의 이메일. 이메일을 통해 특정 사용자를 식별합니다.
      * @param memberInfoEdit 사용자가 변경하려는 정보. bio, nickName, phoneNumber를 포함합니다.
      *
      * 수정 작업은 다음과 같은 순서로 처리됩니다.
-     * 1. memberEmail을 통해 MemberRepository에서 특정 Member를 찾습니다.
+     * 1. memberLoginId을 통해 MemberRepository에서 특정 Member를 찾습니다.
      *    - Member가 없으면 EntityNotFoundException을 발생시킵니다.
      * 2. 해당 Member의 현재 정보를 가져옵니다.
      * 3. 가져온 Member 정보를 통해 MemberInfoEditorBuilder를 생성합니다.
      * 4. memberInfoEdit에 담긴 변경하려는 정보를 이용해 MemberInfoEditor를 구성하고, 새 정보로 Member를 업데이트합니다.
      */
     @Transactional
-    public void editMemberInfo(String memberEmail, MemberInfoEdit memberInfoEdit) {
-        Member member = memberRepository.findByEmail(memberEmail).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + memberEmail));
+    public void editMemberInfo(String memberLoginId, MemberInfoEdit memberInfoEdit) {
+        Member member = memberRepository.findByLoginId(memberLoginId).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + memberLoginId));
 
-        MemberInfo memberInfo = memberRepository.getMemberInfo(member.getEmail());
+        MemberInfo memberInfo = memberRepository.getMemberInfo(member.getLoginId());
 
         MemberInfoEditor.MemberInfoEditorBuilder editorBuilder = memberInfo.toEditor();
 
@@ -126,8 +125,8 @@ public class MemberService {
     }
 
     public AccountResponse addAccount(AccountCreate accountCreate) {
-        Member member = memberRepository.findByEmail(accountCreate.getEmail()).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + accountCreate.getEmail()));
+        Member member = memberRepository.findByLoginId(accountCreate.getLoginId()).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + accountCreate.getLoginId()));
 
         Account createAccount = Account.builder()
                 .member(member)
@@ -140,9 +139,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void editAccount(String memberEmail, AccountEdit edit) {
-        Account account = accountRepository.findByMemberEmail(memberEmail).orElseThrow(
-                () -> new EntityNotFoundException("Account not found - " + memberEmail));
+    public void editAccount(String memberLoginId, AccountEdit edit) {
+        Account account = accountRepository.findByMemberLoginId(memberLoginId).orElseThrow(
+                () -> new EntityNotFoundException("Account not found - " + memberLoginId));
 
         AccountEditor.AccountEditorBuilder editorBuilder = account.toEditor();
 
@@ -161,12 +160,12 @@ public class MemberService {
     //fixme return
     public ResponseEntity<Response.Body> updateProfileImage(MultipartFile file, MemberProfile memberProfile, HttpServletRequest httpServletRequest) {
 
-        Member member = memberRepository.findByEmail(memberProfile.getEmail()).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + memberProfile.getEmail()));
+        Member member = memberRepository.findByLoginId(memberProfile.getLoginId()).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + memberProfile.getLoginId()));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
-        if (!memberProfile.getEmail().equals(name)) {
+        if (!memberProfile.getLoginId().equals(name)) {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
 

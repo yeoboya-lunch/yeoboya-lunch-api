@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 public class OrderRecruitmentResponse {
 
     @Builder
-    public OrderRecruitmentResponse(Long orderId, String orderMemberEmail, String orderMemberName, String shopName, String title, String lastOrderTime, String orderStatus, int groupCount) {
+    public OrderRecruitmentResponse(Long orderId, String orderMemberLoginId, String orderMemberName, String shopName, String title, String lastOrderTime, String orderStatus, int groupCount) {
         this.orderId = orderId;
-        this.orderMemberEmail = orderMemberEmail;
+        this.orderMemberLoginId = orderMemberLoginId;
         this.orderMemberName = orderMemberName;
         this.shopName = shopName;
         this.title = title;
@@ -22,7 +22,7 @@ public class OrderRecruitmentResponse {
     }
 
     private final Long orderId;
-    private final String orderMemberEmail;
+    private final String orderMemberLoginId;
     private final String orderMemberName;
     private final String shopName;
     private final String title;
@@ -34,7 +34,7 @@ public class OrderRecruitmentResponse {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일 a HH:mm");
         return new OrderRecruitmentResponse(
                 order.getId(),
-                order.getMember().getEmail(),
+                order.getMember().getLoginId(),
                 order.getMember().getName(),
                 order.getShop().getName(),
                 order.getTitle(),

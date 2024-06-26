@@ -15,6 +15,7 @@ public enum ErrorCode {
 //    UNAUTHORIZED_MEMBER(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
 
     USER_DUPLICATE_EMAIL("사용중인 이메일 입니다.", CONFLICT),
+    USER_DUPLICATE_ID("사용중인 아이디 입니다.", CONFLICT),
     USER_NOT_FOUND("아이디 또는 비밀번호를 잘못 입력했습니다", UNAUTHORIZED),
 
     INVALID_PASSWORD("비밀번호가 일치하지 않습니다. 다시 확인해 주세요.", BAD_REQUEST),

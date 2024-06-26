@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class Users implements UserDetails {
 
     private static final long serialVersionUID = 1L;
-    private String email;
+    private String loginId;
     private String password;
     private Boolean lock;
     private Boolean enabled;
@@ -37,7 +37,7 @@ public class Users implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.loginId;
     }
 
     @Override

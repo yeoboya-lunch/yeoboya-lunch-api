@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface OrderRepository extends JpaRepository<Order, Long>, OrderRepositoryCustom {
 
     Slice<Order> findByMemberEmail(String email, Pageable pageable);
+    Slice<Order> findByMemberLoginId(String email, Pageable pageable);
 }

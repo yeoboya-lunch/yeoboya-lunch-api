@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board/reply")
@@ -22,7 +24,7 @@ public class ReplyController {
      */
     @RateLimited(limit = 1)
     @PostMapping("/write")
-    public ResponseEntity<Response.Body> createComment(@RequestBody ReplyCreateRequest replyCreateRequest) {
+    public ResponseEntity<Response.Body> createComment(@RequestBody @Valid ReplyCreateRequest replyCreateRequest) {
         return replyService.createReply(replyCreateRequest);
     }
 

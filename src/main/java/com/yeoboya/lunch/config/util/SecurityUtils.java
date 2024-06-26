@@ -10,11 +10,11 @@ public class SecurityUtils {
      *
      * @return 현재 사용자의 이메일
      */
-    public static String getCurrentUserEmail() {
+    public static String getCurrentUserLoginId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails) {
             org.springframework.security.core.userdetails.UserDetails userDetails = (org.springframework.security.core.userdetails.UserDetails) authentication.getPrincipal();
-            return userDetails.getUsername(); // 일반적으로 username은 이메일입니다.
+            return userDetails.getUsername();
         }
         return null;
     }
@@ -22,11 +22,11 @@ public class SecurityUtils {
     /**
      * 현재 사용자가 주어진 이메일과 일치하는지 확인합니다.
      *
-     * @param email 비교할 이메일
+     * @param loginId 비교할 이메일
      * @return 현재 사용자가 주어진 이메일과 일치하면 true, 그렇지 않으면 false
      */
-    public static boolean isCurrentUser(String email) {
-        String currentUserEmail = getCurrentUserEmail();
-        return currentUserEmail != null && currentUserEmail.equals(email);
+    public static boolean isCurrentUser(String loginId) {
+        String currentUserEmail = getCurrentUserLoginId();
+        return currentUserEmail != null && currentUserEmail.equals(loginId);
     }
 }

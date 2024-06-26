@@ -12,8 +12,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class AccountCreate {
 
-    @NotBlank(message = "이메일을 입력해주세요")
-    private String email;
+    @NotBlank(message = "아이디를 입력해주세요")
+    private String loginId;
 
     @NotBlank(message = "은행명을 입력해주세요.")
     private String bankName;
@@ -22,8 +22,8 @@ public class AccountCreate {
     private String accountNumber;
 
     @Builder
-    public AccountCreate(String email, String bankName, String accountNumber) {
-        this.email = email;
+    public AccountCreate(String loginId, String bankName, String accountNumber) {
+        this.loginId = loginId;
         this.bankName = bankName;
         this.accountNumber = accountNumber;
     }

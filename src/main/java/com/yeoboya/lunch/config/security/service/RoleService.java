@@ -7,10 +7,8 @@ import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.api.v1.member.response.MemberRoleResponse;
-import com.yeoboya.lunch.config.security.domain.MemberRole;
 import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
-import com.yeoboya.lunch.config.security.repository.MemberRolesRepository;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.repository.UserSecurityStatusRepository;
 import com.yeoboya.lunch.config.security.reqeust.AuthorityRequest;
@@ -34,7 +32,6 @@ import java.util.Optional;
 public class RoleService {
 
     private final MemberRepository memberRepository;
-    private final MemberRolesRepository memberRolesRepository;
     private final UserSecurityStatusRepository userSecurityStatusRepository;
     private final RoleRepository roleRepository;
     private final Response response;
@@ -43,22 +40,11 @@ public class RoleService {
 //    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Response.Body> updateAuthority(AuthorityRequest roleRequest) {
 
-        Member targetMember = memberRepository.findByEmail(roleRequest.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + roleRequest.getEmail()));
+        Member targetMember = memberRepository.findByLoginId(roleRequest.getLoginId())
+                .orElseThrow(() -> new UsernameNotFoundException("Member not found - " + roleRequest.getLoginId()));
 
         Role role = roleRepository.findByRole(roleRequest.getRole());
 
-        Optional<MemberRole> memberRoles = memberRolesRepository.findByMemberEmail(targetMember.getEmail());
-
-        MemberRole memberRole;
-        if(memberRoles.isPresent()) {
-            memberRole = memberRoles.get();
-            memberRole.setRole(role);
-        } else {
-            memberRole = MemberRole.createMemberRoles(targetMember, role);
-        }
-
-        memberRolesRepository.save(memberRole);
 
 //        String token = jwtTokenProvider.resolveToken(request);
 //        Authentication authentication = jwtTokenProvider.getAuthentication(token);
@@ -69,8 +55,8 @@ public class RoleService {
 
     public ResponseEntity<Response.Body> updateSecurityStatus(SecurityRequest securityRequest) {
 
-        Member member = memberRepository.findByEmail(securityRequest.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Member with email " + securityRequest.getEmail() + " is not found"));
+        Member member = memberRepository.findByLoginId(securityRequest.getLoginId())
+                .orElseThrow(() -> new EntityNotFoundException("Member with loginId " + securityRequest.getLoginId() + " is not found"));
 
         UserSecurityStatus userSecuritystatus = member.getUserSecurityStatus();
         userSecuritystatus.setEnabled(securityRequest.isEnabled());

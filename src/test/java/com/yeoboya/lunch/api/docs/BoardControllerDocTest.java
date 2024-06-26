@@ -304,7 +304,7 @@ class BoardControllerDocTest {
     @DisplayName("댓글작성")
     public void createCommentTest() throws Exception {
         ReplyCreateRequest request = new ReplyCreateRequest();
-        request.setEmail("reply@test.com");
+        request.setLoginId("reply@test.com");
         request.setBoardId(1L);
         request.setContent("1번글 1번 댓글");
 
@@ -336,7 +336,7 @@ class BoardControllerDocTest {
     @DisplayName("대댓글작성")
     public void createCommentnestedCommentTest() throws Exception {
         ReplyCreateRequest request = new ReplyCreateRequest();
-        request.setEmail("reply@test.com");
+        request.setLoginId("reply@test.com");
         request.setBoardId(1L);
         request.setParentReplyId(1L);
         request.setContent("1번글 1번 댓글의 댓글 (대댓글)");

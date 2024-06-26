@@ -6,6 +6,7 @@ import com.yeoboya.lunch.config.security.filter.JwtAuthenticationFilter;
 import com.yeoboya.lunch.config.security.filter.JwtExceptionFilter;
 import com.yeoboya.lunch.config.security.filter.PermitAllFilter;
 import com.yeoboya.lunch.config.security.handler.AccessDeniedHandlerImpl;
+import com.yeoboya.lunch.config.security.handler.CustomOAuth2AuthenticationSuccessHandler;
 import com.yeoboya.lunch.config.security.metaDataSource.UrlSecurityMetadataSource;
 import com.yeoboya.lunch.config.security.service.RoleHierarchyService;
 import com.yeoboya.lunch.config.security.service.SecurityResourceService;
@@ -23,6 +24,7 @@ import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -64,6 +66,8 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
 
+    private final CustomOAuth2AuthenticationSuccessHandler customOAuth2AuthenticationSuccessHandler;
+
     // 1. 프로그램에서 필요한 설정과 관련된 `@Bean`을 정의하는 메소드.
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -91,30 +95,45 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+
+        // 인코딩 필터 설정: UTF-8 인코딩을 강제합니다.
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
 
+        // 보안 설정 시작
         httpSecurity
-                .csrf().disable()
+                .csrf()             // CSRF(Cross-Site Request Forgery) 공격 방어 설정
+                .disable()          // CSRF 방어 비활성화
+
+                // 세션 관련 설정
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)      // 세션 생성 정책을 STATELESS로 설정
 
-                .and()
-                .cors()
+                .and()                                                     // 다른 보안 설정들로 넘어감
+                .cors()                                                     // CORS(Cross-Origin Resource Sharing) 설정 활성화
 
+                // 로그인 설정
                 .and()
-                .formLogin().disable()
-                .httpBasic().disable()
+                .formLogin().disable()                                     // 폼 로그인 비활성
+                .httpBasic().disable()                                     // HTTP Basic 로그인 비활성
+
+                // 예외 처리 설정
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPointImpl)
-                .accessDeniedHandler(accessDeniedHandlerImpl)
+                .authenticationEntryPoint(authenticationEntryPointImpl)     // 인증 예외 발생 시 처리 설정
+                .accessDeniedHandler(accessDeniedHandlerImpl)               // 접근이 거부됐을 때 핸들러 설정
 
+                // 마지막에 필터 설정, 필터는 순서대로 실행됩니다.
+                // 먼저 실행하려는 필터를 현재 필터보다 앞에 추가합니다.
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
-                .addFilterBefore(filter, CsrfFilter.class)
-                .addFilterBefore(this.createPermitAllFilter(), FilterSecurityInterceptor.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)    // JWT 인증 필터 추가
+                .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)                      // JWT 예외 필터 추가
+                .addFilterBefore(filter, CsrfFilter.class)                                              // 인코딩 필터 추가
+                .addFilterBefore(this.createPermitAllFilter(), FilterSecurityInterceptor.class)           // 특정 경로의 접근 허용 필터 추가
+
+                // OAuth2 로그인 설정
+                .oauth2Login()
+                .successHandler(customOAuth2AuthenticationSuccessHandler); // OAuth2 로그인 성공 핸들러 설정
 
         return httpSecurity.build();
     }
@@ -168,7 +187,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UrlResourcesMapFactoryBean urlResourcesMapFactoryBean(SecurityResourceService securityResourceService){
+    public UrlResourcesMapFactoryBean urlResourcesMapFactoryBean(SecurityResourceService securityResourceService) {
         UrlResourcesMapFactoryBean urlResourcesMapFactoryBean = new UrlResourcesMapFactoryBean();
         urlResourcesMapFactoryBean.setSecurityResourceService(securityResourceService);
         return urlResourcesMapFactoryBean;

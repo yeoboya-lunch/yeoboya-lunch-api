@@ -10,7 +10,7 @@ public interface GroupOrderRepositoryCustom {
 
     Slice<GroupOrder> purchaseRecruits(GroupOrderSearch orderSearch, Pageable pageable);
 
-    Slice<GroupOrder> getJoinHistoriesByEmail(String email, Pageable pageable);
+    Slice<GroupOrder> getJoinHistoriesByLoginId(String loginId, Pageable pageable);
 
 //    GroupOrder getJoinHistoryByEmail(Long orderId);
 }

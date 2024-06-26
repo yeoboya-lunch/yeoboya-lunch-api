@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ import java.util.List;
 @Builder
 public class BoardCreate {
 
-    @Email
-    private String email;
+    @NotEmpty(message = "로그인 아이디는 필수 입력값입니다.")
+    private String loginId;
 
     private String title;             //제목
 

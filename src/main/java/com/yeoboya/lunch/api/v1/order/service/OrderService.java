@@ -53,8 +53,8 @@ public class OrderService {
 
 
     public OrderDetailResponse startLunchOrderRecruitment(OrderRecruitmentCreate orderRecruitmentCreate) {
-        Member member = memberRepository.findByEmail(orderRecruitmentCreate.getEmail()).
-                orElseThrow(() -> new EntityNotFoundException("Member not found - " + orderRecruitmentCreate.getEmail()));
+        Member member = memberRepository.findByLoginId(orderRecruitmentCreate.getLoginId()).
+                orElseThrow(() -> new EntityNotFoundException("Member not found - " + orderRecruitmentCreate.getLoginId()));
 
         Shop shop = shopRepository.findByName(orderRecruitmentCreate.getShopName()).
                 orElseThrow(() -> new EntityNotFoundException("Shop not fount - " + orderRecruitmentCreate.getShopName()));
@@ -114,8 +114,8 @@ public class OrderService {
     public void joinGroupOrder(GroupOrderJoin groupOrderJoin) {
         Order order = orderRepository.findById(groupOrderJoin.getOrderId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found - " + groupOrderJoin.getOrderId()));
-        Member member = memberRepository.findByEmail(groupOrderJoin.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("Member not found - " + groupOrderJoin.getEmail()));
+        Member member = memberRepository.findByLoginId(groupOrderJoin.getLoginId())
+                .orElseThrow(() -> new EntityNotFoundException("Member not found - " + groupOrderJoin.getLoginId()));
 
         List<OrderItem> orderItems = groupOrderJoin.getOrderItems().stream()
                 .map(orderItemCreate -> {
@@ -176,8 +176,8 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("모임 주문을 찾을 수 없습니다."));
     }
 
-    public Map<String, Object> getMyJoinHistoriesByEmail(String email, Pageable pageable) {
-        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoriesByEmail(email, pageable);
+    public Map<String, Object> getMyJoinHistoriesByLoginId(String logInId, Pageable pageable) {
+        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoriesByLoginId(logInId, pageable);
         List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
                 .map(groupOrder -> GroupOrderResponse.of(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
                 .collect(Collectors.toList());
@@ -199,9 +199,9 @@ public class OrderService {
     }
 
     public Map<String, Object> getMyJoinHistoryByToken(Pageable pageable) {
-        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
+        String currentUserLoginId = JwtTokenProvider.getCurrentUserLoginId();
 
-        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoriesByEmail(currentUserEmail, pageable);
+        Slice<GroupOrder> groupOrders = groupOrderRepository.getJoinHistoriesByLoginId(currentUserLoginId, pageable);
         List<GroupOrderResponse> groupOrderResponses = groupOrders.getContent().stream()
                 .map(groupOrder -> GroupOrderResponse.of(groupOrder, groupOrder.getMember(), groupOrder.getOrderItems()))
                 .collect(Collectors.toList());
@@ -222,8 +222,8 @@ public class OrderService {
 
     }
 
-    public List<OrderDetailResponse> getMyRecruitmentOrderHistoriesByEmail(String email, Pageable pageable) {
-        Slice<Order> orderHistory = orderRepository.findByMemberEmail(email, pageable);
+    public List<OrderDetailResponse> getMyRecruitmentOrderHistoriesByLoginId(String loginId, Pageable pageable) {
+        Slice<Order> orderHistory = orderRepository.findByMemberLoginId(loginId, pageable);
 
         return orderHistory.stream()
                 .map(OrderDetailResponse::of)
@@ -231,8 +231,8 @@ public class OrderService {
     }
 
     public List<OrderDetailResponse> getMyRecruitmentOrderHistoriesByToken(Pageable pageable) {
-        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
-        Slice<Order> orderHistory = orderRepository.findByMemberEmail(currentUserEmail, pageable);
+        String memberLoginId = JwtTokenProvider.getCurrentUserLoginId();
+        Slice<Order> orderHistory = orderRepository.findByMemberLoginId(memberLoginId, pageable);
 
         return orderHistory.stream()
                 .map(OrderDetailResponse::of)
@@ -241,7 +241,7 @@ public class OrderService {
 
     @Transactional
     public void changeRecruitmentOrderStatus(Long orderId, OrderEdit orderEdit) {
-        String currentUserEmail = JwtTokenProvider.getCurrentUserEmail();
+        String currentUserEmail = JwtTokenProvider.getCurrentUserLoginId();
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found - " + orderId));

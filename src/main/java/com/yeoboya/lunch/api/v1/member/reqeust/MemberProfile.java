@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class MemberProfile {
 
-    private String email;
+    private String loginId;
     private String subDirectory;
 }

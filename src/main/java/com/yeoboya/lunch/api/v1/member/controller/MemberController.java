@@ -37,37 +37,35 @@ public class MemberController {
         return response.success(Code.SEARCH_SUCCESS, memberService.memberList(pageable));
     }
 
-    @GetMapping("{memberEmail}/summary")
-    public ResponseEntity<Body> getMemberSummary(@PathVariable String memberEmail) {
-        return response.success(Code.SEARCH_SUCCESS, memberService.memberSummary(memberEmail));
+    @GetMapping("{memberLoginId}/summary")
+    public ResponseEntity<Body> getMemberSummary(@PathVariable String memberLoginId) {
+        return response.success(Code.SEARCH_SUCCESS, memberService.memberSummary(memberLoginId));
     }
-
 
     /**
      * 회원검색 (계좌/프로필사진)
      */
-    @GetMapping("{memberEmail}/profile")
-    public ResponseEntity<Body> getMemberProfile(@PathVariable String memberEmail) {
-        return response.success(Code.SEARCH_SUCCESS, memberService.memberProfile(memberEmail));
+    @GetMapping("{memberLoginId}/profile")
+    public ResponseEntity<Body> getMemberProfile(@PathVariable String memberLoginId) {
+        return response.success(Code.SEARCH_SUCCESS, memberService.memberProfile(memberLoginId));
     }
 
     /**
      * 멤버 정보 검색(기본/계좌)
      */
-    @GetMapping("/account/{memberEmail}")
-    public ResponseEntity<Body> findAccountMember(@PathVariable String memberEmail) {
-        return response.success(Code.SEARCH_SUCCESS, memberService.memberAccount(memberEmail));
+    @GetMapping("/account/{memberLoginId}")
+    public ResponseEntity<Body> findAccountMember(@PathVariable String memberLoginId) {
+        return response.success(Code.SEARCH_SUCCESS, memberService.memberAccount(memberLoginId));
     }
 
     /**
      * 멤버 상세 정보 수정
      */
-    @PatchMapping("/setting/info/{memberEmail}")
-    public ResponseEntity<Body> editMemberInfo(@PathVariable String memberEmail, @RequestBody MemberInfoEdit memberInfoEdit) {
-        memberService.editMemberInfo(memberEmail, memberInfoEdit);
+    @PatchMapping("/setting/info/{memberLoginId}")
+    public ResponseEntity<Body> editMemberInfo(@PathVariable String memberLoginId, @RequestBody MemberInfoEdit memberInfoEdit) {
+        memberService.editMemberInfo(memberLoginId, memberInfoEdit);
         return response.success(Code.UPDATE_SUCCESS);
     }
-
 
     /**
      * 멤버 계좌 등록
@@ -81,9 +79,9 @@ public class MemberController {
     /**
      * 멤버 계좌 수정
      */
-    @PatchMapping("/account/{memberEmail}")
-    public ResponseEntity<Body> accountUpdate(@PathVariable String memberEmail, @RequestBody AccountEdit accountEdit) {
-        memberService.editAccount(memberEmail, accountEdit);
+    @PatchMapping("/account/{memberLoginId}")
+    public ResponseEntity<Body> accountUpdate(@PathVariable String memberLoginId, @RequestBody AccountEdit accountEdit) {
+        memberService.editAccount(memberLoginId, accountEdit);
         return response.success(Code.UPDATE_SUCCESS);
     }
 

@@ -31,7 +31,7 @@ public class LikeService {
     @Transactional
     public ResponseEntity<Response.Body> likePost(Long boardId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = memberRepository.findByEmail(authentication.getName()).orElseThrow(
+        Member member = memberRepository.findByLoginId(authentication.getName()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + authentication.getName()));
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException("No board found with id: " + boardId));
 
@@ -57,9 +57,9 @@ public class LikeService {
     }
 
     @Transactional(readOnly = true)
-    public boolean hasLiked(String email, Long boardId) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + email));
+    public boolean hasLiked(String userId, Long boardId) {
+        Member member = memberRepository.findByLoginId(userId).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + userId));
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException("No board found with id: " + boardId));
         return likeRepository.findByMemberEmailAndBoardId(member.getEmail(), board.getId()).isPresent();
     }

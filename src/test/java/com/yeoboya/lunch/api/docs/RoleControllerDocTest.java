@@ -85,7 +85,7 @@ class RoleControllerDocTest {
     @DisplayName("회원 권한 업데이트")
     void updateAuthority() throws Exception {
         AuthorityRequest authorityRequest = new AuthorityRequest();
-        authorityRequest.setEmail("role@test.com");
+        authorityRequest.setLoginId("role@test.com");
         authorityRequest.setRole(Authority.ROLE_MANAGER);
 
         mockMvc.perform(post("/role/authority-update")
@@ -108,7 +108,7 @@ class RoleControllerDocTest {
     @DisplayName("회원 계정 업데이트")
     void updateSecurity() throws Exception {
         SecurityRequest securityRequest = new SecurityRequest();
-        securityRequest.setEmail("role@test.com");
+        securityRequest.setLoginId("role@test.com");
         securityRequest.setEnabled(false);
         securityRequest.setAccountNonLocked(false);
 

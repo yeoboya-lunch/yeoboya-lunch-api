@@ -5,15 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class MemberProjections {
 
     public interface MemberSummary {
+        String getLoginId();
         String getEmail();
         String getName();
 
-        default String getEmailName(){
-            return getEmail() + "" + getName();
+        default String getLoginIdEmailName(){
+            return getLoginId() + "," + getEmail() + "," + getName();
         }
     }
 
     public interface MemberAccount {
+        String getLoginId();
         String getEmail();
         String getName();
         default String getBankName(){
