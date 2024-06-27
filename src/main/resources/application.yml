@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    active: "local"
-    include: oauth
 
   main:
     allow-bean-definition-overriding: true

@@ -2,10 +2,6 @@ logging:
   config: classpath:logs/logback-prod.xml
 
 spring:
-  profiles:
-    active: prod
-    include: prod-oauth
-
   output:
     ansi:
       enabled: never
