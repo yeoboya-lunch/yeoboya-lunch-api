@@ -29,3 +29,6 @@ spring:
         port: 11545
     password: ENC(Mqlonk2wItWUWJXeBUOUA+PIWap0KbGH7EKyA7oNYXM/Hjg5+aMfuDytHSH/OdD9)
     database: 0
+
+front:
+  url: https://yeoboya-lunch.com

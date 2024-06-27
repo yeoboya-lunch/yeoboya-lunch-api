@@ -1,26 +1,26 @@
 package com.yeoboya.lunch.config.security.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import com.yeoboya.lunch.api.v1.member.domain.MemberInfo;
 import com.yeoboya.lunch.api.v1.member.repository.MemberRepository;
 import com.yeoboya.lunch.config.security.JwtTokenProvider;
 import com.yeoboya.lunch.config.security.constants.Authority;
-import com.yeoboya.lunch.config.security.domain.Role;
 import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.service.OAuth2UserImpl;
+import com.yeoboya.lunch.config.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -38,6 +38,9 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
     private final RedisTemplate<String, String> redisTemplate;
     private final MemberRepository memberRepository;
 
+    @Value("${front.url}")
+    private String frontUrl;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         Member member = ((OAuth2UserImpl) authentication.getPrincipal()).getMember();
@@ -50,15 +53,19 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         }
 
         Token token = jwtTokenProvider.generateToken(authentication, member.getProvider(), member.getLoginId());
-        response.addHeader("AccessToken", token.getAccessToken());
-        response.addHeader("RefreshToken", token.getRefreshToken());
+
+        Cookie accessTokenCookie = CookieUtils.createSecureHttpOnlyCookie("AccessToken", token.getAccessToken());
+        Cookie refreshTokenCookie = CookieUtils.createSecureHttpOnlyCookie("RefreshToken", token.getRefreshToken());
+
+        CookieUtils.addCookieToResponse(response, accessTokenCookie);
+        CookieUtils.addCookieToResponse(response, refreshTokenCookie);
 
         redisTemplate.opsForValue().set("RT:" + member.getLoginId(),
                 token.getRefreshToken(),
                 token.getRefreshTokenExpirationTime() - new Date().getTime(),
                 TimeUnit.MILLISECONDS);
 
-        String redirectURL = UriComponentsBuilder.fromUriString("https://yeoboya-lunch.com")
+        String redirectURL = UriComponentsBuilder.fromUriString(frontUrl)
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString();

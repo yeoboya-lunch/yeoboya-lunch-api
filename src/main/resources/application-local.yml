@@ -45,3 +45,6 @@ dalla:
   baseUrl: https://api.dallalive.com
   authToken: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTU4NzA4NzI0MzEwNkB0cnVlIiwiaWF0IjoxNzA0MTU0OTA5LCJleHAiOjE3MDY3NDY5MDl9.BfkvPiCSlMZON2qCYTVTGz4HDJ2-pQc2jyBpGDDjmFA
   socketUrl: https://devsv1.dallalive.com:8000/api/chatroom/sendmessage/
+
+front:
+  url: http://localhost:3000
