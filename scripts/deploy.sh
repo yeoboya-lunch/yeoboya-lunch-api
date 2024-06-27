@@ -26,6 +26,6 @@ echo "> JAR_NAME: $JAR_NAME"
 
 # JAR 실행
 DATE=$(date '+%Y-%m-%d')
-nohup java -jar -Dspring.profiles.active=prod $REPOSITORY/$JAR_NAME > $LOG/latest-deploy-$DATE.log 2>&1 &
+nohup java -jar -Dspring.profiles.active=prod,prod-oauth $REPOSITORY/$JAR_NAME > $LOG/latest-deploy-$DATE.log 2>&1 &
 
 echo "> JAR 파일 실행 완료"
