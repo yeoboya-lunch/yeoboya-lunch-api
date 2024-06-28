@@ -2,9 +2,7 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeoboya.lunch.api.v1.event.domain.Banner;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
-import com.yeoboya.lunch.config.TestUtil;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -16,16 +14,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Pair;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -301,7 +296,7 @@ class UserControllerDocTest {
     public void sendResetPasswordMail() throws Exception {
         //given
         UserRequest.ResetPassword resetPassword = new UserRequest.ResetPassword();
-        resetPassword.setEmail("admin@yeoboya.com");
+        resetPassword.setEmail("kklath@naver.com");
         resetPassword.setPhone("010-0000-0000");
         resetPassword.setAuthorityLink("localhost");
 
@@ -336,7 +331,7 @@ class UserControllerDocTest {
         // Arrange
         UserRequest.Credentials credentials = new UserRequest.Credentials();
         credentials.setLoginId("admin");
-        credentials.setEmail("admin@yeoboya.com");
+        credentials.setEmail("admin@yeoboya-lunch.com");
         credentials.setOldPassword("oldPassword123!");  // Assuming old password
         credentials.setNewPassword("newPassword123!");
         credentials.setConfirmNewPassword("newPassword123!");

@@ -23,7 +23,7 @@ public class UserServiceTest {
         UserRequest.SignUp signUp = new UserRequest.SignUp();
         IntStream.rangeClosed(100, 300).forEach(i->{
             signUp.setLoginId("tester"+i);
-            signUp.setEmail(i+"@yeoboya.com");
+            signUp.setEmail(i+"@yeoboya-lunch.com");
             signUp.setName("테스터"+i);
             signUp.setPassword("qwer1234@@");
             service.signUp(signUp);

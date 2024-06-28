@@ -5,7 +5,6 @@ import com.yeoboya.lunch.api.v1.support.request.InquiryRequest;
 import com.yeoboya.lunch.api.v1.support.request.NoticeRequest;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import com.yeoboya.lunch.config.TestUtil;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,11 +24,12 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,7 +70,7 @@ public class SupportControllerDocTest {
     public void submitInquiry() throws Exception {
         InquiryRequest inquiryRequest = new InquiryRequest();
         inquiryRequest.setLoginId("admin");
-        inquiryRequest.setEmail("admin@yeoboya.com");
+        inquiryRequest.setEmail("admin@yeoboya-lunch.com");
         inquiryRequest.setSubject(generateRandomString(10));
         inquiryRequest.setContent(generateRandomString(200));
 

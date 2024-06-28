@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
-import com.yeoboya.lunch.api.v1.member.service.MemberService;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import com.yeoboya.lunch.config.TestUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +20,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

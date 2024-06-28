@@ -6,7 +6,6 @@ import com.yeoboya.lunch.api.v1.shop.request.ShopAndItemCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import com.yeoboya.lunch.config.TestUtil;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,6 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Random;
 
