@@ -302,7 +302,7 @@ include::{snippets}/order/recruit/join/request-fields.adoc[]
 include::{snippets}/order/recruit/join/http-response.adoc[]
 include::{snippets}/order/recruit/join/response-fields.adoc[]
 
-=== 점심 주문 모집 참여 (수정)
+=== 점심 주문 수정
 
 ==== http-request
 
@@ -314,7 +314,7 @@ include::{snippets}/order/recruit/join/update/request-fields.adoc[]
 include::{snippets}/order/recruit/join/update/http-response.adoc[]
 include::{snippets}/order/recruit/join/update/response-fields.adoc[]
 
-=== 내 주문 내역 조회 (이메일)
+=== 내 주문 내역 조회
 
 ==== http-request
 
@@ -325,7 +325,7 @@ include::{snippets}/order/recruit/histories/email/http-request.adoc[]
 include::{snippets}/order/recruit/histories/email/http-response.adoc[]
 include::{snippets}/order/recruit/histories/email/response-fields.adoc[]
 
-=== 내 주문 모집 내역 조회 (이메일)
+=== 내 주문 모집 내역 조회
 
 ==== http-request
 

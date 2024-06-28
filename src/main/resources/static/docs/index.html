@@ -494,9 +494,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_점심_주문_모집_리스트">7.2. 점심 주문 모집 리스트</a></li>
 <li><a href="#_주문번호로_점심_주문_조회">7.3. 주문번호로 점심 주문 조회</a></li>
 <li><a href="#_점심_주문_모집_참여">7.4. 점심 주문 모집 참여</a></li>
-<li><a href="#_점심_주문_모집_참여_수정">7.5. 점심 주문 모집 참여 (수정)</a></li>
-<li><a href="#_내_주문_내역_조회_이메일">7.6. 내 주문 내역 조회 (이메일)</a></li>
-<li><a href="#_내_주문_모집_내역_조회_이메일">7.7. 내 주문 모집 내역 조회 (이메일)</a></li>
+<li><a href="#_점심_주문_수정">7.5. 점심 주문 수정</a></li>
+<li><a href="#_내_주문_내역_조회">7.6. 내 주문 내역 조회</a></li>
+<li><a href="#_내_주문_모집_내역_조회">7.7. 내 주문 모집 내역 조회</a></li>
 <li><a href="#_주문모집_상태변경">7.8. 주문모집 상태변경</a></li>
 <li><a href="#_점심_주문_취소">7.9. 점심 주문 취소</a></li>
 </ul>
@@ -594,12 +594,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user/sign-up HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 143
+Content-Length: 142
 Host: api.yeoboya-lunch.com
 
 {
-  "loginId" : "id7240",
-  "email" : "test8270@example.com",
+  "loginId" : "id3562",
+  "email" : "test457@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$",
   "provider" : "yeoboya"
@@ -678,12 +678,12 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 58
+Content-Length: 59
 
 {
   "code" : 201,
   "message" : "저장",
-  "data" : 517
+  "data" : 1123
 }</code></pre>
 </div>
 </div>
@@ -739,12 +739,12 @@ Content-Length: 58
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user/sign-up HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 143
+Content-Length: 142
 Host: api.yeoboya-lunch.com
 
 {
-  "loginId" : "id7240",
-  "email" : "test8270@example.com",
+  "loginId" : "id3562",
+  "email" : "test457@example.com",
   "name" : "김현진",
   "password" : "1234qwer!@#$",
   "provider" : "yeoboya"
@@ -823,12 +823,12 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 58
+Content-Length: 59
 
 {
   "code" : 201,
   "message" : "저장",
-  "data" : 517
+  "data" : 1123
 }</code></pre>
 </div>
 </div>
@@ -884,12 +884,12 @@ Content-Length: 58
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /user/setting/security HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 187
+Content-Length: 186
 Host: api.yeoboya-lunch.com
 
 {
-  "loginId" : "id7240",
-  "email" : "test8270@example.com",
+  "loginId" : "id3562",
+  "email" : "test457@example.com",
   "oldPassword" : "1234qwer!@#$",
   "newPassword" : "qwer1234@@",
   "confirmNewPassword" : "qwer1234@@",
@@ -1027,7 +1027,7 @@ Host: api.yeoboya-lunch.com
 
 {
   "loginId" : "admin",
-  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3NjkzNjksInN1YiI6ImFkbWluIn0.dm_iiIye0p10XyBnrPecMikSaqKSOmjHC71Sb75gr6c",
+  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3Njk5NjgsInN1YiI6ImFkbWluIn0.lVsf5-_6WJw9vKx4DyWujhjbd_EEwvnIA783vkp47ls",
   "provider" : "yeoboya"
 }</code></pre>
 </div>
@@ -1097,14 +1097,14 @@ Content-Length: 774
   "message" : "업데이트",
   "data" : {
     "subject" : "admin",
-    "id" : "b84edbd3-e2c5-431c-a055-83e1fdcb492f",
+    "id" : "27ff5806-ad1b-4d09-a0f1-b16766b343f8",
     "issuer" : "yeoboya",
-    "issueDAt" : "Fri Jun 28 16:29:29 KST 2024",
-    "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI4NGVkYmQzLWUyYzUtNDMxYy1hMDU1LTgzZTFmZGNiNDkyZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.OrXkLAI_ItzzsxjhHpnpyT8aeXk5Y-XvLOEG_wMdW3Q",
-    "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3NjkzNjksInN1YiI6ImFkbWluIn0.dm_iiIye0p10XyBnrPecMikSaqKSOmjHC71Sb75gr6c",
-    "tokenExpirationTime" : "2024-07-03 16:29:29",
-    "refreshTokenExpirationTime" : 1720769369556,
-    "refreshTokenExpirationTimeStr" : "2024-07-12 16:29:29"
+    "issueDAt" : "Fri Jun 28 16:39:28 KST 2024",
+    "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjI3ZmY1ODA2LWFkMWItNGQwOS1hMGYxLWIxNjc2NmIzNDNmOCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.rhvo3BWUIAJz7OUtA-grPVrZ-c4JKlIUINheMkH5RgY",
+    "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3Njk5NjgsInN1YiI6ImFkbWluIn0.lVsf5-_6WJw9vKx4DyWujhjbd_EEwvnIA783vkp47ls",
+    "tokenExpirationTime" : "2024-07-03 16:39:28",
+    "refreshTokenExpirationTime" : 1720769968912,
+    "refreshTokenExpirationTimeStr" : "2024-07-12 16:39:28"
   }
 }</code></pre>
 </div>
@@ -1221,8 +1221,8 @@ Content-Length: 394
 Host: api.yeoboya-lunch.com
 
 {
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjgxNzBmNzRjLTYwMTQtNDczZC04MzUzLWJlYjI1OTk3YTgxYSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.L93hoUjFbOzqL7Ncy4KPL3UpvemaiMrTek5Vln0Kg2o",
-  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3NjkzNjksInN1YiI6ImFkbWluIn0.dm_iiIye0p10XyBnrPecMikSaqKSOmjHC71Sb75gr6c"
+  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjExNTU3YzdkLTBkYTQtNGUxZS1hOGJlLWE0ZGNmOTdmZTZjOCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.Dd0-PhURHO4kgBG9sdbFelqtMH1uaLGpfelpweOaf6o",
+  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3Njk5NjgsInN1YiI6ImFkbWluIn0.lVsf5-_6WJw9vKx4DyWujhjbd_EEwvnIA783vkp47ls"
 }</code></pre>
 </div>
 </div>
@@ -1599,7 +1599,7 @@ Content-Length: 97
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /member HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6Ijc5MWFjYzYwLTQ2MGYtNDM1MS05NjFjLThjZDQ4YmMzMzFlMyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.fqm7DzNdJibR41IjNQ2nsB-rYh07dgnuPViNK92MbQ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjkyOTQyMWI5LWQ5MDQtNGZjZC1hNmEzLTEzZGI4MTRhYTUxZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.X4niRK3D6vYlzhfYHQXk4_Na2msaUvWiBUlWZSVdn-I
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -1650,7 +1650,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1756
+Content-Length: 2872
 
 {
   "code" : 200,
@@ -1659,7 +1659,7 @@ Content-Length: 1756
     "pagination" : {
       "pageNo" : 1,
       "size" : 20,
-      "numberOfElements" : 4,
+      "numberOfElements" : 7,
       "isFirst" : true,
       "isLast" : true,
       "hasNext" : false,
@@ -1713,6 +1713,45 @@ Content-Length: 1756
       "accountNumber" : null,
       "bio" : "",
       "nickName" : "#86734",
+      "phoneNumber" : "010-0000-0000",
+      "isPrimaryProfileImg" : null,
+      "fileUploadResponses" : null,
+      "account" : false
+    }, {
+      "loginId" : "id7240",
+      "email" : "test8270@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "bankName" : null,
+      "accountNumber" : null,
+      "bio" : "",
+      "nickName" : "#82997",
+      "phoneNumber" : "010-0000-0000",
+      "isPrimaryProfileImg" : null,
+      "fileUploadResponses" : null,
+      "account" : false
+    }, {
+      "loginId" : "id2985",
+      "email" : "test1497@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "bankName" : null,
+      "accountNumber" : null,
+      "bio" : "",
+      "nickName" : "#93277",
+      "phoneNumber" : "010-0000-0000",
+      "isPrimaryProfileImg" : null,
+      "fileUploadResponses" : null,
+      "account" : false
+    }, {
+      "loginId" : "id7870",
+      "email" : "test6075@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "bankName" : null,
+      "accountNumber" : null,
+      "bio" : "",
+      "nickName" : "#21503",
       "phoneNumber" : "010-0000-0000",
       "isPrimaryProfileImg" : null,
       "fileUploadResponses" : null,
@@ -1900,7 +1939,7 @@ Content-Length: 1756
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /member/admin/profile HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjhjZGI0MDFlLWI5MjktNDc2ZS05ZThjLTQ5ZTVlYjQwNTdjOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.o-nBfTNEF3KkYrKn6eFlsYcwD2_enLedAeN5K6jydow
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImYzYmY5YjQ3LTkyMzYtNDg1NC1hYzcxLTI3YWFhYjI0ZGRhNyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.oBtll67A7VBXVRuaFKZ_koj6ZQLwGY-jkyE2RpcR8Xc
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -2188,7 +2227,7 @@ Content-Length: 48
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 97
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjU2OTk4ZTJkLTY5YWEtNGFhNS05OWExLWUzYzA0MjhjNjA2OSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.tTGKKuUdBU028LDZVzlZnKwAojVZhELdyEHtChGLvWI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjE3ZDdkODU3LTYyNmItNDEyYS05MDY3LTc2MTFkYzEzYmUwYyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.edNeFyvBNnxG_8bkwF4z2XRxPPp7M_ufgtEtmeG-6mk
 Host: api.yeoboya-lunch.com
 
 {
@@ -2328,7 +2367,7 @@ Content-Length: 135
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 64
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjQ1Mjg0ZDJkLWRjODYtNDgzNC1hYzBiLTJlZmE5YzAyMWI5ZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.oN_8cjEq9tDex7B6790loAOBcoQImRSSJR9iUf8nq10
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjRhNjExNmRlLTQyMDQtNDQzMy1iMjQ2LWY5NDA0NWY3ZjhkNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.yGJ5YOLr7ZjEpwqojoUDgz95licKQNMwSNKygOXuths
 Host: api.yeoboya-lunch.com
 
 {
@@ -2468,11 +2507,11 @@ Content-Length: 48
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 31
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI0ZjNhYmY5LTY3MzUtNGY5Ny04NWNkLTdlZTA5ZTA4OTY3YyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.2SyZjVR2rN-q9whpnkeCFVUMab7CF-Ira4cIAtL4LWw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjljODIyMDlkLTkzZWYtNDIzMC04OGRmLTU2Y2VjNTE5NGE2ZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.BiMnpMXdnRbJYmEWayViJRuTFg46bkLTZLolPRm46T8
 Host: api.yeoboya-lunch.com
 
 {
-  "shopName" : "상점5418"
+  "shopName" : "상점5617"
 }</code></pre>
 </div>
 </div>
@@ -2526,7 +2565,7 @@ Content-Length: 90
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "shopName" : "상점5418"
+    "shopName" : "상점5617"
   }
 }</code></pre>
 </div>
@@ -2580,8 +2619,8 @@ Content-Length: 90
 <h4 id="_http_request_14"><a class="link" href="#_http_request_14">5.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%906121&amp;page=0&amp;size=10 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQwZTFiNmM3LTQ3YWEtNGZlYy05ZTA3LWNmZTM4NjAxODc3MyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.WaUHs5_iMaQh0B9z_lnplScJf9in8sstKZ_r14fbk0Q
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%904829&amp;page=0&amp;size=10 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjVlZjBmM2I5LTNjNzMtNGRiNC05N2U1LTY0NWI1NTMxNGZjYiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.HG3whzLhmlwDwiq5Wy6KyjT6FAy_0UJS_wSm8yHeFsM
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -2777,136 +2816,136 @@ Content-Length: 274
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /shop/create HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 2473
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImY0M2YxZjZlLWE2MDEtNDM4Ni1hODZlLTM5YzVlZjc1NGI4ZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.dMJtFcZ4KMrPzvd8D8OJIgmdb4OiiSoNYFzhrBaUeBI
+Content-Length: 2475
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImE5MTNiOWNhLTE0ZTQtNDU5Ny1hN2YxLTFmNjlmZGQ5YzdlMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.Cka6wfKhq_hZ3h51n9W99Mdld6v7YEyvV9j9ncfPoNc
 Host: api.yeoboya-lunch.com
 
 {
-  "shopName" : "상점9288",
+  "shopName" : "상점5491",
   "items" : [ {
     "shopName" : null,
     "itemName" : "Apple",
-    "price" : 2137
+    "price" : 47450
   }, {
     "shopName" : null,
     "itemName" : "Banana",
-    "price" : 21513
+    "price" : 30299
   }, {
     "shopName" : null,
     "itemName" : "Cherry",
-    "price" : 29484
+    "price" : 27653
   }, {
     "shopName" : null,
     "itemName" : "Date",
-    "price" : 20356
+    "price" : 26248
   }, {
     "shopName" : null,
     "itemName" : "Elderberry",
-    "price" : 46874
+    "price" : 45349
   }, {
     "shopName" : null,
     "itemName" : "Fig",
-    "price" : 46192
+    "price" : 15989
   }, {
     "shopName" : null,
     "itemName" : "Grape",
-    "price" : 22182
+    "price" : 35904
   }, {
     "shopName" : null,
     "itemName" : "Honeydew",
-    "price" : 18133
+    "price" : 34531
   }, {
     "shopName" : null,
     "itemName" : "Italian Lime",
-    "price" : 8593
+    "price" : 46381
   }, {
     "shopName" : null,
     "itemName" : "Jackfruit",
-    "price" : 26443
+    "price" : 45496
   }, {
     "shopName" : null,
     "itemName" : "Kiwi",
-    "price" : 35163
+    "price" : 1305
   }, {
     "shopName" : null,
     "itemName" : "Lemon",
-    "price" : 47575
+    "price" : 41265
   }, {
     "shopName" : null,
     "itemName" : "Melon",
-    "price" : 3379
+    "price" : 13930
   }, {
     "shopName" : null,
     "itemName" : "Nectarine",
-    "price" : 8182
+    "price" : 35972
   }, {
     "shopName" : null,
     "itemName" : "Orange",
-    "price" : 11344
+    "price" : 15266
   }, {
     "shopName" : null,
     "itemName" : "Peach",
-    "price" : 49206
+    "price" : 50783
   }, {
     "shopName" : null,
     "itemName" : "Quince",
-    "price" : 36879
+    "price" : 40790
   }, {
     "shopName" : null,
     "itemName" : "Raspberry",
-    "price" : 33259
+    "price" : 24038
   }, {
     "shopName" : null,
     "itemName" : "Strawberry",
-    "price" : 50907
+    "price" : 18028
   }, {
     "shopName" : null,
     "itemName" : "Tangerine",
-    "price" : 44475
+    "price" : 41424
   }, {
     "shopName" : null,
     "itemName" : "Ugli Fruit",
-    "price" : 31199
+    "price" : 6363
   }, {
     "shopName" : null,
     "itemName" : "Vitamin C",
-    "price" : 3385
+    "price" : 13859
   }, {
     "shopName" : null,
     "itemName" : "Watermelon",
-    "price" : 5281
+    "price" : 14021
   }, {
     "shopName" : null,
     "itemName" : "Xigua",
-    "price" : 29109
+    "price" : 45737
   }, {
     "shopName" : null,
     "itemName" : "Yellow Passionfruit",
-    "price" : 43232
+    "price" : 7561
   }, {
     "shopName" : null,
     "itemName" : "Zucchini",
-    "price" : 12400
+    "price" : 49344
   }, {
     "shopName" : null,
     "itemName" : "Fruit26",
-    "price" : 4865
+    "price" : 40126
   }, {
     "shopName" : null,
     "itemName" : "Fruit27",
-    "price" : 44409
+    "price" : 15480
   }, {
     "shopName" : null,
     "itemName" : "Fruit28",
-    "price" : 38653
+    "price" : 40423
   }, {
     "shopName" : null,
     "itemName" : "Fruit29",
-    "price" : 15852
+    "price" : 4097
   }, {
     "shopName" : null,
     "itemName" : "Fruit30",
-    "price" : 26617
+    "price" : 5499
   } ]
 }</code></pre>
 </div>
@@ -2982,166 +3021,166 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 3225
+Content-Length: 3229
 
 {
   "code" : 201,
   "message" : "저장",
   "data" : [ {
-    "itemId" : 98,
-    "shopName" : "상점9288",
+    "itemId" : 194,
+    "shopName" : "상점5491",
     "name" : "Apple",
-    "price" : 2137
+    "price" : 47450
   }, {
-    "itemId" : 99,
-    "shopName" : "상점9288",
+    "itemId" : 195,
+    "shopName" : "상점5491",
     "name" : "Banana",
-    "price" : 21513
+    "price" : 30299
   }, {
-    "itemId" : 100,
-    "shopName" : "상점9288",
+    "itemId" : 196,
+    "shopName" : "상점5491",
     "name" : "Cherry",
-    "price" : 29484
+    "price" : 27653
   }, {
-    "itemId" : 101,
-    "shopName" : "상점9288",
+    "itemId" : 197,
+    "shopName" : "상점5491",
     "name" : "Date",
-    "price" : 20356
+    "price" : 26248
   }, {
-    "itemId" : 102,
-    "shopName" : "상점9288",
+    "itemId" : 198,
+    "shopName" : "상점5491",
     "name" : "Elderberry",
-    "price" : 46874
+    "price" : 45349
   }, {
-    "itemId" : 103,
-    "shopName" : "상점9288",
+    "itemId" : 199,
+    "shopName" : "상점5491",
     "name" : "Fig",
-    "price" : 46192
+    "price" : 15989
   }, {
-    "itemId" : 104,
-    "shopName" : "상점9288",
+    "itemId" : 200,
+    "shopName" : "상점5491",
     "name" : "Grape",
-    "price" : 22182
+    "price" : 35904
   }, {
-    "itemId" : 105,
-    "shopName" : "상점9288",
+    "itemId" : 201,
+    "shopName" : "상점5491",
     "name" : "Honeydew",
-    "price" : 18133
+    "price" : 34531
   }, {
-    "itemId" : 106,
-    "shopName" : "상점9288",
+    "itemId" : 202,
+    "shopName" : "상점5491",
     "name" : "Italian Lime",
-    "price" : 8593
+    "price" : 46381
   }, {
-    "itemId" : 107,
-    "shopName" : "상점9288",
+    "itemId" : 203,
+    "shopName" : "상점5491",
     "name" : "Jackfruit",
-    "price" : 26443
+    "price" : 45496
   }, {
-    "itemId" : 108,
-    "shopName" : "상점9288",
+    "itemId" : 204,
+    "shopName" : "상점5491",
     "name" : "Kiwi",
-    "price" : 35163
+    "price" : 1305
   }, {
-    "itemId" : 109,
-    "shopName" : "상점9288",
+    "itemId" : 205,
+    "shopName" : "상점5491",
     "name" : "Lemon",
-    "price" : 47575
+    "price" : 41265
   }, {
-    "itemId" : 110,
-    "shopName" : "상점9288",
+    "itemId" : 206,
+    "shopName" : "상점5491",
     "name" : "Melon",
-    "price" : 3379
+    "price" : 13930
   }, {
-    "itemId" : 111,
-    "shopName" : "상점9288",
+    "itemId" : 207,
+    "shopName" : "상점5491",
     "name" : "Nectarine",
-    "price" : 8182
+    "price" : 35972
   }, {
-    "itemId" : 112,
-    "shopName" : "상점9288",
+    "itemId" : 208,
+    "shopName" : "상점5491",
     "name" : "Orange",
-    "price" : 11344
+    "price" : 15266
   }, {
-    "itemId" : 113,
-    "shopName" : "상점9288",
+    "itemId" : 209,
+    "shopName" : "상점5491",
     "name" : "Peach",
-    "price" : 49206
+    "price" : 50783
   }, {
-    "itemId" : 114,
-    "shopName" : "상점9288",
+    "itemId" : 210,
+    "shopName" : "상점5491",
     "name" : "Quince",
-    "price" : 36879
+    "price" : 40790
   }, {
-    "itemId" : 115,
-    "shopName" : "상점9288",
+    "itemId" : 211,
+    "shopName" : "상점5491",
     "name" : "Raspberry",
-    "price" : 33259
+    "price" : 24038
   }, {
-    "itemId" : 116,
-    "shopName" : "상점9288",
+    "itemId" : 212,
+    "shopName" : "상점5491",
     "name" : "Strawberry",
-    "price" : 50907
+    "price" : 18028
   }, {
-    "itemId" : 117,
-    "shopName" : "상점9288",
+    "itemId" : 213,
+    "shopName" : "상점5491",
     "name" : "Tangerine",
-    "price" : 44475
+    "price" : 41424
   }, {
-    "itemId" : 118,
-    "shopName" : "상점9288",
+    "itemId" : 214,
+    "shopName" : "상점5491",
     "name" : "Ugli Fruit",
-    "price" : 31199
+    "price" : 6363
   }, {
-    "itemId" : 119,
-    "shopName" : "상점9288",
+    "itemId" : 215,
+    "shopName" : "상점5491",
     "name" : "Vitamin C",
-    "price" : 3385
+    "price" : 13859
   }, {
-    "itemId" : 120,
-    "shopName" : "상점9288",
+    "itemId" : 216,
+    "shopName" : "상점5491",
     "name" : "Watermelon",
-    "price" : 5281
+    "price" : 14021
   }, {
-    "itemId" : 121,
-    "shopName" : "상점9288",
+    "itemId" : 217,
+    "shopName" : "상점5491",
     "name" : "Xigua",
-    "price" : 29109
+    "price" : 45737
   }, {
-    "itemId" : 122,
-    "shopName" : "상점9288",
+    "itemId" : 218,
+    "shopName" : "상점5491",
     "name" : "Yellow Passionfruit",
-    "price" : 43232
+    "price" : 7561
   }, {
-    "itemId" : 123,
-    "shopName" : "상점9288",
+    "itemId" : 219,
+    "shopName" : "상점5491",
     "name" : "Zucchini",
-    "price" : 12400
+    "price" : 49344
   }, {
-    "itemId" : 124,
-    "shopName" : "상점9288",
+    "itemId" : 220,
+    "shopName" : "상점5491",
     "name" : "Fruit26",
-    "price" : 4865
+    "price" : 40126
   }, {
-    "itemId" : 125,
-    "shopName" : "상점9288",
+    "itemId" : 221,
+    "shopName" : "상점5491",
     "name" : "Fruit27",
-    "price" : 44409
+    "price" : 15480
   }, {
-    "itemId" : 126,
-    "shopName" : "상점9288",
+    "itemId" : 222,
+    "shopName" : "상점5491",
     "name" : "Fruit28",
-    "price" : 38653
+    "price" : 40423
   }, {
-    "itemId" : 127,
-    "shopName" : "상점9288",
+    "itemId" : 223,
+    "shopName" : "상점5491",
     "name" : "Fruit29",
-    "price" : 15852
+    "price" : 4097
   }, {
-    "itemId" : 128,
-    "shopName" : "상점9288",
+    "itemId" : 224,
+    "shopName" : "상점5491",
     "name" : "Fruit30",
-    "price" : 26617
+    "price" : 5499
   } ]
 }</code></pre>
 </div>
@@ -3225,13 +3264,13 @@ Content-Length: 3225
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 80
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjY0Y2JjNTM4LTdjM2EtNDJhMS1hNmJmLWI2NzgyZWI4Zjg4ZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.Bo-b2OsqEVXMrHdRXST8wKoTpUwx11iifuiW78pRX1A
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUyZDUxMDk2LTViOGYtNDFjYy1hNjRiLTMwYzk0NzNiYWM1NCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.YD1pCEhvPR8iGmDc30Ev49RAgHViMDOmMzFwQq-4w7o
 Host: api.yeoboya-lunch.com
 
 {
   "shopName" : "상점104",
-  "itemName" : "아이템5847",
-  "price" : 5847
+  "itemName" : "아이템1825",
+  "price" : 1825
 }</code></pre>
 </div>
 </div>
@@ -3293,16 +3332,16 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 158
+Content-Length: 159
 
 {
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "itemId" : 97,
+    "itemId" : 193,
     "shopName" : "상점104",
-    "name" : "아이템5847",
-    "price" : 5847
+    "name" : "아이템1825",
+    "price" : 1825
   }
 }</code></pre>
 </div>
@@ -3380,7 +3419,7 @@ Content-Length: 158
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /item/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjdmMWZiZjc1LWRlMjMtNDlkNi04ZWI2LTAwYTE4NThkNjA0NCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.STUtYbc0TMIjV1_X1p10BgaecucV7VCR3FvFvdTtUpI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImU1NmUwMmJlLTE3ZWYtNGZmMS1iNzEyLWI2NmEzNzRkNzRkMyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.9-vn8o4KXNxtVc8nxtc1BL9_FGYfHBNR6XLPpVqBRF8
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -3502,7 +3541,7 @@ Content-Length: 132
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 51
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImZjZjZlNmNlLTE2MTEtNDA5My05YjJkLTI0YTQ1YWFkZjllZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.ihXIHh7Mx8QOPdujPuxatc4qQX3Xkt6NNYQoefkm7pw
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImM2ODMwMGYxLWFjM2UtNDAwMy04NmViLWU5ZDYyNDdiNjU3MiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.KSKGaMbLzMdXxJlun7HVKeJt5-veB7s3UcAwgP6fg3M
 Host: api.yeoboya-lunch.com
 
 {
@@ -3602,7 +3641,7 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /item/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjE2ZGYzNDQ2LTllNDQtNGQ3Ny04ZGM5LTU4NWMwNGFlNjBkMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.H3514dUhIfD8nnwUNeXr65cK7KI9o2P89s0D3L2SPP8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjI0YWY2YTAxLTBjNjktNGM4OC1iMjBlLTRiOTRhNDFhMzA1YyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.Has44UXtwqRCHBd_qvxjF9omJO1w7pgvkdYBhXOJ3BI
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -3645,7 +3684,7 @@ Content-Length: 31
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 192
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjgzMzAzOTA3LWU3ZjgtNGIwNy05NzljLWRjNjM1NzU1ZjM1YiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.O8QVhRYZEayanHLYgLyUiFxtb3a6sTRDwqmkViJAq3w
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjQ5NjNmOWRiLWYzODktNDkwMC05NWI3LWY5ZDFjYTNkODcyOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.42xYvJ3y-xXkFtAZze4DgdbqOH6sIemoT8c3GAUM8II
 Host: api.yeoboya-lunch.com
 
 {
@@ -3653,7 +3692,7 @@ Host: api.yeoboya-lunch.com
   "shopName" : "상점104",
   "title" : "1867 드실분",
   "deliveryFee" : 1000,
-  "lastOrderTime" : "2024-06-28T07:59",
+  "lastOrderTime" : "2024-06-28T08:09",
   "memo" : "신상메뉴 나왔습니다!!"
 }</code></pre>
 </div>
@@ -3868,7 +3907,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 3139
+Content-Length: 3144
 
 {
   "code" : 200,
@@ -3884,7 +3923,70 @@ Content-Length: 3139
       "hasPrevious" : false
     },
     "list" : [ {
-      "orderId" : 14,
+      "orderId" : 23,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:09",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 22,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:06",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 21,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:06",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 20,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:06",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 19,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:02",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 18,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:02",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 17,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:02",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 16,
       "orderMemberLoginId" : "admin",
       "orderMemberName" : "어드민",
       "shopName" : "상점104",
@@ -3893,84 +3995,21 @@ Content-Length: 3139
       "orderStatus" : "모집시작",
       "groupCount" : 0
     }, {
-      "orderId" : 13,
+      "orderId" : 15,
       "orderMemberLoginId" : "admin",
       "orderMemberName" : "어드민",
       "shopName" : "상점104",
       "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:55",
+      "lastOrderTime" : "06월 28일 오후 16:59",
       "orderStatus" : "모집시작",
       "groupCount" : 0
     }, {
-      "orderId" : 12,
+      "orderId" : 14,
       "orderMemberLoginId" : "admin",
       "orderMemberName" : "어드민",
       "shopName" : "상점104",
       "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:55",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 11,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:55",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 10,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:50",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 9,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:50",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 8,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:50",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 7,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:49",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 6,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:49",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 5,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:49",
+      "lastOrderTime" : "06월 28일 오후 16:59",
       "orderStatus" : "모집시작",
       "groupCount" : 0
     } ]
@@ -4149,7 +4188,7 @@ Content-Length: 3139
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruits/ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjgyYWYyOGYzLTRmYWMtNDg1Yi04MzFmLTA2NmZlY2Q2MjkyNiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ._NGIXCJf9Q_lss73OMHUI3cmyvzoPwz_BR081uoTsWQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjRlYjI3YzAzLTZmMGEtNGQ2MS04MjBmLTJmYWFjYzMzN2FmYSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.6aK7vzXxkXOfSK-uik36MCTkZu_0k7Fe2IPYkOQyiW8
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -4200,7 +4239,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 4570
+Content-Length: 6009
 
 {
   "code" : 200,
@@ -4209,13 +4248,94 @@ Content-Length: 4570
     "pagination" : {
       "pageNo" : 1,
       "size" : 20,
-      "numberOfElements" : 15,
+      "numberOfElements" : 20,
       "isFirst" : true,
-      "isLast" : true,
-      "hasNext" : false,
+      "isLast" : false,
+      "hasNext" : true,
       "hasPrevious" : false
     },
     "list" : [ {
+      "orderId" : 24,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:09",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 23,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:09",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 22,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:06",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 21,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:06",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 20,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:06",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 19,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:02",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 18,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:02",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 17,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 17:02",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 16,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:59",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
       "orderId" : 15,
       "orderMemberLoginId" : "admin",
       "orderMemberName" : "어드민",
@@ -4314,42 +4434,6 @@ Content-Length: 4570
       "lastOrderTime" : "06월 28일 오후 16:49",
       "orderStatus" : "모집시작",
       "groupCount" : 0
-    }, {
-      "orderId" : 4,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:47",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 3,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:46",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 2,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:46",
-      "orderStatus" : "모집시작",
-      "groupCount" : 1
-    }, {
-      "orderId" : 1,
-      "orderMemberLoginId" : "admin",
-      "orderMemberName" : "어드민",
-      "shopName" : "상점104",
-      "title" : "1867 드실분",
-      "lastOrderTime" : "06월 28일 오후 16:46",
-      "orderStatus" : "모집시작",
-      "groupCount" : 1
     } ]
   }
 }</code></pre>
@@ -4513,7 +4597,7 @@ Content-Length: 4570
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 121
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6Ijg4ZmIyYzBlLTE2NTItNGQ3ZS04MjE0LWIyOTVlNjJlYmFhNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.Zkk2D_3MGRvDQh-zUB4A_J65VL3Z140UgMBHtxSEVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjA4YzZiMThmLWEyNGQtNDk4Yi1hYzZkLWZhZjI2ZTk2NDY1OCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.q6JCeDTHc46TOtl4LLgxVlu3_TR8cXIkpHpxg7GPJ_I
 Host: api.yeoboya-lunch.com
 
 {
@@ -4636,7 +4720,7 @@ Content-Length: 42
 </div>
 </div>
 <div class="sect2">
-<h3 id="_점심_주문_모집_참여_수정"><a class="link" href="#_점심_주문_모집_참여_수정">7.5. 점심 주문 모집 참여 (수정)</a></h3>
+<h3 id="_점심_주문_수정"><a class="link" href="#_점심_주문_수정">7.5. 점심 주문 수정</a></h3>
 <div class="sect3">
 <h4 id="_http_request_23"><a class="link" href="#_http_request_23">7.5.1. http-request</a></h4>
 <div class="listingblock">
@@ -4645,7 +4729,7 @@ Content-Length: 42
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 121
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImY5ZmMyNDk5LTZiZWItNGQ3OS05MDc1LTNjYTIzZmRmYjUyMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.LDLwJCbCr6uPPqVB-IumofV20ONBHs-OvEPY6Gl0w_o
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImY1YTU1YWRmLTRmMjItNDg4Yy1iMDY2LTU5NWY4YTA1MjljNyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.NRBuiSl8CHAuZoGkpCcbIH_Ua_txWSzSZUwDcDsSntI
 Host: api.yeoboya-lunch.com
 
 {
@@ -4768,7 +4852,7 @@ Content-Length: 48
 </div>
 </div>
 <div class="sect2">
-<h3 id="_내_주문_내역_조회_이메일"><a class="link" href="#_내_주문_내역_조회_이메일">7.6. 내 주문 내역 조회 (이메일)</a></h3>
+<h3 id="_내_주문_내역_조회"><a class="link" href="#_내_주문_내역_조회">7.6. 내 주문 내역 조회</a></h3>
 <div class="sect3">
 <h4 id="_http_request_24"><a class="link" href="#_http_request_24">7.6.1. http-request</a></h4>
 <div class="listingblock">
@@ -4776,7 +4860,7 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/histories/admin HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjFhODMzNDFhLWE4ZjAtNGIxYy05NTQ2LTI1MjJlZDg4NjRiMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.MrrDFHsafsHO1HzwBD6sX2QmgqLDJaPTT7oYY_s3s0U
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjJlN2I2NTJhLTNkYmItNGMyYy1hYTgwLTk3OTMzNjA2MWEyNyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.NNiRaYoaVBzoxc92P-McEYDyPBNF-xsOVJ7y1Rh1T2w
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -4797,7 +4881,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 4092
+Content-Length: 5538
 
 {
   "code" : 200,
@@ -4936,6 +5020,54 @@ Content-Length: 4092
     "orderId" : 14,
     "title" : "1867 드실분",
     "lastOrderTime" : "06월 28일 오후 16:59",
+    "orderStatus" : "모집시작",
+    "memo" : "신상메뉴 나왔습니다!!",
+    "deliveryFee" : 1000,
+    "joinMember" : [ ]
+  }, {
+    "orderId" : 15,
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:59",
+    "orderStatus" : "모집시작",
+    "memo" : "신상메뉴 나왔습니다!!",
+    "deliveryFee" : 1000,
+    "joinMember" : [ ]
+  }, {
+    "orderId" : 16,
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:59",
+    "orderStatus" : "모집시작",
+    "memo" : "신상메뉴 나왔습니다!!",
+    "deliveryFee" : 1000,
+    "joinMember" : [ ]
+  }, {
+    "orderId" : 17,
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 17:02",
+    "orderStatus" : "모집시작",
+    "memo" : "신상메뉴 나왔습니다!!",
+    "deliveryFee" : 1000,
+    "joinMember" : [ ]
+  }, {
+    "orderId" : 18,
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 17:02",
+    "orderStatus" : "모집시작",
+    "memo" : "신상메뉴 나왔습니다!!",
+    "deliveryFee" : 1000,
+    "joinMember" : [ ]
+  }, {
+    "orderId" : 19,
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 17:02",
+    "orderStatus" : "모집시작",
+    "memo" : "신상메뉴 나왔습니다!!",
+    "deliveryFee" : 1000,
+    "joinMember" : [ ]
+  }, {
+    "orderId" : 20,
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 17:06",
     "orderStatus" : "모집시작",
     "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
@@ -5100,7 +5232,7 @@ Content-Length: 4092
 </div>
 </div>
 <div class="sect2">
-<h3 id="_내_주문_모집_내역_조회_이메일"><a class="link" href="#_내_주문_모집_내역_조회_이메일">7.7. 내 주문 모집 내역 조회 (이메일)</a></h3>
+<h3 id="_내_주문_모집_내역_조회"><a class="link" href="#_내_주문_모집_내역_조회">7.7. 내 주문 모집 내역 조회</a></h3>
 <div class="sect3">
 <h4 id="_http_request_25"><a class="link" href="#_http_request_25">7.7.1. http-request</a></h4>
 <div class="listingblock">
@@ -5108,7 +5240,7 @@ Content-Length: 4092
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/histories/join/order HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjY5Y2JkNmExLWZmMzYtNDdjNy04ZGMxLWJkZWIzNTlmOTg0NiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.kb_OcMSYvs_BvuV708JZtTB5mYtzvfVMHNivDB-6O3Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImViNGU3ODZiLTA1ZTgtNGRkZi05MGNiLTM5OWI1MjYyY2U2ZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.HQNxxliVSmpcqxLMcoi8tCZgz62j13YDpEsxgtGWNlY
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5321,7 +5453,7 @@ Content-Length: 274
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 22
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjIzOTE5OWRiLTU2YmEtNDQ5Yy1hMjU1LWRlMzA0Nzk2YWM1NyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.97Cl3SabH_posTSsVXMnWZieuDUa45YfRTgH5IQC-1E
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjBiMDQ2ZDUwLWVhZDEtNDYzZC04OTA1LWY0YzY4OTYwMWEyMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.GmXYvu0UpkKIncP1IrrSdaFlWSIfzD4M-Kh_cKVSEAw
 Host: api.yeoboya-lunch.com
 
 {
@@ -5425,7 +5557,7 @@ Content-Length: 48
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /order/recruit/join/2 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjFmYzA5Y2ZjLTA5ZjItNDk0YS04ZDQ0LWNjZWFlYjRiNjA2OCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.yfnJ4s1r44PbkIGDsIqCSHy9cbSO824awmu6c02vfZU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI4OWQ4NjM4LTM5ZGEtNGVmZS04YjEwLWZjMmJlODQ5ODAzMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjYsImV4cCI6MTcxOTk5MjM2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.bjf6jlxeox_bh_ykrfXKaQH6bxyEk8CWn31YzWZ0N4U
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5505,7 +5637,7 @@ Content-Length: 48
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 68
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjM5MGIzMDdhLTMzZDAtNDE1MS04Y2E0LWZkZTE0OGEwMGRjNyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.779D7j5h0MY4bIQBl-mR-21q274MO_PYZv9SmJ_PYc8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImU5NzE4ZWNkLTdiNDUtNDM4My1hMDAwLWFjNDY2MzY5NGNhOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.FhPpKtYDZ6g3vnfFA8siJE4Ivjmi5ysFv3h0sNr3hUU
 Host: api.yeoboya-lunch.com
 
 {
@@ -5634,7 +5766,7 @@ Content-Length: 42
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 62
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImVhNDU2ZWE2LTFhMDgtNDE4NC1hZDJkLWQyMDg4OTMwOGJmNiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.-tf4Wp_XF4d5fcak4aqqa9efD_MRyPy4fNyo52IDYo0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImRjYzBjYTdhLTdjMjMtNGI0NS04ZmE3LWY2MGEwMDJhZWFiOCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ._wzDtfce3fphR8Zus_3a-hvy55iakb9405mRR4oYTVw
 Host: api.yeoboya-lunch.com
 
 {
@@ -5754,7 +5886,7 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /reviews/3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImRlMWMzOTUyLTllNWYtNDIxZS1iZTRlLWYyMmJjNDM2YTY2NyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.To3ktCeqogR8MkGMtRWsPnoO7YwwpumCEOTLseKzTIA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjVlZDljMjczLTE2YzUtNDNlNC04NDczLWM3MWU0MGRhZmRhZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.r_saeT7pU7WAxg5MAqlzCOm4DAgyTiDCycA4HVVK_Tk
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5835,7 +5967,7 @@ Content-Length: 42
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /reviews/stats/302 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImU2MThmNTUyLWMwMDQtNDFkNi1hNTRjLWUzNjZhOGJlOWQ0ZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.-EqrLmDoWYvQ-n_smYTaTjlh3b2LE74lLtyzfG0FjWY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI4MTFlNjhkLTBlYzctNGIwMC05MDJhLWYwNTViNWVmNGQzZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.NZswS5WmLMWfFI8_NQVHFWaaXCib_qhR7wTAA6ze66s
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5984,7 +6116,7 @@ Content-Length: 277
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /reviews/302/sorted?sortBy=shopRating&amp;order=asc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6Ijk3M2QzODY2LTg3OWUtNDljYy04YzVjLWFiMTE5NzZjNjExNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.gcwcVnwzaR5ECQS7dMkrQUdDx9yOxWhMAYFhszOPRqg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjkyZWMyNTNiLWFiNmMtNDkxYi04YmQyLTNkZmU2MzE4YjVmYSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.Ly6ZtWKq02LdjNIokAFCBl-OJ_TGMcZuGNFa2qfmZ-M
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -6151,12 +6283,12 @@ Content-Length: 204
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 192
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUxZmRhYjE2LThhZjEtNDgxZi04MTEwLTFlMTBiY2UxZDVlOCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.iKKvsd9sGSgGTT9ByUkdxzyGX2OG7ni-kDIU-51-oYc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImU2ZDhhMmE0LWQwOTUtNGRiNi05NGYwLTAwNzVkNGU0NmQzZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.8y2mGlFwFWlRUBkwpXFSLx_Gnn3y3GLZbOnLrdCLNuw
 Host: api.yeoboya-lunch.com
 
 {
   "loginId" : "admin",
-  "title" : "Test board title No is 9822",
+  "title" : "Test board title No is 5420",
   "hashTag" : [ "snatch", "clean&amp;jerk", "크로스핏" ],
   "content" : "Test content",
   "pin" : 1234,
@@ -6297,12 +6429,12 @@ Content-Length: 42
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 208
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUwN2RiMDY5LTFjZTItNDQ3Zi1hY2M0LWQ2NTkyNzNkNWUyZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.4mnRAMsjlvl-e-AvsfFA0u4N2Bi4KgSNKura46p7yi0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjIyN2JiYTg4LWFhOTktNDkzZS04MDBkLTNmZTg1NWJlOGEyZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.9aS_6RyWpXldmHtu9OtpcoeqOHn55fJYRDxSRIW2Pzo
 Host: api.yeoboya-lunch.com
 
 {
   "boardId" : 1,
-  "title" : "Test board title No is 3521edit ver.",
+  "title" : "Test board title No is 4555edit ver.",
   "hashTag" : [ "snatch", "clean&amp;jerk", "크로스핏", "달리기" ],
   "content" : "Test content",
   "pin" : 1234,
@@ -6443,7 +6575,7 @@ Content-Length: 48
 Content-Type: application/json;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Accept: application/json
 Content-Length: 242
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI2NDIyYjZjLTZkNjYtNGMxZS1iYjU1LTE3ZTkwNDMzNDI5MCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.FO-c-YXwFlJfPmHMHLmYrnl9HPDwx0vCZTnYrjomgOY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImM2NTU4OTQ5LWM2ZWMtNGM5YS05OWY5LTg4ZGNkMDZkNDhhZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.KhCiybi8-SLiA0FiTYJDmCKRSX4BnyTvwXtQ2-HDmyw
 Host: api.yeoboya-lunch.com
 
 {
@@ -6604,7 +6736,7 @@ Content-Length: 42
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board?page=0&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjJjYmM2OTQ5LWQ0NjktNGE2Zi1hMGZhLWUzMWQ5NmU5MDgwMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.xfaXv93vUXkTyd_Otz4GsFxm1BPfhqmTaqs0glL_plo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjU3YzNlY2MyLWM3NTItNDk5Mi1iMDQ2LWFlMDhlYzQ5YzdkMyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjUsImV4cCI6MTcxOTk5MjM2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.YVMvbH15QgyHErYoHhJWsI_pX5l_YXRVohNBIrzq6ao
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -6655,7 +6787,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 7771
+Content-Length: 7125
 
 {
   "code" : 200,
@@ -6663,13 +6795,157 @@ Content-Length: 7771
   "data" : {
     "pagination" : {
       "page" : 1,
-      "totalPages" : 1,
-      "totalElements" : 9,
+      "totalPages" : 2,
+      "totalElements" : 15,
+      "empty" : false,
       "first" : true,
-      "last" : true,
-      "empty" : false
+      "last" : false
     },
     "list" : [ {
+      "boardId" : 15,
+      "title" : "Test board title No is 5420",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:39",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 14,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:36",
+      "hashTag" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240628163615475571.jpg",
+        "filePath" : "null/2024/06/28/1",
+        "extension" : "application/octet-stream",
+        "externalForm" : null,
+        "size" : 23032,
+        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628163615475571.jpg"
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 13,
+      "title" : "Test board title No is 735",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:36",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 12,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:32",
+      "hashTag" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240628163257738493.jpg",
+        "filePath" : "null/2024/06/28/1",
+        "extension" : "application/octet-stream",
+        "externalForm" : null,
+        "size" : 23032,
+        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628163257738493.jpg"
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 11,
+      "title" : "Test board title No is 2449",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:32",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 10,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:29",
+      "hashTag" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240628162925986340.jpg",
+        "filePath" : "null/2024/06/28/1",
+        "extension" : "application/octet-stream",
+        "externalForm" : null,
+        "size" : 23032,
+        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628162925986340.jpg"
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
       "boardId" : 9,
       "title" : "Test board title No is 9822",
       "content" : "Test content",
@@ -6763,167 +7039,6 @@ Content-Length: 7771
       } ],
       "replies" : [ ],
       "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 5,
-      "title" : "Test board title No is 198",
-      "content" : "Test content",
-      "secret" : false,
-      "loginId" : "admin",
-      "name" : "어드민",
-      "createDate" : "06월 28일 오후 16:21",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 4,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "loginId" : "admin",
-      "name" : "어드민",
-      "createDate" : "06월 28일 오후 16:20",
-      "hashTag" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240628162055278667.jpg",
-        "filePath" : "null/2024/06/28/1",
-        "extension" : "application/octet-stream",
-        "externalForm" : null,
-        "size" : 23032,
-        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628162055278667.jpg"
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 3,
-      "title" : "Test board title No is 7176",
-      "content" : "Test content",
-      "secret" : false,
-      "loginId" : "admin",
-      "name" : "어드민",
-      "createDate" : "06월 28일 오후 16:20",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 2,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "loginId" : "admin",
-      "name" : "어드민",
-      "createDate" : "06월 28일 오후 16:20",
-      "hashTag" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240628162014882284.jpg",
-        "filePath" : "null/2024/06/28/1",
-        "extension" : "application/octet-stream",
-        "externalForm" : null,
-        "size" : 23032,
-        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628162014882284.jpg"
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 1,
-      "title" : "Test board title No is 3521edit ver.",
-      "content" : "Test content",
-      "secret" : false,
-      "loginId" : "admin",
-      "name" : "어드민",
-      "createDate" : "06월 28일 오후 16:20",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ {
-        "replyId" : 1,
-        "writer" : "어드민",
-        "content" : "1번글 1번 댓글",
-        "date" : "2024-06-28T07:20:54.438+00:00",
-        "childReplies" : [ {
-          "parentId" : 1,
-          "replyId" : 2,
-          "writer" : "어드민",
-          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
-          "date" : "2024-06-28T07:20:54.887+00:00"
-        }, {
-          "parentId" : 1,
-          "replyId" : 4,
-          "writer" : "어드민",
-          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
-          "date" : "2024-06-28T07:21:11.082+00:00"
-        }, {
-          "parentId" : 1,
-          "replyId" : 6,
-          "writer" : "어드민",
-          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
-          "date" : "2024-06-28T07:25:18.662+00:00"
-        }, {
-          "parentId" : 1,
-          "replyId" : 8,
-          "writer" : "어드민",
-          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
-          "date" : "2024-06-28T07:29:25.601+00:00"
-        } ]
-      }, {
-        "replyId" : 3,
-        "writer" : "어드민",
-        "content" : "1번글 1번 댓글",
-        "date" : "2024-06-28T07:21:10.648+00:00"
-      }, {
-        "replyId" : 5,
-        "writer" : "어드민",
-        "content" : "1번글 1번 댓글",
-        "date" : "2024-06-28T07:25:18.255+00:00"
-      }, {
-        "replyId" : 7,
-        "writer" : "어드민",
-        "content" : "1번글 1번 댓글",
-        "date" : "2024-06-28T07:29:25.198+00:00"
-      } ],
-      "replyCount" : 8,
       "likeCount" : 0,
       "clickLiked" : false
     } ]
@@ -7234,7 +7349,7 @@ Content-Length: 7771
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjU4NWM3ZjE3LTY0ZmEtNDU4My1hMmM3LTg0NDdkZDA2MGIzZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.HJ8ZC_3AJv8o-WOputpIUWBpH5-1lDfqw9rUcfR9r-c
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImNlNTE5NjlkLThmZTktNDZhMS1hOTkyLTExMmI2M2JlNzNkMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.zGCAZBZzf6mo9iRVw6SdW1uguJGZpCC44UhhB-uWfGg
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -7276,9 +7391,9 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1224
+Content-Length: 1970
 
-{"code":200,"message":"조회","data":{"boardId":1,"title":"Test board title No is 3521edit ver.","content":"Test content","secret":false,"loginId":"admin","name":"어드민","createDate":"06월 28일 오후 16:20","hashTag":[{"tag":"snatch"},{"tag":"clean&amp;jerk"},{"tag":"크로스핏"}],"files":[],"replies":[{"replyId":1,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:20:54.438+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"parentId":1,"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"parentId":1,"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"}]},{"replyId":3,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:21:10.648+00:00"},{"replyId":5,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:25:18.255+00:00"},{"replyId":7,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:29:25.198+00:00"}],"replyCount":7,"likeCount":0,"clickLiked":false}}</code></pre>
+{"code":200,"message":"조회","data":{"boardId":1,"title":"Test board title No is 4555edit ver.","content":"Test content","secret":false,"loginId":"admin","name":"어드민","createDate":"06월 28일 오후 16:20","hashTag":[{"tag":"snatch"},{"tag":"clean&amp;jerk"},{"tag":"크로스핏"}],"files":[],"replies":[{"replyId":1,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:20:54.438+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"parentId":1,"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"parentId":1,"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"},{"parentId":1,"replyId":8,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:29:25.601+00:00"},{"parentId":1,"replyId":10,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:32:57.355+00:00"},{"parentId":1,"replyId":12,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:36:15.055+00:00"}]},{"replyId":3,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:21:10.648+00:00"},{"replyId":5,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:25:18.255+00:00"},{"replyId":7,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:29:25.198+00:00"},{"replyId":9,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:32:56.953+00:00"},{"replyId":11,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:36:14.626+00:00"},{"replyId":13,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:39:24.329+00:00"}],"replyCount":13,"likeCount":0,"clickLiked":false}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -7537,7 +7652,7 @@ Content-Length: 1224
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 105
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjA3ZTg4ZDA5LTNkOTEtNGNiNS1iMTFiLTNmNmMwMzk2M2Q2OCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.VSOQmHnK4lWgP8yJbai36PBB936wHdY4zLqlxjus3-4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjlmMGY3YTc4LTUzMDktNDRmNC04YjQ0LThjMTJjZjMzNDBjZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.Q-E7M6t3TnE9EveAzIugQxGF-OYFADB6H34fnPIwkl0
 Host: api.yeoboya-lunch.com
 
 {
@@ -7658,7 +7773,7 @@ Content-Length: 42
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board/reply?boardId=1&amp;page=0&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQxN2IwMjk3LWJiM2EtNGI2MS04ZWRiLWFjZjMxN2Y0Y2I3ZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.pl0q2ylNNwkfrLMGU6zBaUfT9j5acyhxNjDrFnxE6bU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjZjMjE2MzQ0LWRlMzMtNGQ4Mi04OTM5LTk2NjQwN2QxYjBjOCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.FcsYpokfRjVQxcbdE8xtU8jAjl6inPS__5O7u2Iz7y8
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -7715,9 +7830,9 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1150
+Content-Length: 1400
 
-{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":1,"totalElements":8,"first":true,"last":true,"empty":false},"list":[{"replyId":1,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:20:54.438+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"parentId":1,"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"parentId":1,"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"},{"parentId":1,"replyId":8,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:29:25.601+00:00"}]},{"replyId":3,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:21:10.648+00:00"},{"replyId":5,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:25:18.255+00:00"},{"replyId":7,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:29:25.198+00:00"}]}}</code></pre>
+{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":2,"totalElements":14,"empty":false,"first":true,"last":false},"list":[{"replyId":1,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:20:54.438+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"parentId":1,"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"parentId":1,"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"},{"parentId":1,"replyId":8,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:29:25.601+00:00"},{"parentId":1,"replyId":10,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:32:57.355+00:00"}]},{"replyId":3,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:21:10.648+00:00"},{"replyId":5,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:25:18.255+00:00"},{"replyId":7,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:29:25.198+00:00"},{"replyId":9,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:32:56.953+00:00"}]}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -7871,7 +7986,7 @@ Content-Length: 1150
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 124
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUxZmZmZDk3LTAyNjktNGY5Ny05ZjEzLWU4YmFkNmI5YTIxMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.iimx3luApZZ2nIKzyIl7qVeJKEmDzm-VkoIFchNkBl0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQ1YzJkN2ExLTMwN2YtNDc2ZC1iZDFjLTNjMzU4NGZiMTViMSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ._VAuuR55CGlM20asqC-Y3qVIOR29BoeqPleKlpgS4TQ
 Host: api.yeoboya-lunch.com
 
 {
@@ -7999,7 +8114,7 @@ Content-Length: 42
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board/reply/children?parentReplyId=1&amp;page=0&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjQxNDlkMWJkLWY4ZTctNDBlZi1iZWIzLWI0M2VmNzE4Mjg2ZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjQsImV4cCI6MTcxOTk5MTc2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.zlT_x3bSkW6mzwd_hb2J_kRu2ZiafLHR1SjgfP3Up5A
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImJiMTI2NTc5LTUxZGMtNGFjMi04OGQzLWU3ODkzM2ZkMWUyMSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.n_eyJCjXo725Sv58cxEDsrRXAVsdFJgHGeTMm8FIrlI
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8056,9 +8171,9 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 529
+Content-Length: 917
 
-{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":1,"totalElements":3,"first":true,"last":true,"empty":false},"list":[{"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"}]}}</code></pre>
+{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":2,"totalElements":12,"empty":false,"first":true,"last":false},"list":[{"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"},{"replyId":8,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:29:25.601+00:00"},{"replyId":10,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:32:57.355+00:00"},{"replyId":12,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:36:15.055+00:00"}]}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -8210,7 +8325,7 @@ Content-Length: 529
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/like/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjM2NmEyMTRlLThkMDItNDFjYy1iNmQyLTk4N2Q0NTc3N2M2OCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.ZzvCd2_WLkrtll6-bMOrzvEjlHlpnzBH-rVxeKo9oT8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjJiMjIyODhkLTRhODAtNDQyNi1hZjY1LWU2NzNlZjc3NmRlNyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.-b7QYZmvPKVAPVZ2WFDNIJpoHSXDl7ry0L7PF_DgO50
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8305,7 +8420,7 @@ Content-Length: 42
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /board/like/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImE3NTQ3M2U1LWI2ZmEtNDdiYy04MzY1LWMwMjM1Y2NiZTU0YSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.cWYZ6yLcyT6THVG68Z0oPltBeZkK485wz3YdjIYNUJg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjgyZmU4YTBlLTM4N2ItNGIwMy04OTJmLTAzZWU5MmFlNWM1MyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjQsImV4cCI6MTcxOTk5MjM2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.F73wpwa86oaBiiTmQRBn6kGTxr2uWARFVnWWw7RdeiI
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8403,14 +8518,14 @@ Content-Length: 31
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 304
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImEwYmY0YWY0LWYzYjktNDg4ZC05ODI5LWQyZmQ1YzAzMjMzMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.V3IvT2JfzGyAkoBcYIUKu6sQnGvZA4jLIIK90axd1BQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUwODYyNjdlLTgzMzYtNDhlZS1iMjFiLWFmMjAzYzU0YTgzMyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.kqzoEdQoHqxmpD8NexkLH_biDat3ICNePyV_se5B9no
 Host: api.yeoboya-lunch.com
 
 {
   "email" : "admin@yeoboya.com",
   "loginId" : "admin",
-  "subject" : "RuujymPoaI",
-  "content" : "rk9EankpjILcNWfHEEhIanl69LWLrenVexP9NCpUigNJ9hAigchBbUoT9OHr1UVjaqL21kfwiyhIrjxoTqe8dnGNjIbNTBkc1r8xE0a2A4uoVAGxyYLtSFtpZ5AXibvM7EGFY9lxBbQzvt7NhkuoHAYpjv4Fst22sAQBFaVg33Isv4jQsFjxgXbWL0EXyGfLNRk1Fkb4"
+  "subject" : "PEP20wrb0W",
+  "content" : "YLA7nocZnBRaEy9WA1AzjLUIHylKxpNttydnEbk4gPAOsOTrJ5qtEmw2poc4iB6G9prsWkGUKA3eSoZ0mH7f7RcxZ4V0oGvT7KUSUEzmExeb56saMXe1emwfIkBw0d2q04HJI64WfQKKQtH4fjvDE1ESODrzjie7pplDmluklGPHgWuUfhlSweis3vGABIfhAZevgSlW"
 }</code></pre>
 </div>
 </div>
@@ -8538,7 +8653,7 @@ Content-Length: 18
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /support/faq HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImViNTY4MWEwLWJlOWQtNDNjYS1hODc2LWEzNWM1MjdiNGEwZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.sA8cLWmS0RBY0jk9yVY1Iuq4TLk9wiBj16umZLoSfCc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQ4MTdmY2YzLTgxYzYtNDdkNi1hZTIyLTU1Mzg5NjBlYjNlYSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.-hrKOEhOzD0bo43MARovI_o3Ove50hQLcEIy5xGfH1I
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8633,7 +8748,7 @@ Content-Length: 18
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 358
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjNmZjhlNGU4LWU0OTctNDFmMC04ZTA1LTgyODk3NzE0MjE0ZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.cCa1Kr59klHURMWz9MTNSs4MMIxYqZIr41XfvxTm088
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjBhNjVjMmM3LTY5YTMtNGFjMC04N2ViLWYwMzFhNjk1YmY2ZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.1FdyV63V4e8xsGuvbD0K-wUXTyRIforOHhyqt5FTB1o
 Host: api.yeoboya-lunch.com
 
 {
@@ -8642,8 +8757,8 @@ Host: api.yeoboya-lunch.com
   "category" : "General",
   "author" : "Admin",
   "priority" : 1,
-  "startDate" : "2024-06-28T16:29:29.117578",
-  "endDate" : "2024-07-05T16:29:29.117586",
+  "startDate" : "2024-06-28T16:39:28.470881",
+  "endDate" : "2024-07-05T16:39:28.470889",
   "attachmentUrl" : "http://example.com/attachment",
   "tags" : "announcement, general",
   "status" : "ACTIVE"
@@ -8673,14 +8788,14 @@ Content-Length: 470
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "id" : 4,
+    "id" : 7,
     "title" : "New Notice Title",
     "content" : "This is the content of the new notice.",
     "category" : "General",
     "author" : "Admin",
     "priority" : 1,
-    "startDate" : "2024-06-28T16:29:29.117578",
-    "endDate" : "2024-07-05T16:29:29.117586",
+    "startDate" : "2024-06-28T16:39:28.470881",
+    "endDate" : "2024-07-05T16:39:28.470889",
     "attachmentUrl" : "http://example.com/attachment",
     "viewCount" : 0,
     "tags" : "announcement, general",
@@ -8818,7 +8933,7 @@ Content-Length: 470
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /support/notices/1/mark-as-read HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjQyNDg5NjVhLWU0ZDctNGM3NS04ZjRiLWMyZWY4Y2E0YjJkOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.rkaNCmWlF048qlrdvb7yYC0_qrzCFd9G9seLYh1ALzU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjdjNzg3MTRlLTYwNmItNDU1Zi1iOWFkLWJjMjNiNzI0NGU5YyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.HKg_1SsJrUW_Zgq_wRFnC7H70tGIC6MlqIcDJbLv-1Y
 Host: api.yeoboya-lunch.com
 
 loginId=admin</code></pre>
@@ -8894,7 +9009,7 @@ Content-Length: 42
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /support/notices?loginId=admin HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImJlOWE4YjNlLTgyODAtNGIxMS1hMjVmLWJhYWY0YTg2NGVmMyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.X2w1lljPFeo3NVpK1mcdBcboSPsrmhmUc6zNZBtsbyc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjFkMDQwNjhmLWNkYWYtNDQyZS05ODE0LWZmYzVmYTYxYmVhNiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjgsImV4cCI6MTcxOTk5MjM2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.YtlmC1nrVAVhOFos8xfujLSPpxKMDRvUMN9Xxn-oovk
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8915,7 +9030,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1367
+Content-Length: 2678
 
 {
   "code" : 200,
@@ -8957,6 +9072,48 @@ Content-Length: 1367
     "priority" : 1,
     "startDate" : "2024-06-28T16:25:22.142827",
     "endDate" : "2024-07-05T16:25:22.142835",
+    "attachmentUrl" : "http://example.com/attachment",
+    "viewCount" : 0,
+    "tags" : "announcement, general",
+    "status" : "ACTIVE",
+    "read" : false
+  }, {
+    "id" : 4,
+    "title" : "New Notice Title",
+    "content" : "This is the content of the new notice.",
+    "category" : "General",
+    "author" : "Admin",
+    "priority" : 1,
+    "startDate" : "2024-06-28T16:29:29.117578",
+    "endDate" : "2024-07-05T16:29:29.117586",
+    "attachmentUrl" : "http://example.com/attachment",
+    "viewCount" : 0,
+    "tags" : "announcement, general",
+    "status" : "ACTIVE",
+    "read" : false
+  }, {
+    "id" : 5,
+    "title" : "New Notice Title",
+    "content" : "This is the content of the new notice.",
+    "category" : "General",
+    "author" : "Admin",
+    "priority" : 1,
+    "startDate" : "2024-06-28T16:33:00.897574",
+    "endDate" : "2024-07-05T16:33:00.897581",
+    "attachmentUrl" : "http://example.com/attachment",
+    "viewCount" : 0,
+    "tags" : "announcement, general",
+    "status" : "ACTIVE",
+    "read" : false
+  }, {
+    "id" : 6,
+    "title" : "New Notice Title",
+    "content" : "This is the content of the new notice.",
+    "category" : "General",
+    "author" : "Admin",
+    "priority" : 1,
+    "startDate" : "2024-06-28T16:36:18.810889",
+    "endDate" : "2024-07-05T16:36:18.810898",
     "attachmentUrl" : "http://example.com/attachment",
     "viewCount" : 0,
     "tags" : "announcement, general",
@@ -9119,18 +9276,18 @@ MultipartFile file 파일첨부 가능
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'https://api.yeoboya-lunch.com/banners' -i -X POST \
     -H 'Content-Type: multipart/form-data;charset=UTF-8' \
     -H 'Accept: application/json' \
-    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjMzZWU5YjZhLTFiZTUtNGNlOS04MjM5LTg3YmQ5ZGE4ZDEzNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjIsImV4cCI6MTcxOTk5MTc2MiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.PdvcXsZXH_as5hSOgkyfGvjDRnR26gnw5tnM_2-FPvc' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImNhZTA4MjMyLTk4OWItNDcwMS1iOThkLTdmMDZmODMxZDEwMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjEsImV4cCI6MTcxOTk5MjM2MSwiYXV0aCI6IlJPTEVfQURNSU4ifQ._oYqm4WqJ2bLi1uXk3t_uHRjnshMkiKl995BwVFPCFY' \
     -F 'file=@test.jpg;type=image/jpeg' \
-    -F 'bannerRequest={"title":"HAMtrKdSdZ","displayOrder":1,"startDate":"2024-06-27T16:29:22.678883","endDate":"2024-07-28T16:29:22.678895","displayLocation":"MAIN_PAGE"};type=application/json'</code></pre>
+    -F 'bannerRequest={"title":"aA4Obme0v1","displayOrder":1,"startDate":"2024-06-27T16:39:21.364213","endDate":"2024-07-28T16:39:21.364223","displayLocation":"MAIN_PAGE"};type=application/json'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ http --multipart POST 'https://api.yeoboya-lunch.com/banners' \
     'file'@'test.jpg' \
-    'bannerRequest'='{"title":"HAMtrKdSdZ","displayOrder":1,"startDate":"2024-06-27T16:29:22.678883","endDate":"2024-07-28T16:29:22.678895","displayLocation":"MAIN_PAGE"}' \
+    'bannerRequest'='{"title":"aA4Obme0v1","displayOrder":1,"startDate":"2024-06-27T16:39:21.364213","endDate":"2024-07-28T16:39:21.364223","displayLocation":"MAIN_PAGE"}' \
     'Accept:application/json' \
-    'Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjMzZWU5YjZhLTFiZTUtNGNlOS04MjM5LTg3YmQ5ZGE4ZDEzNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjIsImV4cCI6MTcxOTk5MTc2MiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.PdvcXsZXH_as5hSOgkyfGvjDRnR26gnw5tnM_2-FPvc'</code></pre>
+    'Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImNhZTA4MjMyLTk4OWItNDcwMS1iOThkLTdmMDZmODMxZDEwMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjEsImV4cCI6MTcxOTk5MjM2MSwiYXV0aCI6IlJPTEVfQURNSU4ifQ._oYqm4WqJ2bLi1uXk3t_uHRjnshMkiKl995BwVFPCFY'</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -9242,7 +9399,7 @@ Content-Length: 42
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /banners?displayLocation=MAIN_PAGE HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjRmYjE1NTYxLTU0ZjctNGNmNS1hY2EwLWIyZWZjY2Q1MjU2YiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjIsImV4cCI6MTcxOTk5MTc2MiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.tb35v6YOjAoppDx-nNcRHoiEY0GgsCUxkB0DTCbUD_M
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUzMTYxODlmLWI4MzUtNDgxYi05NWExLWJhMWFjOGI1Y2FjMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjEsImV4cCI6MTcxOTk5MjM2MSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.LJ_vfUKc50rr7PU0g_kDvAk2DyTWdHtBI45jc8DgkBM
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -9263,7 +9420,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 2009
+Content-Length: 3736
 
 {
   "code" : 200,
@@ -9323,6 +9480,54 @@ Content-Length: 2009
       "extension" : "application/octet-stream",
       "size" : 23032,
       "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/28/1/20240628162515289357.jpg"
+    } ]
+  }, {
+    "id" : 9,
+    "title" : "HAMtrKdSdZ",
+    "displayOrder" : 1,
+    "startDate" : "2024-06-27T16:29:22.678883",
+    "endDate" : "2024-07-28T16:29:22.678895",
+    "displayLocation" : "MAIN_PAGE",
+    "bannerFiles" : [ {
+      "id" : 4,
+      "originalFileName" : "test.jpg",
+      "fileName" : "20240628162922771609.jpg",
+      "filePath" : "banner/2024/06/28/1",
+      "extension" : "application/octet-stream",
+      "size" : 23032,
+      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/28/1/20240628162922771609.jpg"
+    } ]
+  }, {
+    "id" : 11,
+    "title" : "EBr00kKXwW",
+    "displayOrder" : 1,
+    "startDate" : "2024-06-27T16:32:54.561284",
+    "endDate" : "2024-07-28T16:32:54.561295",
+    "displayLocation" : "MAIN_PAGE",
+    "bannerFiles" : [ {
+      "id" : 5,
+      "originalFileName" : "test.jpg",
+      "fileName" : "20240628163254651096.jpg",
+      "filePath" : "banner/2024/06/28/1",
+      "extension" : "application/octet-stream",
+      "size" : 23032,
+      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/28/1/20240628163254651096.jpg"
+    } ]
+  }, {
+    "id" : 13,
+    "title" : "5MdqPcvenw",
+    "displayOrder" : 1,
+    "startDate" : "2024-06-27T16:36:11.928813",
+    "endDate" : "2024-07-28T16:36:11.928826",
+    "displayLocation" : "MAIN_PAGE",
+    "bannerFiles" : [ {
+      "id" : 6,
+      "originalFileName" : "test.jpg",
+      "fileName" : "20240628163612060112.jpg",
+      "filePath" : "banner/2024/06/28/1",
+      "extension" : "application/octet-stream",
+      "size" : 23032,
+      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/28/1/20240628163612060112.jpg"
     } ]
   } ]
 }</code></pre>
@@ -9486,7 +9691,7 @@ ROLE_MANGER
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /resource?page=0&amp;size=10 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQ4YjdiZmZlLWQwYzUtNDg2My05MzBiLTJjMGU4OWFkODAyNSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.MbGyw3T63WijuKhzQRBKYpnW-EQpQHoLIPmxT0tIX5k
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImY0MTU0N2M0LTRlNDUtNDQ3Mi04MjdiLWFiNzY5ZGM5ZGIxNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.of0GGCs4iXGzub-Bt2MVvdJsz1XplFRgmicGh1mej9I
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -9710,7 +9915,7 @@ Content-Length: 1562
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /resource/add HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 115
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjM5MjU5NzA4LWY4NDgtNGEyYS1iZmZjLWMzZDUyZjlhMzNhYSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.-bowsm20ZQ_eurOcprxcmFMnAr8eZWB_95kUXV4TSWU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjliMTVhODc0LWJjZGItNDkwMC1hODc5LTQwZWQzMmNhY2RmNSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.wq8JP0unkM0vTAPUfx-SUUbHzMMj0pCKc94vL0pFFdc
 Host: api.yeoboya-lunch.com
 
 {
@@ -9818,7 +10023,7 @@ ROLE_MANGER
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /role/authorities?page=1&amp;size=10 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjUwOTg0MWJhLTg4MzYtNGZkMi04YzE0LTQ4ZTdlYmQxMGFhYiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.M__w3zt0_6d6RzL-XNnFpUhKWeWZt-RDo2oFCPS4CII
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImJkNjhlYzE2LTcxNWItNDhmNS05ODRkLTM0ODBiZTkxYjczNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.3TSsWtcjp1KxWuAGO42G62Yiy-saeQWo8MpfdjRL7b4
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -9869,7 +10074,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 997
+Content-Length: 1570
 
 {
   "code" : 200,
@@ -9878,16 +10083,23 @@ Content-Length: 997
     "pagination" : {
       "page" : 1,
       "totalPages" : 1,
-      "totalElements" : 4,
+      "totalElements" : 7,
+      "empty" : false,
       "first" : true,
-      "last" : true,
-      "empty" : false
+      "last" : true
     },
     "list" : [ {
       "loginId" : "admin",
       "email" : "admin@yeoboya.com",
       "provider" : "yeoboya",
       "name" : "어드민",
+      "accountNonLocked" : true,
+      "enabled" : true
+    }, {
+      "loginId" : "id2985",
+      "email" : "test1497@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
       "accountNonLocked" : true,
       "enabled" : true
     }, {
@@ -9905,8 +10117,22 @@ Content-Length: 997
       "accountNonLocked" : true,
       "enabled" : true
     }, {
+      "loginId" : "id7240",
+      "email" : "test8270@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "accountNonLocked" : true,
+      "enabled" : true
+    }, {
       "loginId" : "id7624",
       "email" : "test3173@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "accountNonLocked" : true,
+      "enabled" : true
+    }, {
+      "loginId" : "id7870",
+      "email" : "test6075@example.com",
       "provider" : "yeoboya",
       "name" : "김현진",
       "accountNonLocked" : true,
@@ -10059,7 +10285,7 @@ Content-Length: 997
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /role/authority-update HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 52
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImFlYjNjYjg3LWEyMDUtNDg4ZS1iMDBlLTAyOTJjN2Y4MzllMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.GwbX7EIo9GHFw06rSDyenybnATOKlgMTki-G6hiLiwU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImIxNDM5NDY1LTE2OWItNGJmNi04NjVhLTlhMDgwODMwOWNiOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.1L63gLWqTeGBZQCieKfRALY2-KCwpMxLO3gUoeODqW0
 Host: api.yeoboya-lunch.com
 
 {
@@ -10110,7 +10336,7 @@ X-Frame-Options: DENY</code></pre>
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /role/security-update HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 74
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImM5M2Q4N2NmLWE4ZWUtNDA4Ny1iOTgwLTQzYzU4NmJmODNmOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.hRyjBDKVENW3kpZ8pHZktSPC-r3Rh8zXRhWb6y9GaOU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjE1ZjViY2M5LWU3ODAtNGI0NS1iMzdkLWFjMmMwOTQ4Yjc1YiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NjAzNjcsImV4cCI6MTcxOTk5MjM2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.RBlLxTqk8NqAuKBLCN-e5SWCHFOjrf3q8vF_xh0wf9w
 Host: api.yeoboya-lunch.com
 
 {
@@ -10160,7 +10386,7 @@ X-Frame-Options: DENY</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-06-21 08:53:36 +0900
+Last updated 2024-06-28 16:39:04 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
