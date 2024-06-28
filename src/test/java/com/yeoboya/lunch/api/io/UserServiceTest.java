@@ -14,7 +14,6 @@ import java.util.stream.IntStream;
 @WithMockUser(username = "kimhyunjin@outlook.kr", roles = "USER")
 public class UserServiceTest {
 
-
     @Autowired
     UserService service;
 
@@ -23,8 +22,9 @@ public class UserServiceTest {
     void signUp() {
         UserRequest.SignUp signUp = new UserRequest.SignUp();
         IntStream.rangeClosed(100, 300).forEach(i->{
-            signUp.setEmail(i+"@"+i+"."+i);
-            signUp.setName("happy"+i);
+            signUp.setLoginId("tester"+i);
+            signUp.setEmail(i+"@yeoboya.com");
+            signUp.setName("테스터"+i);
             signUp.setPassword("qwer1234@@");
             service.signUp(signUp);
         });

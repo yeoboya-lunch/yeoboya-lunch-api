@@ -3,7 +3,11 @@ package com.yeoboya.lunch.api.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.order.constants.OrderStatus;
 import com.yeoboya.lunch.api.v1.order.request.*;
+import com.yeoboya.lunch.api.v1.order.service.OrderService;
+import com.yeoboya.lunch.api.v1.shop.service.ShopService;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.TestUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +17,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -48,6 +54,18 @@ class OrderControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private ShopService shopService;
+
+    private TestUtil testUtil;
+
+    @BeforeEach
+    void setUp() {
+        testUtil = new TestUtil(mockMvc, objectMapper);
+    }
 
     @Test
     @DisplayName("점심 주문 모집 시작")
@@ -58,28 +76,32 @@ class OrderControllerDocTest {
 
         //given
         OrderRecruitmentCreate order = OrderRecruitmentCreate.builder()
-                .email("order@test.com")
-                .title("맥도날드 드실분")
+                .loginId("admin")
+                .title("1867 드실분")
                 .lastOrderTime(lastOrderTime)
-                .memo("신상버거 나왔습니다!!")
+                .memo("신상메뉴 나왔습니다!!")
                 .deliveryFee(1000)
-                .shopName("맥도날드")
+                .shopName(shopService.selectShop().getName())
                 .build();
 
         String json = objectMapper.writeValueAsString(order);
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         //expected
         mockMvc.perform(post("/order/recruit/start")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("order/recruit/start",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("이메일").type(JsonFieldType.STRING),
+                                fieldWithPath("loginId").description("로그인 아이디").type(JsonFieldType.STRING),
                                 fieldWithPath("title").description("모집 제목").type(JsonFieldType.STRING),
                                 fieldWithPath("lastOrderTime").description("주문 마감 시간").type(JsonFieldType.STRING),
                                 fieldWithPath("memo").description("메모").type(JsonFieldType.STRING),
@@ -98,9 +120,23 @@ class OrderControllerDocTest {
     @Test
     @DisplayName("점심 주문 모집 리스트")
     void testListLunchOrderRecruitment() throws Exception {
+        // 현재 시간에 30분을 추가
+        LocalDateTime localDateTimePlus30Mins = LocalDateTime.now().plusMinutes(30);
+        Timestamp lastOrderTime = Timestamp.valueOf(localDateTimePlus30Mins);
+
+        orderService.startLunchOrderRecruitment(OrderRecruitmentCreate.builder()
+                .loginId("admin")
+                .title("1867 드실분")
+                .lastOrderTime(lastOrderTime)
+                .memo("신상메뉴 나왔습니다!!")
+                .deliveryFee(1000)
+                .shopName(shopService.selectShop().getName())
+                .build()
+        );
+
         OrderSearch search = new OrderSearch();
         search.setOrderStatus(OrderStatus.valueOf("ORDER_START"));
-        search.setOrderName("김현진");
+        search.setOrderName("");
         search.setOrderEmail("");
         search.setStartDate(LocalDate.ofEpochDay(20240101));
         search.setEndDate(LocalDate.ofEpochDay(20241231));
@@ -145,7 +181,7 @@ class OrderControllerDocTest {
                                 fieldWithPath("data.pagination.hasPrevious").description("Whether there are previous pages").type(JsonFieldType.BOOLEAN),
                                 fieldWithPath("data.list[]").description("List of orders").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].orderId").description("Order ID").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.list[].orderMemberEmail").description("Order member Email").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].orderMemberLoginId").description("Order member id").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].orderMemberName").description("Order member Name").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].shopName").description("Shop Name").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].title").description("Order title").type(JsonFieldType.STRING),
@@ -159,10 +195,28 @@ class OrderControllerDocTest {
     @Test
     @DisplayName("주문번호로 점심 주문 정보 조회")
     void testRetrieveLunchOrderInfoByOrderId() throws Exception {
+        // 현재 시간에 30분을 추가
+        LocalDateTime localDateTimePlus30Mins = LocalDateTime.now().plusMinutes(30);
+        Timestamp lastOrderTime = Timestamp.valueOf(localDateTimePlus30Mins);
+
+        orderService.startLunchOrderRecruitment(OrderRecruitmentCreate.builder()
+                .loginId("admin")
+                .title("1867 드실분")
+                .lastOrderTime(lastOrderTime)
+                .memo("신상메뉴 나왔습니다!!")
+                .deliveryFee(1000)
+                .shopName(shopService.selectShop().getName())
+                .build()
+        );
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         // when & then
         mockMvc.perform(get("/order/recruits/", 1)
                         .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("order/recruits/orderId",
                         preprocessRequest(prettyPrint()),
@@ -177,7 +231,7 @@ class OrderControllerDocTest {
                                 fieldWithPath("message").description("Response Message").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[]").description("Order List").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].orderId").description("Order ID").type(JsonFieldType.NUMBER).optional(),
-                                fieldWithPath("data.list[].orderMemberEmail").description("Order member Email").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].orderMemberLoginId").description("Order member id").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].orderMemberName").description("Order member Name").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].shopName").description("Order Shop Name").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].title").description("Order Title").type(JsonFieldType.STRING),
@@ -198,19 +252,21 @@ class OrderControllerDocTest {
     @Test
     @DisplayName("점심 주문 모집에 참여")
     @Transactional
-    void testParticipationInLunchOrderRecruitment() throws Exception {
+    void joinGroupOrder() throws Exception {
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         // given
         List<OrderItemCreate> orderItemsList = new ArrayList<>();
-
-        OrderItemCreate testItem = OrderItemCreate.builder()
-                .itemName("아이템7711")
-                .orderQuantity(1)
-                .build();
-        orderItemsList.add(testItem);
+        orderItemsList.add(
+                OrderItemCreate.builder()
+                        .itemName("Banana")
+                        .orderQuantity(1)
+                        .build()
+        );
 
         GroupOrderJoin groupOrderJoin = GroupOrderJoin.builder()
-                .orderId(1L)
-                .email("join2@test.com")
+                .orderId(3L)
+                .loginId("admin")
                 .orderItems(orderItemsList)
                 .build();
 
@@ -220,7 +276,9 @@ class OrderControllerDocTest {
         mockMvc.perform(post("/order/recruit/join")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("order/recruit/join",
@@ -228,7 +286,7 @@ class OrderControllerDocTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("orderId").description("Order number").type(JsonFieldType.NUMBER),
-                                fieldWithPath("email").description("Email of the order").type(JsonFieldType.STRING),
+                                fieldWithPath("loginId").description("loginId of the order").type(JsonFieldType.STRING),
                                 fieldWithPath("orderItems[].itemName").description("Name of the order item").type(JsonFieldType.STRING),
                                 fieldWithPath("orderItems[].orderQuantity").description("Quantity of the order item").type(JsonFieldType.NUMBER)
                         ),
@@ -242,24 +300,26 @@ class OrderControllerDocTest {
     }
 
     @Test
-    @DisplayName("점심 주문 모집에 참여 후 주문 수정")
+    @DisplayName("점심 주문 수정")
     @Transactional
-    void testEditParticipationInLunchOrderRecruitment() throws Exception {
-        // 주문 항목 생성
-        List<OrderItemCreateEdit> orderItemsList = new ArrayList<>();
+    void testJoinUpdateItem() throws Exception {
 
-        OrderItemCreateEdit testItem = OrderItemCreateEdit.builder()
-                .itemName("우럭")
-                .orderQuantity(3)
-                .build();
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
-        orderItemsList.add(testItem);
+        // 주문 수정 생성
+        List<OrderItemCreateEdit> orderItemCreateEdits = new ArrayList<>();
+        orderItemCreateEdits.add(
+                OrderItemCreateEdit.builder()
+                    .itemName("Banana")
+                    .orderQuantity(10)
+                    .build()
+        );
 
         // 주문 수정 데이터 생성
         GroupOrderJoinEdit groupOrderJoinEdit = new GroupOrderJoinEdit();
-        groupOrderJoinEdit.setOrderId(64L);
-        groupOrderJoinEdit.setGroupOrderId(74L);
-        groupOrderJoinEdit.setOrderItems(orderItemsList);
+        groupOrderJoinEdit.setOrderId(1L);
+        groupOrderJoinEdit.setGroupOrderId(1L);
+        groupOrderJoinEdit.setOrderItems(orderItemCreateEdits);
 
         // 객체를 JSON으로 변환
         String json = objectMapper.writeValueAsString(groupOrderJoinEdit);
@@ -268,7 +328,9 @@ class OrderControllerDocTest {
         mockMvc.perform(patch("/order/recruit/join")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("order/recruit/join/update",
@@ -288,15 +350,19 @@ class OrderControllerDocTest {
     }
 
     @Test
-    @DisplayName("내 주문 내역 조회 (이메일)")
+    @DisplayName("내 주문 내역 조회")
     void testRetrieveMyOrderHistoryByEmail() throws Exception {
         //given
-        String email = "join@test.com";
+        String loginId = "order";
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         //expected
-        mockMvc.perform(get("/order/recruit/histories/join/{email}", email)
+        mockMvc.perform(get("/order/recruit/histories/join/{loginId}", loginId)
                         .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("order/recruit/histories/join/email",
@@ -321,6 +387,8 @@ class OrderControllerDocTest {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.pagination.numberOfElements").description("Current number of elements")
                                         .type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.list[]").description("Order")
+                                        .type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].orderId").description("Order ID")
                                         .type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].groupOrderId").description("ID of group order")
@@ -346,15 +414,19 @@ class OrderControllerDocTest {
     }
 
     @Test
-    @DisplayName("내 주문 모집 내역 조회 (이메일)")
+    @DisplayName("내 주문 모집 내역 조회")
     void testRetrieveMyOrderRecruitmentHistoryByEmail() throws Exception {
         //given
-        String email = "order@test.com";
+        String loginId = "admin";
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         //expected
-        mockMvc.perform(get("/order/recruit/histories/{email}", email)
+        mockMvc.perform(get("/order/recruit/histories/{loginId}", loginId)
                         .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("order/recruit/histories/email",
@@ -409,17 +481,21 @@ class OrderControllerDocTest {
     @Transactional
     void changeRecruitmentOrderStatus() throws Exception {
         //given
-        String orderId = "2";  //Provide the orderId
+        String orderId = "1";  //Provide the orderId
         OrderEdit orderEdit = new OrderEdit();
         orderEdit.setStatus(OrderStatus.END.name());
 
         String jsonRequest = objectMapper.writeValueAsString(orderEdit);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         //expected
         mockMvc.perform(patch("/order/recruit/{orderId}", orderId)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(jsonRequest))
+                        .content(jsonRequest)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("order/recruit/orderId",
@@ -441,12 +517,17 @@ class OrderControllerDocTest {
     @DisplayName("점심 주문 취소 (주문나가기)")
     @Transactional
     void cancelLunchOrder() throws Exception {
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         // given
-        Long groupOrderId = 4L;  // provide the groupOrderId you want to cancel
+        Long groupOrderId = 2L;  // provide the groupOrderId you want to cancel
 
         // when & then
         mockMvc.perform(delete("/order/recruit/join/{groupOrderId}", groupOrderId)
-                        .contentType(APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(document("order/recruit/join/cancel",
                         preprocessRequest(prettyPrint()),

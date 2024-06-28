@@ -16,6 +16,9 @@ public class Inquiry extends BaseEntity {
     @Column(name = "INQUIRY_ID", nullable = false)
     private Long id;
 
+    @Column
+    private String loginId;
+
     @Column(nullable = false)
     private String email;
 
@@ -26,7 +29,8 @@ public class Inquiry extends BaseEntity {
     private String content;
 
     @Builder
-    public Inquiry(String email, String subject, String content) {
+    public Inquiry(String loginId,String email, String subject, String content) {
+        this.loginId = loginId;
         this.email = email;
         this.subject = subject;
         this.content = content;

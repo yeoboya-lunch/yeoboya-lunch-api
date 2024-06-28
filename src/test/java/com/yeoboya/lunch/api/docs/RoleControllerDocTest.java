@@ -2,9 +2,11 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.TestUtil;
 import com.yeoboya.lunch.config.security.constants.Authority;
 import com.yeoboya.lunch.config.security.reqeust.AuthorityRequest;
 import com.yeoboya.lunch.config.security.reqeust.SecurityRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -42,6 +45,13 @@ class RoleControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    private TestUtil testUtil;
+
+    @BeforeEach
+    void setUp() {
+        testUtil = new TestUtil(mockMvc, objectMapper);
+    }
+
     @Test
     @DisplayName("회원 권한리스트")
     void getAuthorityList() throws Exception {
@@ -49,8 +59,12 @@ class RoleControllerDocTest {
         info.add("page", "1");
         info.add("size", "10");
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(get("/role/authorities")
-                        .params(info))
+                        .params(info)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("role/authorities",
@@ -71,10 +85,10 @@ class RoleControllerDocTest {
                                 fieldWithPath("data.pagination.first").description("Whether the page is the first page"),
                                 fieldWithPath("data.pagination.last").description("Whether the page is the last page"),
                                 fieldWithPath("data.pagination.empty").description("Whether the page contains any data"),
-                                fieldWithPath("data.list[]").description("List of member roles"),
-                                fieldWithPath("data.list[].email").description("Member's Email"),
-                                fieldWithPath("data.list[].name").description("Member's Name"),
-                                fieldWithPath("data.list[].roleDesc").description("Description of the Role"),
+                                fieldWithPath("data.list[].loginId").description("MemberMaker's loginId"),
+                                fieldWithPath("data.list[].email").description("MemberMaker's loginId"),
+                                fieldWithPath("data.list[].provider").description("MemberMaker's provider"),
+                                fieldWithPath("data.list[].name").description("MemberMaker's Name"),
                                 fieldWithPath("data.list[].enabled").description("Whether the member is enabled"),
                                 fieldWithPath("data.list[].accountNonLocked").description("Whether the account is not locked")
                         )
@@ -85,19 +99,23 @@ class RoleControllerDocTest {
     @DisplayName("회원 권한 업데이트")
     void updateAuthority() throws Exception {
         AuthorityRequest authorityRequest = new AuthorityRequest();
-        authorityRequest.setLoginId("role@test.com");
+        authorityRequest.setLoginId("admin");
         authorityRequest.setRole(Authority.ROLE_MANAGER);
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         mockMvc.perform(post("/role/authority-update")
                         .content(objectMapper.writeValueAsString(authorityRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("role/authority-update",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("Email of the member whose role is to be updated"),
+                                fieldWithPath("loginId").description("loginId of the member whose role is to be updated"),
                                 fieldWithPath("role").description("New role for the member")
                         )
                 ));
@@ -108,20 +126,24 @@ class RoleControllerDocTest {
     @DisplayName("회원 계정 업데이트")
     void updateSecurity() throws Exception {
         SecurityRequest securityRequest = new SecurityRequest();
-        securityRequest.setLoginId("role@test.com");
-        securityRequest.setEnabled(false);
-        securityRequest.setAccountNonLocked(false);
+        securityRequest.setLoginId("admin");
+        securityRequest.setEnabled(true);
+        securityRequest.setAccountNonLocked(true);
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         mockMvc.perform(post("/role/security-update")
                         .content(objectMapper.writeValueAsString(securityRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("role/security-update",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("Email of the member whose role is to be updated"),
+                                fieldWithPath("loginId").description("loginId of the member whose role is to be updated"),
                                 fieldWithPath("enabled").description("Whether the member is enabled"),
                                 fieldWithPath("accountNonLocked").description("Whether the account is not locked")
                         )

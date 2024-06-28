@@ -61,10 +61,10 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
 
     @Override
-    public MemberInfo getMemberInfo(String email) {
+    public MemberInfo getMemberInfo(String loginId) {
         return query.selectFrom(memberInfo)
                 .leftJoin(memberInfo.member, member)
-                .where(memberInfo.member.email.eq(email))
+                .where(memberInfo.member.loginId.eq(loginId))
                 .fetchOne();
     }
 

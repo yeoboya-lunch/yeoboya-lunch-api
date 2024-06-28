@@ -34,7 +34,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     @Override
     public Slice<Order> orderRecruits(OrderSearch orderSearch, Pageable pageable) {
         List<Order> content = query.selectFrom(order)
-//                .leftJoin(order.member, member)
+                .leftJoin(order.member, member)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .orderBy(order.id.desc())

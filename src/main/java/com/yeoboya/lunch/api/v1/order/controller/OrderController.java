@@ -111,13 +111,6 @@ public class OrderController {
         return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoriesByLoginId(loginId, pageable));
     }
 
-    /**
-     * 내 주문 내역 리스트 조회 (토큰)
-     */
-    @GetMapping("/recruit/histories/join")
-    public ResponseEntity<Body> getMyJoinHistoryByToken(Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyJoinHistoryByToken(pageable));
-    }
 
     /**
      * 내 주문 모집 내역 리스트 조회 (이메일)
@@ -125,14 +118,6 @@ public class OrderController {
     @GetMapping("/recruit/histories/{loginId}")
     public ResponseEntity<Body> getMyRecruitmentOrderHistory(@PathVariable String loginId, Pageable pageable){
         return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoriesByLoginId(loginId, pageable));
-    }
-
-    /**
-     * 내 주문 모집 내역 리스트 조회 (토큰)
-     */
-    @GetMapping("/recruit/histories")
-    public ResponseEntity<Body> getMyRecruitmentOrderHistory(Pageable pageable){
-        return response.success(Code.SEARCH_SUCCESS, orderService.getMyRecruitmentOrderHistoriesByToken(pageable));
     }
 
     /**

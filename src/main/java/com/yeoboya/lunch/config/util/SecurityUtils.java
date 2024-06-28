@@ -26,7 +26,6 @@ public class SecurityUtils {
      * @return 현재 사용자가 주어진 이메일과 일치하면 true, 그렇지 않으면 false
      */
     public static boolean isCurrentUser(String loginId) {
-        String currentUserEmail = getCurrentUserLoginId();
-        return currentUserEmail != null && currentUserEmail.equals(loginId);
+        return getCurrentUserLoginId() != null && getCurrentUserLoginId().equals(loginId);
     }
 }

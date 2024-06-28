@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.event.domain.Banner;
 import com.yeoboya.lunch.api.v1.event.repository.BannerRepository;
 import com.yeoboya.lunch.api.v1.event.reqeust.BannerRequest;
+import com.yeoboya.lunch.config.TestUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,16 +14,17 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -48,11 +51,31 @@ class BannerControllerDocTest {
     @Autowired
     private BannerRepository bannerRepository;
 
+    private TestUtil testUtil;
+
+    public String generateRandomString(int length) {
+        Random random = new Random();
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        StringBuilder stringBuilder = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            stringBuilder.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        return stringBuilder.toString();
+    }
+
+
+    @BeforeEach
+    void setUp() {
+        testUtil = new TestUtil(mockMvc, objectMapper);
+    }
+
     @Test
     @DisplayName("배너 생성")
     void createBanner() throws Exception {
         BannerRequest bannerRequest = new BannerRequest();
-        bannerRequest.setTitle("Spring Sale");
+        bannerRequest.setTitle(generateRandomString(10));
         bannerRequest.setDisplayOrder(1);
         bannerRequest.setStartDate(LocalDateTime.now().minusDays(1));
         bannerRequest.setEndDate(LocalDateTime.now().plusDays(30));
@@ -62,6 +85,7 @@ class BannerControllerDocTest {
         byte[] fileBytes = Files.readAllBytes(fileResource.toPath());
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", fileBytes);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         // Convert BannerRequest object to String
         String jsonBannerRequest = objectMapper.writeValueAsString(bannerRequest);
@@ -74,7 +98,9 @@ class BannerControllerDocTest {
         mockMvc.perform(multipart("/banners")
                         .file(file)
                         .file(bannerRequestPart)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("banner/create",
@@ -103,8 +129,13 @@ class BannerControllerDocTest {
     @Test
     @DisplayName("배너 목록 조회")
     void getBanners() throws Exception {
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(get("/banners")
-                        .param("displayLocation", "MAIN_PAGE"))
+                        .param("displayLocation", "MAIN_PAGE")
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("banner/get",
@@ -147,9 +178,13 @@ class BannerControllerDocTest {
                 .build();
         banner = bannerRepository.save(banner);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         // when & then
         mockMvc.perform(delete("/banners/{id}", banner.getId())
-                        .contentType(APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("banner/delete",
                         preprocessRequest(prettyPrint()),

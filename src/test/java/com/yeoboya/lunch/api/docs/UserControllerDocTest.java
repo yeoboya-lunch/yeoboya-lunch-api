@@ -2,7 +2,9 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.v1.event.domain.Banner;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.TestUtil;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +22,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -48,10 +52,12 @@ class UserControllerDocTest {
     protected MockMvc mockMvc;
 
     private static String uniqueEmail;
+    private static String uniqueId;
 
     @BeforeAll
     static void setUp() {
         uniqueEmail = "test" + new Random().nextInt(10000) + "@example.com";
+        uniqueId = "id" + new Random().nextInt(10000);
     }
 
     @Test
@@ -59,6 +65,7 @@ class UserControllerDocTest {
     void signUp() throws Exception {
         //given
         UserRequest.SignUp signUp = new UserRequest.SignUp();
+        signUp.setLoginId(uniqueId);
         signUp.setEmail(uniqueEmail);
         signUp.setName("김현진");
         signUp.setPassword("1234qwer!@#$");
@@ -76,8 +83,10 @@ class UserControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
+                                fieldWithPath("loginId").description("로그인아이디"),
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("name").description("이름"),
+                                fieldWithPath("provider").description("가입유형 yeoboya"),
                                 fieldWithPath("password").description("비밀번호")
                                         .attributes(key("note").value("비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."))
                         ),
@@ -95,9 +104,10 @@ class UserControllerDocTest {
     @Test
     @DisplayName("로그인")
     void login() throws Exception {
+
         //given
         UserRequest.SignIn signIn = new UserRequest.SignIn();
-        signIn.setEmail(uniqueEmail);
+        signIn.setLoginId(uniqueId);
         signIn.setPassword("1234qwer!@#$");
 
         String json = objectMapper.writeValueAsString(signIn);
@@ -113,7 +123,7 @@ class UserControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("이메일"),
+                                fieldWithPath("loginId").description("로그인아이디"),
                                 fieldWithPath("password").description("비밀번호")
                         ),
                         responseFields(
@@ -145,8 +155,10 @@ class UserControllerDocTest {
     }
 
     private Pair<String, String> performLoginAndGetTokens() throws Exception {
+
+
         UserRequest.SignIn signIn = new UserRequest.SignIn();
-        signIn.setEmail("logout@gmail.com");
+        signIn.setLoginId("admin");
         signIn.setPassword("qwer1234@@");
 
         String signInJson = objectMapper.writeValueAsString(signIn);
@@ -205,6 +217,7 @@ class UserControllerDocTest {
     void changePassword() throws Exception {
         //given
         UserRequest.Credentials credentials = new UserRequest.Credentials();
+        credentials.setLoginId(uniqueId);
         credentials.setEmail(uniqueEmail);
         credentials.setOldPassword("1234qwer!@#$");
         credentials.setNewPassword("qwer1234@@");
@@ -223,6 +236,7 @@ class UserControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
+                                fieldWithPath("loginId").description("로그인아이디"),
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("oldPassword").description("전 비밀번호"),
                                 fieldWithPath("newPassword").description("새로운 비밀번호"),
@@ -243,14 +257,13 @@ class UserControllerDocTest {
     public void reIssueToken() throws Exception {
         //given
         Pair<String, String> tokens = performLoginAndGetTokens();
-        System.out.println(tokens.getFirst() + " | " +tokens.getSecond());
 
         UserRequest.Reissue reissue = new UserRequest.Reissue();
+        reissue.setLoginId("admin");
         reissue.setRefreshToken(tokens.getSecond());
+        reissue.setProvider("yeoboya");
 
         String json = objectMapper.writeValueAsString(reissue);
-
-        ConstraintDescriptions constraintDescriptions = new ConstraintDescriptions(UserRequest.Reissue.class);
 
         //expected
         mockMvc.perform(post("/user/reissue")
@@ -263,19 +276,9 @@ class UserControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("accessToken")
-                                        .description("엑세스 토큰")
-                                        .attributes(
-                                                key("constraints")
-                                                        .value(
-                                                                StringUtils.collectionToDelimitedString(
-                                                                        constraintDescriptions.descriptionsForProperty("accessToken"), ". "
-                                                                )
-                                                        )
-                                        ),
-
-                                fieldWithPath("refreshToken")
-                                        .description("리프레시 토큰")
+                                fieldWithPath("loginId").description("로그인 아이디"),
+                                fieldWithPath("refreshToken").description("리프레시 토큰"),
+                                fieldWithPath("provider").description("로그인유형")
                         ),
                         responseFields(
                                 fieldWithPath("code").description("코드").type(JsonFieldType.NUMBER),
@@ -298,7 +301,7 @@ class UserControllerDocTest {
     public void sendResetPasswordMail() throws Exception {
         //given
         UserRequest.ResetPassword resetPassword = new UserRequest.ResetPassword();
-        resetPassword.setEmail("logout@gmail.com");
+        resetPassword.setEmail("admin@yeoboya.com");
         resetPassword.setPhone("010-0000-0000");
         resetPassword.setAuthorityLink("localhost");
 
@@ -328,10 +331,12 @@ class UserControllerDocTest {
 
     @Test
     @DisplayName("비밀번호 초기화")
+    @Transactional
     public void resetPassword() throws Exception {
         // Arrange
         UserRequest.Credentials credentials = new UserRequest.Credentials();
-        credentials.setEmail("logout@gmail.com");
+        credentials.setLoginId("admin");
+        credentials.setEmail("admin@yeoboya.com");
         credentials.setOldPassword("oldPassword123!");  // Assuming old password
         credentials.setNewPassword("newPassword123!");
         credentials.setConfirmNewPassword("newPassword123!");
@@ -356,6 +361,7 @@ class UserControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
+                                fieldWithPath("loginId").description("로그인아이디"),
                                 fieldWithPath("email").description("이메일"),
                                 fieldWithPath("oldPassword").description("이전 비밀번호"),
                                 fieldWithPath("newPassword").description("새 비밀번호"),

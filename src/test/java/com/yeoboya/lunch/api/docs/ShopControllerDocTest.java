@@ -5,7 +5,9 @@ import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopAndItemCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.TestUtil;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +20,7 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -50,27 +53,33 @@ class ShopControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    private TestUtil testUtil;
+
     private static String uniqueShop;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         uniqueShop = "상점" + new Random().nextInt(10000);
+        testUtil = new TestUtil(mockMvc, objectMapper);
     }
 
     @Test
     @DisplayName("상점등록")
-    @Transactional
     void create() throws Exception {
         //given
         ShopCreate request = new ShopCreate();
         request.setShopName(uniqueShop);
         String json = objectMapper.writeValueAsString(request);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         //expected
         mockMvc.perform(post("/shop")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("shop/post",
@@ -106,9 +115,13 @@ class ShopControllerDocTest {
         info.add("page", "0");
         info.add("size", "10");
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         //expected
         mockMvc.perform(get("/shop")
-                        .params(info))
+                        .params(info)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("shop/get",
@@ -133,6 +146,7 @@ class ShopControllerDocTest {
                                         fieldWithPath("data.pagination.isLast").description("현재 페이지가 마지막 페이지인지 여부"),
                                         fieldWithPath("data.pagination.hasNext").description("다음 페이지가 있는지 여부"),
                                         fieldWithPath("data.pagination.hasPrevious").description("이전 페이지가 있는지 여부"),
+                                        fieldWithPath("data.list[]").description("상점").optional(),
                                         fieldWithPath("data.list[].shopName")
                                                 .type(JsonFieldType.STRING)
                                                 .description("가게이름")
@@ -153,19 +167,53 @@ class ShopControllerDocTest {
     @Test
     @DisplayName("상점 생성 및 아이템 추가")
     void createShopAndAddItem() throws Exception {
+        Random rand = new Random();
+
         // given
         ShopAndItemCreate create = new ShopAndItemCreate();
         create.setShopName(uniqueShop);
         create.setItems(Arrays.asList(
-                ItemCreate.builder().itemName("광어").price(2500).build(),
-                ItemCreate.builder().itemName("우럭").price(2500).build(),
-                ItemCreate.builder().itemName("소고기").price(3000).build(),
-                ItemCreate.builder().itemName("계란").price(2000).build()
+                ItemCreate.builder().itemName("Apple").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Banana").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Cherry").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Date").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Elderberry").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Fig").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Grape").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Honeydew").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Italian Lime").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Jackfruit").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Kiwi").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Lemon").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Melon").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Nectarine").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Orange").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Peach").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Quince").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Raspberry").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Strawberry").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Tangerine").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Ugli Fruit").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Vitamin C").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Watermelon").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Xigua").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Yellow Passionfruit").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Zucchini").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Fruit26").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Fruit27").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Fruit28").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Fruit29").price(rand.nextInt(50000) + 1000).build(),
+                ItemCreate.builder().itemName("Fruit30").price(rand.nextInt(50000) + 1000).build()
         ));
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         // when/then
         mockMvc.perform(post("/shop/create")
                         .content(objectMapper.writeValueAsString(create))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print())
                 .andDo(document("shop/create",

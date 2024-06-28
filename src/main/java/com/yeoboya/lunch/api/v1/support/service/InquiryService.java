@@ -19,6 +19,7 @@ public class InquiryService {
     @Transactional
     public ResponseEntity<Response.Body> submitInquiry(InquiryRequest inquiryRequest) {
         Inquiry inquiry = Inquiry.builder()
+                .loginId(inquiryRequest.getLoginId())
                 .email(inquiryRequest.getEmail())
                 .subject(inquiryRequest.getSubject())
                 .content(inquiryRequest.getContent())

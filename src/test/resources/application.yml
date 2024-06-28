@@ -4,6 +4,15 @@ logging:
 spring:
   profiles:
     active: "test"
+    include: "oauth"
+
+  main:
+    allow-bean-definition-overriding: true
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
 
   datasource:
     url: jdbc:h2:tcp://localhost/~/lunch
@@ -50,9 +59,12 @@ spring:
 
 file:
   upload:
-    root-path : ./file
+    root-path: ./file
     ratio-wh: 1280
 
 jwt:
   token:
     secretKey: euripidisconstitutoiusadappareatmaluissethasexutmeiinvenirecomplectiturEumesseargumentumscriptoremad
+
+front:
+  url: http://localhost:3000

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.review.request.ReviewRequest;
 import com.yeoboya.lunch.api.v1.review.request.ReviewUpdateRequest;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.TestUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -40,20 +43,30 @@ public class ReviewControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    private TestUtil testUtil;
+
+    @BeforeEach
+    void setUp() {
+        testUtil = new TestUtil(mockMvc, objectMapper);
+    }
+
     @Test
     @DisplayName("리뷰 추가")
     @Transactional
-    @WithMockUser(username = "review@test.com", roles = "USER")
     public void addReview() throws Exception {
         ReviewRequest reviewRequest = new ReviewRequest();
-        reviewRequest.setOrderId(87L);
+        reviewRequest.setOrderId(2L);
         reviewRequest.setContent("Great food!");
         reviewRequest.setShopRating(5);
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         mockMvc.perform(post("/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(reviewRequest))
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("review/add",
@@ -80,16 +93,19 @@ public class ReviewControllerDocTest {
 
     @Test
     @DisplayName("리뷰 수정")
-    @WithMockUser(username = "review_update@test.com", roles = "USER")
     public void updateReview() throws Exception {
         ReviewUpdateRequest reviewRequest = new ReviewUpdateRequest();
         reviewRequest.setContent("Updated review content");
         reviewRequest.setShopRating(4);
 
-        mockMvc.perform(put("/reviews/{reviewId}", 15)
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(put("/reviews/{reviewId}", 3)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(reviewRequest))
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("review/update",
@@ -112,12 +128,16 @@ public class ReviewControllerDocTest {
 
     @Test
     @DisplayName("리뷰 삭제")
-    @WithMockUser(username = "review_update@test.com", roles = "USER")
     @Transactional
     public void deleteReview() throws Exception {
-        mockMvc.perform(delete("/reviews/{reviewId}", 15L)
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(delete("/reviews/{reviewId}", 3L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("review/delete",
@@ -140,9 +160,14 @@ public class ReviewControllerDocTest {
     @Test
     @DisplayName("리뷰 통계 조회")
     public void getReviewStatistics() throws Exception {
-        mockMvc.perform(get("/reviews/stats/{shopId}", 4L)
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(get("/reviews/stats/{shopId}", 302L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("review/stats",
@@ -175,11 +200,15 @@ public class ReviewControllerDocTest {
     @Test
     @DisplayName("정렬된 리뷰 조회")
     public void getSortedReviews() throws Exception {
-        mockMvc.perform(get("/reviews/{shopId}/sorted", 4L)
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(get("/reviews/{shopId}/sorted", 302L)
                         .param("sortBy", "shopRating")
                         .param("order", "asc")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("review/sorted",

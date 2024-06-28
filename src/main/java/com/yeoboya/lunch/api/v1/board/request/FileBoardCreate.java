@@ -15,8 +15,8 @@ public class FileBoardCreate extends BoardCreate {
     private String uploadType;
     private MultipartFile file;
 
-    public FileBoardCreate(@Email String email, String title, List<String> hashTag, String content, @Digits(integer = 4, fraction = 0) int pin, boolean secret) {
-        super(email, title, hashTag, content, pin, secret);
+    public FileBoardCreate(@Email String loginId, String title, List<String> hashTag, String content, @Digits(integer = 4, fraction = 0) int pin, boolean secret) {
+        super(loginId, title, hashTag, content, pin, secret);
     }
 
     @Override

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,6 +85,11 @@ public class ShopService {
         return Map.of(
                 "list",content,
                 "pagination", slicePagination);
+    }
+
+    public Shop selectShop(){
+        List<Shop> shops = shopRepository.findAll();
+        return shops.get(1);
     }
 
 }

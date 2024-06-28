@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
+import com.yeoboya.lunch.api.v1.member.service.MemberService;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.TestUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +19,10 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Random;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -43,10 +49,22 @@ class MemberControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    private TestUtil testUtil;
+
+    @BeforeEach
+    void setUp() {
+        testUtil = new TestUtil(mockMvc, objectMapper);
+    }
+
     @Test
     @DisplayName("회원리스트")
     void member() throws Exception {
-        mockMvc.perform(get("/member"))
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(get("/member")
+                        .with(postProcessor)
+                )
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("member/list",
                         preprocessRequest(prettyPrint()),
@@ -67,7 +85,11 @@ class MemberControllerDocTest {
                                 fieldWithPath("data.pagination.isLast").description("현재 페이지가 마지막 페이지인지 여부"),
                                 fieldWithPath("data.pagination.hasNext").description("다음 페이지가 있는지 여부"),
                                 fieldWithPath("data.pagination.hasPrevious").description("이전 페이지가 있는지 여부"),
-                                fieldWithPath("data.list[].email").description("이메일 주소"),
+                                fieldWithPath("data.list[].loginId").description("아이디"),
+                                fieldWithPath("data.list[].email").description("이메일"),
+                                fieldWithPath("data.list[].provider").description("계정유형").optional(),
+                                fieldWithPath("data.list[].isPrimaryProfileImg").description("기본 프로필 이미지 여부").optional(),
+                                fieldWithPath("data.list[].fileUploadResponses").description("파일 업로드 응답").optional(),
                                 fieldWithPath("data.list[].name").description("이름"),
                                 fieldWithPath("data.list[].nickName").optional().description("닉네임"),
                                 fieldWithPath("data.list[].phoneNumber").optional().description("전화번호"),
@@ -85,25 +107,29 @@ class MemberControllerDocTest {
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
-                .email("account@test.com")
+                .loginId("admin")
                 .bankName("카카오뱅크")
                 .accountNumber("3333-01-123456")
                 .build();
 
         String json = objectMapper.writeValueAsString(request);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         //expected
         mockMvc.perform(post("/member/account")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("member/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("이메일")
+                                fieldWithPath("loginId").description("이메일")
                                         .type(JsonFieldType.STRING),
                                 fieldWithPath("bankName").description("은행명")
                                         .type(JsonFieldType.STRING),
@@ -129,28 +155,34 @@ class MemberControllerDocTest {
 
     @Test
     @DisplayName("계좌수정")
+    @Transactional
     void accountUpdate() throws Exception {
+
         //given
-        AccountEdit request = AccountEdit .builder()
+        AccountEdit request = AccountEdit.builder()
                 .bankName("토스")
                 .accountNumber("010-8349-0706")
                 .build();
 
-        String memberEmail = "member@test.com";
+        String memberLoginId = "admin";
 
         String json = objectMapper.writeValueAsString(request);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         //expected
-        mockMvc.perform(patch("/member/account/{memberEmail}", memberEmail)
+        mockMvc.perform(patch("/member/account/{memberLoginId}", memberLoginId)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(document("member/account/patch",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("memberEmail").description("이메일")
+                                parameterWithName("memberLoginId").description("이메일")
                         ),
                         requestFields(
                                 fieldWithPath("bankName").description("은행명")
@@ -175,11 +207,15 @@ class MemberControllerDocTest {
     @DisplayName("회원검색 (profile)")
     public void getMemberProfile() throws Exception {
 
-        String memberEmail = "member@test.com";
+        String memberLoginId = "admin";
 
-        mockMvc.perform(get("/member/{memberEmail}/profile", memberEmail)
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(get("/member/{memberLoginId}/profile", memberLoginId)
                         .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("member/profile",
@@ -190,8 +226,16 @@ class MemberControllerDocTest {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
                                         .type(JsonFieldType.STRING),
+                                fieldWithPath("data.loginId").description("아이디")
+                                        .type(JsonFieldType.STRING),
                                 fieldWithPath("data.email").description("이메일")
                                         .type(JsonFieldType.STRING),
+                                fieldWithPath("data.provider").description("계정유형")
+                                        .type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.isPrimaryProfileImg").description("기본 프로필 이미지 여부")
+                                        .type(JsonFieldType.BOOLEAN).optional(),
+                                fieldWithPath("data.fileUploadResponses").description("파일 업로드 응답")
+                                        .type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.name").description("이름")
                                         .type(JsonFieldType.STRING),
                                 fieldWithPath("data.nickName").description("닉네임")
@@ -213,6 +257,7 @@ class MemberControllerDocTest {
 
     @Test
     @DisplayName("회원정보수정")
+    @Transactional
     void editMemberInfo() throws Exception {
         // Given
         MemberInfoEdit request = MemberInfoEdit.builder()
@@ -221,21 +266,25 @@ class MemberControllerDocTest {
                 .nickName("테스터")
                 .build();
 
-        String memberEmail = "member@test.com";
+        String memberLoginId = "admin";
 
         String json = objectMapper.writeValueAsString(request);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         // Expected
-        mockMvc.perform(patch("/member/setting/info/{memberEmail}", memberEmail)
+        mockMvc.perform(patch("/member/setting/info/{memberLoginId}", memberLoginId)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(document("member/setting",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("memberEmail").description("이메일")
+                                parameterWithName("memberLoginId").description("이메일")
                         ),
                         requestFields(
                                 fieldWithPath("phoneNumber").description("수정할 전화번호")

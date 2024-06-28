@@ -2,8 +2,10 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.board.request.*;
+import com.yeoboya.lunch.api.v1.board.service.LikeService;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
-import org.junit.jupiter.api.BeforeAll;
+import com.yeoboya.lunch.config.TestUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +21,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -53,19 +56,26 @@ class BoardControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    @Autowired
+    protected LikeService likeService;
+
+    private TestUtil testUtil;
+
     private static int unique;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         unique = new Random().nextInt(10000);
+        testUtil = new TestUtil(mockMvc, objectMapper);
     }
+
 
     @Test
     @DisplayName("게시판 작성")
     void saveBoardTest() throws Exception {
 
         BoardCreate boardCreate = BoardCreate.builder()
-                .email("board@test.com")
+                .loginId("admin")
                 .title("Test board title No is " + unique)
                 .content("Test content")
                 .hashTag(Arrays.asList("snatch", "clean&jerk", "크로스핏"))
@@ -73,20 +83,24 @@ class BoardControllerDocTest {
                 .pin(1234)
                 .build();
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         String json = objectMapper.writeValueAsString(boardCreate);
 
         mockMvc.perform(post("/board/write")
-                        .with(user("board@test.com"))
+                        .with(user("board"))
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("board/write",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("Email").type(JsonFieldType.STRING),
+                                fieldWithPath("loginId").description("loginId").type(JsonFieldType.STRING),
                                 fieldWithPath("title").description("게시글 제목").type(JsonFieldType.STRING),
                                 fieldWithPath("content").description("게시글 내용").type(JsonFieldType.STRING),
                                 fieldWithPath("hashTag").description("해시태그").type(JsonFieldType.ARRAY),
@@ -106,7 +120,7 @@ class BoardControllerDocTest {
 
         BoardEdit boardEdit = BoardEdit.builder()
                 .boardId(1L)
-                .title("Test board title No is " + unique)
+                .title("Test board title No is " + unique + "edit ver.")
                 .content("Test content")
                 .hashTag(Arrays.asList("snatch", "clean&jerk", "크로스핏", "달리기"))
                 .secret(false)
@@ -115,11 +129,15 @@ class BoardControllerDocTest {
 
         String json = objectMapper.writeValueAsString(boardEdit);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(patch("/board/edit")
-                        .with(user("board@test.com"))
+                        .with(user("board"))
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("board/update",
@@ -150,10 +168,14 @@ class BoardControllerDocTest {
         info.add("page", "0");
         info.add("size", "10");
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(get("/board")
                         .contentType(APPLICATION_JSON_VALUE)
                         .accept(APPLICATION_JSON_VALUE)
-                        .params(info))
+                        .params(info)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("board",
@@ -170,9 +192,10 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.list[].title").description("게시판 제목").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].content").description("게시판 내용").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].secret").description("비밀글 여부").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.list[].email").description("게시글 작성자 이메일").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].loginId").description("게시글 작성자 이메일").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].name").description("게시글 작성자 이름").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].createDate").description("게시글 작성일").type(JsonFieldType.STRING),
+                                fieldWithPath("data.list[].hashTag[]").description("해시태그 배열 - 이 경우 비어있음").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].hashTag[].tag").description("해시태그").type(JsonFieldType.STRING),
                                 fieldWithPath("data.list[].files").description("첨부 파일").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].files[]").description("첨부 파일 리스트").type(JsonFieldType.ARRAY).optional(),
@@ -182,6 +205,7 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.list[].files[].extension").description("파일 확장자").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].files[].size").description("파일 크기").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].files[].externalForm").description("externalForm").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.list[].files[].url").description("File URL").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.list[].replies").description("댓글 리스트").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.list[].replies[].replyId").description("댓글 ID").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.list[].replies[].writer").description("댓글 작성자").type(JsonFieldType.STRING).optional(),
@@ -212,12 +236,14 @@ class BoardControllerDocTest {
         byte[] fileBytes = Files.readAllBytes(fileResource.toPath());
         MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", fileBytes);
 
-        FileBoardCreate fileBoardCreate = new FileBoardCreate("file@test.com", "파일업로드 테스트", Arrays.asList("#와플곰", "#이모티콘", "#나타났다"),
+        FileBoardCreate fileBoardCreate = new FileBoardCreate("admin", "파일업로드 테스트", Arrays.asList("#와플곰", "#이모티콘", "#나타났다"),
                 "내용입니다.", 7777, false);
 
         String json = new ObjectMapper().writeValueAsString(fileBoardCreate);
         MockMultipartFile fileBoardCreateFile = new MockMultipartFile("fileBoardCreate", "",
                 "application/json", json.getBytes());
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         mockMvc.perform(multipart("/board/write/photo")
                         .file(file)
@@ -225,7 +251,8 @@ class BoardControllerDocTest {
                         .characterEncoding("utf-8")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print())
                 .andDo(document("board/write/photo",
@@ -236,7 +263,7 @@ class BoardControllerDocTest {
                                 partWithName("fileBoardCreate").description("글 정보")
                         ),
                         requestFields(
-                                fieldWithPath("email").description("Email").type(JsonFieldType.STRING),
+                                fieldWithPath("loginId").description("loginId").type(JsonFieldType.STRING),
                                 fieldWithPath("title").description("게시글 제목").type(JsonFieldType.STRING),
                                 fieldWithPath("content").description("게시글 내용").type(JsonFieldType.STRING),
                                 fieldWithPath("hashTag").description("해시태그").type(JsonFieldType.ARRAY),
@@ -254,11 +281,15 @@ class BoardControllerDocTest {
 
     @Test
     @DisplayName("게시글 단건 조회")
-    @WithMockUser(username = "board@test.com", roles = "USER")
     public void testFindBoardById() throws Exception {
-        Long boardId = 154L;
+        Long boardId = 1L;
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(get("/board/{id}", boardId)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("board/get",
@@ -272,18 +303,20 @@ class BoardControllerDocTest {
                                 fieldWithPath("data.title").description("게시판 제목").type(JsonFieldType.STRING),
                                 fieldWithPath("data.content").description("게시판 내용").type(JsonFieldType.STRING),
                                 fieldWithPath("data.secret").description("게시판 비밀글 여부").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.email").description("게시판 작성자 이메일").type(JsonFieldType.STRING),
+                                fieldWithPath("data.loginId").description("게시판 작성자 이메일").type(JsonFieldType.STRING),
                                 fieldWithPath("data.name").description("게시판 작성자 이름").type(JsonFieldType.STRING),
                                 fieldWithPath("data.createDate").description("게시글 작성일").type(JsonFieldType.STRING),
                                 fieldWithPath("data.hashTag[].tag").description("해시태그").type(JsonFieldType.STRING),
                                 fieldWithPath("data.files").description("첨부 파일").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.files[]").description("첨부 파일 리스트").type(JsonFieldType.ARRAY).optional(),
+                                fieldWithPath("data.files[].url").description("파일 경로").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.files[].originalFileName").description("원본 파일명").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.files[].fileName").description("저장된 파일명").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.files[].filePath").description("파일 경로").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.files[].extension").description("파일 확장자").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.files[].size").description("파일 크기").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.files[].externalForm").description("externalForm").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.replies[]").description("댓글").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.replies[].replyId").description("댓글 ID").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("data.replies[].writer").description("댓글 작성자").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.replies[].content").description("댓글 내용").type(JsonFieldType.STRING).optional(),
@@ -304,23 +337,26 @@ class BoardControllerDocTest {
     @DisplayName("댓글작성")
     public void createCommentTest() throws Exception {
         ReplyCreateRequest request = new ReplyCreateRequest();
-        request.setLoginId("reply@test.com");
+        request.setLoginId("admin");
         request.setBoardId(1L);
         request.setContent("1번글 1번 댓글");
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/board/reply/write")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("board/reply/write",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("댓글을 작성하는 회원의 이메일").type(JsonFieldType.STRING),
+                                fieldWithPath("loginId").description("댓글을 작성하는 회원의 이메일").type(JsonFieldType.STRING),
                                 fieldWithPath("boardId").description("댓글이 추가되는 게시글의 ID").type(JsonFieldType.NUMBER),
                                 fieldWithPath("parentReplyId").description("대댓글인 경우 부모 댓글의 ID").type(JsonFieldType.NUMBER).ignored(),
                                 fieldWithPath("content").description("댓글 내용").type(JsonFieldType.STRING)
@@ -336,24 +372,27 @@ class BoardControllerDocTest {
     @DisplayName("대댓글작성")
     public void createCommentnestedCommentTest() throws Exception {
         ReplyCreateRequest request = new ReplyCreateRequest();
-        request.setLoginId("reply@test.com");
+        request.setLoginId("admin");
         request.setBoardId(1L);
         request.setParentReplyId(1L);
         request.setContent("1번글 1번 댓글의 댓글 (대댓글)");
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/board/reply/write")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("board/nestedComment/write",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("email").description("댓글을 작성하는 회원의 이메일").type(JsonFieldType.STRING),
+                                fieldWithPath("loginId").description("댓글을 작성하는 회원의 이메일").type(JsonFieldType.STRING),
                                 fieldWithPath("boardId").description("댓글이 추가되는 게시글의 ID").type(JsonFieldType.NUMBER),
                                 fieldWithPath("parentReplyId").description("대댓글인 경우 부모 댓글의 ID").type(JsonFieldType.NUMBER).optional(),
                                 fieldWithPath("content").description("댓글 내용").type(JsonFieldType.STRING)
@@ -371,12 +410,15 @@ class BoardControllerDocTest {
         int page = 0;
         int size = 10;
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(
                         get("/board/reply")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .param("boardId", "1")
                                 .param("page", String.valueOf(page))
                                 .param("size", String.valueOf(size))
+                                .with(postProcessor)
                 )
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -414,13 +456,17 @@ class BoardControllerDocTest {
         int page = 0;
         int size = 10;
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(
                         get("/board/reply/children")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .param("parentReplyId", "1")
                                 .param("page", String.valueOf(page))
                                 .param("size", String.valueOf(size))
+                                .with(postProcessor)
                 )
+
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("board/nestedComment/reply",
@@ -454,11 +500,13 @@ class BoardControllerDocTest {
     @Test
     @Transactional
     @DisplayName("게시글 좋아요")
-    @WithMockUser(username = "like@test.com", roles = "USER")
     public void send_board_like() throws Exception {
 
-        mockMvc.perform(post("/board/like/{boardId}", 154)
-                        .contentType(MediaType.APPLICATION_JSON))
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(post("/board/like/{boardId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(postProcessor))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("board/like",
                         preprocessRequest(prettyPrint()),
@@ -479,11 +527,17 @@ class BoardControllerDocTest {
     @Test
     @Transactional
     @DisplayName("게시글 좋아요 취소")
-    @WithMockUser(username = "unlike@test.com", roles = "USER")
+    @WithMockUser(username = "admin", roles = "USER")
     void deleteItem() throws Exception {
-        mockMvc.perform(delete("/board/like/{boardId}", 154)
+
+        likeService.likePost(1L);
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(delete("/board/like/{boardId}", 1)
                         .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("board/like/delete",
                         pathParameters(

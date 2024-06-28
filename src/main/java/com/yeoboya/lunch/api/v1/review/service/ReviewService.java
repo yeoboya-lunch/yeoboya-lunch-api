@@ -49,7 +49,7 @@ public class ReviewService {
         // 현재 사용자가 주문한 멤버 중 하나인지 확인
         Member currentUser = order.getGroupOrders().stream()
                 .map(GroupOrder::getMember)
-                .filter(member -> SecurityUtils.isCurrentUser(member.getEmail()))
+                .filter(member -> SecurityUtils.isCurrentUser(member.getLoginId()))
                 .findFirst()
                 .orElse(null);
 
@@ -86,7 +86,7 @@ public class ReviewService {
                 .orElseThrow(() -> new EntityNotFoundException("Review not found - " + reviewId));
 
         // 현재 사용자가 리뷰 작성자인지 확인
-        if (!SecurityUtils.isCurrentUser(review.getMember().getEmail())) {
+        if (!SecurityUtils.isCurrentUser(review.getMember().getLoginId())) {
             return response.fail(INVALID_AUTH_TOKEN, "정상적인 방법으로 리뷰를 수정해주세요");
         }
 
@@ -107,7 +107,7 @@ public class ReviewService {
                 .orElseThrow(() -> new EntityNotFoundException("Review not found - " + reviewId));
 
         // 현재 사용자가 리뷰 작성자인지 확인
-        if (!SecurityUtils.isCurrentUser(review.getMember().getEmail())) {
+        if (!SecurityUtils.isCurrentUser(review.getMember().getLoginId())) {
             return response.fail(INVALID_AUTH_TOKEN, "정상적인 방법으로 리뷰를 삭제해주세요");
         }
 

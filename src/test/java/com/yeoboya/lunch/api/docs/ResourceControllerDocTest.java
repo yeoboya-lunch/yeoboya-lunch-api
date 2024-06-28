@@ -2,7 +2,9 @@ package com.yeoboya.lunch.api.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
+import com.yeoboya.lunch.config.TestUtil;
 import com.yeoboya.lunch.config.security.reqeust.ResourcesRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -40,6 +44,13 @@ class ResourceControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    private TestUtil testUtil;
+
+    @BeforeEach
+    void setUp() {
+        testUtil = new TestUtil(mockMvc, objectMapper);
+    }
+
     @Test
     @DisplayName("리소스 목록 조회")
     void resources() throws Exception {
@@ -47,8 +58,12 @@ class ResourceControllerDocTest {
         info.add("page", "0");
         info.add("size", "10");
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(get("/resource")
-                        .params(info))
+                        .params(info)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("resources",
@@ -74,18 +89,22 @@ class ResourceControllerDocTest {
 
     @Test
     @DisplayName("리소스 추가 및 수정")
+    @Transactional
     void addResource() throws Exception {
         ResourcesRequest resourcesRequest = new ResourcesRequest();
         resourcesRequest.setResourceName("/board/**");
         resourcesRequest.setResourceType("url");
         resourcesRequest.setRole(3L);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         String jsonResourcesRequest = new ObjectMapper().writeValueAsString(resourcesRequest);
 
         mockMvc.perform(post("/resource/add")
                         .content(jsonResourcesRequest)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("resources/add",

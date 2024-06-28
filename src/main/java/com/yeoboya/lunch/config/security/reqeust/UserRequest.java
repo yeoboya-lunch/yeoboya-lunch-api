@@ -46,10 +46,10 @@ public class UserRequest {
     @ToString
     public static class Credentials {
 
-//        @NotEmpty(message = "로그인 아이디는 필수 입력값입니다.")
-//        @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9_.]{2,14}$",
-//                message = "로그인 아이디는 영어, 숫자, '_', '.' 만 포함할 수 있으며, 첫 글자에 '_', '.'는 사용할 수 없습니다.")
-//        private String loginId;
+        @NotEmpty(message = "로그인 아이디는 필수 입력값입니다.")
+        @Pattern(regexp = "^[a-zA-Z0-9][a-zA-Z0-9_.]{2,14}$",
+                message = "로그인 아이디는 영어, 숫자, '_', '.' 만 포함할 수 있으며, 첫 글자에 '_', '.'는 사용할 수 없습니다.")
+        private String loginId;
 
         @NotEmpty(message = "이메일은 필수 입력값입니다.")
         @Email

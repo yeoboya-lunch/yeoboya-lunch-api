@@ -49,8 +49,8 @@ public class LikeService {
     public ResponseEntity<Response.Body> unlikePost(Long boardId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException("No board found with id: " + boardId));
-        Like like = likeRepository.findByMemberEmailAndBoardId(authentication.getName(), boardId)
-                .orElseThrow(() -> new EntityNotFoundException("No like found with email/id: " + authentication.getName() +"/"+ boardId));
+        Like like = likeRepository.findByMemberLoginIdAndBoardId(authentication.getName(), boardId)
+                .orElseThrow(() -> new EntityNotFoundException("No like found with login/board id: " + authentication.getName() +"/"+ boardId));
         board.removeLike(like);
         likeRepository.delete(like);
         return response.success(Code.SAVE_SUCCESS);
@@ -61,6 +61,6 @@ public class LikeService {
         Member member = memberRepository.findByLoginId(userId).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + userId));
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException("No board found with id: " + boardId));
-        return likeRepository.findByMemberEmailAndBoardId(member.getEmail(), board.getId()).isPresent();
+        return likeRepository.findByMemberLoginIdAndBoardId(member.getLoginId(), board.getId()).isPresent();
     }
 }

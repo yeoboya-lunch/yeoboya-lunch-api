@@ -187,8 +187,8 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<Body> resetPassword(Credentials credentials) {
-        Member member = memberRepository.findByEmail(credentials.getEmail()).
-                orElseThrow(() -> new EntityNotFoundException("Member not found - " + credentials.getEmail()));
+        Member member = memberRepository.findByLoginId(credentials.getLoginId()).
+                orElseThrow(() -> new EntityNotFoundException("Member not found - " + credentials.getLoginId()));
 
         String key = "EMAIL:" + credentials.getEmail();
         String passKey = redisTemplate.opsForValue().get(key);

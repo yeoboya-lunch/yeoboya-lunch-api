@@ -594,13 +594,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user/sign-up HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 93
+Content-Length: 143
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "test6764@example.com",
+  "loginId" : "id7240",
+  "email" : "test8270@example.com",
   "name" : "김현진",
-  "password" : "1234qwer!@#$"
+  "password" : "1234qwer!@#$",
+  "provider" : "yeoboya"
 }</code></pre>
 </div>
 </div>
@@ -623,6 +625,13 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인아이디</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
@@ -633,6 +642,13 @@ Host: api.yeoboya-lunch.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">가입유형 yeoboya</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -662,12 +678,12 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 60
+Content-Length: 58
 
 {
   "code" : 201,
   "message" : "저장",
-  "data" : 19740
+  "data" : 517
 }</code></pre>
 </div>
 </div>
@@ -723,13 +739,15 @@ Content-Length: 60
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user/sign-up HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 93
+Content-Length: 143
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "test6764@example.com",
+  "loginId" : "id7240",
+  "email" : "test8270@example.com",
   "name" : "김현진",
-  "password" : "1234qwer!@#$"
+  "password" : "1234qwer!@#$",
+  "provider" : "yeoboya"
 }</code></pre>
 </div>
 </div>
@@ -752,6 +770,13 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인아이디</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
@@ -762,6 +787,13 @@ Host: api.yeoboya-lunch.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">가입유형 yeoboya</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -791,12 +823,12 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 60
+Content-Length: 58
 
 {
   "code" : 201,
   "message" : "저장",
-  "data" : 19740
+  "data" : 517
 }</code></pre>
 </div>
 </div>
@@ -852,11 +884,12 @@ Content-Length: 60
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /user/setting/security HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 163
+Content-Length: 187
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "test6764@example.com",
+  "loginId" : "id7240",
+  "email" : "test8270@example.com",
   "oldPassword" : "1234qwer!@#$",
   "newPassword" : "qwer1234@@",
   "confirmNewPassword" : "qwer1234@@",
@@ -882,6 +915,13 @@ Host: api.yeoboya-lunch.com
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인아이디</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
@@ -982,12 +1022,13 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user/reissue HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 172
+Content-Length: 182
 Host: api.yeoboya-lunch.com
 
 {
-  "accessToken" : null,
-  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTk4MjQ0NzcsInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.1a8r9sLEjbM4WMvXNtCz8CioAKrGdTe4SGDccluRdic"
+  "loginId" : "admin",
+  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3NjkzNjksInN1YiI6ImFkbWluIn0.dm_iiIye0p10XyBnrPecMikSaqKSOmjHC71Sb75gr6c",
+  "provider" : "yeoboya"
 }</code></pre>
 </div>
 </div>
@@ -1010,9 +1051,9 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">accessToken</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">엑세스 토큰</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -1020,6 +1061,13 @@ Host: api.yeoboya-lunch.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">refreshToken</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인유형</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -1042,21 +1090,21 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 813
+Content-Length: 774
 
 {
   "code" : 200,
   "message" : "업데이트",
   "data" : {
-    "subject" : "logout@gmail.com",
-    "id" : "470e1dfa-b4b6-4ccb-ae85-157ba4d58714",
+    "subject" : "admin",
+    "id" : "b84edbd3-e2c5-431c-a055-83e1fdcb492f",
     "issuer" : "yeoboya",
-    "issueDAt" : "Mon Jun 17 18:01:17 KST 2024",
-    "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2dvdXRAZ21haWwuY29tIiwianRpIjoiNDcwZTFkZmEtYjRiNi00Y2NiLWFlODUtMTU3YmE0ZDU4NzE0IiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTcxODYxNDg3NywiZXhwIjoxNzE5MDQ2ODc3LCJhdXRoIjoiUk9MRV9VU0VSIn0.RmXgfQUFg1aJlgouNw5OPlQCQvDxI1DDM6JwiYQEbCE",
-    "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTk4MjQ0NzcsInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.1a8r9sLEjbM4WMvXNtCz8CioAKrGdTe4SGDccluRdic",
-    "tokenExpirationTime" : "2024-06-22 18:01:17",
-    "refreshTokenExpirationTime" : 1719824477315,
-    "refreshTokenExpirationTimeStr" : "2024-07-01 18:01:17"
+    "issueDAt" : "Fri Jun 28 16:29:29 KST 2024",
+    "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI4NGVkYmQzLWUyYzUtNDMxYy1hMDU1LTgzZTFmZGNiNDkyZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.OrXkLAI_ItzzsxjhHpnpyT8aeXk5Y-XvLOEG_wMdW3Q",
+    "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3NjkzNjksInN1YiI6ImFkbWluIn0.dm_iiIye0p10XyBnrPecMikSaqKSOmjHC71Sb75gr6c",
+    "tokenExpirationTime" : "2024-07-03 16:29:29",
+    "refreshTokenExpirationTime" : 1720769369556,
+    "refreshTokenExpirationTimeStr" : "2024-07-12 16:29:29"
   }
 }</code></pre>
 </div>
@@ -1169,12 +1217,12 @@ Content-Length: 813
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user/sign-out HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 422
+Content-Length: 394
 Host: api.yeoboya-lunch.com
 
 {
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsb2dvdXRAZ21haWwuY29tIiwianRpIjoiNTQ1MDhmYmEtNDc0Yi00YjRmLTg2ZGUtNDg4YzA3NWYyNmY0IiwiaXNzIjoieWVvYm95YSIsImlhdCI6MTcxODYxNDg3NiwiZXhwIjoxNzE5MDQ2ODc2LCJhdXRoIjoiUk9MRV9VU0VSIn0.KlJluywkgxEits-eh9T_d4rJ5Nplnhc7YJp3dtipu6c",
-  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTk4MjQ0NzYsInN1YiI6ImxvZ291dEBnbWFpbC5jb20ifQ.AeTrkrQT0SGmP654qyxU-g4vRkFOR-B800MaaT4Uy5o"
+  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjgxNzBmNzRjLTYwMTQtNDczZC04MzUzLWJlYjI1OTk3YTgxYSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.L93hoUjFbOzqL7Ncy4KPL3UpvemaiMrTek5Vln0Kg2o",
+  "refreshToken" : "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MjA3NjkzNjksInN1YiI6ImFkbWluIn0.dm_iiIye0p10XyBnrPecMikSaqKSOmjHC71Sb75gr6c"
 }</code></pre>
 </div>
 </div>
@@ -1282,11 +1330,11 @@ Content-Length: 65
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user/sendResetPasswordMail HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 96
+Content-Length: 97
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "logout@gmail.com",
+  "email" : "admin@yeoboya.com",
   "phone" : "010-0000-0000",
   "authorityLink" : "localhost"
 }</code></pre>
@@ -1403,11 +1451,12 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /user/resetPassword HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 180
+Content-Length: 204
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "logout@gmail.com",
+  "loginId" : "admin",
+  "email" : "admin@yeoboya.com",
   "oldPassword" : "oldPassword123!",
   "newPassword" : "newPassword123!",
   "confirmNewPassword" : "newPassword123!",
@@ -1433,6 +1482,13 @@ Host: api.yeoboya-lunch.com
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인아이디</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
@@ -1543,6 +1599,7 @@ Content-Length: 97
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /member HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6Ijc5MWFjYzYwLTQ2MGYtNDM1MS05NjFjLThjZDQ4YmMzMzFlMyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.fqm7DzNdJibR41IjNQ2nsB-rYh07dgnuPViNK92MbQ0
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -1593,146 +1650,74 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 3747
+Content-Length: 1756
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "email" : "order@test.com",
-      "name" : "김현진",
-      "nickName" : "#78356",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "member@test.com",
-      "name" : "김현진",
-      "bankName" : "토스",
-      "accountNumber" : "010-8349-0706",
-      "bio" : "노력과인내가필요",
-      "nickName" : "#5066",
-      "phoneNumber" : "010-8349-0706",
-      "account" : false
-    }, {
-      "email" : "account@test.com",
-      "name" : "김현진",
-      "nickName" : "#9914",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "nickName" : "#88339",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "reply@test.com",
-      "name" : "김현진",
-      "nickName" : "#40876",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "nickName" : "#29915",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "join@test.com",
-      "name" : "김현진",
-      "nickName" : "#56739",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "join2@test.com",
-      "name" : "김현진",
-      "nickName" : "#21816",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "logout@gmail.com",
-      "name" : "김현진",
-      "bio" : "노력과인내가필요",
-      "nickName" : "#58242",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "role@test.com",
-      "name" : "김현진",
-      "nickName" : "#21655",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test5350@example.com",
-      "name" : "김현진",
-      "nickName" : "#16462",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test6844@example.com",
-      "name" : "김현진",
-      "nickName" : "#97951",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test1978@example.com",
-      "name" : "김현진",
-      "nickName" : "#34521",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test6692@example.com",
-      "name" : "김현진",
-      "nickName" : "#13504",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test8181@example.com",
-      "name" : "김현진",
-      "nickName" : "#38216",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test6636@example.com",
-      "name" : "김현진",
-      "nickName" : "#69254",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test7386@example.com",
-      "name" : "김현진",
-      "nickName" : "#25391",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test793@example.com",
-      "name" : "김현진",
-      "nickName" : "#16705",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test6063@example.com",
-      "name" : "김현진",
-      "nickName" : "#77527",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    }, {
-      "email" : "test9941@example.com",
-      "name" : "김현진",
-      "nickName" : "#25610",
-      "phoneNumber" : "010-0000-0000",
-      "account" : false
-    } ],
     "pagination" : {
       "pageNo" : 1,
       "size" : 20,
-      "numberOfElements" : 20,
+      "numberOfElements" : 4,
       "isFirst" : true,
-      "isLast" : false,
-      "hasNext" : true,
+      "isLast" : true,
+      "hasNext" : false,
       "hasPrevious" : false
-    }
+    },
+    "list" : [ {
+      "loginId" : "admin",
+      "email" : "admin@yeoboya.com",
+      "provider" : "yeoboya",
+      "name" : "어드민",
+      "bankName" : null,
+      "accountNumber" : null,
+      "bio" : "",
+      "nickName" : "#54444",
+      "phoneNumber" : "010-0000-0000",
+      "isPrimaryProfileImg" : null,
+      "fileUploadResponses" : null,
+      "account" : false
+    }, {
+      "loginId" : "id498",
+      "email" : "test8282@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "bankName" : null,
+      "accountNumber" : null,
+      "bio" : "",
+      "nickName" : "#97088",
+      "phoneNumber" : "010-0000-0000",
+      "isPrimaryProfileImg" : null,
+      "fileUploadResponses" : null,
+      "account" : false
+    }, {
+      "loginId" : "id7624",
+      "email" : "test3173@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "bankName" : null,
+      "accountNumber" : null,
+      "bio" : "",
+      "nickName" : "#12730",
+      "phoneNumber" : "010-0000-0000",
+      "isPrimaryProfileImg" : null,
+      "fileUploadResponses" : null,
+      "account" : false
+    }, {
+      "loginId" : "id3978",
+      "email" : "test3620@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "bankName" : null,
+      "accountNumber" : null,
+      "bio" : "",
+      "nickName" : "#86734",
+      "phoneNumber" : "010-0000-0000",
+      "isPrimaryProfileImg" : null,
+      "fileUploadResponses" : null,
+      "account" : false
+    } ]
   }
 }</code></pre>
 </div>
@@ -1819,9 +1804,37 @@ Content-Length: 3747
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이디</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일 주소</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계정유형</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].isPrimaryProfileImg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기본 프로필 이미지 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].fileUploadResponses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파일 업로드 응답</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -1862,14 +1875,14 @@ Content-Length: 3747
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].bankName</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">은행 이름</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].accountNumber</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">계좌 번호</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1884,9 +1897,10 @@ Content-Length: 3747
 <h4 id="_http_request_9"><a class="link" href="#_http_request_9">4.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /member/member@test.com/profile HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /member/admin/profile HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjhjZGI0MDFlLWI5MjktNDc2ZS05ZThjLTQ5ZTVlYjQwNTdjOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.o-nBfTNEF3KkYrKn6eFlsYcwD2_enLedAeN5K6jydow
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -1907,20 +1921,24 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 309
+Content-Length: 394
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "email" : "member@test.com",
-    "name" : "김현진",
-    "bankName" : "토스",
-    "accountNumber" : "010-8349-0706",
-    "bio" : "노력과인내가필요",
-    "nickName" : "#5066",
-    "phoneNumber" : "010-8349-0706",
-    "account" : true
+    "loginId" : "admin",
+    "email" : "admin@yeoboya.com",
+    "provider" : "yeoboya",
+    "name" : "어드민",
+    "bankName" : null,
+    "accountNumber" : null,
+    "bio" : "",
+    "nickName" : "#54444",
+    "phoneNumber" : "010-0000-0000",
+    "isPrimaryProfileImg" : null,
+    "fileUploadResponses" : [ ],
+    "account" : false
   }
 }</code></pre>
 </div>
@@ -1958,9 +1976,37 @@ Content-Length: 309
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이디</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계정유형</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.isPrimaryProfileImg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기본 프로필 이미지 여부</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.fileUploadResponses</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파일 업로드 응답</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -2080,7 +2126,6 @@ Content-Length: 309
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2142,11 +2187,12 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /member/account HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 106
+Content-Length: 97
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjU2OTk4ZTJkLTY5YWEtNGFhNS05OWExLWUzYzA0MjhjNjA2OSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.tTGKKuUdBU028LDZVzlZnKwAojVZhELdyEHtChGLvWI
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "account@test.com",
+  "loginId" : "admin",
   "bankName" : "카카오뱅크",
   "accountNumber" : "3333-01-123456"
 }</code></pre>
@@ -2171,7 +2217,7 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -2278,10 +2324,11 @@ Content-Length: 135
 <h4 id="_http_request_12"><a class="link" href="#_http_request_12">4.5.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /member/account/member@test.com HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /member/account/admin HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 64
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjQ1Mjg0ZDJkLWRjODYtNDgzNC1hYzBiLTJlZmE5YzAyMWI5ZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.oN_8cjEq9tDex7B6790loAOBcoQImRSSJR9iUf8nq10
 Host: api.yeoboya-lunch.com
 
 {
@@ -2305,7 +2352,7 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">memberEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">memberLoginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -2354,7 +2401,6 @@ Host: api.yeoboya-lunch.com
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -2422,10 +2468,11 @@ Content-Length: 48
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 31
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI0ZjNhYmY5LTY3MzUtNGY5Ny04NWNkLTdlZTA5ZTA4OTY3YyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.2SyZjVR2rN-q9whpnkeCFVUMab7CF-Ira4cIAtL4LWw
 Host: api.yeoboya-lunch.com
 
 {
-  "shopName" : "상점5903"
+  "shopName" : "상점5418"
 }</code></pre>
 </div>
 </div>
@@ -2479,7 +2526,7 @@ Content-Length: 90
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "shopName" : "상점5903"
+    "shopName" : "상점5418"
   }
 }</code></pre>
 </div>
@@ -2533,7 +2580,8 @@ Content-Length: 90
 <h4 id="_http_request_14"><a class="link" href="#_http_request_14">5.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%905903&amp;page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /shop?shopName=%EC%83%81%EC%A0%906121&amp;page=0&amp;size=10 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQwZTFiNmM3LTQ3YWEtNGZlYy05ZTA3LWNmZTM4NjAxODc3MyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.WaUHs5_iMaQh0B9z_lnplScJf9in8sstKZ_r14fbk0Q
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -2590,37 +2638,22 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 581
+Content-Length: 274
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "shopName" : "상점5903",
-      "items" : [ {
-        "name" : "광어",
-        "price" : 2500
-      }, {
-        "name" : "우럭",
-        "price" : 2500
-      }, {
-        "name" : "소고기",
-        "price" : 3000
-      }, {
-        "name" : "계란",
-        "price" : 2000
-      } ]
-    } ],
     "pagination" : {
       "pageNo" : 1,
       "size" : 10,
-      "numberOfElements" : 1,
+      "numberOfElements" : 0,
       "isFirst" : true,
       "isLast" : true,
       "hasNext" : false,
       "hasPrevious" : false
-    }
+    },
+    "list" : [ ]
   }
 }</code></pre>
 </div>
@@ -2707,6 +2740,13 @@ Content-Length: 581
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상점</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].shopName</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">가게이름</p></td>
@@ -2737,27 +2777,136 @@ Content-Length: 581
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /shop/create HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 354
+Content-Length: 2473
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImY0M2YxZjZlLWE2MDEtNDM4Ni1hODZlLTM5YzVlZjc1NGI4ZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.dMJtFcZ4KMrPzvd8D8OJIgmdb4OiiSoNYFzhrBaUeBI
 Host: api.yeoboya-lunch.com
 
 {
-  "shopName" : "상점5903",
+  "shopName" : "상점9288",
   "items" : [ {
     "shopName" : null,
-    "itemName" : "광어",
-    "price" : 2500
+    "itemName" : "Apple",
+    "price" : 2137
   }, {
     "shopName" : null,
-    "itemName" : "우럭",
-    "price" : 2500
+    "itemName" : "Banana",
+    "price" : 21513
   }, {
     "shopName" : null,
-    "itemName" : "소고기",
-    "price" : 3000
+    "itemName" : "Cherry",
+    "price" : 29484
   }, {
     "shopName" : null,
-    "itemName" : "계란",
-    "price" : 2000
+    "itemName" : "Date",
+    "price" : 20356
+  }, {
+    "shopName" : null,
+    "itemName" : "Elderberry",
+    "price" : 46874
+  }, {
+    "shopName" : null,
+    "itemName" : "Fig",
+    "price" : 46192
+  }, {
+    "shopName" : null,
+    "itemName" : "Grape",
+    "price" : 22182
+  }, {
+    "shopName" : null,
+    "itemName" : "Honeydew",
+    "price" : 18133
+  }, {
+    "shopName" : null,
+    "itemName" : "Italian Lime",
+    "price" : 8593
+  }, {
+    "shopName" : null,
+    "itemName" : "Jackfruit",
+    "price" : 26443
+  }, {
+    "shopName" : null,
+    "itemName" : "Kiwi",
+    "price" : 35163
+  }, {
+    "shopName" : null,
+    "itemName" : "Lemon",
+    "price" : 47575
+  }, {
+    "shopName" : null,
+    "itemName" : "Melon",
+    "price" : 3379
+  }, {
+    "shopName" : null,
+    "itemName" : "Nectarine",
+    "price" : 8182
+  }, {
+    "shopName" : null,
+    "itemName" : "Orange",
+    "price" : 11344
+  }, {
+    "shopName" : null,
+    "itemName" : "Peach",
+    "price" : 49206
+  }, {
+    "shopName" : null,
+    "itemName" : "Quince",
+    "price" : 36879
+  }, {
+    "shopName" : null,
+    "itemName" : "Raspberry",
+    "price" : 33259
+  }, {
+    "shopName" : null,
+    "itemName" : "Strawberry",
+    "price" : 50907
+  }, {
+    "shopName" : null,
+    "itemName" : "Tangerine",
+    "price" : 44475
+  }, {
+    "shopName" : null,
+    "itemName" : "Ugli Fruit",
+    "price" : 31199
+  }, {
+    "shopName" : null,
+    "itemName" : "Vitamin C",
+    "price" : 3385
+  }, {
+    "shopName" : null,
+    "itemName" : "Watermelon",
+    "price" : 5281
+  }, {
+    "shopName" : null,
+    "itemName" : "Xigua",
+    "price" : 29109
+  }, {
+    "shopName" : null,
+    "itemName" : "Yellow Passionfruit",
+    "price" : 43232
+  }, {
+    "shopName" : null,
+    "itemName" : "Zucchini",
+    "price" : 12400
+  }, {
+    "shopName" : null,
+    "itemName" : "Fruit26",
+    "price" : 4865
+  }, {
+    "shopName" : null,
+    "itemName" : "Fruit27",
+    "price" : 44409
+  }, {
+    "shopName" : null,
+    "itemName" : "Fruit28",
+    "price" : 38653
+  }, {
+    "shopName" : null,
+    "itemName" : "Fruit29",
+    "price" : 15852
+  }, {
+    "shopName" : null,
+    "itemName" : "Fruit30",
+    "price" : 26617
   } ]
 }</code></pre>
 </div>
@@ -2833,31 +2982,166 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 460
+Content-Length: 3225
 
 {
   "code" : 201,
   "message" : "저장",
   "data" : [ {
-    "itemId" : 574,
-    "shopName" : "상점5903",
-    "name" : "광어",
-    "price" : 2500
+    "itemId" : 98,
+    "shopName" : "상점9288",
+    "name" : "Apple",
+    "price" : 2137
   }, {
-    "itemId" : 575,
-    "shopName" : "상점5903",
-    "name" : "우럭",
-    "price" : 2500
+    "itemId" : 99,
+    "shopName" : "상점9288",
+    "name" : "Banana",
+    "price" : 21513
   }, {
-    "itemId" : 576,
-    "shopName" : "상점5903",
-    "name" : "소고기",
-    "price" : 3000
+    "itemId" : 100,
+    "shopName" : "상점9288",
+    "name" : "Cherry",
+    "price" : 29484
   }, {
-    "itemId" : 577,
-    "shopName" : "상점5903",
-    "name" : "계란",
-    "price" : 2000
+    "itemId" : 101,
+    "shopName" : "상점9288",
+    "name" : "Date",
+    "price" : 20356
+  }, {
+    "itemId" : 102,
+    "shopName" : "상점9288",
+    "name" : "Elderberry",
+    "price" : 46874
+  }, {
+    "itemId" : 103,
+    "shopName" : "상점9288",
+    "name" : "Fig",
+    "price" : 46192
+  }, {
+    "itemId" : 104,
+    "shopName" : "상점9288",
+    "name" : "Grape",
+    "price" : 22182
+  }, {
+    "itemId" : 105,
+    "shopName" : "상점9288",
+    "name" : "Honeydew",
+    "price" : 18133
+  }, {
+    "itemId" : 106,
+    "shopName" : "상점9288",
+    "name" : "Italian Lime",
+    "price" : 8593
+  }, {
+    "itemId" : 107,
+    "shopName" : "상점9288",
+    "name" : "Jackfruit",
+    "price" : 26443
+  }, {
+    "itemId" : 108,
+    "shopName" : "상점9288",
+    "name" : "Kiwi",
+    "price" : 35163
+  }, {
+    "itemId" : 109,
+    "shopName" : "상점9288",
+    "name" : "Lemon",
+    "price" : 47575
+  }, {
+    "itemId" : 110,
+    "shopName" : "상점9288",
+    "name" : "Melon",
+    "price" : 3379
+  }, {
+    "itemId" : 111,
+    "shopName" : "상점9288",
+    "name" : "Nectarine",
+    "price" : 8182
+  }, {
+    "itemId" : 112,
+    "shopName" : "상점9288",
+    "name" : "Orange",
+    "price" : 11344
+  }, {
+    "itemId" : 113,
+    "shopName" : "상점9288",
+    "name" : "Peach",
+    "price" : 49206
+  }, {
+    "itemId" : 114,
+    "shopName" : "상점9288",
+    "name" : "Quince",
+    "price" : 36879
+  }, {
+    "itemId" : 115,
+    "shopName" : "상점9288",
+    "name" : "Raspberry",
+    "price" : 33259
+  }, {
+    "itemId" : 116,
+    "shopName" : "상점9288",
+    "name" : "Strawberry",
+    "price" : 50907
+  }, {
+    "itemId" : 117,
+    "shopName" : "상점9288",
+    "name" : "Tangerine",
+    "price" : 44475
+  }, {
+    "itemId" : 118,
+    "shopName" : "상점9288",
+    "name" : "Ugli Fruit",
+    "price" : 31199
+  }, {
+    "itemId" : 119,
+    "shopName" : "상점9288",
+    "name" : "Vitamin C",
+    "price" : 3385
+  }, {
+    "itemId" : 120,
+    "shopName" : "상점9288",
+    "name" : "Watermelon",
+    "price" : 5281
+  }, {
+    "itemId" : 121,
+    "shopName" : "상점9288",
+    "name" : "Xigua",
+    "price" : 29109
+  }, {
+    "itemId" : 122,
+    "shopName" : "상점9288",
+    "name" : "Yellow Passionfruit",
+    "price" : 43232
+  }, {
+    "itemId" : 123,
+    "shopName" : "상점9288",
+    "name" : "Zucchini",
+    "price" : 12400
+  }, {
+    "itemId" : 124,
+    "shopName" : "상점9288",
+    "name" : "Fruit26",
+    "price" : 4865
+  }, {
+    "itemId" : 125,
+    "shopName" : "상점9288",
+    "name" : "Fruit27",
+    "price" : 44409
+  }, {
+    "itemId" : 126,
+    "shopName" : "상점9288",
+    "name" : "Fruit28",
+    "price" : 38653
+  }, {
+    "itemId" : 127,
+    "shopName" : "상점9288",
+    "name" : "Fruit29",
+    "price" : 15852
+  }, {
+    "itemId" : 128,
+    "shopName" : "상점9288",
+    "name" : "Fruit30",
+    "price" : 26617
   } ]
 }</code></pre>
 </div>
@@ -2940,13 +3224,14 @@ Content-Length: 460
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /item HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 83
+Content-Length: 80
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjY0Y2JjNTM4LTdjM2EtNDJhMS1hNmJmLWI2NzgyZWI4Zjg4ZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.Bo-b2OsqEVXMrHdRXST8wKoTpUwx11iifuiW78pRX1A
 Host: api.yeoboya-lunch.com
 
 {
-  "shopName" : "맥도날드",
-  "itemName" : "아이템6721",
-  "price" : 6721
+  "shopName" : "상점104",
+  "itemName" : "아이템5847",
+  "price" : 5847
 }</code></pre>
 </div>
 </div>
@@ -3008,16 +3293,16 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 162
+Content-Length: 158
 
 {
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "itemId" : 573,
-    "shopName" : "맥도날드",
-    "name" : "아이템6721",
-    "price" : 6721
+    "itemId" : 97,
+    "shopName" : "상점104",
+    "name" : "아이템5847",
+    "price" : 5847
   }
 }</code></pre>
 </div>
@@ -3095,6 +3380,7 @@ Content-Length: 162
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /item/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjdmMWZiZjc1LWRlMjMtNDlkNi04ZWI2LTAwYTE4NThkNjA0NCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.STUtYbc0TMIjV1_X1p10BgaecucV7VCR3FvFvdTtUpI
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -3136,15 +3422,15 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 135
+Content-Length: 132
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "shopName" : "스시종현",
-    "name" : "광어",
-    "price" : 2500
+    "shopName" : "상점104",
+    "name" : "Apple",
+    "price" : 12107
   }
 }</code></pre>
 </div>
@@ -3216,6 +3502,7 @@ Content-Length: 135
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 51
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImZjZjZlNmNlLTE2MTEtNDA5My05YjJkLTI0YTQ1YWFkZjllZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.ihXIHh7Mx8QOPdujPuxatc4qQX3Xkt6NNYQoefkm7pw
 Host: api.yeoboya-lunch.com
 
 {
@@ -3312,9 +3599,10 @@ Content-Length: 48
 <h4 id="_http_request_18"><a class="link" href="#_http_request_18">6.4.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /item/2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /item/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjE2ZGYzNDQ2LTllNDQtNGQ3Ny04ZGM5LTU4NWMwNGFlNjBkMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjYsImV4cCI6MTcxOTk5MTc2NiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.H3514dUhIfD8nnwUNeXr65cK7KI9o2P89s0D3L2SPP8
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -3356,16 +3644,17 @@ Content-Length: 31
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /order/recruit/start HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 210
+Content-Length: 192
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjgzMzAzOTA3LWU3ZjgtNGIwNy05NzljLWRjNjM1NzU1ZjM1YiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.O8QVhRYZEayanHLYgLyUiFxtb3a6sTRDwqmkViJAq3w
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "order@test.com",
-  "shopName" : "맥도날드",
-  "title" : "맥도날드 드실분",
+  "loginId" : "admin",
+  "shopName" : "상점104",
+  "title" : "1867 드실분",
   "deliveryFee" : 1000,
-  "lastOrderTime" : "2024-06-17T09:31",
-  "memo" : "신상버거 나왔습니다!!"
+  "lastOrderTime" : "2024-06-28T07:59",
+  "memo" : "신상메뉴 나왔습니다!!"
 }</code></pre>
 </div>
 </div>
@@ -3388,9 +3677,9 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -3498,7 +3787,7 @@ Content-Length: 42
 <h4 id="_http_request_20"><a class="link" href="#_http_request_20">7.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruits?orderStatus=ORDER_START&amp;orderName=%EA%B9%80%ED%98%84%EC%A7%84&amp;orderEmail=&amp;startDate=20240101&amp;endDate=20241231&amp;page=0&amp;size=10 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruits?orderStatus=ORDER_START&amp;orderName=&amp;orderEmail=&amp;startDate=20240101&amp;endDate=20241231&amp;page=0&amp;size=10 HTTP/1.1
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -3579,103 +3868,12 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 3334
+Content-Length: 3139
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "orderId" : 125,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:30",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 124,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:25",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 123,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:22",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 122,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:21",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 121,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:18",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 120,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 12일 오후 16:41",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 119,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 12일 오후 16:41",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 118,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 12일 오후 16:39",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 117,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 12일 오후 16:36",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 116,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 12일 오후 16:36",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    } ],
     "pagination" : {
       "pageNo" : 1,
       "size" : 10,
@@ -3684,7 +3882,98 @@ Content-Length: 3334
       "isLast" : false,
       "hasNext" : true,
       "hasPrevious" : false
-    }
+    },
+    "list" : [ {
+      "orderId" : 14,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:59",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 13,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:55",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 12,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:55",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 11,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:55",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 10,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:50",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 9,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:50",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 8,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:50",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 7,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:49",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 6,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:49",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 5,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:49",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    } ]
   }
 }</code></pre>
 </div>
@@ -3799,9 +4088,9 @@ Content-Length: 3334
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderMemberEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderMemberLoginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order member Email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order member id</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -3860,6 +4149,7 @@ Content-Length: 3334
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruits/ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjgyYWYyOGYzLTRmYWMtNDg1Yi04MzFmLTA2NmZlY2Q2MjkyNiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ._NGIXCJf9Q_lss73OMHUI3cmyvzoPwz_BR081uoTsWQ
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -3910,67 +4200,157 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1803
+Content-Length: 4570
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "orderId" : 125,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:30",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 124,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:25",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 123,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:22",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 122,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:21",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    }, {
-      "orderId" : 121,
-      "orderMemberEmail" : "order@test.com",
-      "orderMemberName" : "김현진",
-      "shopName" : "맥도날드",
-      "title" : "맥도날드 드실분",
-      "lastOrderTime" : "06월 17일 오후 18:18",
-      "orderStatus" : "모집시작",
-      "groupCount" : 0
-    } ],
     "pagination" : {
       "pageNo" : 1,
       "size" : 20,
-      "numberOfElements" : 5,
+      "numberOfElements" : 15,
       "isFirst" : true,
       "isLast" : true,
       "hasNext" : false,
       "hasPrevious" : false
-    }
+    },
+    "list" : [ {
+      "orderId" : 15,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:59",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 14,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:59",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 13,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:55",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 12,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:55",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 11,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:55",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 10,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:50",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 9,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:50",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 8,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:50",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 7,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:49",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 6,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:49",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 5,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:49",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 4,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:47",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 3,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:46",
+      "orderStatus" : "모집시작",
+      "groupCount" : 0
+    }, {
+      "orderId" : 2,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:46",
+      "orderStatus" : "모집시작",
+      "groupCount" : 1
+    }, {
+      "orderId" : 1,
+      "orderMemberLoginId" : "admin",
+      "orderMemberName" : "어드민",
+      "shopName" : "상점104",
+      "title" : "1867 드실분",
+      "lastOrderTime" : "06월 28일 오후 16:46",
+      "orderStatus" : "모집시작",
+      "groupCount" : 1
+    } ]
   }
 }</code></pre>
 </div>
@@ -4022,9 +4402,9 @@ Content-Length: 1803
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderMemberEmail</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderMemberLoginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Order member Email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order member id</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -4132,14 +4512,15 @@ Content-Length: 1803
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /order/recruit/join HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 135
+Content-Length: 121
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6Ijg4ZmIyYzBlLTE2NTItNGQ3ZS04MjE0LWIyOTVlNjJlYmFhNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.Zkk2D_3MGRvDQh-zUB4A_J65VL3Z140UgMBHtxSEVV8
 Host: api.yeoboya-lunch.com
 
 {
-  "orderId" : 1,
-  "email" : "join2@test.com",
+  "orderId" : 3,
+  "loginId" : "admin",
   "orderItems" : [ {
-    "itemName" : "아이템7711",
+    "itemName" : "Banana",
     "orderQuantity" : 1
   } ]
 }</code></pre>
@@ -4171,9 +4552,9 @@ Host: api.yeoboya-lunch.com
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Email of the order</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId of the order</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -4263,15 +4644,16 @@ Content-Length: 42
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /order/recruit/join HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 122
+Content-Length: 121
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImY5ZmMyNDk5LTZiZWItNGQ3OS05MDc1LTNjYTIzZmRmYjUyMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.LDLwJCbCr6uPPqVB-IumofV20ONBHs-OvEPY6Gl0w_o
 Host: api.yeoboya-lunch.com
 
 {
-  "orderId" : 64,
-  "groupOrderId" : 74,
+  "orderId" : 1,
+  "groupOrderId" : 1,
   "orderItems" : [ {
-    "itemName" : "우럭",
-    "orderQuantity" : 3
+    "itemName" : "Banana",
+    "orderQuantity" : 10
   } ]
 }</code></pre>
 </div>
@@ -4391,9 +4773,10 @@ Content-Length: 48
 <h4 id="_http_request_24"><a class="link" href="#_http_request_24">7.6.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/histories/order@test.com HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/histories/admin HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjFhODMzNDFhLWE4ZjAtNGIxYy05NTQ2LTI1MjJlZDg4NjRiMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.MrrDFHsafsHO1HzwBD6sX2QmgqLDJaPTT7oYY_s3s0U
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -4406,7 +4789,6 @@ Host: api.yeoboya-lunch.com</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -4415,195 +4797,147 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 5721
+Content-Length: 4092
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : [ {
     "orderId" : 1,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:04",
-    "orderStatus" : "모집종료",
-    "memo" : "신상버거 나왔습니다!!",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:46",
+    "orderStatus" : "모집시작",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ {
       "orderId" : 1,
-      "groupOrderId" : 4,
-      "title" : "맥도날드 드실분",
-      "email" : "join@test.com",
-      "name" : "김현진",
+      "groupOrderId" : 1,
+      "title" : "1867 드실분",
+      "email" : "admin@yeoboya.com",
+      "name" : "어드민",
       "orderItem" : [ {
-        "itemName" : "아이템7711",
-        "orderPrice" : 7711,
-        "orderQuantity" : 2,
-        "totalPrice" : 15422
+        "itemName" : "Banana",
+        "orderPrice" : 33087,
+        "orderQuantity" : 1,
+        "totalPrice" : 33087
       } ],
-      "totalPrice" : 15422
-    }, {
-      "orderId" : 1,
-      "groupOrderId" : 11,
-      "title" : "맥도날드 드실분",
-      "email" : "role@test.com",
-      "name" : "김현진",
-      "orderItem" : [ {
-        "itemName" : "아이템7711",
-        "orderPrice" : 7711,
-        "orderQuantity" : 10,
-        "totalPrice" : 77110
-      } ],
-      "totalPrice" : 77110
+      "totalPrice" : 33087
     } ]
   }, {
     "orderId" : 2,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:06",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:46",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
-    "joinMember" : [ ]
+    "joinMember" : [ {
+      "orderId" : 2,
+      "groupOrderId" : 2,
+      "title" : "1867 드실분",
+      "email" : "admin@yeoboya.com",
+      "name" : "어드민",
+      "orderItem" : [ {
+        "itemName" : "Banana",
+        "orderPrice" : 33087,
+        "orderQuantity" : 1,
+        "totalPrice" : 33087
+      } ],
+      "totalPrice" : 33087
+    } ]
   }, {
     "orderId" : 3,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:09",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:46",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 4,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:13",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:47",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 5,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:15",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:49",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 6,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:19",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:49",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 7,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:24",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:49",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 8,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:26",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:50",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 9,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:26",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:50",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 10,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:27",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:50",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 11,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:27",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:55",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 12,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:29",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:55",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 13,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:32",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:55",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   }, {
     "orderId" : 14,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:43",
+    "title" : "1867 드실분",
+    "lastOrderTime" : "06월 28일 오후 16:59",
     "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
-    "deliveryFee" : 1000,
-    "joinMember" : [ ]
-  }, {
-    "orderId" : 15,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:46",
-    "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
-    "deliveryFee" : 1000,
-    "joinMember" : [ ]
-  }, {
-    "orderId" : 16,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:50",
-    "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
-    "deliveryFee" : 1000,
-    "joinMember" : [ ]
-  }, {
-    "orderId" : 17,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:52",
-    "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
-    "deliveryFee" : 1000,
-    "joinMember" : [ ]
-  }, {
-    "orderId" : 18,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:54",
-    "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
-    "deliveryFee" : 1000,
-    "joinMember" : [ ]
-  }, {
-    "orderId" : 19,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:55",
-    "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
-    "deliveryFee" : 1000,
-    "joinMember" : [ ]
-  }, {
-    "orderId" : 20,
-    "title" : "맥도날드 드실분",
-    "lastOrderTime" : "03월 20일 오후 16:57",
-    "orderStatus" : "모집시작",
-    "memo" : "신상버거 나왔습니다!!",
+    "memo" : "신상메뉴 나왔습니다!!",
     "deliveryFee" : 1000,
     "joinMember" : [ ]
   } ]
@@ -4771,9 +5105,10 @@ Content-Length: 5721
 <h4 id="_http_request_25"><a class="link" href="#_http_request_25">7.7.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/histories/join/join@test.com HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /order/recruit/histories/join/order HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjY5Y2JkNmExLWZmMzYtNDdjNy04ZGMxLWJkZWIzNTlmOTg0NiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.kb_OcMSYvs_BvuV708JZtTB5mYtzvfVMHNivDB-6O3Y
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -4786,7 +5121,6 @@ Host: api.yeoboya-lunch.com</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Disposition: inline;filename=f.txt
 Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -4795,48 +5129,22 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 962
+Content-Length: 274
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "orderId" : 1,
-      "groupOrderId" : 4,
-      "title" : "맥도날드 드실분",
-      "email" : "join@test.com",
-      "name" : "김현진",
-      "orderItem" : [ {
-        "itemName" : "아이템7711",
-        "orderPrice" : 7711,
-        "orderQuantity" : 2,
-        "totalPrice" : 15422
-      } ],
-      "totalPrice" : 15422
-    }, {
-      "orderId" : 87,
-      "groupOrderId" : 103,
-      "title" : "스시종현 드실분",
-      "email" : "join@test.com",
-      "name" : "김현진",
-      "orderItem" : [ {
-        "itemName" : "광어",
-        "orderPrice" : 2500,
-        "orderQuantity" : 10,
-        "totalPrice" : 25000
-      } ],
-      "totalPrice" : 25000
-    } ],
     "pagination" : {
       "pageNo" : 1,
       "size" : 20,
-      "numberOfElements" : 2,
+      "numberOfElements" : 0,
       "isFirst" : true,
       "isLast" : true,
       "hasNext" : false,
       "hasPrevious" : false
-    }
+    },
+    "list" : [ ]
   }
 }</code></pre>
 </div>
@@ -4923,6 +5231,13 @@ Content-Length: 962
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Order</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].orderId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Order ID</p></td>
@@ -5002,10 +5317,11 @@ Content-Length: 962
 <h4 id="_http_request_26"><a class="link" href="#_http_request_26">7.8.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /order/recruit/2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /order/recruit/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 22
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjIzOTE5OWRiLTU2YmEtNDQ5Yy1hMjU1LWRlMzA0Nzk2YWM1NyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.97Cl3SabH_posTSsVXMnWZieuDUa45YfRTgH5IQC-1E
 Host: api.yeoboya-lunch.com
 
 {
@@ -5107,8 +5423,9 @@ Content-Length: 48
 <h4 id="_http_request_27"><a class="link" href="#_http_request_27">7.9.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /order/recruit/join/4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /order/recruit/join/2 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjFmYzA5Y2ZjLTA5ZjItNDk0YS04ZDQ0LWNjZWFlYjRiNjA2OCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.yfnJ4s1r44PbkIGDsIqCSHy9cbSO824awmu6c02vfZU
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5187,11 +5504,12 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /reviews HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 69
+Content-Length: 68
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjM5MGIzMDdhLTMzZDAtNDE1MS04Y2E0LWZkZTE0OGEwMGRjNyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.779D7j5h0MY4bIQBl-mR-21q274MO_PYZv9SmJ_PYc8
 Host: api.yeoboya-lunch.com
 
 {
-  "orderId" : 87,
+  "orderId" : 2,
   "content" : "Great food!",
   "shopRating" : 5
 }</code></pre>
@@ -5312,10 +5630,11 @@ Content-Length: 42
 <h4 id="_http_request_29"><a class="link" href="#_http_request_29">8.2.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /reviews/15 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /reviews/3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 62
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImVhNDU2ZWE2LTFhMDgtNDE4NC1hZDJkLWQyMDg4OTMwOGJmNiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.-tf4Wp_XF4d5fcak4aqqa9efD_MRyPy4fNyo52IDYo0
 Host: api.yeoboya-lunch.com
 
 {
@@ -5432,9 +5751,10 @@ Content-Length: 48
 <h4 id="_http_request_30"><a class="link" href="#_http_request_30">8.3.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /reviews/15 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /reviews/3 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImRlMWMzOTUyLTllNWYtNDIxZS1iZTRlLWYyMmJjNDM2YTY2NyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.To3ktCeqogR8MkGMtRWsPnoO7YwwpumCEOTLseKzTIA
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5512,9 +5832,10 @@ Content-Length: 42
 <h4 id="_http_request_31"><a class="link" href="#_http_request_31">8.4.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /reviews/stats/4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /reviews/stats/302 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImU2MThmNTUyLWMwMDQtNDFkNi1hNTRjLWUzNjZhOGJlOWQ0ZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.-EqrLmDoWYvQ-n_smYTaTjlh3b2LE74lLtyzfG0FjWY
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5556,35 +5877,22 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 540
+Content-Length: 277
 
 {
   "code" : 200,
   "data" : {
     "monthlyStats" : [ {
       "year" : 2024,
-      "month" : 3,
-      "averageRating" : 3.6666666666666665
-    }, {
-      "year" : 2024,
-      "month" : 5,
-      "averageRating" : 3.6666666666666665
+      "month" : 6,
+      "averageRating" : 4.0
     } ],
-    "overallAverageRating" : 3.6666666666666665,
+    "overallAverageRating" : 4.0,
     "ratingDistribution" : [ {
-      "rating" : 1,
-      "count" : 1
-    }, {
-      "rating" : 2,
-      "count" : 1
-    }, {
       "rating" : 4,
       "count" : 1
-    }, {
-      "rating" : 5,
-      "count" : 3
     } ],
-    "totalReviewCount" : 6
+    "totalReviewCount" : 1
   }
 }</code></pre>
 </div>
@@ -5673,9 +5981,10 @@ Content-Length: 540
 <h4 id="_http_request_32"><a class="link" href="#_http_request_32">8.5.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /reviews/4/sorted?sortBy=shopRating&amp;order=asc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /reviews/302/sorted?sortBy=shopRating&amp;order=asc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6Ijk3M2QzODY2LTg3OWUtNDljYy04YzVjLWFiMTE5NzZjNjExNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.gcwcVnwzaR5ECQS7dMkrQUdDx9yOxWhMAYFhszOPRqg
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -5717,42 +6026,17 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 781
+Content-Length: 204
 
 {
   "code" : 200,
   "data" : {
-    "shopName" : "스시종현",
+    "shopName" : "상점104",
     "reviews" : [ {
-      "reviewId" : 8,
-      "orderId" : 63,
-      "content" : "오이시11",
-      "shopRating" : 1
-    }, {
-      "reviewId" : 13,
-      "orderId" : 87,
-      "content" : "배달이 느리지만 괜찮",
-      "shopRating" : 2
-    }, {
-      "reviewId" : 15,
-      "orderId" : 87,
+      "reviewId" : 3,
+      "orderId" : 1,
       "content" : "Updated review content",
       "shopRating" : 4
-    }, {
-      "reviewId" : 9,
-      "orderId" : 63,
-      "content" : "오이시11",
-      "shopRating" : 5
-    }, {
-      "reviewId" : 11,
-      "orderId" : 63,
-      "content" : "오이시11",
-      "shopRating" : 5
-    }, {
-      "reviewId" : 12,
-      "orderId" : 87,
-      "content" : "E또먹고싶다/",
-      "shopRating" : 5
     } ]
   }
 }</code></pre>
@@ -5866,12 +6150,13 @@ Content-Length: 781
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/write HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 199
+Content-Length: 192
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUxZmRhYjE2LThhZjEtNDgxZi04MTEwLTFlMTBiY2UxZDVlOCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.iKKvsd9sGSgGTT9ByUkdxzyGX2OG7ni-kDIU-51-oYc
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "board@test.com",
-  "title" : "Test board title No is 3869",
+  "loginId" : "admin",
+  "title" : "Test board title No is 9822",
   "hashTag" : [ "snatch", "clean&amp;jerk", "크로스핏" ],
   "content" : "Test content",
   "pin" : 1234,
@@ -5898,9 +6183,9 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -6011,12 +6296,13 @@ Content-Length: 42
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /board/edit HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 199
+Content-Length: 208
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUwN2RiMDY5LTFjZTItNDQ3Zi1hY2M0LWQ2NTkyNzNkNWUyZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.4mnRAMsjlvl-e-AvsfFA0u4N2Bi4KgSNKura46p7yi0
 Host: api.yeoboya-lunch.com
 
 {
   "boardId" : 1,
-  "title" : "Test board title No is 3869",
+  "title" : "Test board title No is 3521edit ver.",
   "hashTag" : [ "snatch", "clean&amp;jerk", "크로스핏", "달리기" ],
   "content" : "Test content",
   "pin" : 1234,
@@ -6156,11 +6442,12 @@ Content-Length: 48
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/write/photo HTTP/1.1
 Content-Type: application/json;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Accept: application/json
-Content-Length: 248
+Content-Length: 242
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImI2NDIyYjZjLTZkNjYtNGMxZS1iYjU1LTE3ZTkwNDMzNDI5MCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.FO-c-YXwFlJfPmHMHLmYrnl9HPDwx0vCZTnYrjomgOY
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "file@test.com",
+  "loginId" : "admin",
   "title" : "파일업로드 테스트",
   "hashTag" : [ "#와플곰", "#이모티콘", "#나타났다" ],
   "content" : "내용입니다.",
@@ -6190,9 +6477,9 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -6317,6 +6604,7 @@ Content-Length: 42
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board?page=0&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjJjYmM2OTQ5LWQ0NjktNGE2Zi1hMGZhLWUzMWQ5NmU5MDgwMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.xfaXv93vUXkTyd_Otz4GsFxm1BPfhqmTaqs0glL_plo
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -6367,256 +6655,278 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 6506
+Content-Length: 7771
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "boardId" : 250,
-      "title" : "Test board title No is 3869",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 18:01",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 249,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 18:00",
-      "hashTag" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240617180026511846.png",
-        "filePath" : "./file/null/2024/06/17/1",
-        "extension" : "png",
-        "externalForm" : null,
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 248,
-      "title" : "Test board title No is 345",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 18:00",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 247,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 17:55",
-      "hashTag" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240617175555098059.png",
-        "filePath" : "./file/null/2024/06/17/1",
-        "extension" : "png",
-        "externalForm" : null,
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 246,
-      "title" : "Test board title No is 9976",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 17:55",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 245,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 17:52",
-      "hashTag" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240617175257993865.png",
-        "filePath" : "./file/null/2024/06/17/1",
-        "extension" : "png",
-        "externalForm" : null,
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 244,
-      "title" : "Test board title No is 5588",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 17:52",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 243,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 17:51",
-      "hashTag" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240617175146669932.png",
-        "filePath" : "./file/null/2024/06/17/1",
-        "extension" : "png",
-        "externalForm" : null,
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 242,
-      "title" : "Test board title No is 1593",
-      "content" : "Test content",
-      "secret" : false,
-      "email" : "board@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 17:51",
-      "hashTag" : [ {
-        "tag" : "snatch"
-      }, {
-        "tag" : "clean&amp;jerk"
-      }, {
-        "tag" : "크로스핏"
-      } ],
-      "files" : [ ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    }, {
-      "boardId" : 241,
-      "title" : "파일업로드 테스트",
-      "content" : "내용입니다.",
-      "secret" : false,
-      "email" : "file@test.com",
-      "name" : "김현진",
-      "createDate" : "06월 17일 오후 17:48",
-      "hashTag" : [ {
-        "tag" : "#와플곰"
-      }, {
-        "tag" : "#이모티콘"
-      }, {
-        "tag" : "#나타났다"
-      } ],
-      "files" : [ {
-        "originalFileName" : "test.jpg",
-        "fileName" : "20240617174822130700.png",
-        "filePath" : "./file/null/2024/06/17/1",
-        "extension" : "png",
-        "externalForm" : null,
-        "size" : 23032
-      } ],
-      "replies" : [ ],
-      "replyCount" : 0,
-      "likeCount" : 0,
-      "clickLiked" : false
-    } ],
     "pagination" : {
       "page" : 1,
-      "totalPages" : 25,
-      "totalElements" : 250,
+      "totalPages" : 1,
+      "totalElements" : 9,
       "first" : true,
-      "last" : false,
+      "last" : true,
       "empty" : false
-    }
+    },
+    "list" : [ {
+      "boardId" : 9,
+      "title" : "Test board title No is 9822",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:29",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 8,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:25",
+      "hashTag" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240628162519049298.jpg",
+        "filePath" : "null/2024/06/28/1",
+        "extension" : "application/octet-stream",
+        "externalForm" : null,
+        "size" : 23032,
+        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628162519049298.jpg"
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 7,
+      "title" : "Test board title No is 3805",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:25",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 6,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:21",
+      "hashTag" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240628162111476700.jpg",
+        "filePath" : "null/2024/06/28/1",
+        "extension" : "application/octet-stream",
+        "externalForm" : null,
+        "size" : 23032,
+        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628162111476700.jpg"
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 5,
+      "title" : "Test board title No is 198",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:21",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 4,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:20",
+      "hashTag" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240628162055278667.jpg",
+        "filePath" : "null/2024/06/28/1",
+        "extension" : "application/octet-stream",
+        "externalForm" : null,
+        "size" : 23032,
+        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628162055278667.jpg"
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 3,
+      "title" : "Test board title No is 7176",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:20",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 2,
+      "title" : "파일업로드 테스트",
+      "content" : "내용입니다.",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:20",
+      "hashTag" : [ {
+        "tag" : "#와플곰"
+      }, {
+        "tag" : "#이모티콘"
+      }, {
+        "tag" : "#나타났다"
+      } ],
+      "files" : [ {
+        "originalFileName" : "test.jpg",
+        "fileName" : "20240628162014882284.jpg",
+        "filePath" : "null/2024/06/28/1",
+        "extension" : "application/octet-stream",
+        "externalForm" : null,
+        "size" : 23032,
+        "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/null/2024/06/28/1/20240628162014882284.jpg"
+      } ],
+      "replies" : [ ],
+      "replyCount" : 0,
+      "likeCount" : 0,
+      "clickLiked" : false
+    }, {
+      "boardId" : 1,
+      "title" : "Test board title No is 3521edit ver.",
+      "content" : "Test content",
+      "secret" : false,
+      "loginId" : "admin",
+      "name" : "어드민",
+      "createDate" : "06월 28일 오후 16:20",
+      "hashTag" : [ {
+        "tag" : "snatch"
+      }, {
+        "tag" : "clean&amp;jerk"
+      }, {
+        "tag" : "크로스핏"
+      } ],
+      "files" : [ ],
+      "replies" : [ {
+        "replyId" : 1,
+        "writer" : "어드민",
+        "content" : "1번글 1번 댓글",
+        "date" : "2024-06-28T07:20:54.438+00:00",
+        "childReplies" : [ {
+          "parentId" : 1,
+          "replyId" : 2,
+          "writer" : "어드민",
+          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
+          "date" : "2024-06-28T07:20:54.887+00:00"
+        }, {
+          "parentId" : 1,
+          "replyId" : 4,
+          "writer" : "어드민",
+          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
+          "date" : "2024-06-28T07:21:11.082+00:00"
+        }, {
+          "parentId" : 1,
+          "replyId" : 6,
+          "writer" : "어드민",
+          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
+          "date" : "2024-06-28T07:25:18.662+00:00"
+        }, {
+          "parentId" : 1,
+          "replyId" : 8,
+          "writer" : "어드민",
+          "content" : "1번글 1번 댓글의 댓글 (대댓글)",
+          "date" : "2024-06-28T07:29:25.601+00:00"
+        } ]
+      }, {
+        "replyId" : 3,
+        "writer" : "어드민",
+        "content" : "1번글 1번 댓글",
+        "date" : "2024-06-28T07:21:10.648+00:00"
+      }, {
+        "replyId" : 5,
+        "writer" : "어드민",
+        "content" : "1번글 1번 댓글",
+        "date" : "2024-06-28T07:25:18.255+00:00"
+      }, {
+        "replyId" : 7,
+        "writer" : "어드민",
+        "content" : "1번글 1번 댓글",
+        "date" : "2024-06-28T07:29:25.198+00:00"
+      } ],
+      "replyCount" : 8,
+      "likeCount" : 0,
+      "clickLiked" : false
+    } ]
   }
 }</code></pre>
 </div>
@@ -6682,7 +6992,7 @@ Content-Length: 6506
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자 이메일</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -6699,6 +7009,13 @@ Content-Length: 6506
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].createDate</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성일</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].hashTag[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해시태그 배열 - 이 경우 비어있음</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -6762,6 +7079,13 @@ Content-Length: 6506
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].files[].externalForm</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">externalForm</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].files[].url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">File URL</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -6908,8 +7232,9 @@ Content-Length: 6506
 <h4 id="_http_request_37"><a class="link" href="#_http_request_37">9.5.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board/154 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjU4NWM3ZjE3LTY0ZmEtNDU4My1hMmM3LTg0NDdkZDA2MGIzZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.HJ8ZC_3AJv8o-WOputpIUWBpH5-1lDfqw9rUcfR9r-c
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -6951,9 +7276,9 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 888
+Content-Length: 1224
 
-{"code":200,"message":"조회","data":{"boardId":154,"title":"파일업로드 테스트","content":"내용입니다.","secret":false,"email":"file@test.com","name":"김현진","createDate":"05월 29일 오후 13:35","hashTag":[{"tag":"#와플곰"},{"tag":"#이모티콘"},{"tag":"#나타났다"}],"files":[{"originalFileName":"test.jpg","fileName":"20240529133510824506.png","filePath":"./file/null/2024/05/29/1","extension":"png","externalForm":null,"size":23032}],"replies":[{"replyId":149,"writer":"김현진","content":"154번글 댓글","date":"2024-05-30T04:20:54.918+00:00","childReplies":[{"parentId":149,"replyId":153,"writer":"김현진","content":"154번글 댓글","date":"2024-05-30T04:23:23.838+00:00"},{"parentId":149,"replyId":154,"writer":"김현진","content":"154번글 댓글","date":"2024-05-30T05:44:10.616+00:00"}]}],"replyCount":3,"likeCount":8,"clickLiked":true}}</code></pre>
+{"code":200,"message":"조회","data":{"boardId":1,"title":"Test board title No is 3521edit ver.","content":"Test content","secret":false,"loginId":"admin","name":"어드민","createDate":"06월 28일 오후 16:20","hashTag":[{"tag":"snatch"},{"tag":"clean&amp;jerk"},{"tag":"크로스핏"}],"files":[],"replies":[{"replyId":1,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:20:54.438+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"parentId":1,"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"parentId":1,"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"}]},{"replyId":3,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:21:10.648+00:00"},{"replyId":5,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:25:18.255+00:00"},{"replyId":7,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:29:25.198+00:00"}],"replyCount":7,"likeCount":0,"clickLiked":false}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -7017,7 +7342,7 @@ Content-Length: 888
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시판 작성자 이메일</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -7055,6 +7380,13 @@ Content-Length: 888
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.files[]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">첨부 파일 리스트</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.files[].url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파일 경로</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -7097,6 +7429,13 @@ Content-Length: 888
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.files[].externalForm</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">externalForm</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.replies[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -7197,11 +7536,12 @@ Content-Length: 888
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/reply/write HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 112
+Content-Length: 105
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjA3ZTg4ZDA5LTNkOTEtNGNiNS1iMTFiLTNmNmMwMzk2M2Q2OCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.VSOQmHnK4lWgP8yJbai36PBB936wHdY4zLqlxjus3-4
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "reply@test.com",
+  "loginId" : "admin",
   "boardId" : 1,
   "content" : "1번글 1번 댓글",
   "parentReplyId" : null
@@ -7227,7 +7567,7 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">댓글을 작성하는 회원의 이메일</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -7318,6 +7658,7 @@ Content-Length: 42
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board/reply?boardId=1&amp;page=0&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQxN2IwMjk3LWJiM2EtNGI2MS04ZWRiLWFjZjMxN2Y0Y2I3ZSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.pl0q2ylNNwkfrLMGU6zBaUfT9j5acyhxNjDrFnxE6bU
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -7374,9 +7715,9 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1402
+Content-Length: 1150
 
-{"code":200,"message":"조회","data":{"list":[{"replyId":1,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T05:45:41.452+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"parentId":1,"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"parentId":1,"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"parentId":1,"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"parentId":1,"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"}]},{"replyId":3,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:13:05.047+00:00"},{"replyId":5,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:14:30.836+00:00"},{"replyId":7,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:23:45.011+00:00"},{"replyId":9,"writer":"김현진","content":"1번글 1번 댓글","date":"2024-03-20T06:33:25.649+00:00"}],"pagination":{"page":1,"totalPages":25,"totalElements":247,"first":true,"last":false,"empty":false}}}</code></pre>
+{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":1,"totalElements":8,"first":true,"last":true,"empty":false},"list":[{"replyId":1,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:20:54.438+00:00","childReplies":[{"parentId":1,"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"parentId":1,"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"parentId":1,"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"},{"parentId":1,"replyId":8,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:29:25.601+00:00"}]},{"replyId":3,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:21:10.648+00:00"},{"replyId":5,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:25:18.255+00:00"},{"replyId":7,"writer":"어드민","content":"1번글 1번 댓글","date":"2024-06-28T07:29:25.198+00:00"}]}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -7529,11 +7870,12 @@ Content-Length: 1402
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/reply/write HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 131
+Content-Length: 124
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImUxZmZmZDk3LTAyNjktNGY5Ny05ZjEzLWU4YmFkNmI5YTIxMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.iimx3luApZZ2nIKzyIl7qVeJKEmDzm-VkoIFchNkBl0
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "reply@test.com",
+  "loginId" : "admin",
   "boardId" : 1,
   "content" : "1번글 1번 댓글의 댓글 (대댓글)",
   "parentReplyId" : 1
@@ -7559,7 +7901,7 @@ Host: api.yeoboya-lunch.com
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">댓글을 작성하는 회원의 이메일</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -7657,6 +7999,7 @@ Content-Length: 42
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board/reply/children?parentReplyId=1&amp;page=0&amp;size=10 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjQxNDlkMWJkLWY4ZTctNDBlZi1iZWIzLWI0M2VmNzE4Mjg2ZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjQsImV4cCI6MTcxOTk5MTc2NCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.zlT_x3bSkW6mzwd_hb2J_kRu2ZiafLHR1SjgfP3Up5A
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -7713,9 +8056,9 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1435
+Content-Length: 529
 
-{"code":200,"message":"조회","data":{"list":[{"replyId":2,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T05:45:57.786+00:00"},{"replyId":4,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:13:05.205+00:00"},{"replyId":6,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:14:30.992+00:00"},{"replyId":8,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:23:45.173+00:00"},{"replyId":10,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:33:25.808+00:00"},{"replyId":12,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:34:00.230+00:00"},{"replyId":14,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T06:59:24.143+00:00"},{"replyId":16,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:02:12.286+00:00"},{"replyId":18,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:13:13.821+00:00"},{"replyId":20,"writer":"김현진","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-03-20T07:16:45.929+00:00"}],"pagination":{"page":1,"totalPages":25,"totalElements":245,"first":true,"last":false,"empty":false}}}</code></pre>
+{"code":200,"message":"조회","data":{"pagination":{"page":1,"totalPages":1,"totalElements":3,"first":true,"last":true,"empty":false},"list":[{"replyId":2,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:20:54.887+00:00"},{"replyId":4,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:21:11.082+00:00"},{"replyId":6,"writer":"어드민","content":"1번글 1번 댓글의 댓글 (대댓글)","date":"2024-06-28T07:25:18.662+00:00"}]}}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -7865,8 +8208,9 @@ Content-Length: 1435
 <h4 id="_http_request_42"><a class="link" href="#_http_request_42">9.10.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/like/154 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board/like/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjM2NmEyMTRlLThkMDItNDFjYy1iNmQyLTk4N2Q0NTc3N2M2OCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.ZzvCd2_WLkrtll6-bMOrzvEjlHlpnzBH-rVxeKo9oT8
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -7958,9 +8302,10 @@ Content-Length: 42
 <h4 id="_http_request_43"><a class="link" href="#_http_request_43">9.11.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /board/like/154 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /board/like/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImE3NTQ3M2U1LWI2ZmEtNDdiYy04MzY1LWMwMjM1Y2NiZTU0YSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjUsImV4cCI6MTcxOTk5MTc2NSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.cWYZ6yLcyT6THVG68Z0oPltBeZkK485wz3YdjIYNUJg
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8057,13 +8402,15 @@ Content-Length: 31
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /support/inquiry HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 117
+Content-Length: 304
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImEwYmY0YWY0LWYzYjktNDg4ZC05ODI5LWQyZmQ1YzAzMjMzMCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.V3IvT2JfzGyAkoBcYIUKu6sQnGvZA4jLIIK90axd1BQ
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "customer@test.com",
-  "subject" : "Issue with order",
-  "content" : "I have an issue with my order."
+  "email" : "admin@yeoboya.com",
+  "loginId" : "admin",
+  "subject" : "RuujymPoaI",
+  "content" : "rk9EankpjILcNWfHEEhIanl69LWLrenVexP9NCpUigNJ9hAigchBbUoT9OHr1UVjaqL21kfwiyhIrjxoTqe8dnGNjIbNTBkc1r8xE0a2A4uoVAGxyYLtSFtpZ5AXibvM7EGFY9lxBbQzvt7NhkuoHAYpjv4Fst22sAQBFaVg33Isv4jQsFjxgXbWL0EXyGfLNRk1Fkb4"
 }</code></pre>
 </div>
 </div>
@@ -8085,6 +8432,13 @@ Host: api.yeoboya-lunch.com
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
@@ -8184,6 +8538,7 @@ Content-Length: 18
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /support/faq HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImViNTY4MWEwLWJlOWQtNDNjYS1hODc2LWEzNWM1MjdiNGEwZiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.sA8cLWmS0RBY0jk9yVY1Iuq4TLk9wiBj16umZLoSfCc
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8204,51 +8559,10 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 2399
+Content-Length: 18
 
 {
-  "code" : 200,
-  "data" : [ {
-    "id" : 1,
-    "question" : "주문을 취소하려면 어떻게 해야 하나요?",
-    "answer" : "주문을 취소하려면 \"내 주문\" 페이지에서 해당 주문을 선택하고 \"취소\" 버튼을 클릭하십시오."
-  }, {
-    "id" : 2,
-    "question" : "배송 시간은 얼마나 걸리나요?",
-    "answer" : "배송 시간은 보통 30분에서 1시간 사이입니다. 하지만 특정 지역이나 날씨 조건에 따라 달라질 수 있습니다."
-  }, {
-    "id" : 3,
-    "question" : "회원가입은 무료인가요?",
-    "answer" : "네, 회원가입은 무료입니다. 가입 후 다양한 혜택을 누리실 수 있습니다."
-  }, {
-    "id" : 4,
-    "question" : "비밀번호를 잊어버렸습니다. 어떻게 복구할 수 있나요?",
-    "answer" : "로그인 페이지에서 \"비밀번호 찾기\" 링크를 클릭하여 비밀번호를 재설정하십시오. 등록된 이메일로 재설정 링크가 발송됩니다."
-  }, {
-    "id" : 5,
-    "question" : "결제 방법은 어떤 것들이 있나요?",
-    "answer" : "저희는 신용카드, 직불카드, 페이팔 등의 결제 방법을 지원합니다."
-  }, {
-    "id" : 6,
-    "question" : "주문 내역을 확인하려면 어떻게 해야 하나요?",
-    "answer" : "\"내 주문\" 페이지에서 모든 주문 내역을 확인할 수 있습니다."
-  }, {
-    "id" : 7,
-    "question" : "쿠폰 코드는 어떻게 사용할 수 있나요?",
-    "answer" : "결제 페이지에서 \"쿠폰 코드 입력\"란에 코드를 입력하고 \"적용\" 버튼을 클릭하십시오."
-  }, {
-    "id" : 8,
-    "question" : "고객 지원은 어떻게 연락할 수 있나요?",
-    "answer" : "고객 지원팀은 support@example.com으로 이메일을 보내시거나 웹사이트의 \"문의하기\" 양식을 통해 연락할 수 있습니다."
-  }, {
-    "id" : 9,
-    "question" : "회원 정보는 어떻게 수정하나요?",
-    "answer" : "\"내 계정\" 페이지에서 회원 정보를 수정할 수 있습니다. 이름, 이메일, 전화번호 등을 업데이트할 수 있습니다."
-  }, {
-    "id" : 10,
-    "question" : "배송 상태를 추적할 수 있나요?",
-    "answer" : "네, \"내 주문\" 페이지에서 해당 주문의 \"배송 추적\" 버튼을 클릭하여 실시간으로 배송 상태를 확인할 수 있습니다."
-  } ]
+  "code" : 200
 }</code></pre>
 </div>
 </div>
@@ -8319,6 +8633,7 @@ Content-Length: 2399
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 358
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjNmZjhlNGU4LWU0OTctNDFmMC04ZTA1LTgyODk3NzE0MjE0ZCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.cCa1Kr59klHURMWz9MTNSs4MMIxYqZIr41XfvxTm088
 Host: api.yeoboya-lunch.com
 
 {
@@ -8327,8 +8642,8 @@ Host: api.yeoboya-lunch.com
   "category" : "General",
   "author" : "Admin",
   "priority" : 1,
-  "startDate" : "2024-06-17T18:01:16.697817",
-  "endDate" : "2024-06-24T18:01:16.697827",
+  "startDate" : "2024-06-28T16:29:29.117578",
+  "endDate" : "2024-07-05T16:29:29.117586",
   "attachmentUrl" : "http://example.com/attachment",
   "tags" : "announcement, general",
   "status" : "ACTIVE"
@@ -8352,20 +8667,20 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 471
+Content-Length: 470
 
 {
   "code" : 201,
   "message" : "저장",
   "data" : {
-    "id" : 31,
+    "id" : 4,
     "title" : "New Notice Title",
     "content" : "This is the content of the new notice.",
     "category" : "General",
     "author" : "Admin",
     "priority" : 1,
-    "startDate" : "2024-06-17T18:01:16.697817",
-    "endDate" : "2024-06-24T18:01:16.697827",
+    "startDate" : "2024-06-28T16:29:29.117578",
+    "endDate" : "2024-07-05T16:29:29.117586",
     "attachmentUrl" : "http://example.com/attachment",
     "viewCount" : 0,
     "tags" : "announcement, general",
@@ -8500,12 +8815,13 @@ Content-Length: 471
 <h4 id="_http_request_47"><a class="link" href="#_http_request_47">10.4.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /support/notices/18/mark-as-read HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /support/notices/1/mark-as-read HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjQyNDg5NjVhLWU0ZDctNGM3NS04ZjRiLWMyZWY4Y2E0YjJkOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.rkaNCmWlF048qlrdvb7yYC0_qrzCFd9G9seLYh1ALzU
 Host: api.yeoboya-lunch.com
 
-email=1%401.com</code></pre>
+loginId=admin</code></pre>
 </div>
 </div>
 </div>
@@ -8575,9 +8891,10 @@ Content-Length: 42
 <h4 id="_http_request_48"><a class="link" href="#_http_request_48">10.5.1. http-request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /support/notices?email=1%401.com HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /support/notices?loginId=admin HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImJlOWE4YjNlLTgyODAtNGIxMS1hMjVmLWJhYWY0YTg2NGVmMyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjksImV4cCI6MTcxOTk5MTc2OSwiYXV0aCI6IlJPTEVfQURNSU4ifQ.X2w1lljPFeo3NVpK1mcdBcboSPsrmhmUc6zNZBtsbyc
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -8598,188 +8915,48 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 5731
+Content-Length: 1367
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : [ {
-    "id" : 18,
+    "id" : 1,
     "title" : "New Notice Title",
     "content" : "This is the content of the new notice.",
     "category" : "General",
     "author" : "Admin",
     "priority" : 1,
-    "startDate" : "2023-12-01T00:00:00",
-    "endDate" : "2023-12-31T23:59:59",
+    "startDate" : "2024-06-28T16:15:22.671824",
+    "endDate" : "2024-07-05T16:15:22.671837",
     "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 5,
+    "viewCount" : 1,
     "tags" : "announcement, general",
     "status" : "ACTIVE",
     "read" : true
   }, {
-    "id" : 19,
+    "id" : 2,
     "title" : "New Notice Title",
     "content" : "This is the content of the new notice.",
     "category" : "General",
     "author" : "Admin",
     "priority" : 1,
-    "startDate" : "2024-06-12T16:04:10.9035",
-    "endDate" : "2024-06-19T16:04:10.903512",
+    "startDate" : "2024-06-28T16:20:18.016706",
+    "endDate" : "2024-07-05T16:20:18.016714",
     "attachmentUrl" : "http://example.com/attachment",
     "viewCount" : 0,
     "tags" : "announcement, general",
     "status" : "ACTIVE",
     "read" : false
   }, {
-    "id" : 20,
+    "id" : 3,
     "title" : "New Notice Title",
     "content" : "This is the content of the new notice.",
     "category" : "General",
     "author" : "Admin",
     "priority" : 1,
-    "startDate" : "2024-06-12T16:05:08.880545",
-    "endDate" : "2024-06-19T16:05:08.880555",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 21,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-12T16:06:13.67728",
-    "endDate" : "2024-06-19T16:06:13.677296",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 22,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-12T16:06:48.958353",
-    "endDate" : "2024-06-19T16:06:48.958364",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 23,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-12T16:09:11.682078",
-    "endDate" : "2024-06-19T16:09:11.682089",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 24,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-12T16:11:30.142461",
-    "endDate" : "2024-06-19T16:11:30.142473",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 25,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-12T16:11:54.198716",
-    "endDate" : "2024-06-19T16:11:54.198727",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 26,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-17T17:48:22.68904",
-    "endDate" : "2024-06-24T17:48:22.68905",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 27,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-17T17:51:47.217392",
-    "endDate" : "2024-06-24T17:51:47.217401",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 28,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-17T17:52:58.723753",
-    "endDate" : "2024-06-24T17:52:58.723764",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 29,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-17T17:55:55.709914",
-    "endDate" : "2024-06-24T17:55:55.709929",
-    "attachmentUrl" : "http://example.com/attachment",
-    "viewCount" : 0,
-    "tags" : "announcement, general",
-    "status" : "ACTIVE",
-    "read" : false
-  }, {
-    "id" : 30,
-    "title" : "New Notice Title",
-    "content" : "This is the content of the new notice.",
-    "category" : "General",
-    "author" : "Admin",
-    "priority" : 1,
-    "startDate" : "2024-06-17T18:00:27.067126",
-    "endDate" : "2024-06-24T18:00:27.067135",
+    "startDate" : "2024-06-28T16:25:22.142827",
+    "endDate" : "2024-07-05T16:25:22.142835",
     "attachmentUrl" : "http://example.com/attachment",
     "viewCount" : 0,
     "tags" : "announcement, general",
@@ -8942,16 +9119,18 @@ MultipartFile file 파일첨부 가능
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'https://api.yeoboya-lunch.com/banners' -i -X POST \
     -H 'Content-Type: multipart/form-data;charset=UTF-8' \
     -H 'Accept: application/json' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjMzZWU5YjZhLTFiZTUtNGNlOS04MjM5LTg3YmQ5ZGE4ZDEzNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjIsImV4cCI6MTcxOTk5MTc2MiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.PdvcXsZXH_as5hSOgkyfGvjDRnR26gnw5tnM_2-FPvc' \
     -F 'file=@test.jpg;type=image/jpeg' \
-    -F 'bannerRequest={"title":"Spring Sale","displayOrder":1,"startDate":"2024-06-16T18:01:13.935079","endDate":"2024-07-17T18:01:13.935092","displayLocation":"MAIN_PAGE"};type=application/json'</code></pre>
+    -F 'bannerRequest={"title":"HAMtrKdSdZ","displayOrder":1,"startDate":"2024-06-27T16:29:22.678883","endDate":"2024-07-28T16:29:22.678895","displayLocation":"MAIN_PAGE"};type=application/json'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ http --multipart POST 'https://api.yeoboya-lunch.com/banners' \
     'file'@'test.jpg' \
-    'bannerRequest'='{"title":"Spring Sale","displayOrder":1,"startDate":"2024-06-16T18:01:13.935079","endDate":"2024-07-17T18:01:13.935092","displayLocation":"MAIN_PAGE"}' \
-    'Accept:application/json'</code></pre>
+    'bannerRequest'='{"title":"HAMtrKdSdZ","displayOrder":1,"startDate":"2024-06-27T16:29:22.678883","endDate":"2024-07-28T16:29:22.678895","displayLocation":"MAIN_PAGE"}' \
+    'Accept:application/json' \
+    'Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjMzZWU5YjZhLTFiZTUtNGNlOS04MjM5LTg3YmQ5ZGE4ZDEzNCIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjIsImV4cCI6MTcxOTk5MTc2MiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.PdvcXsZXH_as5hSOgkyfGvjDRnR26gnw5tnM_2-FPvc'</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -9063,6 +9242,7 @@ Content-Length: 42
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /banners?displayLocation=MAIN_PAGE HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjRmYjE1NTYxLTU0ZjctNGNmNS1hY2EwLWIyZWZjY2Q1MjU2YiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjIsImV4cCI6MTcxOTk5MTc2MiwiYXV0aCI6IlJPTEVfQURNSU4ifQ.tb35v6YOjAoppDx-nNcRHoiEY0GgsCUxkB0DTCbUD_M
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -9083,162 +9263,66 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 5509
+Content-Length: 2009
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : [ {
-    "id" : 3,
-    "title" : "あく [空く]",
+    "id" : 1,
+    "title" : "Spring Sale",
     "displayOrder" : 1,
-    "startDate" : "2024-06-17T00:00:00",
-    "endDate" : "2024-12-31T23:59:59",
+    "startDate" : "2024-06-27T16:08:51.61276",
+    "endDate" : "2024-07-28T16:08:51.612787",
     "displayLocation" : "MAIN_PAGE",
     "bannerFiles" : [ ]
   }, {
-    "id" : 6,
-    "title" : "Spring Sale",
+    "id" : 3,
+    "title" : "MbNphHfZXK",
     "displayOrder" : 1,
-    "startDate" : "2024-06-16T17:39:30.645254",
-    "endDate" : "2024-07-17T17:39:30.64529",
+    "startDate" : "2024-06-27T16:15:00.437378",
+    "endDate" : "2024-07-28T16:15:00.437389",
+    "displayLocation" : "MAIN_PAGE",
+    "bannerFiles" : [ {
+      "id" : 1,
+      "originalFileName" : "test.jpg",
+      "fileName" : "20240628161500527800.jpg",
+      "filePath" : "banner/2024/06/28/1",
+      "extension" : "application/octet-stream",
+      "size" : 23032,
+      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/28/1/20240628161500527800.jpg"
+    } ]
+  }, {
+    "id" : 5,
+    "title" : "E44KwAYGHR",
+    "displayOrder" : 1,
+    "startDate" : "2024-06-27T16:20:11.480203",
+    "endDate" : "2024-07-28T16:20:11.480214",
+    "displayLocation" : "MAIN_PAGE",
+    "bannerFiles" : [ {
+      "id" : 2,
+      "originalFileName" : "test.jpg",
+      "fileName" : "20240628162011576887.jpg",
+      "filePath" : "banner/2024/06/28/1",
+      "extension" : "application/octet-stream",
+      "size" : 23032,
+      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/28/1/20240628162011576887.jpg"
+    } ]
+  }, {
+    "id" : 7,
+    "title" : "9XrDLJzgYy",
+    "displayOrder" : 1,
+    "startDate" : "2024-06-27T16:25:15.19577",
+    "endDate" : "2024-07-28T16:25:15.195781",
     "displayLocation" : "MAIN_PAGE",
     "bannerFiles" : [ {
       "id" : 3,
       "originalFileName" : "test.jpg",
-      "fileName" : "20240617173930755034.jpg",
-      "filePath" : "banner/2024/06/17/1",
+      "fileName" : "20240628162515289357.jpg",
+      "filePath" : "banner/2024/06/28/1",
       "extension" : "application/octet-stream",
       "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617173930755034.jpg"
-    } ]
-  }, {
-    "id" : 7,
-    "title" : "Spring Sale",
-    "displayOrder" : 1,
-    "startDate" : "2024-06-16T17:44:02.488315",
-    "endDate" : "2024-07-17T17:44:02.488338",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 4,
-      "originalFileName" : "test.jpg",
-      "fileName" : "20240617174402566464.jpg",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617174402566464.jpg"
-    } ]
-  }, {
-    "id" : 8,
-    "title" : "Spring Sale",
-    "displayOrder" : 1,
-    "startDate" : "2024-06-16T17:47:36.357151",
-    "endDate" : "2024-07-17T17:47:36.357175",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 5,
-      "originalFileName" : "test.jpg",
-      "fileName" : "20240617174736433353.jpg",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617174736433353.jpg"
-    } ]
-  }, {
-    "id" : 10,
-    "title" : "Spring Sale",
-    "displayOrder" : 1,
-    "startDate" : "2024-06-16T17:48:19.827735",
-    "endDate" : "2024-07-17T17:48:19.827748",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 6,
-      "originalFileName" : "test.jpg",
-      "fileName" : "20240617174819863771.jpg",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617174819863771.jpg"
-    } ]
-  }, {
-    "id" : 12,
-    "title" : "Spring Sale",
-    "displayOrder" : 1,
-    "startDate" : "2024-06-16T17:51:44.555634",
-    "endDate" : "2024-07-17T17:51:44.555649",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 7,
-      "originalFileName" : "test.jpg",
-      "fileName" : "20240617175144593049.jpg",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617175144593049.jpg"
-    } ]
-  }, {
-    "id" : 14,
-    "title" : "Spring Sale",
-    "displayOrder" : 1,
-    "startDate" : "2024-06-16T17:52:55.770335",
-    "endDate" : "2024-07-17T17:52:55.770348",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 8,
-      "originalFileName" : "test.jpg",
-      "fileName" : "20240617175255806608.jpg",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617175255806608.jpg"
-    } ]
-  }, {
-    "id" : 16,
-    "title" : "Spring Sale",
-    "displayOrder" : 1,
-    "startDate" : "2024-06-16T17:55:52.842125",
-    "endDate" : "2024-07-17T17:55:52.842136",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 9,
-      "originalFileName" : "test.jpg",
-      "fileName" : "20240617175552870062.jpg",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617175552870062.jpg"
-    } ]
-  }, {
-    "id" : 18,
-    "title" : "Spring Sale",
-    "displayOrder" : 1,
-    "startDate" : "2024-06-16T18:00:24.222688",
-    "endDate" : "2024-07-17T18:00:24.222701",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 10,
-      "originalFileName" : "test.jpg",
-      "fileName" : "20240617180024258738.jpg",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 23032,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617180024258738.jpg"
-    } ]
-  }, {
-    "id" : 2,
-    "title" : "いつも",
-    "displayOrder" : 2,
-    "startDate" : "2024-06-17T00:00:00",
-    "endDate" : "2024-12-31T23:59:59",
-    "displayLocation" : "MAIN_PAGE",
-    "bannerFiles" : [ {
-      "id" : 2,
-      "originalFileName" : "60d050a834bf03eaa1edfd93bea2a541ac8e738cb631e72fdb9a96b36413984e.png",
-      "fileName" : "20240617164304200829.png",
-      "filePath" : "banner/2024/06/17/1",
-      "extension" : "application/octet-stream",
-      "size" : 28115,
-      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/17/1/20240617164304200829.png"
+      "url" : "https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/banner/2024/06/28/1/20240628162515289357.jpg"
     } ]
   } ]
 }</code></pre>
@@ -9402,6 +9486,7 @@ ROLE_MANGER
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /resource?page=0&amp;size=10 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImQ4YjdiZmZlLWQwYzUtNDg2My05MzBiLTJjMGU4OWFkODAyNSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.MbGyw3T63WijuKhzQRBKYpnW-EQpQHoLIPmxT0tIX5k
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -9452,7 +9537,7 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1252
+Content-Length: 1562
 
 {
   "code" : 200,
@@ -9463,14 +9548,14 @@ Content-Length: 1252
     "httpMethod" : null,
     "orderNum" : 1,
     "resourceType" : "url",
-    "roleDesc" : ""
+    "roleDesc" : "어드민"
   }, {
     "id" : 2,
     "resourceName" : "/resource/**",
     "httpMethod" : null,
     "orderNum" : 2,
     "resourceType" : "url",
-    "roleDesc" : ""
+    "roleDesc" : "매니저"
   }, {
     "id" : 3,
     "resourceName" : "/member/**",
@@ -9508,11 +9593,25 @@ Content-Length: 1252
     "roleDesc" : ""
   }, {
     "id" : 8,
-    "resourceName" : "/board/**",
+    "resourceName" : "/review/**",
     "httpMethod" : null,
     "orderNum" : 8,
     "resourceType" : "url",
-    "roleDesc" : "유저"
+    "roleDesc" : ""
+  }, {
+    "id" : 9,
+    "resourceName" : "/board/**",
+    "httpMethod" : null,
+    "orderNum" : 9,
+    "resourceType" : "url",
+    "roleDesc" : ""
+  }, {
+    "id" : 10,
+    "resourceName" : "/like/**",
+    "httpMethod" : null,
+    "orderNum" : 10,
+    "resourceType" : "url",
+    "roleDesc" : ""
   } ]
 }</code></pre>
 </div>
@@ -9611,6 +9710,7 @@ Content-Length: 1252
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /resource/add HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 115
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjM5MjU5NzA4LWY4NDgtNGEyYS1iZmZjLWMzZDUyZjlhMzNhYSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjcsImV4cCI6MTcxOTk5MTc2NywiYXV0aCI6IlJPTEVfQURNSU4ifQ.-bowsm20ZQ_eurOcprxcmFMnAr8eZWB_95kUXV4TSWU
 Host: api.yeoboya-lunch.com
 
 {
@@ -9718,6 +9818,7 @@ ROLE_MANGER
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /role/authorities?page=1&amp;size=10 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjUwOTg0MWJhLTg4MzYtNGZkMi04YzE0LTQ4ZTdlYmQxMGFhYiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.M__w3zt0_6d6RzL-XNnFpUhKWeWZt-RDo2oFCPS4CII
 Host: api.yeoboya-lunch.com</code></pre>
 </div>
 </div>
@@ -9768,81 +9869,49 @@ Pragma: no-cache
 Expires: 0
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 X-Frame-Options: DENY
-Content-Length: 1862
+Content-Length: 997
 
 {
   "code" : 200,
   "message" : "조회",
   "data" : {
-    "list" : [ {
-      "email" : "test1978@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test5350@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test6063@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test6636@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test6692@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test6844@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test7386@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test793@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test8181@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    }, {
-      "email" : "test9941@example.com",
-      "name" : "김현진",
-      "roleDesc" : "유저",
-      "enabled" : true,
-      "accountNonLocked" : true
-    } ],
     "pagination" : {
-      "page" : 2,
-      "totalPages" : 15,
-      "totalElements" : 143,
-      "first" : false,
-      "last" : false,
+      "page" : 1,
+      "totalPages" : 1,
+      "totalElements" : 4,
+      "first" : true,
+      "last" : true,
       "empty" : false
-    }
+    },
+    "list" : [ {
+      "loginId" : "admin",
+      "email" : "admin@yeoboya.com",
+      "provider" : "yeoboya",
+      "name" : "어드민",
+      "accountNonLocked" : true,
+      "enabled" : true
+    }, {
+      "loginId" : "id3978",
+      "email" : "test3620@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "accountNonLocked" : true,
+      "enabled" : true
+    }, {
+      "loginId" : "id498",
+      "email" : "test8282@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "accountNonLocked" : true,
+      "enabled" : true
+    }, {
+      "loginId" : "id7624",
+      "email" : "test3173@example.com",
+      "provider" : "yeoboya",
+      "name" : "김현진",
+      "accountNonLocked" : true,
+      "enabled" : true
+    } ]
   }
 }</code></pre>
 </div>
@@ -9936,30 +10005,30 @@ Content-Length: 1862
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of member roles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].loginId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MemberMaker&#8217;s loginId</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].email</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Member&#8217;s Email</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MemberMaker&#8217;s loginId</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MemberMaker&#8217;s provider</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Member&#8217;s Name</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">data.list[].roleDesc</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Description of the Role</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MemberMaker&#8217;s Name</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -9989,11 +10058,12 @@ Content-Length: 1862
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /role/authority-update HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 58
+Content-Length: 52
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImFlYjNjYjg3LWEyMDUtNDg4ZS1iMDBlLTAyOTJjN2Y4MzllMiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.GwbX7EIo9GHFw06rSDyenybnATOKlgMTki-G6hiLiwU
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "role@test.com",
+  "loginId" : "admin",
   "role" : "ROLE_MANAGER"
 }</code></pre>
 </div>
@@ -10001,7 +10071,7 @@ Host: api.yeoboya-lunch.com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "email" : "role@test.com",
+  "loginId" : "admin",
   "role" : "ROLE_MANAGER"
 }</code></pre>
 </div>
@@ -10039,22 +10109,23 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /role/security-update HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 82
+Content-Length: 74
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6ImM5M2Q4N2NmLWE4ZWUtNDA4Ny1iOTgwLTQzYzU4NmJmODNmOSIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE3MTk1NTk3NjgsImV4cCI6MTcxOTk5MTc2OCwiYXV0aCI6IlJPTEVfQURNSU4ifQ.hRyjBDKVENW3kpZ8pHZktSPC-r3Rh8zXRhWb6y9GaOU
 Host: api.yeoboya-lunch.com
 
 {
-  "email" : "role@test.com",
-  "enabled" : false,
-  "accountNonLocked" : false
+  "loginId" : "admin",
+  "accountNonLocked" : true,
+  "enabled" : true
 }</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "email" : "role@test.com",
-  "enabled" : false,
-  "accountNonLocked" : false
+  "loginId" : "admin",
+  "accountNonLocked" : true,
+  "enabled" : true
 }</code></pre>
 </div>
 </div>
@@ -10089,7 +10160,7 @@ X-Frame-Options: DENY</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-06-17 18:00:13 +0900
+Last updated 2024-06-21 08:53:36 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

@@ -3,11 +3,11 @@ package com.yeoboya.lunch.api.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
+import com.yeoboya.lunch.api.v1.shop.domain.Shop;
+import com.yeoboya.lunch.api.v1.shop.service.ShopService;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.yeoboya.lunch.config.TestUtil;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -15,8 +15,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -46,30 +48,44 @@ class ItemControllerDocTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    @Autowired
+    private ShopService shopService;
+
+    private TestUtil testUtil;
     private static int unique;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
+        testUtil = new TestUtil(mockMvc, objectMapper);
         unique = new Random().nextInt(10000);
     }
 
 
     @Test
     @DisplayName("아이템 등록")
+    @WithMockUser(username = "admin", roles = "USER")
+    @Transactional
     void create() throws Exception {
+
+        Shop shop = shopService.selectShop();
+
         //given
         ItemCreate request = ItemCreate.builder()
-                .shopName("맥도날드")
+                .shopName(shop.getName())
                 .itemName("아이템"+unique)
                 .price(unique)
                 .build();
         String json = objectMapper.writeValueAsString(request);
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         //expected
         mockMvc.perform(post("/item")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("item/post",
@@ -110,9 +126,14 @@ class ItemControllerDocTest {
     @Test
     @DisplayName("아이템 단건 조회")
     void getItem() throws Exception {
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(get("/item/{itemId}", 1)
                         .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(document("item/get",
                         preprocessRequest(prettyPrint()),
@@ -147,8 +168,12 @@ class ItemControllerDocTest {
 
         String shopName = "NIKE";
 
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         mockMvc.perform(get("/item/shop/{shopName}", shopName)
-                        .params(info))
+                        .params(info)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(document("item/shop/get/list",
                         preprocessRequest(prettyPrint()),
@@ -180,6 +205,9 @@ class ItemControllerDocTest {
     @Transactional
     @DisplayName("아이템 업데이트")
     void updateItem() throws Exception {
+
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
         //given
         ItemEdit request = ItemEdit.builder().name("NEW 슈비버거").price(6800).build();
         String json = objectMapper.writeValueAsString(request);
@@ -188,7 +216,9 @@ class ItemControllerDocTest {
         mockMvc.perform(patch("/item/{itemId}", 1)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(postProcessor)
+                )
                 .andExpect(status().isOk())
                 .andDo(document("item/patch",
                         preprocessRequest(prettyPrint()),
@@ -215,9 +245,13 @@ class ItemControllerDocTest {
     @Transactional
     @DisplayName("아이템 삭제")
     void deleteItem() throws Exception {
-        mockMvc.perform(delete("/item/{itemId}", 2)
+        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+
+        mockMvc.perform(delete("/item/{itemId}", 1)
                         .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
+                        .accept(APPLICATION_JSON)
+                        .with(postProcessor)
+                )
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("item/delete",
                         pathParameters(

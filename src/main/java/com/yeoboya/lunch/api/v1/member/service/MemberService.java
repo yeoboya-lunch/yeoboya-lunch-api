@@ -140,8 +140,17 @@ public class MemberService {
 
     @Transactional
     public void editAccount(String memberLoginId, AccountEdit edit) {
-        Account account = accountRepository.findByMemberLoginId(memberLoginId).orElseThrow(
-                () -> new EntityNotFoundException("Account not found - " + memberLoginId));
+
+        Member member = memberRepository.findByLoginId(memberLoginId).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + memberLoginId));
+
+        Account account = accountRepository.findByMemberLoginId(memberLoginId).orElse(
+                Account.builder()
+                        .member(member)
+                        .bankName("")
+                        .accountNumber("0")
+                        .build()
+                );
 
         AccountEditor.AccountEditorBuilder editorBuilder = account.toEditor();
 
