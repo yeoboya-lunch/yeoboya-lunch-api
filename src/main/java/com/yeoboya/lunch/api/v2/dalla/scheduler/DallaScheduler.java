@@ -47,8 +47,6 @@ public class DallaScheduler {
         log.warn("{}", attendance);
     }
 
-
-
     //매일 오전 8시 5분
     //@Scheduled(cron = "0 5 8 * * ?")
     public void bjDaily() {

@@ -2,8 +2,10 @@ package com.yeoboya.lunch.api.v2.dalla.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yeoboya.lunch.api.v2.dalla.request.DallaPayload;
 import com.yeoboya.lunch.api.v2.dalla.response.DallaResponse;
 import com.yeoboya.lunch.api.v2.dalla.response.Data;
+import com.yeoboya.lunch.api.v2.dalla.websocket.WebSocketClient;
 import com.yeoboya.lunch.config.util.OkhttpClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,29 +22,39 @@ public class DallaService {
 
     private final OkhttpClient client;
     private final ObjectMapper objectMapper;
+    private final WebSocketService webSocketService;
+    private final DallaPayload dallaPayload;
 
     public void heart() throws InterruptedException {
+
         List<Data.Response> rooms = this.roomList();
         Collections.reverse(rooms);
 
         Random random = new Random();
         int cnt = 0;
         for (Data.Response room : rooms) {
-            DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
-            log.error("{}", joinRoom);
-            if (joinRoom.getResult().equals("success")) {
-                Thread.sleep(1000 * 300);
-                DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
-                if (heart.getResult().equals("success")) {
-                    cnt++;
-                    int randomMillis = 1000 * 300 + random.nextInt(1000 * 120);
-                    Thread.sleep(randomMillis);
-//                    DallaResponse gift = this.gift(room.getRoomNo(), room.getBjMemNo());
-//                    System.out.println("gift = " + gift);
+            if (room.getTypeEntry().equals("0")) {
+
+                webSocketService.connect(dallaPayload.getSocketUrl(), dallaPayload.getAuthToken(), dallaPayload.getMemNo(), room.getRoomNo());
+                webSocketService.sendChatMessage(room.getRoomNo(), "hihi");
+
+                DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
+                log.error("{}", joinRoom);
+                if (joinRoom.getResult().equals("success")) {
+//                    Thread.sleep(1000 * 300);
+                    DallaResponse heart = this.heart(room.getRoomNo(), room.getBjMemNo());
+                    if (heart.getResult().equals("success")) {
+                        cnt++;
+//                        int randomMillis = 1000 * 300 + random.nextInt(1000 * 120);
+//                        Thread.sleep(randomMillis);
+                    }
+                }else{
+                    DallaResponse dallaResponse = this.roomOut(room.getRoomNo());
+                    log.error("else {}", dallaResponse);
                 }
+                DallaResponse dallaResponse = this.roomOut(room.getRoomNo());
+                log.error("finally {}", dallaResponse);
             }
-            DallaResponse dallaResponse = this.roomOut(room.getRoomNo());
-            log.error("{}", dallaResponse);
         }
         log.warn("heart and gift - {}/{}", cnt, rooms.size());
     }
