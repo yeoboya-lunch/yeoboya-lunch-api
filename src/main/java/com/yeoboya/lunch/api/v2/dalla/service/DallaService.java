@@ -14,6 +14,7 @@ import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -35,8 +36,14 @@ public class DallaService {
         for (Data.Response room : rooms) {
             if (room.getTypeEntry().equals("0")) {
 
-                webSocketService.connect(dallaPayload.getSocketUrl(), dallaPayload.getAuthToken(), dallaPayload.getMemNo(), room.getRoomNo());
-                webSocketService.sendChatMessage(room.getRoomNo(), "hihi");
+                WebSocketClient client = new WebSocketClient(dallaPayload.getSocketUrl(), dallaPayload.getAuthToken(), dallaPayload.getMemNo(), room.getRoomNo());
+                if (!client.awaitConnection(5, TimeUnit.SECONDS)) {  // Wait up to 5 seconds for the connection to be established
+                    System.out.println("Failed to establish connection");
+                } else {
+                    System.out.println("Connection established");
+                }
+
+                webSocketService.sendChatMessage(client, dallaPayload.getMemNo(), room.getRoomNo(), "안녕하세욧");
 
                 DallaResponse joinRoom = this.joinRoom(room.getRoomNo());
                 log.error("{}", joinRoom);

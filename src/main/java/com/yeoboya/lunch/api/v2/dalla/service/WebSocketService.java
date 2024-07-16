@@ -9,39 +9,32 @@ import javax.websocket.Session;
 @Service
 public class WebSocketService {
 
-    private WebSocketClient webSocketClient;
-    private Integer messageCounter = 0;
-
-    public void connect(String authToken, String memNo, String roomNo, String locale) {
-        this.webSocketClient = new WebSocketClient(authToken, memNo, roomNo, locale);
-    }
-
-    public void sendChatMessage(String roomNo, String message) {
+    public void sendChatMessage(WebSocketClient webSocketClient, String memNo, String roomNo, String message) {
         if (roomNo == null || roomNo.isEmpty()) {
             throw new IllegalArgumentException("Room number cannot be null or empty");
         }
 
-        String numberedMessage = messageCounter + ": " + message;
-        messageCounter++;
+        JSONObject chatObject = new JSONObject();
+        chatObject.put("memNo", memNo);
 
-        JSONObject data = new JSONObject();
-        data.put("event", "#publish");
-        data.put("cid", 4);
+        JSONObject dataInnerObject = new JSONObject();
+        dataInnerObject.put("cmd", "chat");
+        dataInnerObject.put("chat", chatObject);
+        dataInnerObject.put("sendMsg", message);
 
-        JSONObject innerData = new JSONObject();
-        innerData.put("channel", roomNo);
+        JSONObject dataObject = new JSONObject();
+        dataObject.put("channel", roomNo);
+        dataObject.put("data", dataInnerObject);
 
-        JSONObject details = new JSONObject();
-        details.put("cmd", "chat");
-        details.put("sendMsg", numberedMessage);
-
-        innerData.put("data", details);
-        data.put("data", innerData);
+        JSONObject mainObject = new JSONObject();
+        mainObject.put("event", "#publish");
+        mainObject.put("data", dataObject);
+        mainObject.put("cid", 4);
 
         Session session = webSocketClient.getUserSession();
 
         if (session != null && session.isOpen()) {
-            webSocketClient.onMessage(data.toString());
+            session.getAsyncRemote().sendText(mainObject.toString());
         } else {
             System.out.println("Can't send message - WebSocket session is not open");
         }

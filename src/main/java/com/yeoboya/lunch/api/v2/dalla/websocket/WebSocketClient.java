@@ -8,15 +8,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import javax.websocket.*;
 
+import lombok.Getter;
 import org.json.JSONObject;
 
 @ClientEndpoint
 public class WebSocketClient extends Endpoint {
 
+    @Getter
     private Session userSession = null;
+    private CountDownLatch latch = new CountDownLatch(1);
 
     public WebSocketClient(String socketUri, String authToken, String memNo, String roomNo) {
         try {
@@ -78,6 +83,7 @@ public class WebSocketClient extends Endpoint {
     public void onOpen(Session userSession, EndpointConfig config) {
         System.out.println("Connected");
         this.userSession = userSession;
+        latch.countDown();
         sendHandshake();
         subscribePublic();
     }
@@ -94,7 +100,7 @@ public class WebSocketClient extends Endpoint {
         this.userSession.getAsyncRemote().sendText(message);
     }
 
-    public Session getUserSession() {
-        return this.userSession;
+    public boolean awaitConnection(long timeout, TimeUnit unit) throws InterruptedException {
+        return latch.await(timeout, unit);  // Wait until the latch has counted down to zero
     }
 }
