@@ -282,13 +282,13 @@ include::{snippets}/order/recruits/response-fields.adoc[]
 
 ==== http-request
 
-include::{snippets}/order/recruits/orderId/http-request.adoc[]
-include::{snippets}/order/recruits/orderId/request-parameters.adoc[]
+include::{snippets}/order/recruit/orderId/http-request.adoc[]
+include::{snippets}/order/recruit/orderId/path-parameters.adoc[]
 
 ==== http-response
 
-include::{snippets}/order/recruits/orderId/http-response.adoc[]
-include::{snippets}/order/recruits/orderId/response-fields.adoc[]
+include::{snippets}/order/recruit/orderId/http-response.adoc[]
+include::{snippets}/order/recruit/orderId/response-fields.adoc[]
 
 === 점심 주문 모집 참여
 
