@@ -22,7 +22,6 @@ public class CookieUtils {
 
     public static void addCookieToResponse(HttpServletResponse response, Cookie cookie, String sameSite) {
         response.addCookie(cookie);
-        // SameSite 속성을 추가하는 부분
         String cookieHeader = String.format("%s=%s; Path=%s; Domain=%s; Max-Age=%d; HttpOnly; Secure",
                 cookie.getName(),
                 cookie.getValue(),
@@ -33,10 +32,6 @@ public class CookieUtils {
         );
         response.addHeader("Set-Cookie", cookieHeader);
     }
-
-//    public static void addCookieToResponse(HttpServletResponse response, Cookie cookie) {
-//        response.addCookie(cookie);
-//    }
 
     public static Cookie getCookie(String name) {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();

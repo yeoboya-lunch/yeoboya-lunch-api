@@ -35,8 +35,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -211,39 +210,73 @@ class OrderControllerDocTest {
         RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
 
         // when & then
-        mockMvc.perform(get("/order/recruits/", 1)
+        mockMvc.perform(get("/order/recruit/{orderId}", 35)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .with(postProcessor)
                 )
                 .andExpect(status().is2xxSuccessful())
-                .andDo(document("order/recruits/orderId",
+                .andDo(document("order/recruit/orderId",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
-                                parameterWithName("page").description("페이지").optional(),
-                                parameterWithName("size").description("사이즈").optional()
+                        pathParameters(
+                                parameterWithName("orderId").description("주문번호")
                         ),
-
                         responseFields(
                                 fieldWithPath("code").description("Response Code").type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("Response Message").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[]").description("Order List").type(JsonFieldType.ARRAY).optional(),
-                                fieldWithPath("data.list[].orderId").description("Order ID").type(JsonFieldType.NUMBER).optional(),
-                                fieldWithPath("data.list[].orderMemberLoginId").description("Order member id").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].orderMemberName").description("Order member Name").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].shopName").description("Order Shop Name").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].title").description("Order Title").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].lastOrderTime").description("Order Last Time").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].orderStatus").description("Order status").type(JsonFieldType.STRING),
-                                fieldWithPath("data.list[].groupCount").description("Group count").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.pagination.isLast").description("Whether request page is the last").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.pagination.hasPrevious").description("Whether there are previous pages").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.pagination.isFirst").description("Whether request page is the first").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.pagination.hasNext").description("Whether there are more pages").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data.pagination.pageNo").description("The page number").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.pagination.size").description("The size of the page").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.pagination.numberOfElements").description("The number of elements on this page").type(JsonFieldType.NUMBER)
+
+                                // 상점 데이터
+                                fieldWithPath("data.shop.shopName").description("상점 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("data.shop.items[].name").description("상품명").type(JsonFieldType.STRING),
+                                fieldWithPath("data.shop.items[].price").description("상품 가격").type(JsonFieldType.NUMBER),
+
+                                // 주문 멤버 데이터
+                                fieldWithPath("data.orderMember.loginId").description("Order member id").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.orderMember.email").description("Order member Email").type(JsonFieldType.STRING),
+                                fieldWithPath("data.orderMember.name").description("Order member Name").type(JsonFieldType.STRING),
+                                fieldWithPath("data.orderMember.provider").description("Order member provider").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.orderMember.bankName").description("Order member bank name").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.orderMember.accountNumber").description("Order member account number").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.orderMember.bio").description("Order member bio").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.orderMember.nickName").description("Order member nickname").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.orderMember.phoneNumber").description("Order member phone number").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.orderMember.isPrimaryProfileImg").description("State if primary profile image").type(JsonFieldType.BOOLEAN).optional(),
+                                fieldWithPath("data.orderMember.fileUploadResponses").description("File upload response").type(JsonFieldType.ARRAY).optional(),
+                                fieldWithPath("data.orderMember.account").description("State if account").type(JsonFieldType.BOOLEAN).optional(),
+
+                                // 그룹 데이터
+                                fieldWithPath("data.group[].orderId").description("Order ID").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.group[].groupOrderId").description("Group Order ID").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.group[].title").description("Order Title").type(JsonFieldType.STRING),
+                                fieldWithPath("data.group[].email").description("Order member Email").type(JsonFieldType.STRING),
+                                fieldWithPath("data.group[].name").description("Order member Name").type(JsonFieldType.STRING),
+                                fieldWithPath("data.group[].orderItem[].itemName").description("Order item name").type(JsonFieldType.STRING),
+                                fieldWithPath("data.group[].orderItem[].orderPrice").description("Order item price").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.group[].orderItem[].orderQuantity").description("Order item quantity").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.group[].orderItem[].totalPrice").description("Total price for order item").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.group[].totalPrice").description("Total price for a group").type(JsonFieldType.NUMBER),
+
+                                // 주문 데이터
+                                fieldWithPath("data.order.orderId").description("Order ID").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.order.title").description("Order Title").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.lastOrderTime").description("Order last time").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.orderStatus").description("Order Status").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.memo").description("Order Memo").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.deliveryFee").description("Delivery Fee").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.order.joinMember").description("Joining member to an order").type(JsonFieldType.ARRAY),
+
+                                // 누락된 order.joinMember 필드
+                                fieldWithPath("data.order.joinMember[].orderId").description("Order id").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.order.joinMember[].groupOrderId").description("Group Order id").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.order.joinMember[].title").description("Order title").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.joinMember[].email").description("Order member Email").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.joinMember[].name").description("Order member Name").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.joinMember[].orderItem[].itemName").description("Order item name").type(JsonFieldType.STRING),
+                                fieldWithPath("data.order.joinMember[].orderItem[].orderPrice").description("Order item price").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.order.joinMember[].orderItem[].orderQuantity").description("Order item quantity").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.order.joinMember[].orderItem[].totalPrice").description("Total order item price").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.order.joinMember[].totalPrice").description("Total order price").type(JsonFieldType.NUMBER)
                         )
                 ));
     }

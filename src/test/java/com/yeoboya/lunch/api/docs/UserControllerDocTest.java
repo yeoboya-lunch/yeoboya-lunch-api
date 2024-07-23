@@ -182,7 +182,6 @@ class UserControllerDocTest {
 
         UserRequest.SignOut signOut = new UserRequest.SignOut();
         signOut.setAccessToken(tokens.getFirst());
-        signOut.setRefreshToken(tokens.getSecond());
 
         String json = objectMapper.writeValueAsString(signOut);
 
@@ -197,8 +196,7 @@ class UserControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("accessToken").description("액세스 토큰"),
-                                fieldWithPath("refreshToken").description("리프레시 토큰")
+                                fieldWithPath("accessToken").description("액세스 토큰")
                         ),
                         responseFields(
                                 fieldWithPath("code").description("코드").type(JsonFieldType.NUMBER),
