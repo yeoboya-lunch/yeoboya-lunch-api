@@ -19,6 +19,7 @@ import com.yeoboya.lunch.config.security.domain.UserSecurityStatus;
 import com.yeoboya.lunch.config.security.dto.Token;
 import com.yeoboya.lunch.config.security.repository.RoleRepository;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
+import com.yeoboya.lunch.config.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,11 +31,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -61,11 +60,11 @@ public class UserService {
 
     @Retry(value = 4)
     public ResponseEntity<Body> signUp(SignUp signUp) {
-        if(memberRepository.existsMemberByLoginId(signUp.getLoginId())){
+        if (memberRepository.existsMemberByLoginId(signUp.getLoginId())) {
             return response.fail(ErrorCode.USER_DUPLICATE_ID);
         }
 
-        if(memberRepository.existsByEmailAndProvider(signUp.getEmail(), signUp.getProvider())){
+        if (memberRepository.existsByEmailAndProvider(signUp.getEmail(), signUp.getProvider())) {
             return response.fail(ErrorCode.USER_DUPLICATE_EMAIL);
         }
 
@@ -78,9 +77,9 @@ public class UserService {
                 .provider(signUp.getProvider())
                 .build();
         Role role;
-        if(build.getLoginId().equals("admin")){
+        if (build.getLoginId().equals("admin")) {
             role = roleRepository.findByRole(Authority.ROLE_ADMIN);
-        }else {
+        } else {
             role = roleRepository.findByRole(Authority.ROLE_USER);
         }
 
@@ -140,11 +139,13 @@ public class UserService {
     }
 
     public ResponseEntity<Body> reissue(Reissue reissue) {
-        if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
+        Cookie cookie = CookieUtils.getCookie("RefreshToken");
+        String refreshToken = reissue.getRefreshToken().isEmpty() ? Objects.requireNonNull(cookie).getValue() : reissue.getRefreshToken();
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
             return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        Authentication authentication = jwtTokenProvider.getAuthenticationWithLoadUserByUsername(reissue.getRefreshToken());
+        Authentication authentication = jwtTokenProvider.getAuthenticationWithLoadUserByUsername(refreshToken);
 
         String redisRT = redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
@@ -152,7 +153,7 @@ public class UserService {
             return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        if (!redisRT.equals(reissue.getRefreshToken())) {
+        if (!redisRT.equals(refreshToken)) {
             return response.fail(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
@@ -214,7 +215,7 @@ public class UserService {
             throw new EntityNotFoundException("Member not found - " + email);
         }
 
-        if(!memberRepository.existsMemberByEmailAndMemberInfoPhoneNumber(email, phone)){
+        if (!memberRepository.existsMemberByEmailAndMemberInfoPhoneNumber(email, phone)) {
             String errorMessage = String.format("Member with email %s and phone number %s does not exist.", email, phone);
             throw new EntityNotFoundException(errorMessage);
         }
@@ -224,12 +225,11 @@ public class UserService {
         redisTemplate.opsForValue().set("EMAIL:" + email, passKey, 60 * 5 * 1000L, TimeUnit.MILLISECONDS);
 
         //todo front 비밀번호 변경 화면
-        String authorityLink = "https://"+ resetPassword.getAuthorityLink()+ "?pass_key=" + passKey + "&email=" + email;
+        String authorityLink = "https://" + resetPassword.getAuthorityLink() + "?pass_key=" + passKey + "&email=" + email;
 
         emailService.resetPassword(email, authorityLink);
         return response.success("메일전송");
     }
-
 
 
 }

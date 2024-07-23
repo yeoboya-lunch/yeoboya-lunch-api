@@ -13,6 +13,7 @@ import com.yeoboya.lunch.config.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +39,7 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
     private final MemberRepository memberRepository;
+    private final Environment env;
 
     @Value("${front.url}")
     private String frontUrl;
@@ -52,13 +55,13 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
             memberRepository.save(saveMember);
         }
 
+        boolean isProd = Arrays.asList(env.getActiveProfiles()).contains("prod");
         Token token = jwtTokenProvider.generateToken(authentication, member.getProvider(), member.getLoginId());
+        Cookie accessTokenCookie = CookieUtils.createSecureHttpOnlyCookie("AccessToken", token.getAccessToken(), isProd);
+        Cookie refreshTokenCookie = CookieUtils.createSecureHttpOnlyCookie("RefreshToken", token.getRefreshToken(), isProd);
 
-        Cookie accessTokenCookie = CookieUtils.createSecureHttpOnlyCookie("AccessToken", token.getAccessToken());
-        Cookie refreshTokenCookie = CookieUtils.createSecureHttpOnlyCookie("RefreshToken", token.getRefreshToken());
-
-        CookieUtils.addCookieToResponse(response, accessTokenCookie);
-        CookieUtils.addCookieToResponse(response, refreshTokenCookie);
+        CookieUtils.addCookieToResponse(response, accessTokenCookie, "None");
+        CookieUtils.addCookieToResponse(response, refreshTokenCookie, "None");
 
         redisTemplate.opsForValue().set("RT:" + member.getLoginId(),
                 token.getRefreshToken(),
