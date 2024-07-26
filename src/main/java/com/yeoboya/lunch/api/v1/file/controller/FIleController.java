@@ -36,7 +36,7 @@ public class FIleController {
      */
     @PostMapping("/s3-upload")
     public ResponseEntity<Body> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam String subDirectory) throws IOException {
-        FileUploadResponse upload = fileServiceS3.upload(file, subDirectory);
+        FileUploadResponse upload = fileServiceS3.upload(file, subDirectory, null);
         return response.success(Code.SAVE_SUCCESS, upload);
     }
 

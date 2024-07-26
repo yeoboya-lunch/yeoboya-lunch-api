@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.Optional;
 
@@ -65,7 +66,7 @@ public class BannerService {
         BannerFile boardFile = null;
         if (file != null && !file.isEmpty()) {
             try {
-                FileUploadResponse upload = fileServiceS3.upload(file, "banner");
+                FileUploadResponse upload = fileServiceS3.upload(file, "banner",  Function.identity());
                 boardFile = BannerFile.builder().fileUploadResponse(upload).build();
             } catch (IOException e) {
                 throw new RuntimeException("Failed to upload file", e);

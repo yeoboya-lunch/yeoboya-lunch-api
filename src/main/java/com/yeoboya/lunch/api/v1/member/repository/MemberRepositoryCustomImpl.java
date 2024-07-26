@@ -70,14 +70,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
 
     @Override
     public MemberResponse memberProfile(String loginId) {
-        List<MemberProfileFile> memberProfileFiles = query
-                .select(memberProfileFile)
-                .from(member)
-                .leftJoin(member.memberProfileFiles, memberProfileFile)
-                .where(member.loginId.eq(loginId).and(memberProfileFile.isNotNull()))
-                .fetch();
-
-        MemberResponse memberResponse = query.select(
+        return query.select(
                         new QMemberResponse(
                                 member.loginId, member.email, member.provider, member.name,
                                 account.bankName, account.accountNumber,
@@ -89,29 +82,17 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .leftJoin(member.memberInfo, memberInfo)
                 .where(member.loginId.eq(loginId))
                 .fetchOne();
-
-        // Attach the profileImages to memberResponse
-        List<FileUploadResponse> collect = memberProfileFiles.stream().map(FileUploadResponse::from).collect(Collectors.toList());
-        Objects.requireNonNull(memberResponse).setFileUploadResponses(collect);
-        return memberResponse;
     }
 
-//    @Override
-//    public MemberResponse memberProfile(String memberEmail) {
-//        return query.select(
-//                        new QMemberResponse(
-//                                member.email, member.name,
-//                                account.bankName, account.accountNumber,
-//                                memberInfo.bio, memberInfo.nickName, memberInfo.phoneNumber, memberProfileFile.filePath, memberProfileFile.fileName
-//                        )
-//                )
-//                .from(member)
-//                .leftJoin(member.account, account)
-//                .leftJoin(member.memberInfo, memberInfo)
-//                .leftJoin(member.memberProfileFiles, memberProfileFile)
-//                .where(memberInfo.member.email.eq(memberEmail))
-//                .fetchOne();
-//    }
+    @Override
+    public List<MemberProfileFile> profileImg(String loginId) {
+        return query
+                .select(memberProfileFile)
+                .from(member)
+                .leftJoin(member.memberProfileFiles, memberProfileFile)
+                .where(member.loginId.eq(loginId).and(memberProfileFile.isNotNull()))
+                .fetch();
+    }
 
     @Override
     public Page<MemberRoleResponse> findWithRolesInPages(Pageable pageable) {

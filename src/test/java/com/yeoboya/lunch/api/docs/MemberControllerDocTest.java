@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
+import com.yeoboya.lunch.api.v1.member.reqeust.MemberProfile;
 import com.yeoboya.lunch.config.SecretsManagerInitializer;
 import com.yeoboya.lunch.config.TestUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,10 +24,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -75,6 +83,8 @@ class MemberControllerDocTest {
                                         .type(JsonFieldType.NUMBER),
                                 fieldWithPath("message").description("message")
                                         .type(JsonFieldType.STRING),
+
+                                // pagination fields
                                 fieldWithPath("data.pagination.pageNo").description("현재 페이지 번호"),
                                 fieldWithPath("data.pagination.size").description("페이지 사이즈"),
                                 fieldWithPath("data.pagination.numberOfElements").description("현재 페이지에 있는 데이터의 수"),
@@ -82,11 +92,19 @@ class MemberControllerDocTest {
                                 fieldWithPath("data.pagination.isLast").description("현재 페이지가 마지막 페이지인지 여부"),
                                 fieldWithPath("data.pagination.hasNext").description("다음 페이지가 있는지 여부"),
                                 fieldWithPath("data.pagination.hasPrevious").description("이전 페이지가 있는지 여부"),
+
+                                // list fields
                                 fieldWithPath("data.list[].loginId").description("아이디"),
                                 fieldWithPath("data.list[].email").description("이메일"),
                                 fieldWithPath("data.list[].provider").description("계정유형").optional(),
                                 fieldWithPath("data.list[].isPrimaryProfileImg").description("기본 프로필 이미지 여부").optional(),
-                                fieldWithPath("data.list[].fileUploadResponses").description("파일 업로드 응답").optional(),
+                                //todo data check
+                                fieldWithPath("data.list[].fileUploadResponses").description("파일 업로드 응답").type(JsonFieldType.ARRAY).optional(),
+
+                                // newly added field
+                                fieldWithPath("data.list[].profileImg").optional().description("프로필 이미지"),
+
+                                // rest of the list fields
                                 fieldWithPath("data.list[].name").description("이름"),
                                 fieldWithPath("data.list[].nickName").optional().description("닉네임"),
                                 fieldWithPath("data.list[].phoneNumber").optional().description("전화번호"),
@@ -100,7 +118,6 @@ class MemberControllerDocTest {
 
     @Test
     @DisplayName("계좌등록")
-    @Transactional
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
@@ -204,9 +221,9 @@ class MemberControllerDocTest {
     @DisplayName("회원검색 (profile)")
     public void getMemberProfile() throws Exception {
 
-        String memberLoginId = "admin";
+        String memberLoginId = "imageId";
 
-        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+        RequestPostProcessor postProcessor = testUtil.getToken("imageId", "qwer1234@@");
 
         mockMvc.perform(get("/member/{memberLoginId}/profile", memberLoginId)
                         .contentType(APPLICATION_JSON)
@@ -219,34 +236,29 @@ class MemberControllerDocTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
-                                fieldWithPath("code").description("code")
-                                        .type(JsonFieldType.NUMBER),
-                                fieldWithPath("message").description("message")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.loginId").description("아이디")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.email").description("이메일")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.provider").description("계정유형")
-                                        .type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.isPrimaryProfileImg").description("기본 프로필 이미지 여부")
-                                        .type(JsonFieldType.BOOLEAN).optional(),
-                                fieldWithPath("data.fileUploadResponses").description("파일 업로드 응답")
-                                        .type(JsonFieldType.ARRAY).optional(),
-                                fieldWithPath("data.name").description("이름")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.nickName").description("닉네임")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.phoneNumber").description("휴대폰")
-                                        .type(JsonFieldType.STRING),
-                                fieldWithPath("data.bio").description("소개")
-                                        .type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.bankName").description("은행")
-                                        .type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.accountNumber").description("계좌번호")
-                                        .type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("data.account").description("계좌등록유무")
-                                        .type(JsonFieldType.BOOLEAN)
+                                fieldWithPath("code").description("code").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message").type(JsonFieldType.STRING),
+                                fieldWithPath("data.loginId").description("아이디").type(JsonFieldType.STRING),
+                                fieldWithPath("data.email").description("이메일").type(JsonFieldType.STRING),
+                                fieldWithPath("data.provider").description("계정유형").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.isPrimaryProfileImg").description("기본 프로필 이미지 여부").type(JsonFieldType.BOOLEAN).optional(),
+                                fieldWithPath("data.fileUploadResponses").description("파일 업로드 응답").type(JsonFieldType.ARRAY).optional(),
+                                fieldWithPath("data.profileImg[].imageNo").description("이미지 번호").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.profileImg[].originalFileName").description("원본 파일 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].fileName").description("파일 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].filePath").description("파일 경로").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].extension").description("파일 확장자").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].externalForm").description("외부 형태").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].size").description("파일 크기").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.profileImg[].url").description("이미지 URL").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].isDefault").description("기본 이미지 여부").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.name").description("이름") .type(JsonFieldType.STRING),
+                                fieldWithPath("data.nickName").description("닉네임").type(JsonFieldType.STRING),
+                                fieldWithPath("data.phoneNumber").description("휴대폰").type(JsonFieldType.STRING),
+                                fieldWithPath("data.bio").description("소개").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.bankName").description("은행").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.accountNumber").description("계좌번호").type(JsonFieldType.STRING).optional(),
+                                fieldWithPath("data.account").description("계좌등록유무").type(JsonFieldType.BOOLEAN)
                         )
                 ));
     }
@@ -305,5 +317,73 @@ class MemberControllerDocTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("멤버 프로필 사진 등록")
+    @Transactional
+    void updateProfileImage() throws Exception {
+        // Given
+        File fileResource = new ClassPathResource("images/test.jpg").getFile();
+        byte[] fileBytes = Files.readAllBytes(fileResource.toPath());
+        MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", fileBytes);
+
+        MemberProfile memberProfile = new MemberProfile("imageId", "profile");
+        String json = new ObjectMapper().writeValueAsString(memberProfile);
+
+        MockMultipartFile memberProfilePart = new MockMultipartFile("memberProfile", "",
+                "application/json", json.getBytes());
+
+        RequestPostProcessor postProcessor = testUtil.getToken("imageId", "qwer1234@@");
+
+        // Expected
+        mockMvc.perform(multipart("/member/profile-image")
+                        .file(file)
+                        .file(memberProfilePart)   // Add this line
+                        .characterEncoding("utf-8")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json)
+                        .with(postProcessor))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("member/setting/profile-image",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParts(
+                                partWithName("file").description("Profile image file"),
+                                partWithName("memberProfile").description("Member profile")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("멤버 대표 이미지 설정")
+    @Transactional
+    void updateDefaultProfileImage() throws Exception {
+        Long imageNo = 10L;
+
+        RequestPostProcessor postProcessor = testUtil.getToken("imageId", "qwer1234@@");
+
+        // Expect
+        mockMvc.perform(post("/member/profile-image/default/{imageNo}", imageNo)
+                        .with(postProcessor)
+                )
+                .andExpect(status().isOk())
+                .andDo(document("member/setting/profile-image/default",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("imageNo").description("Image ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("code").type(JsonFieldType.NUMBER),
+                                fieldWithPath("message").description("message").type(JsonFieldType.STRING)
+                        )
+                ));
+    }
+
 
 }

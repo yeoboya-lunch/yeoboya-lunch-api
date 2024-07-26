@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
+import java.util.function.Function;
 
 @Service
 @Slf4j
@@ -121,5 +122,10 @@ public class FileServiceBasic implements FileService {
         String[] filenameExtensionArray = {"png", "jpg", "jpeg", "gif"};
         ArrayList<String> AllowedExtension = new ArrayList<>(Arrays.asList(filenameExtensionArray));
         return AllowedExtension.contains(filenameExtension);
+    }
+
+    @Override
+    public <T extends FileUploadResponse> T upload(MultipartFile multipartFile, String fileType, Function<FileUploadResponse, T> mapper) throws IOException {
+        return null;
     }
 }

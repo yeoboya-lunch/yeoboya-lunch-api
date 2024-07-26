@@ -85,9 +85,20 @@ public class MemberController {
         return response.success(Code.UPDATE_SUCCESS);
     }
 
-    @PostMapping(value = "/profile-image")
-    public ResponseEntity<Body> updateProfileImage(@RequestParam("file") MultipartFile file, @RequestPart @Valid MemberProfile memberProfile, HttpServletRequest httpServletRequest) {
-        return memberService.updateProfileImage(file, memberProfile, httpServletRequest);
+    /**
+     * 멤버 프로필 사진 등록
+     */
+    @PostMapping("/profile-image")
+    public ResponseEntity<Body> updateProfileImage(@RequestParam("file") MultipartFile file, @RequestPart @Valid MemberProfile memberProfile) {
+        return memberService.updateProfileImage(file, memberProfile);
+    }
+
+    /**
+     * 대표 이미지 설정
+     */
+    @PostMapping("/profile-image/default/{imageNo}")
+    public ResponseEntity<Body> updateDefaultProfileImage(@PathVariable Long imageNo) {
+        return memberService.setDefaultProfileImage(imageNo);
     }
 
 }

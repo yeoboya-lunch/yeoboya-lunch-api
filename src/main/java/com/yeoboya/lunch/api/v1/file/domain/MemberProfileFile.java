@@ -2,6 +2,7 @@ package com.yeoboya.lunch.api.v1.file.domain;
 
 
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
+import com.yeoboya.lunch.api.v1.file.response.ProfileUploadResponse;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.*;
 
@@ -30,19 +31,22 @@ public class MemberProfileFile {
 
     private Long size;
 
+    private Boolean isDefault;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @Builder
-    public MemberProfileFile(Member member, FileUploadResponse fileUploadResponse) {
+    public MemberProfileFile(Member member, ProfileUploadResponse profileUploadResponse) {
         this.member = member;
-        this.originalFileName = fileUploadResponse.getOriginalFileName();
-        this.fileName = fileUploadResponse.getFileName();
-        this.filePath = fileUploadResponse.getFilePath();
-        this.extension = fileUploadResponse.getExtension();
-        this.externalForm = fileUploadResponse.getExternalForm();
-        this.size = fileUploadResponse.getSize();
+        this.originalFileName = profileUploadResponse.getOriginalFileName();
+        this.fileName = profileUploadResponse.getFileName();
+        this.filePath = profileUploadResponse.getFilePath();
+        this.extension = profileUploadResponse.getExtension();
+        this.externalForm = profileUploadResponse.getExternalForm();
+        this.size = profileUploadResponse.getSize();
+        this.isDefault = profileUploadResponse.getIsDefault();
     }
 
 

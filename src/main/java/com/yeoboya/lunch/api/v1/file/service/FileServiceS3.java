@@ -29,6 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,7 @@ public class FileServiceS3 implements FileService{
     }
 
     @Override
-    public FileUploadResponse upload(MultipartFile multipartFile, String subDirectory) throws IOException {
+    public <T extends FileUploadResponse> T upload(MultipartFile multipartFile, String subDirectory, Function<FileUploadResponse, T> mapper) throws IOException {
         // Validation
         String originalFileName = multipartFile.getOriginalFilename();
         String extension = Objects.requireNonNull(originalFileName).substring(originalFileName.lastIndexOf('.') + 1);
@@ -97,12 +98,10 @@ public class FileServiceS3 implements FileService{
             Files.delete(thumbnailTempFile);
             //-------------------------------------------------------------------
 
-
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                     .bucket(S3_BUCKET_NAME)
                     .key(objectKey)
                     .build();
-
 
             // Get metadata
             GetObjectResponse metadata = s3Client.getObject(getObjectRequest).response();
@@ -110,7 +109,7 @@ public class FileServiceS3 implements FileService{
             String contentType = metadata.contentType();
             String externalForm = s3Client.utilities().getUrl(builder -> builder.bucket(S3_BUCKET_NAME).key(originalFileName)).toExternalForm();
 
-            return  FileUploadResponse.builder()
+            FileUploadResponse build = FileUploadResponse.builder()
                     .originalFileName(originalFileName)
                     .fileName(fileName)
                     .filePath(directory)
@@ -118,6 +117,8 @@ public class FileServiceS3 implements FileService{
                     .externalForm(externalForm)
                     .size(size)
                     .build();
+            return mapper.apply(build);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
