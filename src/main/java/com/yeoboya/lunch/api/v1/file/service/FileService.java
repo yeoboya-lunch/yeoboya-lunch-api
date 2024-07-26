@@ -12,9 +12,6 @@ public interface FileService {
     String makeNewDirectory(String subDirector);
     String makeNewFileName(String fileExtension);
     boolean validationExtension(String filenameExtension);
-//    FileUploadResponse upload(MultipartFile multipartFile, String fileType) throws IOException;
-//    ProfileUploadResponse upload(MultipartFile multipartFile, String fileType) throws IOException;
-
     <T extends FileUploadResponse> T upload(MultipartFile multipartFile, String fileType, Function<FileUploadResponse, T> mapper) throws IOException;
 }
 

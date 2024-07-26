@@ -144,6 +144,30 @@ include::{snippets}/member/setting/request-fields.adoc[]
 include::{snippets}/member/setting/http-response.adoc[]
 include::{snippets}/member/setting/response-fields.adoc[]
 
+=== 회원 프로필 사진등록
+
+==== http-request
+
+include::{snippets}/member/profile-image/request-body.adoc[]
+include::{snippets}/member/profile-image/request-parts.adoc[]
+
+==== http-response
+
+include::{snippets}/member/profile-image/http-response.adoc[]
+include::{snippets}/member/profile-image/response-fields.adoc[]
+
+=== 회원 대표사진 등록
+
+==== http-request
+
+include::{snippets}/member/profile-image/default/request-body.adoc[]
+include::{snippets}/member/profile-image/default/path-parameters.adoc[]
+
+==== http-response
+
+include::{snippets}/member/profile-image/default/http-response.adoc[]
+include::{snippets}/member/profile-image/default/response-fields.adoc[]
+
 === 계좌 등록
 
 ==== http-request

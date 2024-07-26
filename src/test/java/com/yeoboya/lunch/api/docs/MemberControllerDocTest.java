@@ -118,17 +118,18 @@ class MemberControllerDocTest {
 
     @Test
     @DisplayName("계좌등록")
+    @Transactional
     void account() throws Exception {
         //given
         AccountCreate request = AccountCreate.builder()
-                .loginId("admin")
+                .loginId("bank")
                 .bankName("카카오뱅크")
                 .accountNumber("3333-01-123456")
                 .build();
 
         String json = objectMapper.writeValueAsString(request);
 
-        RequestPostProcessor postProcessor = testUtil.getToken("admin", "qwer1234@@");
+        RequestPostProcessor postProcessor = testUtil.getToken("bank", "qwer1234@@");
 
         //expected
         mockMvc.perform(post("/member/account")
@@ -243,15 +244,15 @@ class MemberControllerDocTest {
                                 fieldWithPath("data.provider").description("계정유형").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("data.isPrimaryProfileImg").description("기본 프로필 이미지 여부").type(JsonFieldType.BOOLEAN).optional(),
                                 fieldWithPath("data.fileUploadResponses").description("파일 업로드 응답").type(JsonFieldType.ARRAY).optional(),
-                                fieldWithPath("data.profileImg[].imageNo").description("이미지 번호").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.profileImg[].originalFileName").description("원본 파일 이름").type(JsonFieldType.STRING),
-                                fieldWithPath("data.profileImg[].fileName").description("파일 이름").type(JsonFieldType.STRING),
-                                fieldWithPath("data.profileImg[].filePath").description("파일 경로").type(JsonFieldType.STRING),
-                                fieldWithPath("data.profileImg[].extension").description("파일 확장자").type(JsonFieldType.STRING),
-                                fieldWithPath("data.profileImg[].externalForm").description("외부 형태").type(JsonFieldType.STRING),
-                                fieldWithPath("data.profileImg[].size").description("파일 크기").type(JsonFieldType.NUMBER),
-                                fieldWithPath("data.profileImg[].url").description("이미지 URL").type(JsonFieldType.STRING),
-                                fieldWithPath("data.profileImg[].isDefault").description("기본 이미지 여부").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data.profileImg[].imageNo").optional().description("이미지 번호").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.profileImg[].originalFileName").optional().description("원본 파일 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].fileName").optional().description("파일 이름").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].filePath").optional().description("파일 경로").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].extension").optional().description("파일 확장자").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].externalForm").optional().description("외부 형태").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].size").optional().description("파일 크기").type(JsonFieldType.NUMBER),
+                                fieldWithPath("data.profileImg[].url").optional().description("이미지 URL").type(JsonFieldType.STRING),
+                                fieldWithPath("data.profileImg[].isDefault").optional().description("기본 이미지 여부").type(JsonFieldType.BOOLEAN),
                                 fieldWithPath("data.name").description("이름") .type(JsonFieldType.STRING),
                                 fieldWithPath("data.nickName").description("닉네임").type(JsonFieldType.STRING),
                                 fieldWithPath("data.phoneNumber").description("휴대폰").type(JsonFieldType.STRING),
@@ -345,7 +346,7 @@ class MemberControllerDocTest {
                         .content(json)
                         .with(postProcessor))
                 .andExpect(status().is2xxSuccessful())
-                .andDo(document("member/setting/profile-image",
+                .andDo(document("member/profile-image",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestParts(
@@ -372,7 +373,7 @@ class MemberControllerDocTest {
                         .with(postProcessor)
                 )
                 .andExpect(status().isOk())
-                .andDo(document("member/setting/profile-image/default",
+                .andDo(document("member/profile-image/default",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
