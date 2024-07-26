@@ -2,18 +2,17 @@ package com.yeoboya.lunch.api.v1.member.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
+import com.yeoboya.lunch.api.v1.file.response.ProfileUploadResponse;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
 //@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MemberResponse {
-
 
     private String loginId;
     private String email;
@@ -26,7 +25,7 @@ public class MemberResponse {
     private String phoneNumber;
     private boolean isAccount;
     private String isPrimaryProfileImg;
-    private List<FileUploadResponse> fileUploadResponses;
+    private List<ProfileUploadResponse> profileImg;
 
     @QueryProjection
     public MemberResponse(String loginId, String email, String provider, String name,
@@ -51,7 +50,8 @@ public class MemberResponse {
     }
 
     public static MemberResponse from(Member member) {
-        return new MemberResponse(member.getEmail(), member.getName(), member.getMemberInfo().getNickName(), member.getMemberInfo().getPhoneNumber());
+        return new MemberResponse(member.getEmail(), member.getName(),
+                member.getMemberInfo().getNickName(), member.getMemberInfo().getPhoneNumber());
     }
 
 

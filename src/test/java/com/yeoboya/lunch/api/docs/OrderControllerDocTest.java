@@ -244,6 +244,7 @@ class OrderControllerDocTest {
                                 fieldWithPath("data.orderMember.isPrimaryProfileImg").description("State if primary profile image").type(JsonFieldType.BOOLEAN).optional(),
                                 fieldWithPath("data.orderMember.fileUploadResponses").description("File upload response").type(JsonFieldType.ARRAY).optional(),
                                 fieldWithPath("data.orderMember.account").description("State if account").type(JsonFieldType.BOOLEAN).optional(),
+                                fieldWithPath("data.orderMember.profileImg").optional().description("Order member profile image").type(JsonFieldType.STRING),
 
                                 // 그룹 데이터
                                 fieldWithPath("data.group[].orderId").description("Order ID").type(JsonFieldType.NUMBER),
@@ -265,6 +266,7 @@ class OrderControllerDocTest {
                                 fieldWithPath("data.order.memo").description("Order Memo").type(JsonFieldType.STRING),
                                 fieldWithPath("data.order.deliveryFee").description("Delivery Fee").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data.order.joinMember").description("Joining member to an order").type(JsonFieldType.ARRAY),
+
 
                                 // 누락된 order.joinMember 필드
                                 fieldWithPath("data.order.joinMember[].orderId").description("Order id").type(JsonFieldType.NUMBER),

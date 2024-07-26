@@ -20,6 +20,7 @@ import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.api.v1.file.domain.BannerFile;
 import com.yeoboya.lunch.api.v1.file.domain.BoardFile;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
+import com.yeoboya.lunch.api.v1.file.response.ProfileUploadResponse;
 import com.yeoboya.lunch.api.v1.file.service.FileServiceBasic;
 import com.yeoboya.lunch.api.v1.file.service.FileServiceS3;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
@@ -42,6 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,12 +99,6 @@ public class BoardService {
         Member member = memberRepository.findByLoginId(fileBoardCreate.getLoginId()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found - " + fileBoardCreate.getLoginId()));
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
-//        if (!fileBoardCreate.getEmail().equals(name)) {
-//            return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
-//        }
-
         List<BoardHashTag> boardHashtag = Optional.ofNullable(fileBoardCreate.getHashTag())
                 .orElse(Collections.emptyList())
                 .stream()
@@ -116,7 +112,7 @@ public class BoardService {
         BoardFile boardFileBuild = null;
         if (file != null && !file.isEmpty()) {
             try {
-                FileUploadResponse upload = fileService.upload(file, fileBoardCreate.getUploadType());
+                FileUploadResponse upload = fileService.upload(file, fileBoardCreate.getUploadType(), Function.identity());
                 boardFileBuild = BoardFile.builder().fileUploadResponse(upload).build();
             } catch (IOException e) {
                 throw new RuntimeException("Failed to upload file", e);
@@ -128,6 +124,7 @@ public class BoardService {
         return response.success(Code.SAVE_SUCCESS);
     }
 
+    //게시글조회
     public ResponseEntity<Body> list(BoardSearch boardSearch, Pageable pageable) {
         Page<Board> boards = boardRepository.boardList(boardSearch, pageable);
 

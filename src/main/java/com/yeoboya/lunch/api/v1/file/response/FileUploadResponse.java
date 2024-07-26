@@ -42,28 +42,5 @@ public class FileUploadResponse {
         return fileUploadResponse;
     }
 
-    public static FileUploadResponse from(MemberProfileFile files) {
-        FileUploadResponse fileUploadResponse = new FileUploadResponse();
-        fileUploadResponse.setOriginalFileName(files.getOriginalFileName());
-        fileUploadResponse.setFileName(files.getFileName());
-        fileUploadResponse.setFilePath(files.getFilePath());
-        fileUploadResponse.setExtension(files.getExtension());
-        fileUploadResponse.setExternalForm(files.getExternalForm());
-        fileUploadResponse.setSize(files.getSize());
-        fileUploadResponse.setUrl("https://yeoboya-lunch-s3-bucket.s3.ap-northeast-2.amazonaws.com/" + files.getFilePath() + "/" + files.getFileName());
-        return fileUploadResponse;
-    }
 
-    @Override
-    public String toString() {
-        return "FileUploadResponse{" +
-                "originalFileName='" + originalFileName + '\'' +
-                ", fileName='" + fileName + '\'' +
-                ", filePath='" + filePath + '\'' +
-                ", extension='" + extension + '\'' +
-                ", externalForm='" + externalForm + '\'' +
-                ", size=" + size +
-                ", url='" + url + '\'' +
-                '}';
-    }
 }

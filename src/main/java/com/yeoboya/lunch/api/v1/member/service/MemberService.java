@@ -1,12 +1,14 @@
 package com.yeoboya.lunch.api.v1.member.service;
 
 import com.yeoboya.lunch.api.v1.common.exception.EntityNotFoundException;
+import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.SlicePagination;
 import com.yeoboya.lunch.api.v1.file.domain.MemberProfileFile;
 import com.yeoboya.lunch.api.v1.file.repository.MemberProfileFileRepository;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
+import com.yeoboya.lunch.api.v1.file.response.ProfileUploadResponse;
 import com.yeoboya.lunch.api.v1.file.service.FileServiceS3;
 import com.yeoboya.lunch.api.v1.member.domain.Account;
 import com.yeoboya.lunch.api.v1.member.domain.Member;
@@ -18,6 +20,7 @@ import com.yeoboya.lunch.api.v1.member.response.AccountResponse;
 import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberAccount;
 import com.yeoboya.lunch.api.v1.member.response.MemberProjections.MemberSummary;
 import com.yeoboya.lunch.api.v1.member.response.MemberResponse;
+import com.yeoboya.lunch.config.annotation.EnsureMemberExists;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +33,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -78,11 +85,16 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponse memberProfile(String memberLoginId) {
-        memberRepository.findByLoginId(memberLoginId).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + memberLoginId));
+    @EnsureMemberExists
+    public MemberResponse memberProfile(String loginId) {
+        MemberResponse memberResponse = memberRepository.memberProfile(loginId);
+        List<MemberProfileFile> memberProfileFiles = memberRepository.profileImg(loginId);
 
-        MemberResponse memberResponse = memberRepository.memberProfile(memberLoginId);
+        List<ProfileUploadResponse> responses = memberProfileFiles.stream()
+                .map(ProfileUploadResponse::from)
+                .collect(Collectors.toList());
+
+        memberResponse.setProfileImg(responses);
 
         if(StringUtils.hasText(memberResponse.getAccountNumber())){
             memberResponse.setAccount(true);
@@ -166,28 +178,65 @@ public class MemberService {
         }
     }
 
-    //fixme return
-    public ResponseEntity<Response.Body> updateProfileImage(MultipartFile file, MemberProfile memberProfile, HttpServletRequest httpServletRequest) {
-
-        Member member = memberRepository.findByLoginId(memberProfile.getLoginId()).orElseThrow(
-                () -> new EntityNotFoundException("Member not found - " + memberProfile.getLoginId()));
+    public ResponseEntity<Response.Body> updateProfileImage(MultipartFile file, MemberProfile memberProfile) {
+        String loginId = memberProfile.getLoginId();
+        Member member = memberRepository.findByLoginId(loginId).orElseThrow(
+                () -> new EntityNotFoundException("Member not found - " + loginId));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
-        if (!memberProfile.getLoginId().equals(name)) {
+        String loggedInUsername = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
+        if (!loginId.equals(loggedInUsername)) {
             return response.fail(ErrorCode.INVALID_AUTH_TOKEN);
         }
 
-        FileUploadResponse upload;
+        Function<FileUploadResponse, ProfileUploadResponse> responseMapper = fileUploadResponse -> {
+            ProfileUploadResponse profileUploadResponse = new ProfileUploadResponse();
+            profileUploadResponse.setOriginalFileName(fileUploadResponse.getOriginalFileName());
+            profileUploadResponse.setFileName(fileUploadResponse.getFileName());
+            profileUploadResponse.setFilePath(fileUploadResponse.getFilePath());
+            profileUploadResponse.setExtension(fileUploadResponse.getExtension());
+            profileUploadResponse.setSize(fileUploadResponse.getSize());
+            profileUploadResponse.setUrl(fileUploadResponse.getUrl());
+            return profileUploadResponse;
+        };
+
+        ProfileUploadResponse upload;
         try {
-            upload = fileServiceS3.upload(file, memberProfile.getSubDirectory());
+            upload = fileServiceS3.upload(file, memberProfile.getSubDirectory(), responseMapper);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        MemberProfileFile build = MemberProfileFile.builder().member(member).fileUploadResponse(upload).build();
-        memberProfileFileRepository.save(build);
 
-        return null;
+        //대표이미지 설정
+        boolean isDefault = memberRepository.profileImg(loginId).stream()
+                .anyMatch(MemberProfileFile::getIsDefault);
+        upload.setIsDefault(!isDefault);
+
+        MemberProfileFile profileFileEntity = MemberProfileFile.builder()
+                .member(member)
+                .profileUploadResponse(upload)
+                .build();
+
+        MemberProfileFile save = memberProfileFileRepository.save(profileFileEntity);
+        return response.success(Code.UPDATE_SUCCESS);
     }
+
+
+    @Transactional
+    public ResponseEntity<Response.Body> setDefaultProfileImage(Long imageNo) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedId = Optional.of(authentication.getName()).orElseThrow(() -> new EntityNotFoundException(""));
+
+        List<MemberProfileFile> byMemberLoginIdAndIsDefaultTrue = memberProfileFileRepository.findByMember_LoginIdAndIsDefaultTrue(loggedId);
+        byMemberLoginIdAndIsDefaultTrue.forEach(profileFile -> profileFile.setIsDefault(false));
+
+        MemberProfileFile defaultProfileImage = memberProfileFileRepository.findByMemberLoginIdAndId(loggedId, imageNo);
+        defaultProfileImage.setIsDefault(true);
+
+        return response.success(Code.UPDATE_SUCCESS);
+    }
+
+
+
 }
 
