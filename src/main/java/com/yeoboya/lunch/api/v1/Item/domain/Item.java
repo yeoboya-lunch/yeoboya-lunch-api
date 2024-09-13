@@ -8,7 +8,6 @@ import lombok.*;
 import javax.persistence.*;
 
 @Getter
-@Setter
 @Entity
 @Table(
         uniqueConstraints = {
@@ -30,8 +29,8 @@ public class Item extends BaseEntity {
 
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SHOP_ID")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) // 관계 필드에 nullable을 명시적으로 지정
+    @JoinColumn(name = "SHOP_ID", nullable = false)
     private Shop shop;
 
     @Builder
