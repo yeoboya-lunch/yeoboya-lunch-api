@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.api.v1.Item.controller;
 
+import com.yeoboya.lunch.api.v1.Item.controller.specification.ItemApi;
 import com.yeoboya.lunch.api.v1.Item.request.ItemCreate;
 import com.yeoboya.lunch.api.v1.Item.request.ItemEdit;
 import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/item")
 @RequiredArgsConstructor
-public class ItemController {
+public class ItemController implements ItemApi {
 
     private final Response response;
     private final ItemService itemService;

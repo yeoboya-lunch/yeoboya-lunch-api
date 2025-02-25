@@ -118,6 +118,18 @@ public class SecurityConfiguration {
                 .formLogin().disable()                                     // 폼 로그인 비활성
                 .httpBasic().disable()                                     // HTTP Basic 로그인 비활성
 
+                .authorizeRequests()
+                .antMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/redoc",        // ✅ Redoc 경로 추가
+                        "/redoc.html"    // ✅ Redoc 정적 HTML 추가
+                ).permitAll()  // 인증 없이 접근 가능하도록 설정
+
+                .anyRequest().authenticated()  // 그 외 요청은 JWT 인증 필요
+                .and()
+
                 // 예외 처리 설정
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPointImpl)     // 인증 예외 발생 시 처리 설정
@@ -145,6 +157,7 @@ public class SecurityConfiguration {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(
                 Arrays.asList(
+                        "http://localhost:8080",
                         "http://localhost:3000",
                         "https://api.yeoboya-lunch.com",
                         "https://www.yeoboya-lunch.com",
@@ -162,6 +175,8 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
+
 
     @Bean
     public PermitAllFilter createPermitAllFilter() {

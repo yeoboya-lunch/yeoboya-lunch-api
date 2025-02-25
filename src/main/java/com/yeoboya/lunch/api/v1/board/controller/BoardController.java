@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.api.v1.board.controller;
 
+import com.yeoboya.lunch.api.v1.board.controller.specification.BoardApi;
 import com.yeoboya.lunch.api.v1.board.request.BoardCreate;
 import com.yeoboya.lunch.api.v1.board.request.BoardEdit;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
@@ -21,7 +22,7 @@ import java.security.Principal;
 @RequestMapping("/board")
 @RequiredArgsConstructor
 @Slf4j
-public class BoardController {
+public class BoardController implements BoardApi {
 
     private final BoardService boardService;
 

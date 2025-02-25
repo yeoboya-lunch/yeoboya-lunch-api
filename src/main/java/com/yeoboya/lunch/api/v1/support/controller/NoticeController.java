@@ -2,6 +2,7 @@ package com.yeoboya.lunch.api.v1.support.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.support.controller.specification.NoticeApi;
 import com.yeoboya.lunch.api.v1.support.domain.Notice;
 import com.yeoboya.lunch.api.v1.support.request.NoticeRequest;
 import com.yeoboya.lunch.api.v1.support.response.NoticeResponseDTO;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/support")
 @RequiredArgsConstructor
-public class NoticeController {
+public class NoticeController implements NoticeApi {
 
     private final NoticeService noticeService;
     private final Response response;

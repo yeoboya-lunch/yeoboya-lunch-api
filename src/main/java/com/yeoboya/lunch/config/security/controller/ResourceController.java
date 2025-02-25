@@ -2,6 +2,7 @@ package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.config.annotation.Reload;
+import com.yeoboya.lunch.config.security.controller.specification.ResourceApi;
 import com.yeoboya.lunch.config.security.reqeust.ResourcesRequest;
 import com.yeoboya.lunch.config.security.reqeust.TokenIgnoreUrlRequest;
 import com.yeoboya.lunch.config.security.service.ResourcesService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/resource")
 @RequiredArgsConstructor
-public class ResourceController {
+public class ResourceController implements ResourceApi {
 
     private final ResourcesService resourcesService;
 

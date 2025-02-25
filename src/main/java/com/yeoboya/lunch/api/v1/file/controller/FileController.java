@@ -16,7 +16,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
-public class FIleController {
+public class FileController {
 
     private final Response response;
     private final FileServiceS3 fileServiceS3;

@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.review.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.review.controller.specification.ReviewApi;
 import com.yeoboya.lunch.api.v1.review.request.ReviewRequest;
 import com.yeoboya.lunch.api.v1.review.request.ReviewUpdateRequest;
 import com.yeoboya.lunch.api.v1.review.service.ReviewService;
@@ -13,7 +14,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/reviews")
 @RequiredArgsConstructor
-public class ReviewController {
+public class ReviewController implements ReviewApi {
 
     private final ReviewService reviewService;
 

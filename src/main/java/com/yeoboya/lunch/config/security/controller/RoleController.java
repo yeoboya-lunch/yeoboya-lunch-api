@@ -2,6 +2,7 @@ package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.config.annotation.Reload;
+import com.yeoboya.lunch.config.security.controller.specification.RoleApi;
 import com.yeoboya.lunch.config.security.reqeust.AuthorityRequest;
 import com.yeoboya.lunch.config.security.reqeust.SecurityRequest;
 import com.yeoboya.lunch.config.security.service.RoleService;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/role")
 @RequiredArgsConstructor
-public class RoleController {
+public class RoleController implements RoleApi {
 
     private final RoleService roleService;
 

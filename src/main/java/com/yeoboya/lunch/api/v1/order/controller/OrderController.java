@@ -5,6 +5,7 @@ import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.ErrorCode;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.order.controller.specification.OrderApi;
 import com.yeoboya.lunch.api.v1.order.request.*;
 import com.yeoboya.lunch.api.v1.order.response.OrderDetailResponse;
 import com.yeoboya.lunch.api.v1.order.service.OrderService;
@@ -22,7 +23,7 @@ import java.time.Duration;
 
 @RestController
 @RequestMapping("/order")
-public class OrderController {
+public class OrderController implements OrderApi {
 
     private final Bucket bucket;
     private final Response response;

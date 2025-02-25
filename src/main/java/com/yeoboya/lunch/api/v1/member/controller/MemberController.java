@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.member.controller;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.member.controller.specification.MemberApi;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountCreate;
 import com.yeoboya.lunch.api.v1.member.reqeust.AccountEdit;
 import com.yeoboya.lunch.api.v1.member.reqeust.MemberInfoEdit;
@@ -24,7 +25,7 @@ import javax.validation.Valid;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @Slf4j
-public class MemberController {
+public class MemberController implements MemberApi {
 
     private final Response response;
     private final MemberService memberService;

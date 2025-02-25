@@ -2,11 +2,14 @@ package com.yeoboya.lunch.config.security.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
 import com.yeoboya.lunch.config.annotation.TimeLogging;
+import com.yeoboya.lunch.config.security.controller.specification.UserApi;
 import com.yeoboya.lunch.config.security.reqeust.UserRequest.*;
 import com.yeoboya.lunch.config.security.service.UserService;
 import com.yeoboya.lunch.config.security.validation.SignUpFormValidator;
 import com.yeoboya.lunch.config.security.validation.ValidationGroups.KnowOldPassword;
 import com.yeoboya.lunch.config.security.validation.ValidationGroups.UnKnowOldPassword;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController implements UserApi {
 
     private final UserService userService;
     private final SignUpFormValidator signUpFormValidator;
@@ -42,9 +45,6 @@ public class UserController {
     /**
      * Signs in a user with the provided credentials.
      *
-     * @param signIn                The sign in credentials.
-     * @param httpServletRequest    The HTTP servlet request.
-     * @return A ResponseEntity containing the response body.
      */
     @PostMapping("/sign-in")
     public ResponseEntity<Body> signIn(@Valid @RequestBody SignIn signIn, HttpServletRequest httpServletRequest) {

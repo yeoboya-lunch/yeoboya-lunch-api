@@ -1,5 +1,6 @@
 package com.yeoboya.lunch.api.v1.board.controller;
 
+import com.yeoboya.lunch.api.v1.board.controller.specification.ReplyApi;
 import com.yeoboya.lunch.api.v1.board.request.BoardSearch;
 import com.yeoboya.lunch.api.v1.board.request.ReplyCreateRequest;
 import com.yeoboya.lunch.api.v1.board.service.ReplyService;
@@ -15,7 +16,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board/reply")
-public class ReplyController {
+public class ReplyController implements ReplyApi {
 
     private final ReplyService replyService;
 

@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.support.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.support.controller.specification.InquiryApi;
 import com.yeoboya.lunch.api.v1.support.request.InquiryRequest;
 import com.yeoboya.lunch.api.v1.support.service.InquiryService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/support")
 @RequiredArgsConstructor
-public class InquiryController {
+public class InquiryController implements InquiryApi {
 
     private final InquiryService inquiryService;
 

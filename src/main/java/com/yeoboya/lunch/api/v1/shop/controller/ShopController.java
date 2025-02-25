@@ -4,6 +4,7 @@ import com.yeoboya.lunch.api.v1.Item.response.ItemResponse;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.shop.controller.specification.ShopApi;
 import com.yeoboya.lunch.api.v1.shop.request.ShopAndItemCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopCreate;
 import com.yeoboya.lunch.api.v1.shop.request.ShopSearch;
@@ -20,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/shop")
 @RequiredArgsConstructor
-public class ShopController {
+public class ShopController implements ShopApi {
 
     private final Response response;
     private final ShopService service;

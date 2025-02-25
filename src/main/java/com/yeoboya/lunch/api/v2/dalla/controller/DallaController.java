@@ -8,6 +8,7 @@ import com.yeoboya.lunch.api.v2.dalla.service.DallaService;
 import com.yeoboya.lunch.api.v2.dalla.service.SocketService;
 import com.yeoboya.lunch.api.v2.dalla.service.TownService;
 import com.yeoboya.lunch.config.annotation.TimeLogging;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
+@Hidden
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/dalla")

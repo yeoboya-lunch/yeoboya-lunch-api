@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.Optional;
 
 @Component
 public class Response {
@@ -16,10 +16,19 @@ public class Response {
     @Getter
     @Builder
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @Schema(description = "API 응답 객체")
     public static class Body {
+
+        @Schema(description = "HTTP 응답 코드", example = "200")
         private final int code;
+
+        @Schema(description = "응답 메시지", example = "성공적으로 처리되었습니다.")
         private final String message;
+
+        @Schema(description = "에러 상세 정보 (선택적)", example = "유효하지 않은 요청입니다.")
         private String detail;
+
+        @Schema(description = "응답 데이터 (선택적)", example = "{ \"id\": 1, \"name\": \"John Doe\" }")
         private Object data;
     }
 
@@ -42,7 +51,7 @@ public class Response {
         return  ResponseEntity.status(errorCode.getHttpStatus()).body(body);
     }
 
-    /** 실패 */
+    /** 실패 (상세 메시지 포함) */
     public ResponseEntity<Body> fail(ErrorCode errorCode, String detail) {
         Body body = Body.builder()
                 .code(errorCode.getHttpStatus().value())
@@ -52,111 +61,28 @@ public class Response {
         return  ResponseEntity.status(errorCode.getHttpStatus()).body(body);
     }
 
-    /**
-     * <p> 성공 응답만 반환한다. </p>
-     * <pre>
-     *     {
-     *         "statusCode" : 200,
-     *         "result" : success
-     *     }
-     * </pre>
-     *
-     * @return 응답 객체
-     */
+    /** 기본 성공 응답 */
     public ResponseEntity<Body> success() {
         return success(HttpStatus.OK, null, Collections.emptyList());
     }
 
-    /**
-     * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
-     * <pre>
-     *     {
-     *         "statusCode" : code.getHttpStatus,
-     *         "result" : success,
-     *         "message" : message,
-     *         "data" : [{data1}, {data2}...]
-     *     }
-     * </pre>
-     *
-     * @param code Code.java
-     * @return 응답 객체
-     */
-    public ResponseEntity<Body> success(Code code) {
-        return success(code.getHttpStatus(), code.getMsg(), null);
-    }
-
-
-    /**
-     * <p> 메세지만 가진 성공 응답을 반환한다.</p>
-     * <pre>
-     *     {
-     *         "statusCode" : 200,
-     *         "result" : success,
-     *         "message" : message
-     *     }
-     * </pre>
-     *
-     * @param msg 응답 바디 message 필드에 포함될 정보
-     * @return 응답 객체
-     */
+    /** 메시지만 포함하는 성공 응답 */
     public ResponseEntity<Body> success(String msg) {
         return success(HttpStatus.OK, msg, Collections.emptyList());
     }
 
-    /**
-     * <p> 데이터만 가진 성공 응답을 반환한다.</p>
-     * <pre>
-     *     {
-     *         "statusCode" : 200,
-     *         "result" : success,
-     *         "data" : [{data1}, {data2}...]
-     *     }
-     * </pre>
-     *
-     * @param data 응답 바디 data 필드에 포함될 정보
-     * @return 응답 객체
-     */
+    /** 데이터만 포함하는 성공 응답 */
     public ResponseEntity<Body> success(Object data) {
         return success(HttpStatus.OK, null, data);
     }
 
-
-    /**
-     * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
-     * <pre>
-     *     {
-     *         "statusCode" : 200,
-     *         "result" : success,
-     *         "message" : message,
-     *         "data" : [{data1}, {data2}...]
-     *     }
-     * </pre>
-     *
-     * @param msg 응답 바디 message 필드에 포함될 정보
-     * @param data 응답 바디 data 필드에 포함될 정보
-     * @return 응답 객체
-     */
+    /** 메시지와 데이터를 포함하는 성공 응답 */
     public ResponseEntity<Body> success(String msg, Object data) {
         return success(HttpStatus.OK, msg, data);
     }
 
-    /**
-     * <p> 데이터, 메세지를 가진 성공 응답을 반환한다.</p>
-     * <pre>
-     *     {
-     *         "statusCode" : code.getHttpStatus(),
-     *         "result" : success,
-     *         "message" : message,
-     *         "data" : [{data1}, {data2}...]
-     *     }
-     * </pre>
-     *
-     * @param data 응답 바디 data 필드에 포함될 정보
-     * @param code Code.java
-     * @return 응답 객체
-     */
+    /** 특정 응답 코드와 메시지를 포함하는 성공 응답 */
     public ResponseEntity<Body> success(Code code, Object data) {
         return success(code.getHttpStatus(), code.getMsg(), data);
     }
-
 }
