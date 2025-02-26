@@ -3,6 +3,7 @@ package com.yeoboya.lunch.api.v1.file.controller;
 import com.yeoboya.lunch.api.v1.common.response.Code;
 import com.yeoboya.lunch.api.v1.common.response.Response;
 import com.yeoboya.lunch.api.v1.common.response.Response.Body;
+import com.yeoboya.lunch.api.v1.file.controller.specification.FileApi;
 import com.yeoboya.lunch.api.v1.file.response.FileUploadResponse;
 import com.yeoboya.lunch.api.v1.file.service.FileServiceBasic;
 import com.yeoboya.lunch.api.v1.file.service.FileServiceS3;
@@ -16,7 +17,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
-public class FileController {
+public class FileController implements FileApi {
 
     private final Response response;
     private final FileServiceS3 fileServiceS3;

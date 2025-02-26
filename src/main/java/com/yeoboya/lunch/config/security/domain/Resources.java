@@ -30,18 +30,20 @@ public class Resources implements Serializable {
     @Column(name = "http_method")
     private String httpMethod;
 
-    @Column(name = "order_num")
-    private int orderNum;
+    @Column(name = "order_num", nullable = true)
+    private Integer orderNum;
 
     @Column(name = "resource_type")
     private String resourceType;
 
     @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "role_resources", joinColumns = {
-            @JoinColumn(name = "resource_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    @JoinTable(
+            name = "role_resources",
+            joinColumns = { @JoinColumn(name = "resource_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") }
+    )
     private Set<Role> roleSet = new HashSet<>();
-
 
     public static Resources createResources(ResourcesRequest resourcesRequest){
         Resources resources = new Resources();

@@ -1,6 +1,7 @@
 package com.yeoboya.lunch.api.v1.event.controller;
 
 import com.yeoboya.lunch.api.v1.common.response.Response;
+import com.yeoboya.lunch.api.v1.event.controller.specification.BannerApi;
 import com.yeoboya.lunch.api.v1.event.domain.Banner;
 import com.yeoboya.lunch.api.v1.event.reqeust.BannerRequest;
 import com.yeoboya.lunch.api.v1.event.service.BannerService;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/banners")
 @RequiredArgsConstructor
-public class BannerController {
+public class BannerController  {
 
     private final BannerService bannerService;
 

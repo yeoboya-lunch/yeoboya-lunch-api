@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Inquiry", description = "문의사항 관리 API")
+@Tag(name = "Support", description = "문의사항 관리 API")
 @RequestMapping("/support")
 public interface InquiryApi {
 

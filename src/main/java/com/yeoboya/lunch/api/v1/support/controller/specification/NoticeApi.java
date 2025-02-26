@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "Notice", description = "공지사항 관리 API")
+@Tag(name = "Support", description = "공지사항 관리 API")
 @RequestMapping("/support")
 public interface NoticeApi {
 

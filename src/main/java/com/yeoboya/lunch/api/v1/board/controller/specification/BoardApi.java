@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,7 @@ import java.security.Principal;
 @Tag(name = "Board", description = "게시판 관련 API")
 public interface BoardApi {
 
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "게시글 작성", description = "새로운 게시글을 작성합니다.")
     @PostMapping("/write")
     ResponseEntity<Body> create(@RequestBody @Valid BoardCreate boardCreate);

@@ -1,6 +1,12 @@
+# ===============================
+# 로깅 설정
+# ===============================
 logging:
   config: classpath:logs/logback-local.xml
 
+# ===============================
+# 데이터베이스 설정 (H2)
+# ===============================
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/lunch
@@ -11,6 +17,9 @@ spring:
       enabled: true
       path: /h2-console
 
+  # ===============================
+  # JPA 및 Hibernate 설정
+  # ===============================
   jpa:
     properties:
       hibernate:
@@ -23,28 +32,40 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-    show-sql: true # Hibernate sql
+    show-sql: true # Hibernate SQL 출력
     defer-datasource-initialization: true
     open-in-view: true
 
+  # ===============================
+  # Redis 설정
+  # ===============================
   redis:
     master:
-      host: 127.0.0.1
-      port: 6379
+      host: ENC(kcGli1hQDUI+PuWR5y3uGytjiSIacdjW4Ye8aZAFmZA+NU3j6phdPiNiI4LZOAgNkCz9wc197guDPE92gQe0lZQAM22HAXF3)
+      port: 10352
     slaves:
-      - host: 127.0.0.1
-        port: 6379
-    password: redistestpassword
-    database: 12
+      - host: ENC(kcGli1hQDUI+PuWR5y3uGytjiSIacdjW4Ye8aZAFmZA+NU3j6phdPiNiI4LZOAgNkCz9wc197guDPE92gQe0lZQAM22HAXF3)
+        port: 10352
+    password: ENC(po92S3UxLb/hK+62OAX7vTdc0jvCl50G/GsoYAmumc0/YSU+3XB/3yIv99stu2S6)
+    database: 0
 
+  # ===============================
+  # SQL 초기화 설정
+  # ===============================
   sql:
     init:
       mode: never
 
+# ===============================
+# 외부 API 설정 (Dalla)
+# ===============================
 dalla:
   baseUrl: https://api.dallalive.com
   authToken: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTU4NzA4NzI0MzEwNkB0cnVlIiwiaWF0IjoxNzA0MTU0OTA5LCJleHAiOjE3MDY3NDY5MDl9.BfkvPiCSlMZON2qCYTVTGz4HDJ2-pQc2jyBpGDDjmFA
   socketUrl: https://devsv1.dallalive.com:8000/api/chatroom/sendmessage/
 
+# ===============================
+# 프론트엔드 설정
+# ===============================
 front:
   url: http://localhost:3000

@@ -14,25 +14,11 @@ VALUES (1, 'ROLE_ADMIN', '어드민'),
        (4, 'ROLE_GUEST', '게스트'),
        (5, 'ROLE_BLOCK', '차단');
 
--- 리소스 정의
-INSERT INTO resource(RESOURCES_ID, HTTP_METHOD, ORDER_NUM, RESOURCE_NAME, RESOURCE_TYPE)
-VALUES (1, null, 1, '/authority/**', 'url'),
-       (2, null, 2, '/resource/**', 'url'),
-       (3, null, 3, '/member/**', 'url'),
-       (4, null, 4, '/user/**', 'url'),
-       (5, null, 5, '/shop/**', 'url'),
-       (6, null, 6, '/item/**', 'url'),
-       (7, null, 7, '/order/**', 'url'),
-       (8, null, 8, '/review/**', 'url'),
-       (9, null, 9, '/board/**', 'url'),
-       (10, null, 10, '/like/**', 'url'),
-       (11, null, 11, '/banners/**', 'url'),
-       (12, null, 12, '/support/**', 'url');
 
 -- 역할 별 리소스 접근 규정
 INSERT INTO role_resources(RESOURCE_ID, ROLE_ID)
 VALUES (1, 1),
-       (2, 2);
+       (2, 1);
 
 
 -- IP접근 설정

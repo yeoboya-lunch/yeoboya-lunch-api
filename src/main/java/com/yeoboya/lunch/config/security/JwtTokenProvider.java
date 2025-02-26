@@ -29,6 +29,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static com.yeoboya.lunch.config.aws.AwsSecretsManagerClient.getSecret;
+
 @Component
 @Slf4j
 public class JwtTokenProvider {
@@ -40,12 +42,12 @@ public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = TimeUnit.DAYS.toMillis(5);   // 5일
     private static final long REFRESH_TOKEN_EXPIRE_TIME = TimeUnit.DAYS.toMillis(14);    // 14일
-
     private final UserDetailsService userDetailsService;
 
-    public JwtTokenProvider(@Value("${jwt.token.secretKey}") String secretKey, CustomAuthenticationDetailsBuilder customAuthenticationDetailsBuilder, UserDetailsService userDetailsService) {
+    public JwtTokenProvider(CustomAuthenticationDetailsBuilder customAuthenticationDetailsBuilder, UserDetailsService userDetailsService) {
         this.customAuthenticationDetailsBuilder = customAuthenticationDetailsBuilder;
         this.userDetailsService = userDetailsService;
+        String secretKey = getSecret("prod/lunch").getString("jwt.token.secretkey");
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }

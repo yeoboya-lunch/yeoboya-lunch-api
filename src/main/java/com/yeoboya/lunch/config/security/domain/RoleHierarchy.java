@@ -17,7 +17,7 @@ import java.util.Set;
 public class RoleHierarchy implements Serializable {
 
     @Id
-    @Column(name = "ROLEhIERARCHY_ID", nullable = false)
+    @Column(name = "ROLE_HIERARCHY_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

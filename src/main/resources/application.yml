@@ -1,37 +1,8 @@
-spring:
-
-  main:
-    allow-bean-definition-overriding: true
-
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ENC(msnXO/qwDDzrDVxBzJSA39GjTJTgNJlo24Ii6fmYxi4=)
-    password: ENC(NOQd4VVQYDKVJm1XJxmGlaETq76lg+c8CUS9YmndAxs=)
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-
-  cache:
-    type: CAFFEINE
-
-  data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-    redis:
-      repositories:
-        enabled: false
-
-  batch:
-    job:
-      enabled: false
-      names: ${job.name:NONE}
-    jdbc:
-      initialize-schema: never
-
+# ===============================
+#  기본 서버 설정
+# ===============================
 server:
-#  port: 4463
+  port: 8080
   servlet:
     encoding:
       charset: UTF-8
@@ -41,36 +12,89 @@ server:
     mbeanregistry:
       enabled: true
 
-management:
-#  server:
-#    port: 9000
-  info:
-    java:
-      enabled: true # Java 관련 정보도 출력될 수 있게 합니다.
-    os:
-      enabled: true # OS 관련 정보도 출력될 수 있게 합니다.
-    git:
-      mode: "full" # Git 정보를 'full' 모드로 표시하게 합니다.
-  endpoint:
-    prometheus:
-      enabled: true # Prometheus 미터 등록 정보를 사용 가능하게 합니다.
-    shutdown:
-      enabled: true # Shut down end point를 사용 가능하게 합니다. 이 end point를 호출하면 서비스가 정지됩니다.
-    health:
-      show-details: always # Health check end point가 항상 자세한 정보를 출력하도록 합니다.
-  endpoints:
-    web:
-      exposure:
-        include: "*" # 모든 웹 기반 end point가 사용 가능하게 보이도록 설정합니다.
-  health:
-    db:
-      enabled: true
+# ===============================
+#  보안 및 인증 설정 (JWT)
+# ===============================
+jwt:
+  token:
+    secretKey: CY9AK5nbR9Ok66F+oJvk+AA/8/cShipQoICTd8m4ZLVu6PcNHnL8WRhOVqDl3WNTFqoEw32HIzu1qYaW4GfPbDgrC+hPnpMmjPHeDckqdLs28oF4vunHQpg1dVcoD65t
 
+# ===============================
+# 캐시 설정
+# ===============================
+spring:
+  cache:
+    type: CAFFEINE
+
+  # ===============================
+  # 데이터 및 데이터베이스 설정
+  # ===============================
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+    redis:
+      repositories:
+        enabled: false
+
+  # ===============================
+  # 배치 설정 (Batch Job)
+  # ===============================
+  batch:
+    job:
+      enabled: false
+      names: ${job.name:NONE}
+    jdbc:
+      initialize-schema: never
+
+  # ===============================
+  # 이메일 설정 (SMTP)
+  # ===============================
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(msnXO/qwDDzrDVxBzJSA39GjTJTgNJlo24Ii6fmYxi4=)
+    password: ENC(NOQd4VVQYDKVJm1XJxmGlaETq76lg+c8CUS9YmndAxs=)
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+# ===============================
+# 파일 업로드 설정
+# ===============================
 file:
   upload:
     root-path: ./file
     ratio-wh: 1280
 
-jwt:
-  token:
-    secretKey: CY9AK5nbR9Ok66F+oJvk+AA/8/cShipQoICTd8m4ZLVu6PcNHnL8WRhOVqDl3WNTFqoEw32HIzu1qYaW4GfPbDgrC+hPnpMmjPHeDckqdLs28oF4vunHQpg1dVcoD65t
+  # ===============================
+  # 애플리케이션 설정
+  # ===============================
+main:
+  allow-bean-definition-overriding: true
+
+# ===============================
+# 모니터링 및 관리 설정 (Actuator)
+# ===============================
+management:
+  info:
+    java:
+      enabled: true  # Java 정보 출력
+    os:
+      enabled: true  # OS 정보 출력
+    git:
+      mode: "full"   # Git 정보 'full' 모드로 표시
+  endpoint:
+    prometheus:
+      enabled: true  # Prometheus 활성화
+    shutdown:
+      enabled: true  # Shutdown EndPoint 활성화
+    health:
+      show-details: always  # Health Check EndPoint 상세 정보 출력
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # 모든 웹 기반 EndPoint 노출
+  health:
+    db:
+      enabled: true  # DB Health Check 활성화

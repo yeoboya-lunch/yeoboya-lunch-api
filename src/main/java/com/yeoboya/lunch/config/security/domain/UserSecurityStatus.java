@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class UserSecurityStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USERSECURITYSTATUS_ID", nullable = false)
+    @Column(name = "user_security_status_id", nullable = false)
     private Long id;
 
     private boolean isAccountNonExpired = true;

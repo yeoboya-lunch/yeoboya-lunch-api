@@ -20,14 +20,14 @@ public class RootController {
         this.env = env;
     }
 
-    @GetMapping("/profile")
+//    @GetMapping("/profile")
     public String getProfile () {
         return Arrays.stream(env.getActiveProfiles())
                 .findFirst()
                 .orElse("");
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public Map<String, String> getRootInfo() {
         Map<String, String> info = new LinkedHashMap<>();
         info.put("serviceName", "yeoboya-lunch-api");

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Tag(name = "Reply", description = "게시글 댓글 API")
+@Tag(name = "Board", description = "게시판 관련 API")
 public interface ReplyApi {
 
     @Operation(summary = "댓글 작성", description = "게시글에 댓글을 작성합니다.")

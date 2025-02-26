@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Like", description = "게시글 좋아요 API")
+@Tag(name = "Board", description = "게시판 관련 API")
 public interface LikeApi {
 
     @Operation(summary = "게시글 좋아요", description = "게시글에 좋아요를 추가합니다.")
