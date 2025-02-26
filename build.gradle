@@ -1,3 +1,4 @@
+//  1. 플러그인 설정
 plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
@@ -6,11 +7,13 @@ plugins {
     id 'java'
 }
 
+//  2. 프로젝트 정보 설정
 group = 'com.yeoboya'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
+//  3. 설정 (의존성 확장)
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -18,16 +21,19 @@ configurations {
     asciidoctorExt
 }
 
+//  4. 저장소 설정
 repositories {
     mavenCentral()
 }
 
+//  5. JAR 빌드 관련 설정
 jar {
-    enabled = false // 기본 JAR 작업 비활성화 (bootJar 사용)
+    enabled = false // 기본 JAR 비활성화 (bootJar 사용)
 }
 
+//  6. 의존성 관리
 dependencies {
-    // Spring Boot 스타터 및 프레임워크 관련 의존성
+    // Spring Boot Starter (기본적인 기능 제공)
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -40,24 +46,28 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
-    // JWT 관련 의존성
+    // 데이터베이스 (JPA, MySQL, MariaDB, H2)
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
+    runtimeOnly 'com.h2database:h2'
+
+    // 캐싱, Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
+    // 암호화 및 보안 (Jasypt, JWT)
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
 
-    // 캐싱, 데이터베이스, 로깅 및 기타 유틸리티 의존성
-    implementation 'com.github.ben-manes.caffeine:caffeine'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
+    // 로깅 및 모니터링
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-    implementation 'org.json:json:20210307'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+    // AWS SDK (Secrets Manager, S3)
     implementation 'software.amazon.awssdk:secretsmanager:2.24.12'
-    implementation 'org.hibernate:hibernate-micrometer:5.4.32.Final'
     implementation platform('software.amazon.awssdk:bom:2.17.230')
     implementation 'software.amazon.awssdk:s3'
 
@@ -66,13 +76,13 @@ dependencies {
     implementation 'org.imgscalr:imgscalr-lib:4.2'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'com.j256.simplemagic:simplemagic:1.17'
-    implementation 'commons-io:commons-io:2.11.0'
-    implementation 'org.imgscalr:imgscalr-lib:4.2'
 
-    // HTTP 클라이언트, 제한 정책 및 테스트 관련 의존성
+    // HTTP 클라이언트, 속도 제한, JSON
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
-    runtimeOnly 'com.h2database:h2'
+    implementation 'org.json:json:20210307'
+
+    // QueryDSL (JPA 지원)
     implementation 'com.querydsl:querydsl-core'
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
@@ -80,9 +90,13 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-    // 테스트 관련 의존성
+    // Lombok (컴파일러 자동 생성)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // 테스트 관련
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -90,36 +104,50 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:1.17.6"
     testImplementation "org.testcontainers:junit-jupiter:1.17.6"
     testImplementation "org.testcontainers:mariadb:1.17.6"
+
+    // OpenAPI / Redoc (API 문서화) RESTDocs (API 문서 생성)
+    asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE"
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.14'
 }
 
+//  7. 빌드 관련 태스크 설정
+// 특정 플래그를 통한 test 실행 여부 설정
+def testEnabled = project.hasProperty("test") && project.findProperty("test") == "true"
 
-//clean -> test -> asciidoctor -> copyDocument -> build
-
-clean {
-    delete file('src/main/generated') // 'src/main/generated' 디렉토리 삭제
-//    delete file("src/main/resources/static/docs") // 'src/main/resources/static/docs' 디렉토리 삭제
-}
-
+// 테스트 실행 여부 제어
 test {
-//    useJUnitPlatform() // JUnit 플랫폼을 사용하도록 설정
-//    outputs.dir file('build/generated-snippets') // 테스트 출력 디렉토리를 'build/generated-snippets'로 설정
+    useJUnitPlatform()
+    onlyIf { testEnabled } // testEnabled가 true일 때만 실행
 }
 
+// REST Docs 생성 여부 확인
+def docsEnabled = project.hasProperty("docs") && project.findProperty("docs") == "true"
+
+// REST Docs 생성 (asciidoctor)
 asciidoctor {
-//    configurations 'asciidoctorExt' // 'asciidoctorExt' 설정을 사용
-//    dependsOn test // 'test' 작업이 먼저 실행되어야 함을 설정
-//    doFirst { // 작업이 실행되기 전에 먼저 수행할 동작을 설정
-//        new File('build/generated-snippets').mkdirs() // 디렉토리 'build/generated-snippets' 생성
-//    }
+    onlyIf { docsEnabled } // docsEnabled가 true일 때만 실행
+    configurations "asciidoctorExt"
+    dependsOn test
+    doFirst {
+        if (docsEnabled) {
+            new File("build/generated-snippets").mkdirs()
+        }
+    }
 }
 
+// 문서 복사 작업
 task copyDocument(type: Copy) {
-//    dependsOn asciidoctor // 'asciidoctor' 작업이 먼저 실행되어야 함을 설정
-//    from file("${asciidoctor.outputDir}") // 복사할 원본 파일의 위치를 asciidoctor 출력 디렉토리로 설정
-//    into file("src/main/resources/static/docs") // 복사할 대상 위치를 'src/main/resources/static/docs'로 설정
+    onlyIf { docsEnabled } // docsEnabled가 true일 때만 실행
+    dependsOn asciidoctor
+    from file("${asciidoctor.outputDir}")
+    into file("src/main/resources/static/docs")
 }
 
+// 빌드 순서 지정 (테스트 → 문서 생성 → 복사 → 빌드)
 build {
-    dependsOn copyDocument // 'copyDocument' 작업이 먼저 실행되어야 함을 설정
+    if (docsEnabled) {
+        dependsOn copyDocument
+    }
 }
-

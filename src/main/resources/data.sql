@@ -15,26 +15,15 @@ VALUES (1, 'ROLE_ADMIN', '어드민'),
        (5, 'ROLE_BLOCK', '차단');
 
 
--- 역할 별 리소스 접근 규정
-INSERT INTO role_resources(RESOURCE_ID, ROLE_ID)
-VALUES (1, 1),
-       (2, 1);
-
-
 -- IP접근 설정
 INSERT INTO access_ip (ip_id, ip_address, block)
 VALUES (0, '0:0:0:0:0:0:0:1', false),
        (1, '127.0.0.1', false);
 
-
 -- 토큰 무시 URL 설정
 INSERT INTO token_ignore_urls (token_ignore_id, is_ignore, url)
-VALUES (1, true, '/docs/index.html'),
-       (2, true, '/'),
-       (3, true, '/user/**'),
-       (4, true, '/order/recruits');
-
-
+VALUES (1, true, '/'),
+       (2, true, '/redoc.html');
 
 -- 상점
 INSERT INTO shop (SHOP_ID, CREATED_BY, LAST_MODIFIED_BY, NAME)
