@@ -55,7 +55,7 @@ services:
           memory: "2GB"  # 최대 2GB RAM 사용
 
   app:
-    image: yeoboya-lunch-api-app:0.0.1  # 원하는 이미지 이름 설정
+    image: yeoboya-lunch-api:0.0.1  # 원하는 이미지 이름 설정
     build: .  # 현재 디렉토리에 있는 Dockerfile을 사용해 빌드
     container_name: spring_boot_container  # 컨테이너 이름 지정
     restart: unless-stopped  # 컨테이너가 중지되면 자동 재시작 (수동으로 중지하면 재시작 안 함)
