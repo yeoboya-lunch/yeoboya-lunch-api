@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/support")
 @RequiredArgsConstructor
-public class FaqController {
+public class FaqController implements FaqApi {
 
     private final FaqService faqService;
 

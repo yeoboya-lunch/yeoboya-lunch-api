@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/banners")
 @RequiredArgsConstructor
-public class BannerController  {
+public class BannerController implements BannerApi {
 
     private final BannerService bannerService;
 

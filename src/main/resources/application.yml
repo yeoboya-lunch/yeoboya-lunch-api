@@ -13,13 +13,6 @@ server:
       enabled: true
 
 # ===============================
-#  보안 및 인증 설정 (JWT)
-# ===============================
-jwt:
-  token:
-    secretKey: CY9AK5nbR9Ok66F+oJvk+AA/8/cShipQoICTd8m4ZLVu6PcNHnL8WRhOVqDl3WNTFqoEw32HIzu1qYaW4GfPbDgrC+hPnpMmjPHeDckqdLs28oF4vunHQpg1dVcoD65t
-
-# ===============================
 # 캐시 설정
 # ===============================
 spring:
@@ -67,9 +60,9 @@ file:
     root-path: ./file
     ratio-wh: 1280
 
-  # ===============================
-  # 애플리케이션 설정
-  # ===============================
+# ===============================
+# 애플리케이션 설정
+# ===============================
 main:
   allow-bean-definition-overriding: true
 
@@ -98,3 +91,10 @@ management:
   health:
     db:
       enabled: true  # DB Health Check 활성화
+
+
+# ===============================
+# 프론트엔드 설정
+# ===============================
+front:
+  url: http://localhost:3000

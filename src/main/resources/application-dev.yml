@@ -5,37 +5,35 @@ spring:
   datasource:
     hikari:
       master:
-        jdbcUrl: ENC(rXD3LhzZaoLUP8MZsvnYxuou7znO1P5eO4JZNqZwH/3eHj8/7M0WKxmsKcf6RoqJf21bMs2HZmI=)
-        username: ENC(M/tnB43FoA03zzaPXaZSuA==)
-        password: ENC(CshQkcD3r93r6dVS4p5UtXJV7c8k+qpu)
-        driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        jdbcUrl: jdbc:mysql://mysql:3306/yeoboya_lunch?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+        username: y10h
+        password: y10h_password
+        driverClassName: com.mysql.cj.jdbc.Driver
         poolName: kimzzang-db-master
       slave:
-        jdbcUrl: ENC(rXD3LhzZaoLUP8MZsvnYxuou7znO1P5eO4JZNqZwH/3eHj8/7M0WKxmsKcf6RoqJf21bMs2HZmI=)
-        username: ENC(M/tnB43FoA03zzaPXaZSuA==)
-        password: ENC(CshQkcD3r93r6dVS4p5UtXJV7c8k+qpu)
-        driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        poolName: kimzzang-db-master
+        jdbcUrl: jdbc:mysql://mysql:3306/yeoboya_lunch?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+        username: y10h
+        password: y10h_password
+        driverClassName: com.mysql.cj.jdbc.Driver
+        poolName: kimzzang-db-slave
+
+  redis:
+    master:
+      host: redis
+      port: 6379
+    password: root
+    database: 12
 
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        format_sql: 'true'
-        show_sql: 'true'
-        generate_statistics: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: 'false'
+        show_sql: 'false'
+        generate_statistics: 'false'
         default_batch_fetch_size: 100
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     open-in-view: true
 
-  redis:
-    master:
-      host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
-      port: 6380
-    slaves:
-      - host: ENC(+ahrQw0vlB6Kj/bGjnin2xbvGRPwjFJN)
-        port: 6381
-    password: ENC(wXDtXa+LzvTJI8S77PmGxJz35uoG8N2B)
-    database: 12

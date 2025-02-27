@@ -24,14 +24,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-        format_sql: true
-        show_sql: true # SQL 출력
-        use_sql_comments: true # JPQL 출력
-        generate_statistics: true
+        format_sql: false
+        show_sql: false
+        use_sql_comments: false
+        generate_statistics: false
         default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true # Hibernate SQL 출력
     defer-datasource-initialization: true
     open-in-view: true
@@ -48,21 +48,6 @@ spring:
         port: 10352
     password: ENC(po92S3UxLb/hK+62OAX7vTdc0jvCl50G/GsoYAmumc0/YSU+3XB/3yIv99stu2S6)
     database: 0
-
-  # ===============================
-  # SQL 초기화 설정
-  # ===============================
-  sql:
-    init:
-      mode: never
-
-# ===============================
-# 외부 API 설정 (Dalla)
-# ===============================
-dalla:
-  baseUrl: https://api.dallalive.com
-  authToken: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMTU4NzA4NzI0MzEwNkB0cnVlIiwiaWF0IjoxNzA0MTU0OTA5LCJleHAiOjE3MDY3NDY5MDl9.BfkvPiCSlMZON2qCYTVTGz4HDJ2-pQc2jyBpGDDjmFA
-  socketUrl: https://devsv1.dallalive.com:8000/api/chatroom/sendmessage/
 
 # ===============================
 # 프론트엔드 설정

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Hidden // Swagger UI에서 숨김 (필요하면 제거 가능)
 @Tag(name = "Shop", description = "상점 관리 API")
 @RequestMapping("/shop")
 public interface ShopApi {
