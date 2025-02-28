@@ -23,5 +23,5 @@ VALUES (0, '0:0:0:0:0:0:0:1', false),
 INSERT INTO token_ignore_urls (token_ignore_id, is_ignore, url)
 VALUES (1, true, '/'),
        (2, true, '/redoc.html'),
-       (3, true, '/v3/*')
-
+       (3, true, '/v3/*'),
+       (4, true, '/user/*'),

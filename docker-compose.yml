@@ -1,15 +1,8 @@
-version: "3.8"  # Docker Compose 버전 지정
-
 services:
   mysql:
     image: mysql:8.0  # MySQL 8.0 이미지 사용
     container_name: mysql_container  # 컨테이너 이름 지정
     restart: always  # 컨테이너가 중지되면 항상 재시작
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: yeoboya_lunch
-      MYSQL_USER: y10h
-      MYSQL_PASSWORD: y10h_password
     env_file:
       - .env
     ports:
@@ -20,7 +13,7 @@ services:
     networks:
       - app_network  # 서비스 간 통신을 위한 네트워크 설정
     healthcheck:  # MySQL 서비스 상태 체크 설정
-      test: ["CMD", "mysqladmin", "ping", "-h", "mysql", "-uy10n"]  # 상태 확인 명령어
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysql", "-u$MYSQL_USER", "-p$MYSQL_PASSWORD"]  # 상태 확인 명령어
       interval: 10s  # 10초마다 상태 체크
       retries: 5  # 최대 5번 재시도
       timeout: 5s  # 타임아웃 5초
@@ -42,7 +35,7 @@ services:
       - redis_data:/data  # Redis 데이터를 영구 저장하는 볼륨
     networks:
       - app_network  # 같은 네트워크에서 다른 컨테이너들과 통신 가능
-    command: ["redis-server", "--bind", "0.0.0.0", "--requirepass", "root"]  # 외부 접속 허용 + 비밀번호 설정
+    command: ["redis-server", "--bind", "0.0.0.0", "--requirepass", "$REDIS_PASSWORD"]  # 외부 접속 허용 + 비밀번호 설정
     healthcheck:  # Redis 서비스 상태 체크 설정
       test: ["CMD", "redis-cli", "ping"]  # 상태 확인 명령어 (PONG 응답 확인)
       interval: 10s  # 10초마다 상태 체크
@@ -55,8 +48,12 @@ services:
           memory: "2GB"  # 최대 2GB RAM 사용
 
   app:
+    build:   # 현재 디렉토리에 있는 Dockerfile을 사용해 빌드
+      context: .
+      args:
+        TEST_ENABLED: "$TEST_ENABLED"  # 테스트 실행 여부
+        DOCS_ENABLED: "$DOCS_ENABLED"  # REST Docs 생성 여부
     image: yeoboya-lunch-api:0.0.1  # 원하는 이미지 이름 설정
-    build: .  # 현재 디렉토리에 있는 Dockerfile을 사용해 빌드
     container_name: spring_boot_container  # 컨테이너 이름 지정
     restart: unless-stopped  # 컨테이너가 중지되면 자동 재시작 (수동으로 중지하면 재시작 안 함)
     env_file:
@@ -66,8 +63,6 @@ services:
         condition: service_healthy  # MySQL이 정상적으로 실행된 후에 앱 실행
       redis:
         condition: service_healthy  # Redis가 정상적으로 실행된 후에 앱 실행
-    environment:  # Spring Boot 환경 변수 설정
-      SPRING_PROFILES_ACTIVE: dev,dev-oauth  # 활성화할 Spring Boot 프로파일 설정 (dev, dev-oauth)
     ports:
       - "8080:8080"  # 로컬 머신과 컨테이너의 애플리케이션 포트 매핑
     networks:

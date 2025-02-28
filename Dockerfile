@@ -12,20 +12,36 @@ COPY --chown=gradle:gradle gradlew ./
 # gradlew 실행 권한 추가
 RUN chmod +x gradlew
 
-# Gradle 의존성 다운로드 (캐싱)
-RUN ./gradlew dependencies --no-daemon
+# Gradle 의존성 다운로드 (캐싱 최적화)
+RUN ./gradlew build --dependencies --no-daemon || return 0
 
-# 소스 코드 복사
+# 소스 코드 복사 (캐싱된 의존성을 활용하기 위해 나중에 복사)
 COPY --chown=gradle:gradle . .
 
 # Gradle 빌드 실행 (테스트 제외)
-RUN ./gradlew build --no-daemon -x test
+## todo 수정 필요
+ARG TEST_ENABLED=false
+ARG DOCS_ENABLED=false
+
+RUN echo "TEST_ENABLED: $TEST_ENABLED" && echo "DOCS_ENABLED: $DOCS_ENABLED" && \
+    TEST_FLAG=""; \
+    DOCS_FLAG=""; \
+    if [ "$TEST_ENABLED" != "true" ]; then \
+        TEST_FLAG="-x test"; \
+    fi; \
+    if [ "$DOCS_ENABLED" = "true" ]; then \
+        DOCS_FLAG="-Pdocs=true"; \
+    fi; \
+    echo "Final Gradle command: ./gradlew build --no-daemon $TEST_FLAG $DOCS_FLAG"; \
+    ./gradlew build --no-daemon $TEST_FLAG $DOCS_FLAG
+
+
 
 ## RUNNING 단계
 FROM eclipse-temurin:11-jdk
 
 # 유지보수자 정보
-LABEL maintainer="khjzzm@gmail.com"
+LABEL maintainer="Hyunjin Kim <khjzzm@gmail.com>"
 
 # 컨테이너 내부에서 실행할 포트
 EXPOSE 8080

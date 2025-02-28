@@ -1,0 +1,10 @@
+# Git 및 IDE 관련 파일 제외
+.gitignore
+.idea
+.vscode
+.DS_Store
+
+# Gradle 및 빌드 파일 제외
+build
+.gradle
+!gradle/wrapper
