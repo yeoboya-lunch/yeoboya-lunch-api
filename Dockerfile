@@ -1,5 +1,5 @@
 ## BUILDER 단계
-FROM gradle:7.3.1-jdk11 AS build
+FROM --platform=linux/amd64 gradle:7.3.1-jdk11 AS build
 
 # 작업 디렉토리 설정
 WORKDIR /home/gradle/src
@@ -22,20 +22,9 @@ COPY --chown=gradle:gradle . .
 ## todo 수정 필요
 ARG TEST_ENABLED=false
 ARG DOCS_ENABLED=false
-
-RUN echo "TEST_ENABLED: $TEST_ENABLED" && echo "DOCS_ENABLED: $DOCS_ENABLED" && \
-    TEST_FLAG=""; \
-    DOCS_FLAG=""; \
-    if [ "$TEST_ENABLED" != "true" ]; then \
-        TEST_FLAG="-x test"; \
-    fi; \
-    if [ "$DOCS_ENABLED" = "true" ]; then \
-        DOCS_FLAG="-Pdocs=true"; \
-    fi; \
-    echo "Final Gradle command: ./gradlew build --no-daemon $TEST_FLAG $DOCS_FLAG"; \
-    ./gradlew build --no-daemon $TEST_FLAG $DOCS_FLAG
-
-
+RUN ./gradlew clean build -x test
+#RUN ./gradlew clean build -Ptest=true
+#RUN ./gradlew clean build -Pdocs=true
 
 ## RUNNING 단계
 FROM eclipse-temurin:11-jdk

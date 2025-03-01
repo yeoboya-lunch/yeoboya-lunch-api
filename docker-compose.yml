@@ -64,7 +64,7 @@ services:
       redis:
         condition: service_healthy  # Redis가 정상적으로 실행된 후에 앱 실행
     ports:
-      - "8080:8080"  # 로컬 머신과 컨테이너의 애플리케이션 포트 매핑
+      - "8080"  # 외부에서 직접 접근 X, 내부 네트워크에서만 접근 가능
     networks:
       - app_network  # MySQL, Redis와 같은 네트워크에서 통신 가능
     deploy:
@@ -72,6 +72,24 @@ services:
         limits:
           cpus: "2.0"
           memory: "4GB"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    restart: always
+    ports:
+      - "80:80"  # HTTP
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Nginx 설정 파일 로드
+    networks:
+      - app_network
+    depends_on:
+      - app  # Spring Boot 컨테이너가 먼저 실행된 후 Nginx 실행
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"  # Nginx는 가벼우므로 0.5 vCPU만 사용하도록 제한
+          memory: "512MB"  # 메모리도 512MB로 제한 (기본적으로 큰 메모리 필요 없음)
 
 networks:
   app_network:  # 모든 서비스가 사용하는 네트워크 정의
