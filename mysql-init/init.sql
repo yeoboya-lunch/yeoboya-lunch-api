@@ -10,7 +10,6 @@ FLUSH PRIVILEGES;
 
 
 -- 외래키 참조 순서를 고려한 테이블 생성
-
 -- [1] 의존관계 없는 테이블들 (11)
 CREATE TABLE IF NOT EXISTS access_ip
 (
@@ -140,7 +139,6 @@ CREATE TABLE IF NOT EXISTS account
     CONSTRAINT fk_account_member FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE
 );
 
-
 -- [3] board 및 관련 테이블 (5)
 CREATE TABLE IF NOT EXISTS board
 (
@@ -198,7 +196,6 @@ CREATE TABLE IF NOT EXISTS likes
     CONSTRAINT fk_likes_board FOREIGN KEY (board_id) REFERENCES board (board_id) ON DELETE CASCADE,
     CONSTRAINT fk_likes_member FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE
 );
-
 
 -- [4] 주문/리뷰 관련 테이블 (5)
 CREATE TABLE IF NOT EXISTS orders
@@ -267,7 +264,6 @@ CREATE TABLE IF NOT EXISTS order_item
     CONSTRAINT fk_order_item_item FOREIGN KEY (item_id) REFERENCES item (item_id) ON DELETE CASCADE,
     CONSTRAINT fk_order_item_order FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE
 );
-
 
 -- [5] 그 외 member 관련 테이블들 (7)
 CREATE TABLE IF NOT EXISTS user_security_status
@@ -353,7 +349,6 @@ CREATE TABLE IF NOT EXISTS reply
     CONSTRAINT fk_reply_member FOREIGN KEY (member_id) REFERENCES member (member_id) ON DELETE CASCADE
 );
 
-
 -- [6] role와 resource를 연결하는 테이블 (1)
 CREATE TABLE IF NOT EXISTS role_resources
 (
@@ -364,3 +359,32 @@ CREATE TABLE IF NOT EXISTS role_resources
     CONSTRAINT fk_role_resources_role FOREIGN KEY (role_id) REFERENCES role (roles_id) ON DELETE CASCADE,
     CONSTRAINT fk_role_resources_resource FOREIGN KEY (resource_id) REFERENCES resource (resources_id) ON DELETE CASCADE
 );
+
+
+-- 역할과 그 계층 관계 설정
+INSERT INTO role_hierarchy(CHILD_NAME, PARENT_NAME)
+VALUES ('ROLE_ADMIN', null),
+       ('ROLE_MANAGER', 'ROLE_ADMIN'),
+       ('ROLE_USER', 'ROLE_MANAGER'),
+       ('ROLE_GUEST', 'ROLE_USER'),
+       ('ROLE_BLOCK', 'ROLE_GUEST');
+
+-- 역할 정의
+INSERT INTO role(ROLES_ID, ROLE, ROLE_DESC)
+VALUES (1, 'ROLE_ADMIN', '어드민'),
+       (2, 'ROLE_MANAGER', '매니저'),
+       (3, 'ROLE_USER', '유저'),
+       (4, 'ROLE_GUEST', '게스트'),
+       (5, 'ROLE_BLOCK', '차단');
+
+-- IP접근 설정
+INSERT INTO access_ip (ip_id, ip_address, block)
+VALUES (0, '0:0:0:0:0:0:0:1', false),
+       (1, '127.0.0.1', false);
+
+-- 토큰 무시 URL 설정
+INSERT INTO token_ignore_urls (token_ignore_id, is_ignore, url)
+VALUES (1, true, '/'),
+       (2, true, '/redoc.html'),
+       (3, true, '/v3/*'),
+       (4, true, '/user/*');
