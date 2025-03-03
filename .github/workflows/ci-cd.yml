@@ -1,19 +1,26 @@
-name: Deploy to EC2
+name: 🚀 EC2 자동 배포
 
 on:
   push:
     branches:
-      - main  # `main` 브랜치 푸시 시 실행
+      - main  # `main` 브랜치에 푸시 시 실행
 
 jobs:
-  deploy:
+  배포:
     runs-on: ubuntu-latest  # GitHub Actions가 실행될 환경
 
     steps:
       - name: 🔄 코드 가져오기
         uses: actions/checkout@v3
 
-      - name: 🔑 Docker Hub 로그인
+      - name: 🔑 SSH 키 설정
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/yeoboya-lunch-ec2-key.pem
+          chmod 600 ~/.ssh/yeoboya-lunch-ec2-key.pem
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🔐 Docker Hub 로그인
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
@@ -23,7 +30,7 @@ jobs:
       - name: 📤 Docker Hub에 Push
         run: docker push ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
 
-      - name: 🚀 EC2에 접속 & 배포
+      - name: 🚀 EC2에 배포
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
