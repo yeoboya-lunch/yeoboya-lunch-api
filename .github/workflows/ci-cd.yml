@@ -7,11 +7,21 @@ on:
 
 jobs:
   deploy:
+    name: "🚀 배포 작업"
     runs-on: ubuntu-latest  # GitHub Actions가 실행될 환경
 
     steps:
       - name: 🔄 코드 가져오기
         uses: actions/checkout@v3
+
+      - name: 🔑 EC2 SSH 접속 테스트
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "✅ SSH 연결 성공!"
 
       - name: 🔑 SSH 키 설정
         run: |
