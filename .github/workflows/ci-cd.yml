@@ -6,7 +6,7 @@ on:
       - main  # `main` 브랜치에 푸시 시 실행
 
 jobs:
-  배포:
+  deploy:
     runs-on: ubuntu-latest  # GitHub Actions가 실행될 환경
 
     steps:
