@@ -14,6 +14,22 @@ jobs:
       - name: 🔄 코드 가져오기
         uses: actions/checkout@v3
 
+      - name: Get Public IP
+        id: get_ip
+        run: echo "RUNNER_IP=$(curl -s ifconfig.me)" >> $GITHUB_ENV
+
+      - name: Authorize Runner IP in Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${RUNNER_IP}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'ap-northeast-2'
+
       - name: 🔑 EC2 SSH 접속 테스트
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -22,13 +38,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "✅ SSH 연결 성공!"
-
-      - name: 🔑 SSH 키 설정
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/yeoboya-lunch-ec2-key.pem
-          chmod 600 ~/.ssh/yeoboya-lunch-ec2-key.pem
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: 🔐 Docker Hub 로그인
         run: |
