@@ -1,24 +1,24 @@
-name: 🚀 EC2 자동 배포
+name: EC2 Auto Deployment   # EC2 자동 배포
 
 on:
   push:
     branches:
-      - main  # `main` 브랜치에 푸시 시 실행
+      - main   # `main` 브랜치에 푸시 시 실행
 
 jobs:
   deploy:
-    name: "🚀 배포 작업"
-    runs-on: ubuntu-latest  # GitHub Actions가 실행될 환경
+    name: Deployment Job   # 배포 작업
+    runs-on: ubuntu-latest   # GitHub Actions가 실행될 환경
 
     steps:
-      - name: 🔄 코드 가져오기
+      - name: Checkout Code   # 코드 가져오기
         uses: actions/checkout@v3
 
-      - name: Get Public IP
+      - name: Get Public IP   # 퍼블릭 IP 가져오기
         id: get_ip
         run: echo "RUNNER_IP=$(curl -s ifconfig.me)" >> $GITHUB_ENV
 
-      - name: Authorize Runner IP in Security Group
+      - name: Authorize Runner IP in Security Group   # 보안 그룹에 런너 IP 추가
         run: |
           aws ec2 authorize-security-group-ingress \
             --group-id ${{ secrets.SECURITY_GROUP_ID }} \
@@ -30,26 +30,26 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'ap-northeast-2'
 
-      - name: 🔑 EC2 SSH 접속 테스트
+      - name: Test EC2 SSH Connection   # EC2 SSH 접속 테스트
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "✅ SSH 연결 성공!"
+            echo "SSH Connection Successful!"   # SSH 연결 성공!
 
-      - name: 🔐 Docker Hub 로그인
+      - name: Docker Hub Login   # Docker Hub 로그인
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: 🏗️ Docker 이미지 빌드
+      - name: Build Docker Image   # Docker 이미지 빌드
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest .
 
-      - name: 📤 Docker Hub에 Push
+      - name: Push to Docker Hub   # Docker Hub에 Push
         run: docker push ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
 
-      - name: 🚀 EC2에 배포
+      - name: Deploy on EC2   # EC2에 배포
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -64,3 +64,15 @@ jobs:
               --env-file /home/ec2-user/yeoboya-lunch/.env \
               --network app_network \
               ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
+
+      - name: Remove Runner IP from Security Group   # 보안 그룹에서 런너 IP 제거
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${RUNNER_IP}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'ap-northeast-2'
