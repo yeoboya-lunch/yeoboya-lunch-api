@@ -93,7 +93,8 @@ services:
           memory: "512MB"  # 메모리도 512MB로 제한 (기본적으로 큰 메모리 필요 없음)
 
 networks:
-  yeoboya_lunch_network:  # 모든 서비스가 사용하는 네트워크 정의
+  yeoboya_lunch_network:
+    name: yeoboya_lunch_network # 모든 서비스가 사용하는 네트워크 정의
 
 volumes:
   mysql_data:
