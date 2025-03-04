@@ -49,11 +49,11 @@ jobs:
           script: |
             docker stop yeoboya-lunch-api || true
             docker rm yeoboya-lunch-api || true
-            docker network create app_network || true
+            docker network create yeoboya_lunch_network || true
             docker pull ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
             docker run -d --name yeoboya-lunch-api -p 8080:8080 \
-              --env-file /home/ec2-user/yeoboya-lunch/.env \
-              --network app_network \
+              --env-file /home/ec2-user/yeoboya-lunch-api-ec2/.env \
+              --network yeoboya_lunch_network \
               ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
 
       - name: Remove Runner IP from Security Group   # 보안 그룹에서 런너 IP 제거

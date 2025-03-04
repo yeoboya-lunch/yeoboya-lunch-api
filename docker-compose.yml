@@ -99,6 +99,6 @@ volumes:
   mysql_data:
     name: yeoboya_lunch_mysql_data  # MySQL 데이터 저장 볼륨 (컨테이너 삭제 시 데이터 유지)
   redis_data:
-    name: yeoboya_lunch_mysql_data # Redis 데이터 저장 볼륨 (컨테이너 삭제 시 데이터 유지)
+    name: yeoboya_lunch_redis_data # Redis 데이터 저장 볼륨 (컨테이너 삭제 시 데이터 유지)
     
 
