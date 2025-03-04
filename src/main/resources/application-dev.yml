@@ -6,22 +6,21 @@ spring:
     hikari:
       master:
         jdbcUrl: jdbc:mysql://mysql:3306/yeoboya_lunch?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-        username: y10h
-        password: y10h_password
+        username: ENC(kd4oqenYj6DyNwa2iAF37g==)
+        password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
         driverClassName: com.mysql.cj.jdbc.Driver
         poolName: kimzzang-db-master
       slave:
         jdbcUrl: jdbc:mysql://mysql:3306/yeoboya_lunch?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-        username: y10h
-        password: y10h_password
+        username: ENC(kd4oqenYj6DyNwa2iAF37g==)
+        password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
         driverClassName: com.mysql.cj.jdbc.Driver
         poolName: kimzzang-db-slave
 
   redis:
-    master:
-      host: redis
-      port: 6379
-    password: root
+    host: redis
+    port: 6379
+    password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
     database: 12
 
   jpa:

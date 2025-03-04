@@ -30,15 +30,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'ap-northeast-2'
 
-      - name: Test EC2 SSH Connection   # EC2 SSH 접속 테스트
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            echo "SSH Connection Successful!"   # SSH 연결 성공!
-
       - name: Docker Hub Login   # Docker Hub 로그인
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -66,6 +57,7 @@ jobs:
               ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
 
       - name: Remove Runner IP from Security Group   # 보안 그룹에서 런너 IP 제거
+        if: always()   # 이전 단계 실패 여부와 관계없이 항상 실행
         run: |
           aws ec2 revoke-security-group-ingress \
             --group-id ${{ secrets.SECURITY_GROUP_ID }} \

@@ -10,8 +10,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql  # MySQL 데이터를 영구 저장하는 볼륨
       - ./mysql-init:/docker-entrypoint-initdb.d  # SQL 초기화 파일 자동 실행
+      - ./mysql/conf.d/custom.cnf:/etc/mysql/conf.d/custom.cnf  # MySQL 설정 파일 마운트
     networks:
-      - app_network  # 서비스 간 통신을 위한 네트워크 설정
+      - yeoboya_lunch_network  # 서비스 간 통신을 위한 네트워크 설정
     healthcheck:  # MySQL 서비스 상태 체크 설정
       test: ["CMD", "mysqladmin", "ping", "-h", "mysql", "-u$MYSQL_USER", "-p$MYSQL_PASSWORD"]  # 상태 확인 명령어
       interval: 10s  # 10초마다 상태 체크
@@ -34,7 +35,7 @@ services:
     volumes:
       - redis_data:/data  # Redis 데이터를 영구 저장하는 볼륨
     networks:
-      - app_network  # 같은 네트워크에서 다른 컨테이너들과 통신 가능
+      - yeoboya_lunch_network  # 같은 네트워크에서 다른 컨테이너들과 통신 가능
     command: ["redis-server", "--bind", "0.0.0.0", "--requirepass", "$REDIS_PASSWORD"]  # 외부 접속 허용 + 비밀번호 설정
     healthcheck:  # Redis 서비스 상태 체크 설정
       test: ["CMD", "redis-cli", "ping"]  # 상태 확인 명령어 (PONG 응답 확인)
@@ -54,7 +55,7 @@ services:
         TEST_ENABLED: "$TEST_ENABLED"  # 테스트 실행 여부
         DOCS_ENABLED: "$DOCS_ENABLED"  # REST Docs 생성 여부
     image: yeoboya-lunch-api:latest  # 원하는 이미지 이름 설정
-    container_name: spring_boot_container  # 컨테이너 이름 지정
+    container_name: springboot_container  # 컨테이너 이름 지정
     restart: unless-stopped  # 컨테이너가 중지되면 자동 재시작 (수동으로 중지하면 재시작 안 함)
     env_file:
       - .env  # .env 파일에서 환경 변수 로드
@@ -66,7 +67,7 @@ services:
     ports:
       - "8080"  # 외부에서 직접 접근 X, 내부 네트워크에서만 접근 가능
     networks:
-      - app_network  # MySQL, Redis와 같은 네트워크에서 통신 가능
+      - yeoboya_lunch_network  # MySQL, Redis와 같은 네트워크에서 통신 가능
     deploy:
       resources:
         limits:
@@ -82,7 +83,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Nginx 설정 파일 로드
     networks:
-      - app_network
+      - yeoboya_lunch_network
     depends_on:
       - app  # Spring Boot 컨테이너가 먼저 실행된 후 Nginx 실행
     deploy:
@@ -92,8 +93,12 @@ services:
           memory: "512MB"  # 메모리도 512MB로 제한 (기본적으로 큰 메모리 필요 없음)
 
 networks:
-  app_network:  # 모든 서비스가 사용하는 네트워크 정의
+  yeoboya_lunch_network:  # 모든 서비스가 사용하는 네트워크 정의
 
 volumes:
-  mysql_data:  # MySQL 데이터 저장 볼륨 (컨테이너 삭제 시 데이터 유지)
-  redis_data:  # Redis 데이터 저장 볼륨 (컨테이너 삭제 시 데이터 유지)
+  mysql_data:
+    name: yeoboya_lunch_mysql_data  # MySQL 데이터 저장 볼륨 (컨테이너 삭제 시 데이터 유지)
+  redis_data:
+    name: yeoboya_lunch_mysql_data # Redis 데이터 저장 볼륨 (컨테이너 삭제 시 데이터 유지)
+    
+

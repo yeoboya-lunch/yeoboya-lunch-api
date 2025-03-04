@@ -22,7 +22,7 @@ public class RedisConfig {
         LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder()
                 .readFrom(ReadFrom.REPLICA_PREFERRED)
                 .build();
-        RedisStaticMasterReplicaConfiguration staticMasterReplicaConfiguration = new RedisStaticMasterReplicaConfiguration(redis.getMaster().getHost(), redis.getMaster().getPort());
+        RedisStaticMasterReplicaConfiguration staticMasterReplicaConfiguration = new RedisStaticMasterReplicaConfiguration(redis.getHost(), redis.getPort());
         if (redis.getSlaves() != null) {
             redis.getSlaves().forEach(slave -> staticMasterReplicaConfiguration.addNode(slave.getHost(), slave.getPort()));
         }

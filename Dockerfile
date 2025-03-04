@@ -27,7 +27,7 @@ RUN ./gradlew clean build -x test
 #RUN ./gradlew clean build -Pdocs=true
 
 ## RUNNING 단계
-FROM eclipse-temurin:11-jdk
+FROM --platform=linux/amd64 eclipse-temurin:11-jdk
 
 # 유지보수자 정보
 LABEL maintainer="Hyunjin Kim <khjzzm@gmail.com>"

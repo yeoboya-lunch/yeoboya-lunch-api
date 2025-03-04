@@ -40,12 +40,8 @@ spring:
   # Redis 설정
   # ===============================
   redis:
-    master:
-      host: ENC(kcGli1hQDUI+PuWR5y3uGytjiSIacdjW4Ye8aZAFmZA+NU3j6phdPiNiI4LZOAgNkCz9wc197guDPE92gQe0lZQAM22HAXF3)
-      port: 10352
-    slaves:
-      - host: ENC(kcGli1hQDUI+PuWR5y3uGytjiSIacdjW4Ye8aZAFmZA+NU3j6phdPiNiI4LZOAgNkCz9wc197guDPE92gQe0lZQAM22HAXF3)
-        port: 10352
+    host: ENC(kcGli1hQDUI+PuWR5y3uGytjiSIacdjW4Ye8aZAFmZA+NU3j6phdPiNiI4LZOAgNkCz9wc197guDPE92gQe0lZQAM22HAXF3)
+    port: 10352
     password: ENC(po92S3UxLb/hK+62OAX7vTdc0jvCl50G/GsoYAmumc0/YSU+3XB/3yIv99stu2S6)
     database: 0
 

@@ -18,6 +18,6 @@ public class Redis {
     private int port;
     private String password;
     private int database;
-    private Redis master;
+//    private Redis master;
     private List<Redis> slaves;
 }
