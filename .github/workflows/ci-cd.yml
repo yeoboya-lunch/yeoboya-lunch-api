@@ -47,11 +47,11 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker stop yeoboya-lunch-api || true
-            docker rm yeoboya-lunch-api || true
+            docker stop springboot_container || true
+            docker rm springboot_container || true
             docker network create yeoboya_lunch_network || true
             docker pull ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
-            docker run -d --name yeoboya-lunch-api -p 8080:8080 \
+            docker run -d --name springboot_container -p 8080:8080 \
               --env-file /home/ec2-user/yeoboya-lunch-api-ec2/.env \
               --network yeoboya_lunch_network \
               ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
