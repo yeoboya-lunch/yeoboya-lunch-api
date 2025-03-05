@@ -3,16 +3,17 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <property name="CONSOLE_LOG_COLOR" value="%clr(%d{yyyy/MM/dd HH:mm:ss.SSS}){faint} %clr(|){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(|){faint} %clr(%-30F){cyan}%clr(:%-4L){magenta} %clr(|){faint} %m%n"/>
-<!--    <property name="LOG_PATH" value="/home/ec2-user/logs" />-->
-    <property name="LOG_PATH" value="./logs" />
+    <!-- 로그 저장 경로 설정 -->
+    <property name="LOG_PATH" value="/home/ec2-user/logs" />
     <property name="LOG_FILE_NAME_PREFIX" value="yeoboya-lunch-api" />
 
+    <!-- 로그 색상 및 패턴 -->
     <property name="CONSOLE_LOG_COLOR"
               value="%n%clr(┌prod──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────){faint}%n
           %clr([%date{HH:mm:ss.SSS}]){faint} %clr([%5level]){bold} %clr([%thread]){yellow,bold} %clr(%logger{15}){cyan} %clr(:%line){magenta,bold}
           %n%clr(│){faint} %clr(%msg){white}%n%clr(└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────){faint}%n"/>
 
+    <!-- JDBC 관련 로그 설정 -->
     <logger name="jdbc" level="OFF"/>
     <logger name="jdbc.sqlonly" level="OFF"/>
     <logger name="jdbc.sqltiming" level="DEBUG"/>
@@ -21,15 +22,30 @@
     <logger name="jdbc.resultsettable" level="OFF"/>
     <logger name="jdbc.connection" level="OFF"/>
 
+    <!-- 콘솔 출력 로그 -->
     <appender name="STDOUT_COMMON" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_COLOR}</pattern>
         </encoder>
     </appender>
 
+    <!-- 🔥 파일 로그 추가 -->
+    <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>  <!-- 로그 파일을 30일간 유지 -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} | [%thread] | %-5level | %logger{36} | %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <springProfile name="prod">
         <root level="info">
-            <appender-ref ref="STDOUT_COMMON"/>
+            <appender-ref ref="STDOUT_COMMON"/> <!-- 콘솔 로그 -->
+            <appender-ref ref="FILE_APPENDER"/>  <!-- 파일 로그 -->
         </root>
     </springProfile>
 
