@@ -51,10 +51,13 @@ jobs:
             docker rm springboot_container || true
             docker network create yeoboya_lunch_network || true
             docker pull ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
+            docker image prune -f
             docker run -d --name springboot_container -p 8080:8080 \
               --env-file /home/ec2-user/yeoboya-lunch-api-ec2/.env \
               --network yeoboya_lunch_network \
+              -v /home/ec2-user/logs:/app/logs \
               ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
+
 
       - name: Remove Runner IP from Security Group   # 보안 그룹에서 런너 IP 제거
         if: always()   # 이전 단계 실패 여부와 관계없이 항상 실행
