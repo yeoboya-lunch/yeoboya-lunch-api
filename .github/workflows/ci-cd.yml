@@ -55,7 +55,6 @@ jobs:
             docker run -d --name springboot_container -p 8080:8080 \
               --env-file /home/ec2-user/yeoboya-lunch-api-ec2/.env \
               --network yeoboya_lunch_network \
-              -v /home/ec2-user/logs:/app/logs \
               ${{ secrets.DOCKER_USERNAME }}/yeoboya-lunch-api:latest
 
 
