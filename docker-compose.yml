@@ -48,7 +48,7 @@ services:
           cpus: "1.0"   # 최대 1개 vCPU 사용
           memory: "2GB"  # 최대 2GB RAM 사용
 
-  app:
+  springboot:
     build:   # 현재 디렉토리에 있는 Dockerfile을 사용해 빌드
       context: .
       args:
@@ -65,7 +65,12 @@ services:
       redis:
         condition: service_healthy  # Redis가 정상적으로 실행된 후에 앱 실행
     ports:
-      - "8080"  # 외부에서 직접 접근 X, 내부 네트워크에서만 접근 가능
+      - "8080:8080"
+    healthcheck: # ✅ Spring Boot 헬스체크 추가
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
     networks:
       - yeoboya_lunch_network  # MySQL, Redis와 같은 네트워크에서 통신 가능
     deploy:
@@ -85,7 +90,12 @@ services:
     networks:
       - yeoboya_lunch_network
     depends_on:
-      - app  # Spring Boot 컨테이너가 먼저 실행된 후 Nginx 실행
+      - springboot  # Spring Boot 컨테이너가 먼저 실행된 후 Nginx 실행
+    healthcheck: # ✅ Nginx 헬스체크 추가
+      test: [ "CMD", "curl", "-f", "http://localhost/nginx-health" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
     deploy:
       resources:
         limits:
