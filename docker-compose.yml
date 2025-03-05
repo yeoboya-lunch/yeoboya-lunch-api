@@ -66,6 +66,8 @@ services:
         condition: service_healthy  # Redis가 정상적으로 실행된 후에 앱 실행
     ports:
       - "8080:8080"
+    volumes:
+      - ./logs:/app/logs  # Spring Boot 로그를 EC2에 저장
     healthcheck: # ✅ Spring Boot 헬스체크 추가
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 10s

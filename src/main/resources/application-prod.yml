@@ -1,5 +1,7 @@
 logging:
   config: classpath:logs/logback-prod.xml
+  file:
+    path: /app/logs
 
 spring:
   datasource:
