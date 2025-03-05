@@ -16,6 +16,10 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  sql:
+    init:
+      mode: always # 항상 SQL 초기화 실행
+      schema-locations: classpath:h2-init/init.sql
 
   # ===============================
   # JPA 및 Hibernate 설정

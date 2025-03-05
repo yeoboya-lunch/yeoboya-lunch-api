@@ -2,27 +2,38 @@ logging:
   config: classpath:logs/logback-prod.xml
 
 spring:
-  output:
-    ansi:
-      enabled: never
+  datasource:
+    hikari:
+      master:
+        jdbcUrl: jdbc:mysql://mysql:3306/yeoboya_lunch?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+        username: ENC(kd4oqenYj6DyNwa2iAF37g==)
+        password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
+        driverClassName: com.mysql.cj.jdbc.Driver
+        poolName: kimzzang-db-master
+      slave:
+        jdbcUrl: jdbc:mysql://mysql:3306/yeoboya_lunch?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+        username: ENC(kd4oqenYj6DyNwa2iAF37g==)
+        password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
+        driverClassName: com.mysql.cj.jdbc.Driver
+        poolName: kimzzang-db-slave
+
+    redis:
+      host: redis
+      port: 6379
+      password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
+      database: 12
 
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect  # MariaDB 구문 변환기 지정
-        default_batch_fetch_size: 100  # 필요할 때 가져올 행의 기본 개수 설정
-        format_sql: true
-        show_sql: true # SQL 출력
-        use_sql_comments: true # JPQL 출력
-        generate_statistics: false
-    database-platform: org.hibernate.dialect.H2Dialect  # 사용하는 DB 종류를 H2로 지정
+        default_batch_fetch_size: 100
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: 'false'
+        show_sql: 'false'
+        generate_statistics: 'false'
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update  # 데이터베이스 스키마를 앱 시작시 자동으로 업데이트
-    defer-datasource-initialization: true  # 데이터 소스 초기화 시점을 앱 컨텍스트가 완전히 초기화 될 시점으로 연기
-    open-in-view: true  # 퍼시스턴스 컨텍스트를 트랜잭션 생명주기에 바인드
+      ddl-auto: none
+    defer-datasource-initialization: true
+    open-in-view: true
 
-  redis:
-    host: ENC(dde2b6o4JTKvD+pAdnOrZn/F6iYkdLUBy2XYFqBchvBeMUoT6wlxrT6reXyFIx4yiBysRQ/Y6BxwCyZwwqwKmszmmKxXEo74)
-    port: 11545
-    password: ENC(Mqlonk2wItWUWJXeBUOUA+PIWap0KbGH7EKyA7oNYXM/Hjg5+aMfuDytHSH/OdD9)
-    database: 0
