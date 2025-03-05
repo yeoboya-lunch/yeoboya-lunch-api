@@ -17,11 +17,11 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         poolName: kimzzang-db-slave
 
-    redis:
-      host: redis
-      port: 6379
-      password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
-      database: 12
+  redis:
+    host: redis
+    port: 6379
+    password: ENC(0MvOpfb4v9db+oaYGTLWwirc54gjyLFS)
+    database: 12
 
   jpa:
     properties:
