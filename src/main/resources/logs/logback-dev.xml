@@ -32,20 +32,11 @@
     <!-- 파일 로그 출력 -->
     <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}.log</file>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 일 단위 로그 파일 생성 -->
             <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME_PREFIX}.%d{yyyy-MM-dd}.log</fileNamePattern>
-
-            <!-- 한 달 단위로 로그를 ZIP 압축하여 저장 -->
-            <cleanHistoryOnStart>false</cleanHistoryOnStart>
-            <maxHistory>12</maxHistory>  <!-- 12개월 동안 보관 -->
-            <totalSizeCap>10GB</totalSizeCap>  <!-- 최대 보관 용량 -->
-
-            <!-- 한 달 단위로 ZIP 파일 생성 (yyyy-MM으로 묶음) -->
-            <archivedFileNamePattern>${LOG_PATH}/archive/${LOG_FILE_NAME_PREFIX}.%d{yyyy-MM}.zip</archivedFileNamePattern>
+            <maxHistory>7</maxHistory>  <!-- 최근 7일간 로그 유지 -->
+            <totalSizeCap>500MB</totalSizeCap>
         </rollingPolicy>
-
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} | [%thread] | %-5level | %logger{36} | %msg%n</pattern>
         </encoder>
